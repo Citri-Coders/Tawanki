@@ -587,42 +587,11 @@
                         rubro: p.rubros?.nombre || 'General',
                         match: 92,
                         description: p.descripcion || 'Proveedor local verificado por INTUR.',
-                        photo: p.profiles?.avatar_url || 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
+                        photo: p.profiles?.avatar_url || '',
                         tags: `${(p.rubros?.nombre || '').toLowerCase()} ${(p.departamentos?.nombre || '').toLowerCase()}`
                     }));
                 } else {
-                    providersList = [
-                        {
-                            id: 'prov-sample-1',
-                            name: 'Cooperativa Las Brisas',
-                            dept: 'Matagalpa',
-                            rubro: 'Café y Cacao',
-                            match: 98,
-                            description: 'Productores de café especial de altura y cacao criollo con certificación de comercio justo.',
-                            photo: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
-                            tags: 'café cacao matagalpa gastronomia'
-                        },
-                        {
-                            id: 'prov-sample-2',
-                            name: 'Taller de Cerámica San Juan',
-                            dept: 'Masaya',
-                            rubro: 'Artesanías y Barro',
-                            match: 94,
-                            description: 'Maestros alfareros de San Juan de Oriente especializados en vajillas precolombinas para hotelería.',
-                            photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
-                            tags: 'artesanías barro masaya ceramica'
-                        },
-                        {
-                            id: 'prov-sample-3',
-                            name: 'Hamacas Tradicionales Monimbó',
-                            dept: 'Masaya',
-                            rubro: 'Textiles y Hamacas',
-                            match: 91,
-                            description: 'Elaboración artesanal de hamacas de hilo fino, muebles de mimbre y tapices decorativos.',
-                            photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
-                            tags: 'textiles hamacas masaya'
-                        }
-                    ];
+                    providersList = [];
                 }
             } catch (err) {
                 console.error("Error al cargar proveedores:", err);
