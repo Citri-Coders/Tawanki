@@ -972,7 +972,7 @@
             showToast('Cerrando sesión de Productor de forma segura...', 'warning');
             await authService.signOut();
             setTimeout(() => {
-                window.location.href = 'inicio.html';
+                window.location.href = 'index.html';
             }, 800);
         }
 
@@ -980,7 +980,7 @@
             showToast('Cerrando sesión del sistema...', 'info');
             await authService.signOut();
             setTimeout(() => {
-                window.location.href = 'inicio.html';
+                window.location.href = 'index.html';
             }, 800);
         }
 

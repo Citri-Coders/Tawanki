@@ -751,7 +751,7 @@
 
             // Verificar sesión activa y rol autorizado
             const authResult = await authGuard('intur');
-            if (!authResult) return; // authGuard redirige a inicio.html si falla
+            if (!authResult) return; // authGuard redirige a index.html si falla
 
             currentUserProfile = authResult.profile;
             await loadUserProfileFromSupabase();
@@ -881,7 +881,7 @@
             showToast('Cerrando sesión de INTUR de forma segura...', 'warning');
             await authService.signOut();
             setTimeout(() => {
-                window.location.href = 'inicio.html';
+                window.location.href = 'index.html';
             }, 800);
         }
 
@@ -889,7 +889,7 @@
             showToast('Cerrando sesión del sistema...', 'info');
             await authService.signOut();
             setTimeout(() => {
-                window.location.href = 'inicio.html';
+                window.location.href = 'index.html';
             }, 800);
         }
 

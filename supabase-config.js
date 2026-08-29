@@ -826,7 +826,7 @@ const notificacionesService = {
 
 // ── 11. Auth Guard Helper ────────────────────────────────────
 /**
- * Verifica sesión activa y rol autorizado. Si falla, redirige a inicio.html.
+ * Verifica sesión activa y rol autorizado. Si falla, redirige a index.html.
  * @param {string|string[]} rolesPermitidos - Rol(es) permitidos para esta vista.
  * @returns {Promise<{user: object, profile: object}|null>}
  */
@@ -834,13 +834,13 @@ async function authGuard(rolesPermitidos) {
     const { user, profile, error } = await authService.getCurrentUser();
 
     if (error || !user || !profile) {
-        window.location.href = 'inicio.html';
+        window.location.href = 'index.html';
         return null;
     }
 
     const roles = Array.isArray(rolesPermitidos) ? rolesPermitidos : [rolesPermitidos];
     if (!roles.includes(profile.rol)) {
-        window.location.href = 'inicio.html';
+        window.location.href = 'index.html';
         return null;
     }
 
