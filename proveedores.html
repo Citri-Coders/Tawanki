@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Buscar Proveedores - Turismo Nicaragua Conecta</title>
+    <!-- Google Fonts & Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-bright": "#F4EFE2",
+                        "on-error-container": "#7A0E1A",
+                        "inverse-surface": "#3A2E1F",
+                        "inverse-primary": "#7BAF6E",
+                        "on-surface": "#2A2114",
+                        "outline": "#8B7B5C",
+                        "warning-orange": "#D97706",
+                        "on-surface-variant": "#4A3F2A",
+                        "text-main": "#2A2114",
+                        "secondary-fixed-dim": "#6FA85A",
+                        "tertiary-fixed-dim": "#D89A4A",
+                        "tertiary-fixed": "#F0D9A8",
+                        "on-secondary": "#FFFFFF",
+                        "primary-fixed-dim": "#6FA85A",
+                        "inverse-on-surface": "#FBF8F0",
+                        "surface-container": "#EFE7D2",
+                        "surface-container-lowest": "#FFFCF5",
+                        "on-primary": "#FFFFFF",
+                        "surface-container-highest": "#D9CFB4",
+                        "on-background": "#2A2114",
+                        "on-secondary-container": "#0D3A0A",
+                        "secondary": "#1B6E3C",
+                        "primary-container": "#3D7A3D",
+                        "text-muted": "#6B5E47",
+                        "on-tertiary-container": "#3D2810",
+                        "secondary-fixed": "#94C078",
+                        "surface-container-high": "#E2D8BE",
+                        "surface-tint": "#0d631b",
+                        "primary-fixed": "#A3D49A",
+                        "error-red": "#B5391E",
+                        "on-primary-fixed-variant": "#003A0A",
+                        "error-container": "#F5D6CC",
+                        "primary": "#0d631b",
+                        "tertiary-container": "#C9612A",
+                        "on-tertiary-fixed": "#3D2810",
+                        "on-tertiary-fixed-variant": "#7A4012",
+                        "background": "#F4EFE2",
+                        "on-secondary-fixed": "#0A2A06",
+                        "error": "#A33A1A",
+                        "tertiary": "#C9612A",
+                        "on-tertiary": "#FFFFFF",
+                        "outline-variant": "#C9BC9A",
+                        "on-primary-container": "#CBFFC2",
+                        "on-primary-fixed": "#002204",
+                        "on-secondary-fixed-variant": "#0D3A0A",
+                        "green-light-bg": "#E8F0DC",
+                        "surface-variant": "#E2D8BE",
+                        "surface-container-low": "#EFE9D7",
+                        "on-error": "#FFFFFF",
+                        "secondary-container": "#94C078",
+                        "surface": "#F4EFE2",
+                        "surface-dim": "#D9CFB4",
+                        "surface-white": "#FBF8F0"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.375rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-surface-bright text-text-main flex flex-col h-screen overflow-hidden font-sans antialiased select-none">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-5 right-5 z-[100] flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- ================= TOP APP BAR (HEADER SUPERIOR) ================= -->
+    <header class="bg-surface-white w-full z-40 flex justify-between items-center px-4 md:px-8 py-3 border-b border-outline-variant/30 shadow-xs shrink-0 relative">
+        
+        <!-- ESQUINA SUPERIOR IZQUIERDA: ACORDEÓN / MENÚ NAVEGACIÓN -->
+        <div class="flex items-center gap-3">
+            <div class="relative">
+                <button id="btn-menu-toggle" onclick="toggleNavAccordion(event)"
+                    class="flex items-center gap-2 px-3 py-2 rounded-xl bg-surface-bright hover:bg-green-light-bg text-primary border border-outline-variant/40 hover:border-primary transition-all active:scale-95 shadow-2xs cursor-pointer">
+                    <span class="material-symbols-outlined text-2xl">menu</span>
+                    <span class="text-xs font-bold hidden sm:inline" id="nav-menu-title">Menú Navegación</span>
+                    <span class="material-symbols-outlined text-sm text-text-muted transition-transform" id="menu-arrow">expand_more</span>
+                </button>
+
+                <!-- Menú Acordeón Desplegable Flotante -->
+                <div id="nav-accordion-dropdown"
+                    class="hidden absolute left-0 mt-2 w-72 sm:w-80 bg-surface-white rounded-2xl shadow-2xl border border-outline-variant/40 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
+                    <div class="px-3 py-2 border-b border-outline-variant/30 mb-2">
+                        <p class="text-xs font-bold text-primary flex items-center gap-1.5" id="nav-portal-badge">
+                            <span class="material-symbols-outlined text-base">explore</span>
+                            Turismo Nicaragua Conecta
+                        </p>
+                        <p class="text-[11px] text-text-muted" id="nav-portal-sub">Directorio y Conexión Comercial B2B</p>
+                    </div>
+
+                    <div class="space-y-1" id="nav-links-container">
+                        <a href="proveedores.html"
+                            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs bg-green-light-bg text-primary font-bold transition-all text-left">
+                            <span class="material-symbols-outlined text-lg text-primary">storefront</span>
+                            <span>Directorio de Proveedores</span>
+                        </a>
+
+                        <a href="catalogo.html"
+                            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left group">
+                            <span class="material-symbols-outlined text-lg text-text-muted group-hover:text-primary">inventory_2</span>
+                            <span class="font-medium">Catálogo Nacional de Insumos</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Título / Logo -->
+            <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm">
+                    <span class="material-symbols-outlined text-xl">storefront</span>
+                </div>
+                <div>
+                    <h1 class="text-sm font-extrabold text-primary leading-tight">Directorio de Proveedores Locales</h1>
+                    <p id="company-header-tag" class="text-[11px] text-text-muted font-medium">Turismo Nicaragua Conecta · B2B</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ESQUINA SUPERIOR DERECHA: NOTIFICACIONES + PERFIL + CAMBIO DE PERFIL SEGURO + CERRAR SESIÓN -->
+        <div class="flex items-center gap-3">
+            
+            <button onclick="showToast('No hay notificaciones pendientes', 'info')"
+                class="text-text-muted hover:text-primary hover:bg-surface-container p-2 rounded-full transition-colors relative flex items-center justify-center">
+                <span class="material-symbols-outlined text-2xl">notifications</span>
+            </button>
+
+            <!-- Menú Desplegable de Perfil Seguro -->
+            <div class="relative">
+                <button id="btn-profile-toggle" onclick="toggleProfileDropdown(event)"
+                    class="flex items-center gap-2.5 p-1.5 pr-2.5 rounded-xl hover:bg-surface-bright border border-transparent hover:border-outline-variant/40 transition-all cursor-pointer">
+                    <img id="company-header-avatar" alt="Foto Empresa" class="w-8 h-8 rounded-full object-cover border border-primary/40 shadow-xs"
+                        src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=150&auto=format&fit=crop&q=80" />
+                    <div class="hidden sm:block text-left">
+                        <p id="company-display-name-header" class="text-xs font-bold text-on-surface leading-tight">Hotel Plaza Colón</p>
+                        <p class="text-[10px] text-primary font-semibold">Empresa Turística</p>
+                    </div>
+                    <span class="material-symbols-outlined text-sm text-text-muted">arrow_drop_down</span>
+                </button>
+
+                <!-- Profile Dropdown Menu -->
+                <div id="profile-dropdown"
+                    class="hidden absolute right-0 mt-2 w-64 bg-surface-white rounded-2xl shadow-2xl border border-outline-variant/40 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
+                    <div class="flex items-center gap-3 p-2 bg-surface-bright rounded-xl mb-3 border border-outline-variant/30">
+                        <img id="company-dropdown-avatar" class="w-10 h-10 rounded-full object-cover border border-primary/30"
+                            src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=150&auto=format&fit=crop&q=80" />
+                        <div class="overflow-hidden">
+                            <p id="company-dropdown-name" class="text-xs font-bold text-on-surface truncate">Hotel Plaza Colón</p>
+                            <p id="company-dropdown-email" class="text-[10px] text-text-muted truncate">compras@plazacolon.com.ni</p>
+                            <span class="inline-block mt-0.5 text-[9px] bg-blue-100 text-blue-700 font-bold px-1.5 py-0.2 rounded">Rol: Empresa Turística</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-1 text-xs">
+                        <button onclick="openEditCompanyModal(); toggleProfileDropdown();"
+                            class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left">
+                            <span class="material-symbols-outlined text-base text-primary">manage_accounts</span>
+                            <span>Editar Mis Datos / Logo</span>
+                        </button>
+
+                        <div class="pt-2 border-t border-outline-variant/30 mt-2 space-y-1">
+                            <button onclick="cambiarPerfilSeguro()"
+                                class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-text-main hover:bg-amber-50 hover:text-amber-700 transition-all font-semibold text-left">
+                                <span class="material-symbols-outlined text-base text-amber-600">switch_account</span>
+                                <span>Cambiar de Perfil / Rol</span>
+                            </button>
+
+                            <button onclick="cerrarSesionSegura()"
+                                class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-error-red hover:bg-error-container/40 transition-all font-semibold text-left">
+                                <span class="material-symbols-outlined text-base">logout</span>
+                                <span>Cerrar Sesión</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT FULL-WIDTH ================= -->
+    <main class="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar pb-20 w-full">
+        <div class="max-w-[1600px] mx-auto space-y-6">
+
+            <!-- Context Banner Full Width -->
+            <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface-white p-6 rounded-2xl shadow-sm border border-outline-variant/30">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <h1 class="text-2xl font-extrabold text-on-surface">Directorio de Proveedores y Artesanos</h1>
+                        <span class="bg-secondary-container text-primary font-bold text-xs px-2.5 py-0.5 rounded-full">B2B Activo</span>
+                    </div>
+                    <p class="text-xs text-text-muted">Explora productores agroecológicos, cafetaleros y artesanos certificados por INTUR Conecta.</p>
+                </div>
+                <div class="flex items-center gap-2 bg-green-light-bg px-4 py-2.5 rounded-xl border border-primary/20">
+                    <span class="material-symbols-outlined text-primary text-xl">eco</span>
+                    <span class="text-xs text-primary font-bold">Conexión directa con Supabase</span>
+                </div>
+            </section>
+
+            <!-- Search & Filters Bar Full Width -->
+            <section class="bg-surface-white p-5 rounded-2xl shadow-sm border border-outline-variant/30 space-y-4">
+                <div class="relative w-full">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <span class="material-symbols-outlined text-text-muted text-xl">search</span>
+                    </div>
+                    <input
+                        id="search-input" oninput="filterCards()"
+                        class="w-full pl-11 pr-4 py-3 rounded-xl border border-outline-variant/40 bg-surface-bright text-text-main text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                        placeholder="Buscar por producto (cacao, café, hamacas, miel), cooperativa o departamento..." type="text" />
+                </div>
+
+                <!-- Filter Chips -->
+                <div class="flex flex-wrap gap-2 pt-1 text-xs">
+                    <button onclick="setFilter('all')" id="chip-all" class="chip active px-3 py-1.5 rounded-full bg-primary text-white font-semibold transition-all">Todos los Rubros</button>
+                    <button onclick="setFilter('Gastronomía')" class="chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all">Gastronomía & Cacao</button>
+                    <button onclick="setFilter('Artesanías')" class="chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all">Textiles & Artesanías</button>
+                    <button onclick="setFilter('Granada')" class="chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main flex items-center gap-1 transition-all"><span class="material-symbols-outlined text-xs">location_on</span> Granada</button>
+                    <button onclick="setFilter('Masaya')" class="chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main flex items-center gap-1 transition-all"><span class="material-symbols-outlined text-xs">location_on</span> Masaya</button>
+                </div>
+            </section>
+
+            <!-- Providers Grid (Panoramic Full Width with Empty State) -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5" id="providers-grid">
+                <!-- Populated dynamically or shows Empty State ready for Supabase -->
+            </section>
+        </div>
+    </main>
+
+    <!-- ================= MODAL: EDITAR DATOS DE LA EMPRESA / LOGO ================= -->
+    <div id="modal-edit-company" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-surface-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-outline-variant/40 animate-in fade-in zoom-in-95 duration-200">
+            <div class="flex justify-between items-center pb-3 border-b border-outline-variant/30 mb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold">
+                        <span class="material-symbols-outlined text-lg">hotel</span>
+                    </div>
+                    <h3 class="font-bold text-base text-on-surface">Editar Perfil Empresarial</h3>
+                </div>
+                <button onclick="closeEditCompanyModal()" class="text-text-muted hover:text-on-surface p-1 rounded-lg">
+                    <span class="material-symbols-outlined text-xl">close</span>
+                </button>
+            </div>
+
+            <form id="form-edit-company" onsubmit="saveCompanyProfile(event)" class="space-y-3.5 text-xs">
+                <!-- Preview de Foto / Logo con Carga Local -->
+                <div class="p-3 bg-surface-bright rounded-xl border border-outline-variant/30 space-y-2.5">
+                    <div class="flex items-center gap-4">
+                        <img id="edit-company-avatar-preview" class="w-16 h-16 rounded-full object-cover border-2 border-primary/40 shadow-sm shrink-0"
+                            src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=150&auto=format&fit=crop&q=80" />
+                        <div class="flex-1 space-y-1.5">
+                            <label class="block font-bold text-text-main">Logo / Foto de la Empresa</label>
+                            <input type="file" id="input-company-file" accept="image/*" onchange="handleLocalCompanyPhotoUpload(event)" class="hidden" />
+                            <div class="flex flex-wrap gap-2">
+                                <button type="button" onclick="document.getElementById('input-company-file').click()"
+                                    class="px-3 py-1.5 rounded-lg bg-primary hover:bg-surface-tint text-white font-bold text-xs flex items-center gap-1 shadow-2xs transition-all">
+                                    <span class="material-symbols-outlined text-sm">upload_file</span>
+                                    <span>Subir Imagen Local</span>
+                                </button>
+                                <button type="button" onclick="toggleCompanyUrlInput()" id="btn-toggle-company-url"
+                                    class="px-2.5 py-1.5 rounded-lg bg-surface-white hover:bg-surface-container border border-outline-variant/40 text-text-muted font-medium text-xs transition-all">
+                                    Usar URL
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Input opcional para URL -->
+                    <div id="container-company-photo-url" class="hidden pt-2 border-t border-outline-variant/20">
+                        <label class="block font-semibold text-text-muted text-[11px] mb-1">O escribe la URL directa de la imagen:</label>
+                        <input type="url" id="input-company-photo" oninput="previewCompanyPhotoUrl(this.value)"
+                            placeholder="https://ejemplo.com/milogo.jpg"
+                            class="w-full bg-surface-white border border-outline-variant/40 rounded-lg px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-primary outline-none" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Nombre de la Empresa / Hotel *</label>
+                    <input type="text" id="input-company-name" required placeholder="Hotel Plaza Colón"
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-text-main mb-1">Teléfono / WhatsApp *</label>
+                        <input type="tel" id="input-company-phone" required placeholder="+505 2552-0000"
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                    </div>
+                    <div>
+                        <label class="block font-bold text-text-main mb-1">Correo Electrónico *</label>
+                        <input type="email" id="input-company-email" required placeholder="compras@plazacolon.com.ni"
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Departamento</label>
+                    <select id="input-company-dept" class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                        <option value="Granada">Granada</option>
+                        <option value="Masaya">Masaya</option>
+                        <option value="León">León</option>
+                        <option value="Rivas">Rivas</option>
+                        <option value="Matagalpa">Matagalpa</option>
+                        <option value="Estelí">Estelí</option>
+                        <option value="Managua">Managua</option>
+                    </select>
+                </div>
+
+                <div class="flex justify-end gap-2.5 pt-3 border-t border-outline-variant/30">
+                    <button type="button" onclick="closeEditCompanyModal()" class="px-4 py-2 rounded-xl bg-surface-bright hover:bg-surface-container font-semibold text-text-muted text-xs">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-primary hover:bg-surface-tint text-white font-bold text-xs shadow-sm">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Supabase SDK + Config -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        let currentUserProfile = null;
+        let currentEmpresaRecord = null;
+        let companyProfile = {
+            name: "Cargando...",
+            email: "",
+            phone: "+505 2552-0000",
+            dept: "Granada",
+            photo: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=150&auto=format&fit=crop&q=80"
+        };
+
+        let providersList = [];
+
+        // 🔒 INICIALIZACIÓN
+        document.addEventListener('DOMContentLoaded', async () => {
+            initDropdowns();
+
+            try {
+                const { user, profile } = await authService.getCurrentUser();
+                if (user && profile) {
+                    currentUserProfile = profile;
+                    setupDynamicNavMenu();
+                    await loadCompanyProfileFromSupabase();
+                }
+            } catch (err) {
+                console.warn("Aviso al verificar sesión:", err);
+            }
+
+            await loadProvidersFromSupabase();
+        });
+
+        // Configurar menú de navegación según el rol activo
+        function setupDynamicNavMenu() {
+            const container = document.getElementById('nav-links-container');
+            const menuTitle = document.getElementById('nav-menu-title');
+            const portalBadge = document.getElementById('nav-portal-badge');
+            const portalSub = document.getElementById('nav-portal-sub');
+
+            const rol = currentUserProfile?.rol || 'empresa';
+            let roleSpecificLink = '';
+
+            if (rol === 'productor') {
+                if (menuTitle) menuTitle.innerText = "Menú Productor";
+                if (portalBadge) portalBadge.innerHTML = `<span class="material-symbols-outlined text-base">agriculture</span> Portal del Productor Local`;
+                if (portalSub) portalSub.innerText = "Gestión de Catálogo y Ofertas B2B";
+                roleSpecificLink = `
+                    <a href="perfil-productor.html"
+                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left group">
+                        <span class="material-symbols-outlined text-lg text-text-muted group-hover:text-primary">person</span>
+                        <span class="font-medium">Mi Panel de Productor</span>
+                    </a>
+                `;
+            } else if (rol === 'intur') {
+                if (menuTitle) menuTitle.innerText = "Menú INTUR";
+                if (portalBadge) portalBadge.innerHTML = `<span class="material-symbols-outlined text-base">verified_user</span> Portal Institucional INTUR`;
+                if (portalSub) portalSub.innerText = "Monitoreo y Verificación Nacional";
+                roleSpecificLink = `
+                    <a href="dashboard INTUR.html"
+                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left group">
+                        <span class="material-symbols-outlined text-lg text-text-muted group-hover:text-primary">dashboard</span>
+                        <span class="font-medium">Panel Administrativo INTUR</span>
+                    </a>
+                `;
+            } else {
+                if (menuTitle) menuTitle.innerText = "Menú Empresa";
+                if (portalBadge) portalBadge.innerHTML = `<span class="material-symbols-outlined text-base">hotel</span> Portal Empresa Turística`;
+                if (portalSub) portalSub.innerText = "Abastecimiento y Proveeduría Local";
+            }
+
+            if (container) {
+                container.innerHTML = `
+                    ${roleSpecificLink}
+                    <a href="proveedores.html"
+                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs bg-green-light-bg text-primary font-bold transition-all text-left">
+                        <span class="material-symbols-outlined text-lg text-primary">storefront</span>
+                        <span>Directorio de Proveedores</span>
+                    </a>
+                    <a href="catalogo.html"
+                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left group">
+                        <span class="material-symbols-outlined text-lg text-text-muted group-hover:text-primary">inventory_2</span>
+                        <span class="font-medium">Catálogo Nacional de Insumos</span>
+                    </a>
+                `;
+            }
+        }
+
+        async function loadCompanyProfileFromSupabase() {
+            if (!currentUserProfile) return;
+
+            companyProfile.name = currentUserProfile.nombre_completo || "Usuario";
+            companyProfile.email = currentUserProfile.email || "";
+            companyProfile.phone = currentUserProfile.telefono || "+505 8888-0000";
+            if (currentUserProfile.avatar_url) {
+                companyProfile.photo = currentUserProfile.avatar_url;
+            }
+
+            if (currentUserProfile.rol === 'empresa') {
+                const { data: empData } = await empresasService.getEmpresaByProfileId(currentUserProfile.id);
+                if (empData) {
+                    currentEmpresaRecord = empData;
+                    if (empData.nombre_comercial) companyProfile.name = empData.nombre_comercial;
+                    if (empData.telefono_corporativo) companyProfile.phone = empData.telefono_corporativo;
+                    if (empData.departamentos) companyProfile.dept = empData.departamentos.nombre;
+                }
+            } else if (currentUserProfile.rol === 'productor') {
+                const { data: prodData } = await productoresService.getProductorByProfileId(currentUserProfile.id);
+                if (prodData) {
+                    if (prodData.nombre_cooperativa_o_taller) companyProfile.name = prodData.nombre_cooperativa_o_taller;
+                    if (prodData.telefono_whatsapp) companyProfile.phone = prodData.telefono_whatsapp;
+                    if (prodData.departamentos) companyProfile.dept = prodData.departamentos.nombre;
+                }
+            }
+
+            applyCompanyProfile();
+        }
+
+        function applyCompanyProfile() {
+            document.getElementById('company-header-tag').innerText = `${companyProfile.name} · ${companyProfile.dept}`;
+            document.getElementById('company-header-avatar').src = companyProfile.photo;
+            document.getElementById('company-display-name-header').innerText = companyProfile.name;
+            document.getElementById('company-dropdown-name').innerText = companyProfile.name;
+            document.getElementById('company-dropdown-email').innerText = companyProfile.email;
+            document.getElementById('company-dropdown-avatar').src = companyProfile.photo;
+
+            // Form
+            document.getElementById('input-company-name').value = companyProfile.name;
+            document.getElementById('input-company-email').value = companyProfile.email;
+            document.getElementById('input-company-phone').value = companyProfile.phone;
+            document.getElementById('input-company-dept').value = companyProfile.dept;
+            document.getElementById('input-company-photo').value = companyProfile.photo;
+            document.getElementById('edit-company-avatar-preview').src = companyProfile.photo;
+        }
+
+        function previewCompanyPhotoUrl(url) {
+            if (url && url.startsWith('http')) {
+                document.getElementById('edit-company-avatar-preview').src = url;
+            }
+        }
+
+        function handleLocalCompanyPhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                if (!file.type.startsWith('image/')) {
+                    showToast('Por favor selecciona una imagen válida', 'error');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Image = e.target.result;
+                    document.getElementById('edit-company-avatar-preview').src = base64Image;
+                    companyProfile.photo = base64Image;
+                    const urlInput = document.getElementById('input-company-photo');
+                    if (urlInput) urlInput.value = '';
+                    showToast('Logo/imagen empresarial cargada con éxito', 'info');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function toggleCompanyUrlInput() {
+            const container = document.getElementById('container-company-photo-url');
+            const btn = document.getElementById('btn-toggle-company-url');
+            if (container.classList.contains('hidden')) {
+                container.classList.remove('hidden');
+                btn.innerText = 'Ocultar URL';
+            } else {
+                container.classList.add('hidden');
+                btn.innerText = 'Usar URL';
+            }
+        }
+
+        function openEditCompanyModal() {
+            applyCompanyProfile();
+            document.getElementById('modal-edit-company').classList.remove('hidden');
+        }
+
+        function closeEditCompanyModal() {
+            document.getElementById('modal-edit-company').classList.add('hidden');
+        }
+
+        async function saveCompanyProfile(e) {
+            e.preventDefault();
+            companyProfile.name = document.getElementById('input-company-name').value.trim();
+            companyProfile.phone = document.getElementById('input-company-phone').value.trim();
+            companyProfile.dept = document.getElementById('input-company-dept').value;
+            const photoUrl = document.getElementById('input-company-photo').value.trim();
+            if (photoUrl) companyProfile.photo = photoUrl;
+
+            showToast('Guardando perfil empresarial en Supabase...', 'info');
+
+            if (currentUserProfile) {
+                await profileService.updateProfile(currentUserProfile.id, {
+                    nombre_completo: companyProfile.name,
+                    telefono: companyProfile.phone,
+                    avatar_url: companyProfile.photo
+                });
+
+                if (currentEmpresaRecord) {
+                    await supabaseClient.from('empresas_turisticas').update({
+                        nombre_comercial: companyProfile.name,
+                        telefono_corporativo: companyProfile.phone
+                    }).eq('id', currentEmpresaRecord.id);
+                }
+            }
+
+            applyCompanyProfile();
+            closeEditCompanyModal();
+            showToast('Perfil empresarial actualizado correctamente', 'success');
+        }
+
+        // SEGURIDAD: Cambiar de Perfil / Rol (Cierra sesión obligatoriamente y redirige al login)
+        async function cambiarPerfilSeguro() {
+            showToast('Cerrando sesión de Empresa de forma segura...', 'warning');
+            await authService.signOut();
+            setTimeout(() => {
+                window.location.href = 'inicio.html';
+            }, 800);
+        }
+
+        async function cerrarSesionSegura() {
+            showToast('Cerrando sesión del sistema...', 'info');
+            await authService.signOut();
+            setTimeout(() => {
+                window.location.href = 'inicio.html';
+            }, 800);
+        }
+
+        async function loadProvidersFromSupabase() {
+            try {
+                const { data, error } = await productoresService.getProductores();
+                if (data && data.length > 0) {
+                    providersList = data.map(p => ({
+                        id: p.id,
+                        name: p.nombre_cooperativa_o_taller || p.profiles?.nombre_completo || 'Productor Local',
+                        dept: p.departamentos?.nombre || 'Nicaragua',
+                        rubro: p.rubros?.nombre || 'General',
+                        match: 92,
+                        description: p.descripcion || 'Proveedor local verificado por INTUR.',
+                        photo: p.profiles?.avatar_url || 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
+                        tags: `${(p.rubros?.nombre || '').toLowerCase()} ${(p.departamentos?.nombre || '').toLowerCase()}`
+                    }));
+                } else {
+                    providersList = [
+                        {
+                            id: 'prov-sample-1',
+                            name: 'Cooperativa Las Brisas',
+                            dept: 'Matagalpa',
+                            rubro: 'Café y Cacao',
+                            match: 98,
+                            description: 'Productores de café especial de altura y cacao criollo con certificación de comercio justo.',
+                            photo: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
+                            tags: 'café cacao matagalpa gastronomia'
+                        },
+                        {
+                            id: 'prov-sample-2',
+                            name: 'Taller de Cerámica San Juan',
+                            dept: 'Masaya',
+                            rubro: 'Artesanías y Barro',
+                            match: 94,
+                            description: 'Maestros alfareros de San Juan de Oriente especializados en vajillas precolombinas para hotelería.',
+                            photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
+                            tags: 'artesanías barro masaya ceramica'
+                        },
+                        {
+                            id: 'prov-sample-3',
+                            name: 'Hamacas Tradicionales Monimbó',
+                            dept: 'Masaya',
+                            rubro: 'Textiles y Hamacas',
+                            match: 91,
+                            description: 'Elaboración artesanal de hamacas de hilo fino, muebles de mimbre y tapices decorativos.',
+                            photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
+                            tags: 'textiles hamacas masaya'
+                        }
+                    ];
+                }
+            } catch (err) {
+                console.error("Error al cargar proveedores:", err);
+            }
+            renderProviders();
+        }
+
+        function renderProviders() {
+            const grid = document.getElementById('providers-grid');
+            if (!grid) return;
+
+            if (providersList.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full p-12 bg-surface-white rounded-2xl border border-outline-variant/30 text-center flex flex-col items-center justify-center gap-2 shadow-sm">
+                        <span class="material-symbols-outlined text-4xl text-primary/40">storefront</span>
+                        <p class="font-bold text-sm text-text-main">No hay proveedores registrados aún</p>
+                        <p class="text-xs text-text-muted max-w-sm">Los productores que se registren en la plataforma y se almacenen en Supabase aparecerán listados aquí con su porcentaje de compatibilidad B2B.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = providersList.map(p => `
+                <article class="provider-card bg-surface-white rounded-2xl shadow-sm hover:shadow-md transition-all p-5 border border-outline-variant/30 flex flex-col justify-between"
+                    data-tags="${p.tags || ''}">
+                    <div>
+                        <div class="flex items-start justify-between gap-3 mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-14 h-14 rounded-2xl bg-surface-container overflow-hidden shrink-0 border border-outline-variant/30 shadow-xs">
+                                    <img alt="${p.name}" class="w-full h-full object-cover" src="${p.photo || 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80'}" />
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-base text-on-surface">${p.name}</h3>
+                                    <p class="text-xs text-text-muted flex items-center gap-1 mt-0.5">
+                                        <span class="material-symbols-outlined text-xs text-primary">location_on</span> ${p.dept}, Nicaragua
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="px-2.5 py-1 rounded-full bg-green-light-bg text-primary text-xs font-extrabold border border-primary/20">
+                                ${p.match || 90}% Match
+                            </div>
+                        </div>
+                        <p class="text-xs text-text-muted mb-4">${p.description || ''}</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 pt-2">
+                        <button onclick="showToast('Iniciando contacto con ${p.name}...', 'success')"
+                            class="py-2 bg-primary hover:bg-surface-tint text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined text-sm">chat</span> Contactar
+                        </button>
+                        <a href="catalogo.html"
+                            class="py-2 border border-outline-variant/40 hover:border-primary text-text-main hover:text-primary text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined text-sm">visibility</span> Catálogo
+                        </a>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function toggleNavAccordion(e) {
+            if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
+            const dropdown = document.getElementById('nav-accordion-dropdown');
+            const arrow = document.getElementById('menu-arrow');
+            if (!dropdown) return;
+            document.getElementById('profile-dropdown')?.classList.add('hidden');
+            const isHidden = dropdown.classList.contains('hidden');
+            if (isHidden) {
+                dropdown.classList.remove('hidden');
+                arrow?.classList.add('rotate-180');
+            } else {
+                dropdown.classList.add('hidden');
+                arrow?.classList.remove('rotate-180');
+            }
+        }
+
+        function toggleProfileDropdown(e) {
+            if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
+            const dropdown = document.getElementById('profile-dropdown');
+            if (!dropdown) return;
+            document.getElementById('nav-accordion-dropdown')?.classList.add('hidden');
+            document.getElementById('menu-arrow')?.classList.remove('rotate-180');
+            dropdown.classList.toggle('hidden');
+        }
+
+        function initDropdowns() {
+            const navDropdown = document.getElementById('nav-accordion-dropdown');
+            const navBtn = document.getElementById('btn-menu-toggle');
+            const profileDropdown = document.getElementById('profile-dropdown');
+            const profileBtn = document.getElementById('btn-profile-toggle');
+
+            document.addEventListener('click', (e) => {
+                if (navDropdown && !navDropdown.contains(e.target) && !navBtn.contains(e.target)) {
+                    navDropdown.classList.add('hidden');
+                    document.getElementById('menu-arrow')?.classList.remove('rotate-180');
+                }
+                if (profileDropdown && !profileDropdown.contains(e.target) && !profileBtn.contains(e.target)) {
+                    profileDropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        function filterCards() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const cards = document.querySelectorAll('.provider-card');
+            cards.forEach(card => {
+                const tags = card.getAttribute('data-tags')?.toLowerCase() || '';
+                const text = card.innerText.toLowerCase();
+                if (tags.includes(query) || text.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function setFilter(tag) {
+            document.querySelectorAll('.chip').forEach(c => {
+                c.className = "chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all";
+            });
+            event.target.className = "chip active px-3 py-1.5 rounded-full bg-primary text-white font-semibold transition-all";
+
+            const cards = document.querySelectorAll('.provider-card');
+            cards.forEach(card => {
+                const tags = card.getAttribute('data-tags') || '';
+                if (tag === 'all' || tags.includes(tag)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            let bgClass = "bg-on-surface text-white";
+            let iconName = "info";
+            if (type === 'success') { bgClass = "bg-primary text-white"; iconName = "check_circle"; }
+            if (type === 'warning') { bgClass = "bg-warning-orange text-white"; iconName = "warning"; }
+            if (type === 'error') { bgClass = "bg-error text-white"; iconName = "error"; }
+
+            toast.className = `${bgClass} px-4 py-3 rounded-xl shadow-lg text-xs font-medium flex items-center gap-2.5 pointer-events-auto transition-all transform translate-y-2 opacity-0 duration-200 border border-white/20`;
+            toast.innerHTML = `<span class="material-symbols-outlined text-lg shrink-0">${iconName}</span><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

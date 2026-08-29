@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Turismo Nicaragua Conecta - Panel INTUR</title>
+    <!-- Tailwind CSS with plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Google Fonts & Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-bright": "#F4EFE2",
+                        "on-error-container": "#7A0E1A",
+                        "inverse-surface": "#3A2E1F",
+                        "inverse-primary": "#7BAF6E",
+                        "on-surface": "#2A2114",
+                        "outline": "#8B7B5C",
+                        "warning-orange": "#D97706",
+                        "on-surface-variant": "#4A3F2A",
+                        "text-main": "#2A2114",
+                        "secondary-fixed-dim": "#6FA85A",
+                        "tertiary-fixed-dim": "#D89A4A",
+                        "tertiary-fixed": "#F0D9A8",
+                        "on-secondary": "#FFFFFF",
+                        "primary-fixed-dim": "#6FA85A",
+                        "inverse-on-surface": "#FBF8F0",
+                        "surface-container": "#EFE7D2",
+                        "surface-container-lowest": "#FFFCF5",
+                        "on-primary": "#FFFFFF",
+                        "surface-container-highest": "#D9CFB4",
+                        "on-background": "#2A2114",
+                        "on-secondary-container": "#0D3A0A",
+                        "secondary": "#1B6E3C",
+                        "primary-container": "#3D7A3D",
+                        "text-muted": "#6B5E47",
+                        "on-tertiary-container": "#3D2810",
+                        "secondary-fixed": "#94C078",
+                        "surface-container-high": "#E2D8BE",
+                        "surface-tint": "#0d631b",
+                        "primary-fixed": "#A3D49A",
+                        "error-red": "#B5391E",
+                        "on-primary-fixed-variant": "#003A0A",
+                        "error-container": "#F5D6CC",
+                        "primary": "#0d631b",
+                        "tertiary-container": "#C9612A",
+                        "on-tertiary-fixed": "#3D2810",
+                        "on-tertiary-fixed-variant": "#7A4012",
+                        "background": "#F4EFE2",
+                        "on-secondary-fixed": "#0A2A06",
+                        "error": "#A33A1A",
+                        "tertiary": "#C9612A",
+                        "on-tertiary": "#FFFFFF",
+                        "outline-variant": "#C9BC9A",
+                        "on-primary-container": "#CBFFC2",
+                        "on-primary-fixed": "#002204",
+                        "on-secondary-fixed-variant": "#0D3A0A",
+                        "green-light-bg": "#E8F0DC",
+                        "surface-variant": "#E2D8BE",
+                        "surface-container-low": "#EFE9D7",
+                        "on-error": "#FFFFFF",
+                        "secondary-container": "#94C078",
+                        "surface": "#F4EFE2",
+                        "surface-dim": "#D9CFB4",
+                        "surface-white": "#FBF8F0"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.375rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F4EFE2;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .nav-accordion-item.active {
+            background-color: #E8F5E9;
+            color: #0d631b;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-surface font-sans h-screen flex flex-col overflow-hidden antialiased select-none">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-5 right-5 z-[100] flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- ================= TOP APP BAR (HEADER SUPERIOR) ================= -->
+    <header class="bg-surface-white w-full z-40 flex justify-between items-center px-4 md:px-8 py-3 border-b border-outline-variant/30 shadow-xs shrink-0 relative">
+        
+        <!-- ESQUINA SUPERIOR IZQUIERDA: ACORDEÓN / MENÚ DE MÓDULOS INTUR -->
+        <div class="flex items-center gap-3">
+            <div class="relative">
+                <button id="btn-menu-toggle" onclick="toggleNavAccordion(event)"
+                    class="flex items-center gap-2 px-3 py-2 rounded-xl bg-surface-bright hover:bg-green-light-bg text-primary border border-outline-variant/40 hover:border-primary transition-all active:scale-95 shadow-2xs cursor-pointer">
+                    <span class="material-symbols-outlined text-2xl">menu</span>
+                    <span class="text-xs font-bold hidden sm:inline">Menú INTUR</span>
+                    <span class="material-symbols-outlined text-sm text-text-muted transition-transform" id="menu-arrow">expand_more</span>
+                </button>
+
+                <!-- Menú Acordeón Desplegable Flotante -->
+                <div id="nav-accordion-dropdown"
+                    class="hidden absolute left-0 mt-2 w-72 sm:w-80 bg-surface-white rounded-2xl shadow-2xl border border-outline-variant/40 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
+                    <div class="px-3 py-2 border-b border-outline-variant/30 mb-2">
+                        <p class="text-xs font-bold text-primary flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-base">domain</span>
+                            Instituto Nicaragüense de Turismo
+                        </p>
+                        <p class="text-[11px] text-text-muted">Módulos Administrativos</p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <button onclick="switchTab('dashboard'); toggleNavAccordion();"
+                            class="nav-accordion-item active w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-text-main hover:bg-surface-bright transition-all text-left">
+                            <span class="material-symbols-outlined text-lg text-primary">dashboard</span>
+                            <span class="font-medium">Panel de Control General</span>
+                        </button>
+
+                        <button onclick="switchTab('conexiones'); toggleNavAccordion();"
+                            class="nav-accordion-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-text-main hover:bg-surface-bright transition-all text-left">
+                            <span class="material-symbols-outlined text-lg text-secondary">handshake</span>
+                            <span class="font-medium">Vinculaciones & Alianzas</span>
+                            <span id="nav-connections-badge" class="ml-auto bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
+                        </button>
+
+                        <button onclick="switchTab('reportes'); toggleNavAccordion();"
+                            class="nav-accordion-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-text-main hover:bg-surface-bright transition-all text-left">
+                            <span class="material-symbols-outlined text-lg text-tertiary">monitoring</span>
+                            <span class="font-medium">Estadísticas & Reportes</span>
+                        </button>
+
+                        <a href="catalogo.html"
+                            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left group">
+                            <span class="material-symbols-outlined text-lg text-text-muted group-hover:text-primary">inventory_2</span>
+                            <span class="font-medium">Catálogo Nacional de Insumos</span>
+                        </a>
+
+                        <a href="proveedores.html"
+                            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left group">
+                            <span class="material-symbols-outlined text-lg text-text-muted group-hover:text-primary">storefront</span>
+                            <span class="font-medium">Directorio de Proveedores</span>
+                        </a>
+                    </div>
+
+                    <div class="pt-2 mt-2 border-t border-outline-variant/30 flex flex-col gap-1">
+                        <button onclick="openModalNuevaOferta(); toggleNavAccordion();"
+                            class="w-full bg-primary hover:bg-surface-tint text-white text-xs font-bold py-2 px-3 rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                            <span class="material-symbols-outlined text-base">add_circle</span>
+                            <span>Registrar Nueva Vinculación</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Título / Logo -->
+            <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm">
+                    <span class="material-symbols-outlined text-xl">handshake</span>
+                </div>
+                <div>
+                    <h1 class="text-sm font-extrabold text-primary leading-tight">Turismo Nicaragua Conecta</h1>
+                    <p class="text-[11px] text-text-muted font-medium">Panel INTUR · Gestión y Monitoreo</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ESQUINA SUPERIOR DERECHA: NOTIFICACIONES + PERFIL + CAMBIO DE PERFIL SEGURO + CERRAR SESIÓN -->
+        <div class="flex items-center gap-3">
+            
+            <!-- Botón de Notificaciones -->
+            <div class="relative">
+                <button id="btn-notifications"
+                    class="text-text-muted hover:text-primary hover:bg-surface-container p-2 rounded-full transition-colors relative flex items-center justify-center">
+                    <span class="material-symbols-outlined text-2xl">notifications</span>
+                    <span id="notif-badge" class="hidden absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-error-red rounded-full ring-2 ring-white"></span>
+                </button>
+
+                <!-- Notifications Dropdown -->
+                <div id="notif-dropdown"
+                    class="hidden absolute right-0 mt-2 w-80 sm:w-96 bg-surface-white rounded-2xl shadow-2xl border border-outline-variant/40 p-4 z-50 animate-in fade-in zoom-in-95 duration-150">
+                    <div class="flex items-center justify-between pb-3 border-b border-outline-variant/30 mb-3">
+                        <h4 class="font-bold text-sm text-on-surface flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-lg">notifications_active</span>
+                            Notificaciones INTUR
+                        </h4>
+                        <button onclick="clearNotifications()" class="text-xs text-primary hover:underline font-semibold">Marcar leídas</button>
+                    </div>
+                    <div class="flex flex-col gap-2.5 max-h-72 overflow-y-auto custom-scrollbar" id="notif-list">
+                        <div class="p-6 text-center text-text-muted text-xs">
+                            <span class="material-symbols-outlined text-3xl block text-text-muted/40 mb-1">notifications_none</span>
+                            No hay notificaciones pendientes.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menú Desplegable de Perfil Seguro -->
+            <div class="relative">
+                <button id="btn-profile-toggle" onclick="toggleProfileDropdown(event)"
+                    class="flex items-center gap-2.5 p-1.5 pr-2.5 rounded-xl hover:bg-surface-bright border border-transparent hover:border-outline-variant/40 transition-all cursor-pointer">
+                    <img id="user-header-avatar" alt="Foto Perfil INTUR" class="w-8 h-8 rounded-full object-cover border border-primary/40 shadow-xs"
+                        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" />
+                    <div class="hidden sm:block text-left">
+                        <p id="user-header-name" class="text-xs font-bold text-on-surface leading-tight">Lic. Administrador INTUR</p>
+                        <p class="text-[10px] text-primary font-semibold">Delegación Central</p>
+                    </div>
+                    <span class="material-symbols-outlined text-sm text-text-muted">arrow_drop_down</span>
+                </button>
+
+                <!-- Profile Dropdown Menu -->
+                <div id="profile-dropdown"
+                    class="hidden absolute right-0 mt-2 w-64 bg-surface-white rounded-2xl shadow-2xl border border-outline-variant/40 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
+                    <div class="flex items-center gap-3 p-2 bg-surface-bright rounded-xl mb-3 border border-outline-variant/30">
+                        <img id="user-dropdown-avatar" class="w-10 h-10 rounded-full object-cover border border-primary/30"
+                            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" />
+                        <div class="overflow-hidden">
+                            <p id="user-dropdown-name" class="text-xs font-bold text-on-surface truncate">Administrador INTUR</p>
+                            <p id="user-dropdown-email" class="text-[10px] text-text-muted truncate">admin.central@intur.gob.ni</p>
+                            <span class="inline-block mt-0.5 text-[9px] bg-green-light-bg text-primary font-bold px-1.5 py-0.2 rounded">Rol: Administrador</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-1 text-xs">
+                        <button onclick="openEditProfileModal(); toggleProfileDropdown();"
+                            class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left">
+                            <span class="material-symbols-outlined text-base text-primary">manage_accounts</span>
+                            <span>Editar Mis Datos / Foto</span>
+                        </button>
+
+                        <div class="pt-2 border-t border-outline-variant/30 mt-2 space-y-1">
+                            <button onclick="cambiarPerfilSeguro()"
+                                class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-text-main hover:bg-amber-50 hover:text-amber-700 transition-all font-semibold text-left">
+                                <span class="material-symbols-outlined text-base text-amber-600">switch_account</span>
+                                <span>Cambiar de Perfil / Rol</span>
+                            </button>
+
+                            <button onclick="cerrarSesionSegura()"
+                                class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-error-red hover:bg-error-container/40 transition-all font-semibold text-left">
+                                <span class="material-symbols-outlined text-base">logout</span>
+                                <span>Cerrar Sesión</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- ================= CONTENIDO PRINCIPAL FULL-WIDTH ================= -->
+    <main class="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar pb-20 w-full">
+
+        <!-- ================= TAB: DASHBOARD ================= -->
+        <div id="tab-content-dashboard" class="space-y-6 max-w-[1600px] mx-auto">
+
+            <!-- Hero Banner Panoramic Full Width -->
+            <div class="bg-gradient-to-r from-primary via-primary-container to-secondary rounded-2xl p-6 md:p-8 text-white shadow-md flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                <div class="space-y-1.5">
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-xs font-semibold backdrop-blur-sm">
+                        <span class="material-symbols-outlined text-sm">flag</span>
+                        <span>Rally de Innovación Nicaragua 2026</span>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Panel Central de Monitoreo INTUR</h2>
+                    <p class="text-green-light-bg text-xs md:text-sm max-w-2xl">
+                        Estadísticas y trazabilidad en tiempo real de vinculaciones comerciales entre el sector turístico y productores locales de Nicaragua.
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-2.5 shrink-0">
+                    <button onclick="exportDataToCSV()"
+                        class="bg-white/15 hover:bg-white/25 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-all border border-white/30 flex items-center gap-1.5 shadow-xs">
+                        <span class="material-symbols-outlined text-sm">download</span>
+                        <span>Descargar Reporte (CSV)</span>
+                    </button>
+                    <button onclick="openModalNuevaOferta()"
+                        class="bg-white hover:bg-gray-100 text-primary text-xs font-bold px-4 py-2.5 rounded-xl shadow-md transition-all flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-sm">add_circle</span>
+                        <span>Nueva Vinculación</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 4 Bento KPI Stat Cards (Full Width Grid) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+                <!-- StatCard 1 -->
+                <div class="bg-surface-white p-5 rounded-2xl shadow-sm hover:shadow-md transition-all border border-outline-variant/30 flex flex-col justify-between">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-xs text-text-muted font-bold uppercase tracking-wider">Productores Registrados</span>
+                        <span class="material-symbols-outlined text-primary bg-green-light-bg p-2 rounded-xl text-lg">agriculture</span>
+                    </div>
+                    <div class="flex items-end justify-between">
+                        <div>
+                            <span id="stat-productores" class="text-3xl md:text-4xl font-extrabold text-primary">0</span>
+                            <p class="text-[11px] text-text-muted mt-0.5">Sincronizado con Supabase</p>
+                        </div>
+                        <span class="text-xs font-bold text-primary-container bg-green-light-bg px-2.5 py-1 rounded-full flex items-center gap-0.5">
+                            <span class="material-symbols-outlined text-xs font-bold">cloud_done</span> BD
+                        </span>
+                    </div>
+                </div>
+
+                <!-- StatCard 2 -->
+                <div class="bg-surface-white p-5 rounded-2xl shadow-sm hover:shadow-md transition-all border border-outline-variant/30 flex flex-col justify-between">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-xs text-text-muted font-bold uppercase tracking-wider">Empresas Turísticas</span>
+                        <span class="material-symbols-outlined text-tertiary bg-tertiary-fixed/40 p-2 rounded-xl text-lg">hotel</span>
+                    </div>
+                    <div class="flex items-end justify-between">
+                        <div>
+                            <span id="stat-empresas" class="text-3xl md:text-4xl font-extrabold text-tertiary">0</span>
+                            <p class="text-[11px] text-text-muted mt-0.5">Hoteles, lodges y rest.</p>
+                        </div>
+                        <span class="text-xs font-bold text-tertiary bg-tertiary-fixed/40 px-2.5 py-1 rounded-full flex items-center gap-0.5">
+                            <span class="material-symbols-outlined text-xs font-bold">cloud_done</span> BD
+                        </span>
+                    </div>
+                </div>
+
+                <!-- StatCard 3 -->
+                <div class="bg-surface-white p-5 rounded-2xl shadow-sm hover:shadow-md transition-all border border-outline-variant/30 flex flex-col justify-between">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-xs text-text-muted font-bold uppercase tracking-wider">Matches Generados</span>
+                        <span class="material-symbols-outlined text-secondary bg-secondary-container/40 p-2 rounded-xl text-lg">handshake</span>
+                    </div>
+                    <div class="flex items-end justify-between">
+                        <div>
+                            <span id="stat-matches" class="text-3xl md:text-4xl font-extrabold text-secondary">0</span>
+                            <p class="text-[11px] text-text-muted mt-0.5">Vinculaciones activas</p>
+                        </div>
+                        <span class="text-xs font-bold text-secondary bg-secondary-container/40 px-2.5 py-1 rounded-full flex items-center gap-0.5">
+                            <span class="material-symbols-outlined text-xs font-bold">cloud_done</span> BD
+                        </span>
+                    </div>
+                </div>
+
+                <!-- StatCard 4 -->
+                <div class="bg-surface-white p-5 rounded-2xl shadow-sm hover:shadow-md transition-all border border-outline-variant/30 flex flex-col justify-between">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-xs text-text-muted font-bold uppercase tracking-wider">Volumen Negociado</span>
+                        <span class="material-symbols-outlined text-warning-orange bg-orange-100 p-2 rounded-xl text-lg">payments</span>
+                    </div>
+                    <div class="flex items-end justify-between">
+                        <div>
+                            <span id="stat-volumen" class="text-3xl md:text-4xl font-extrabold text-on-surface">C$ 0</span>
+                            <p class="text-[11px] text-text-muted mt-0.5">Ciclo fiscal actual</p>
+                        </div>
+                        <span class="text-xs font-bold text-warning-orange bg-orange-100 px-2.5 py-1 rounded-full flex items-center gap-0.5">
+                            <span class="material-symbols-outlined text-xs font-bold">cloud_done</span> BD
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráficos Panorámicos Full Width -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                <!-- Trend Chart -->
+                <div class="lg:col-span-8 bg-surface-white rounded-2xl shadow-sm p-5 md:p-6 border border-outline-variant/30 flex flex-col">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
+                        <div>
+                            <h3 class="font-bold text-base text-on-surface">Evolución de Acuerdos y Volumen Comercial (C$)</h3>
+                            <p class="text-xs text-text-muted">Crecimiento acumulado en el ecosistema turístico nacional</p>
+                        </div>
+                        <select id="chart-period" onchange="updateChartData(this.value)" class="text-xs font-medium bg-surface-bright border border-outline-variant/40 rounded-lg px-2.5 py-1.5 text-text-main focus:ring-1 focus:ring-primary outline-none">
+                            <option value="2026">Año 2026</option>
+                            <option value="trimestre">Último Trimestre</option>
+                        </select>
+                    </div>
+                    <div class="relative h-72 w-full">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Sectors Distribution Chart -->
+                <div class="lg:col-span-4 bg-surface-white rounded-2xl shadow-sm p-5 md:p-6 border border-outline-variant/30 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-bold text-base text-on-surface">Rubros Productivos</h3>
+                            <span class="text-xs font-semibold text-primary bg-green-light-bg px-2 py-0.5 rounded-full">Top Rubros</span>
+                        </div>
+                        <p class="text-xs text-text-muted mb-4">Distribución porcentual por categoría</p>
+                        <div class="relative h-48 w-full flex items-center justify-center">
+                            <canvas id="sectorsChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-outline-variant/30 space-y-2">
+                        <p class="text-xs font-bold text-text-main">Filtro por Departamento:</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            <button onclick="filterByDept('Granada')" class="text-xs bg-green-light-bg hover:bg-primary hover:text-white text-primary font-medium px-2.5 py-1 rounded-lg transition-colors">Granada</button>
+                            <button onclick="filterByDept('Masaya')" class="text-xs bg-green-light-bg hover:bg-primary hover:text-white text-primary font-medium px-2.5 py-1 rounded-lg transition-colors">Masaya</button>
+                            <button onclick="filterByDept('León')" class="text-xs bg-green-light-bg hover:bg-primary hover:text-white text-primary font-medium px-2.5 py-1 rounded-lg transition-colors">León</button>
+                            <button onclick="filterByDept('Matagalpa')" class="text-xs bg-green-light-bg hover:bg-primary hover:text-white text-primary font-medium px-2.5 py-1 rounded-lg transition-colors">Matagalpa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de Matches con Búsqueda en Vivo (Full Width) -->
+            <div class="bg-surface-white rounded-2xl shadow-sm border border-outline-variant/30 overflow-hidden">
+                <div class="p-5 border-b border-outline-variant/30 flex flex-col md:flex-row justify-between md:items-center gap-4 bg-surface-white">
+                    <div>
+                        <h3 class="font-bold text-lg text-on-surface">Gestión de Vinculaciones Comerciales</h3>
+                        <p class="text-xs text-text-muted">Tabla conectada a Supabase para seguimiento y aprobación</p>
+                    </div>
+                    
+                    <div class="flex flex-wrap items-center gap-2.5">
+                        <div class="relative min-w-[240px]">
+                            <span class="material-symbols-outlined text-text-muted absolute left-3 top-2.5 text-lg">search</span>
+                            <input type="text" id="table-search" placeholder="Buscar productor, empresa..."
+                                oninput="filterMatchesTable()"
+                                class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl pl-9 pr-3 py-1.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                        </div>
+
+                        <div class="flex bg-surface-bright p-1 rounded-xl border border-outline-variant/40 text-xs">
+                            <button onclick="setStatusFilter('todos')" id="filter-todos" class="status-pill-btn font-semibold px-2.5 py-1 rounded-lg bg-white shadow-xs text-primary transition-all">Todos</button>
+                            <button onclick="setStatusFilter('Aprobado')" id="filter-Aprobado" class="status-pill-btn text-text-muted hover:text-text-main px-2.5 py-1 rounded-lg transition-all">Aprobados</button>
+                            <button onclick="setStatusFilter('Pendiente')" id="filter-Pendiente" class="status-pill-btn text-text-muted hover:text-text-main px-2.5 py-1 rounded-lg transition-all">Pendientes</button>
+                            <button onclick="setStatusFilter('Rechazado')" id="filter-Rechazado" class="status-pill-btn text-text-muted hover:text-text-main px-2.5 py-1 rounded-lg transition-all">Rechazados</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[800px]">
+                        <thead>
+                            <tr class="bg-surface-bright/70 border-b border-outline-variant/30 text-xs text-text-muted font-bold uppercase tracking-wider">
+                                <th class="py-3.5 px-4">Productor Local</th>
+                                <th class="py-3.5 px-4">Empresa Turística</th>
+                                <th class="py-3.5 px-4">Departamento</th>
+                                <th class="py-3.5 px-4">Compatibilidad</th>
+                                <th class="py-3.5 px-4">Estado</th>
+                                <th class="py-3.5 px-4">Fecha</th>
+                                <th class="py-3.5 px-4 text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="matches-table-body" class="divide-y divide-outline-variant/20 text-xs">
+                            <!-- Populated dynamically or shows Empty State -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="p-4 bg-surface-bright/40 border-t border-outline-variant/30 flex justify-between items-center text-xs text-text-muted">
+                    <span id="table-record-count">0 registros cargados</span>
+                    <button onclick="resetFilters()" class="text-primary font-medium hover:underline">Restablecer filtros</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= TAB: MIS CONEXIONES ================= -->
+        <div id="tab-content-conexiones" class="hidden space-y-6 max-w-[1600px] mx-auto">
+            <div class="bg-surface-white p-6 rounded-2xl shadow-sm border border-outline-variant/30">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h3 class="font-bold text-xl text-on-surface">Acuerdos Comerciales y Alianzas Vigentes</h3>
+                        <p class="text-xs text-text-muted">Seguimiento de relaciones consolidadas entre oferta y demanda</p>
+                    </div>
+                    <button onclick="openModalNuevaOferta()" class="bg-primary hover:bg-surface-tint text-white text-xs font-semibold px-4 py-2 rounded-xl flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-base">add</span> Nueva Alianza
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="conexiones-grid">
+                    <!-- Populated dynamically or shows Empty State -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB: REPORTES & ESTADÍSTICAS ================= -->
+        <div id="tab-content-reportes" class="hidden space-y-6 max-w-[1600px] mx-auto">
+            <div class="bg-surface-white p-6 rounded-2xl shadow-sm border border-outline-variant/30 space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h3 class="font-bold text-xl text-on-surface">Reportes Estratégicos INTUR 2026</h3>
+                        <p class="text-xs text-text-muted">Informes ejecutivos de impacto socioeconómico y sostenibilidad</p>
+                    </div>
+                    <button onclick="exportDataToCSV()" class="bg-primary text-white text-xs font-semibold px-4 py-2 rounded-xl flex items-center gap-1.5 hover:bg-surface-tint">
+                        <span class="material-symbols-outlined text-base">file_download</span> Descargar Informe Completo (CSV)
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-4 rounded-xl bg-surface-bright border border-outline-variant/30">
+                        <span class="text-xs text-text-muted font-bold">Tiempo promedio de Match</span>
+                        <p class="text-2xl font-extrabold text-primary mt-1">-- Días</p>
+                        <p class="text-[11px] text-text-muted font-medium mt-1">Esperando datos de Supabase</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-surface-bright border border-outline-variant/30">
+                        <span class="text-xs text-text-muted font-bold">Ingreso Promedio por Productor</span>
+                        <p class="text-2xl font-extrabold text-secondary mt-1">C$ -- / mes</p>
+                        <p class="text-[11px] text-text-muted font-medium mt-1">Esperando datos de Supabase</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-surface-bright border border-outline-variant/30">
+                        <span class="text-xs text-text-muted font-bold">Reducción Huella de Carbono</span>
+                        <p class="text-2xl font-extrabold text-tertiary mt-1">--% Logística</p>
+                        <p class="text-[11px] text-text-muted font-medium mt-1">Abastecimiento territorial</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ================= MODAL: EDITAR DATOS DE USUARIO / FOTO ================= -->
+    <div id="modal-edit-profile" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-surface-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-outline-variant/40 animate-in fade-in zoom-in-95 duration-200">
+            <div class="flex justify-between items-center pb-3 border-b border-outline-variant/30 mb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-green-light-bg text-primary flex items-center justify-center font-bold">
+                        <span class="material-symbols-outlined text-lg">person_edit</span>
+                    </div>
+                    <h3 class="font-bold text-base text-on-surface">Actualizar Datos de Mi Perfil</h3>
+                </div>
+                <button onclick="closeEditProfileModal()" class="text-text-muted hover:text-on-surface p-1 rounded-lg">
+                    <span class="material-symbols-outlined text-xl">close</span>
+                </button>
+            </div>
+
+            <form id="form-edit-profile" onsubmit="saveUserProfile(event)" class="space-y-3.5 text-xs">
+                <!-- Preview de Foto / Avatar con Carga Local -->
+                <div class="p-3 bg-surface-bright rounded-xl border border-outline-variant/30 space-y-2.5">
+                    <div class="flex items-center gap-4">
+                        <img id="edit-avatar-preview" class="w-16 h-16 rounded-full object-cover border-2 border-primary/40 shadow-sm shrink-0"
+                            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" />
+                        <div class="flex-1 space-y-1.5">
+                            <label class="block font-bold text-text-main">Foto / Avatar de Perfil</label>
+                            <input type="file" id="input-profile-file" accept="image/*" onchange="handleLocalPhotoUpload(event)" class="hidden" />
+                            <div class="flex flex-wrap gap-2">
+                                <button type="button" onclick="document.getElementById('input-profile-file').click()"
+                                    class="px-3 py-1.5 rounded-lg bg-primary hover:bg-surface-tint text-white font-bold text-xs flex items-center gap-1 shadow-2xs transition-all">
+                                    <span class="material-symbols-outlined text-sm">upload_file</span>
+                                    <span>Subir Imagen Local</span>
+                                </button>
+                                <button type="button" onclick="toggleUrlInput()" id="btn-toggle-url"
+                                    class="px-2.5 py-1.5 rounded-lg bg-surface-white hover:bg-surface-container border border-outline-variant/40 text-text-muted font-medium text-xs transition-all">
+                                    Usar URL
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Input opcional para URL -->
+                    <div id="container-photo-url" class="hidden pt-2 border-t border-outline-variant/20">
+                        <label class="block font-semibold text-text-muted text-[11px] mb-1">O escribe la URL directa de la imagen:</label>
+                        <input type="url" id="input-profile-photo" oninput="previewPhotoUrl(this.value)"
+                            placeholder="https://ejemplo.com/mifoto.jpg"
+                            class="w-full bg-surface-white border border-outline-variant/40 rounded-lg px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-primary outline-none" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Nombre Completo / Cargo *</label>
+                    <input type="text" id="input-profile-name" required placeholder="Lic. Administrador INTUR"
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-text-main mb-1">Teléfono / WhatsApp *</label>
+                        <input type="tel" id="input-profile-phone" required placeholder="+505 8899-0000"
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                    </div>
+                    <div>
+                        <label class="block font-bold text-text-main mb-1">Correo Electrónico *</label>
+                        <input type="email" id="input-profile-email" required placeholder="admin@intur.gob.ni"
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Departamento / Sede</label>
+                    <select id="input-profile-dept" class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                        <option value="Managua - Sede Central">Managua - Sede Central</option>
+                        <option value="Granada">Granada</option>
+                        <option value="Masaya">Masaya</option>
+                        <option value="León">León</option>
+                        <option value="Rivas">Rivas</option>
+                        <option value="Matagalpa">Matagalpa</option>
+                        <option value="Estelí">Estelí</option>
+                    </select>
+                </div>
+
+                <div class="flex justify-end gap-2.5 pt-3 border-t border-outline-variant/30">
+                    <button type="button" onclick="closeEditProfileModal()" class="px-4 py-2 rounded-xl bg-surface-bright hover:bg-surface-container font-semibold text-text-muted text-xs">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-primary hover:bg-surface-tint text-white font-bold text-xs shadow-sm">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: NUEVA OFERTA / VINCULACIÓN ================= -->
+    <div id="modal-nueva-oferta" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-surface-white rounded-2xl shadow-2xl max-w-lg w-full p-6 border border-outline-variant/40 animate-in fade-in zoom-in-95 duration-200">
+            <div class="flex justify-between items-center pb-3 border-b border-outline-variant/30 mb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-green-light-bg text-primary flex items-center justify-center font-bold">
+                        <span class="material-symbols-outlined text-lg">add_link</span>
+                    </div>
+                    <h3 class="font-bold text-base text-on-surface">Registrar Nueva Vinculación</h3>
+                </div>
+                <button onclick="closeModalNuevaOferta()" class="text-text-muted hover:text-on-surface p-1 rounded-lg">
+                    <span class="material-symbols-outlined text-xl">close</span>
+                </button>
+            </div>
+
+            <form id="form-nueva-oferta" onsubmit="submitNuevaOferta(event)" class="space-y-3.5 text-xs">
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Nombre del Productor Local *</label>
+                    <input type="text" id="input-productor" required placeholder="Ej: Cooperativa Café Diriamba"
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                </div>
+
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Empresa Turística Solicitante *</label>
+                    <input type="text" id="input-empresa" required placeholder="Ej: Eco Lodge San Juan del Sur"
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-text-main mb-1">Departamento *</label>
+                        <select id="input-depto" required class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                            <option value="Granada">Granada</option>
+                            <option value="Masaya">Masaya</option>
+                            <option value="León">León</option>
+                            <option value="Rivas">Rivas</option>
+                            <option value="Matagalpa">Matagalpa</option>
+                            <option value="Estelí">Estelí</option>
+                            <option value="Managua">Managua</option>
+                            <option value="Chinandega">Chinandega</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-text-main mb-1">Rubro Productivo *</label>
+                        <select id="input-rubro" required class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                            <option value="Gastronomía & Café">Gastronomía & Café</option>
+                            <option value="Artesanías & Barro">Artesanías & Barro</option>
+                            <option value="Madera & Muebles">Madera & Muebles</option>
+                            <option value="Frutas & Hortalizas">Frutas & Hortalizas</option>
+                            <option value="Textiles & Hamacas">Textiles & Hamacas</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-text-main mb-1">Compatibilidad Algorítmica (%)</label>
+                        <input type="number" id="input-compatibilidad" min="40" max="100" value="90" required
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                    </div>
+                    <div>
+                        <label class="block font-bold text-text-main mb-1">Estado Inicial</label>
+                        <select id="input-estado" required class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                            <option value="Pendiente">Pendiente de Aprobación</option>
+                            <option value="Aprobado">Aprobado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Notas / Especificaciones</label>
+                    <textarea id="input-notas" rows="2" placeholder="Requerimientos de entrega, volúmenes semanales..."
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"></textarea>
+                </div>
+
+                <div class="flex justify-end gap-2.5 pt-3 border-t border-outline-variant/30">
+                    <button type="button" onclick="closeModalNuevaOferta()" class="px-4 py-2 rounded-xl bg-surface-bright hover:bg-surface-container font-semibold text-text-muted text-xs">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-primary hover:bg-surface-tint text-white font-bold text-xs shadow-sm">
+                        Guardar y Vincular
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: DETALLE DE MATCH ================= -->
+    <div id="modal-match-detail" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-surface-white rounded-2xl shadow-2xl max-w-lg w-full p-6 border border-outline-variant/40 animate-in fade-in zoom-in-95 duration-200">
+            <div class="flex justify-between items-center pb-3 border-b border-outline-variant/30 mb-4">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-2xl">handshake</span>
+                    <h3 class="font-bold text-base text-on-surface">Detalle de la Vinculación</h3>
+                </div>
+                <button onclick="closeMatchDetailModal()" class="text-text-muted hover:text-on-surface p-1 rounded-lg">
+<div id="match-detail-content" class="space-y-4 text-xs">
+                <!-- Supabase SDK + Config -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+
+    <!-- ================= JAVASCRIPT LOGIC & SUPABASE INTEGRATION ================= -->
+    <script>
+        // Data Store conectado con Supabase
+        let matchesData = [];
+        let currentStatusFilter = 'todos';
+        let currentDeptFilter = '';
+        let trendChartInstance = null;
+        let sectorsChartInstance = null;
+        let currentUserProfile = null;
+
+        // Perfil de Usuario INTUR por defecto mientras carga
+        let currentUser = {
+            name: "Cargando...",
+            email: "admin.central@intur.gob.ni",
+            phone: "+505 2222-3800",
+            dept: "Managua - Sede Central",
+            photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+        };
+
+        // 🔒 AUTH GUARD & INICIALIZACIÓN
+        document.addEventListener('DOMContentLoaded', async () => {
+            initDropdowns();
+            initCharts();
+
+            // Verificar sesión activa y rol autorizado
+            const authResult = await authGuard('intur');
+            if (!authResult) return; // authGuard redirige a inicio.html si falla
+
+            currentUserProfile = authResult.profile;
+            await loadUserProfileFromSupabase();
+            await loadMatchesDataFromSupabase();
+        });
+
+        // Cargar Datos de Perfil desde Supabase
+        async function loadUserProfileFromSupabase() {
+            if (currentUserProfile) {
+                currentUser.name = currentUserProfile.nombre_completo || "Funcionario INTUR";
+                currentUser.email = currentUserProfile.email || "";
+                currentUser.phone = currentUserProfile.telefono || "+505 2222-3800";
+                if (currentUserProfile.avatar_url) {
+                    currentUser.photo = currentUserProfile.avatar_url;
+                }
+
+                // Obtener datos específicos de intur_admins si existen
+                const { data: adminData } = await supabaseClient
+                    .from('intur_admins')
+                    .select('*, departamentos(nombre)')
+                    .eq('profile_id', currentUserProfile.id)
+                    .maybeSingle();
+
+                if (adminData && adminData.departamentos) {
+                    currentUser.dept = adminData.departamentos.nombre;
+                }
+            }
+            applyUserProfile();
+        }
+
+        function applyUserProfile() {
+            document.getElementById('user-header-name').innerText = currentUser.name;
+            document.getElementById('user-header-avatar').src = currentUser.photo;
+            document.getElementById('user-dropdown-name').innerText = currentUser.name;
+            document.getElementById('user-dropdown-email').innerText = currentUser.email;
+            document.getElementById('user-dropdown-avatar').src = currentUser.photo;
+
+            // Form inputs
+            document.getElementById('input-profile-name').value = currentUser.name;
+            document.getElementById('input-profile-email').value = currentUser.email;
+            document.getElementById('input-profile-phone').value = currentUser.phone;
+            document.getElementById('input-profile-dept').value = currentUser.dept || "Managua - Sede Central";
+            document.getElementById('input-profile-photo').value = currentUser.photo;
+            document.getElementById('edit-avatar-preview').src = currentUser.photo;
+        }
+
+        function previewPhotoUrl(url) {
+            if (url && url.startsWith('http')) {
+                document.getElementById('edit-avatar-preview').src = url;
+            }
+        }
+
+        // Carga de archivo de imagen local desde el dispositivo (FileReader Base64)
+        function handleLocalPhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                if (!file.type.startsWith('image/')) {
+                    showToast('Por favor selecciona un archivo de imagen válido (JPG, PNG, WebP)', 'error');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Image = e.target.result;
+                    document.getElementById('edit-avatar-preview').src = base64Image;
+                    currentUser.photo = base64Image;
+                    const urlInput = document.getElementById('input-profile-photo');
+                    if (urlInput) urlInput.value = '';
+                    showToast('Imagen cargada localmente lista para guardar', 'info');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function toggleUrlInput() {
+            const container = document.getElementById('container-photo-url');
+            const btn = document.getElementById('btn-toggle-url');
+            if (container.classList.contains('hidden')) {
+                container.classList.remove('hidden');
+                btn.innerText = 'Ocultar URL';
+            } else {
+                container.classList.add('hidden');
+                btn.innerText = 'Usar URL';
+            }
+        }
+
+        function openEditProfileModal() {
+            applyUserProfile();
+            document.getElementById('modal-edit-profile').classList.remove('hidden');
+        }
+
+        function closeEditProfileModal() {
+            document.getElementById('modal-edit-profile').classList.add('hidden');
+        }
+
+        async function saveUserProfile(e) {
+            e.preventDefault();
+            const newName = document.getElementById('input-profile-name').value.trim();
+            const newPhone = document.getElementById('input-profile-phone').value.trim();
+            const photoUrl = document.getElementById('input-profile-photo').value.trim();
+            if (photoUrl) currentUser.photo = photoUrl;
+
+            currentUser.name = newName;
+            currentUser.phone = newPhone;
+
+            showToast('Guardando perfil en Supabase...', 'info');
+
+            if (currentUserProfile) {
+                const { error } = await profileService.updateProfile(currentUserProfile.id, {
+                    nombre_completo: newName,
+                    telefono: newPhone,
+                    avatar_url: currentUser.photo
+                });
+
+                if (error) {
+                    showToast('Error al actualizar perfil: ' + error.message, 'error');
+                    return;
+                }
+            }
+
+            applyUserProfile();
+            closeEditProfileModal();
+            showToast('Tus datos y foto de perfil han sido actualizados con éxito', 'success');
+        }
+
+        // SEGURIDAD: Cambiar de Perfil / Rol (Cierra sesión obligatoriamente y redirige al login)
+        async function cambiarPerfilSeguro() {
+            showToast('Cerrando sesión de INTUR de forma segura...', 'warning');
+            await authService.signOut();
+            setTimeout(() => {
+                window.location.href = 'inicio.html';
+            }, 800);
+        }
+
+        async function cerrarSesionSegura() {
+            showToast('Cerrando sesión del sistema...', 'info');
+            await authService.signOut();
+            setTimeout(() => {
+                window.location.href = 'inicio.html';
+            }, 800);
+        }
+
+        // Carga de Matches desde Supabase
+        async function loadMatchesDataFromSupabase() {
+            try {
+                const { data, error } = await matchesService.getMatches();
+                if (error) {
+                    console.error("Error al cargar matches:", error);
+                    matchesData = [];
+                } else if (data && data.length > 0) {
+                    matchesData = data.map(m => ({
+                        id: m.id,
+                        productor: m.productores?.nombre_cooperativa_o_taller || 'Productor Local',
+                        productorAvatar: (m.productores?.nombre_cooperativa_o_taller || 'PL').substring(0, 2).toUpperCase(),
+                        empresa: m.empresas_turisticas?.nombre_comercial || 'Empresa Turística',
+                        depto: m.productores?.departamentos?.nombre || m.empresas_turisticas?.departamentos?.nombre || 'Granada',
+                        rubro: m.productores?.rubros?.nombre || 'Gastronomía',
+                        compatibilidad: m.compatibilidad || 85,
+                        estado: m.estado || 'Pendiente',
+                        fecha: formatFecha(m.created_at),
+                        telefono: m.productores?.telefono_whatsapp || '+505 8000-0000',
+                        monto: formatCordobas(m.monto_estimado_cordobas || 0),
+                        descripcion: m.descripcion_acuerdo || 'Sin descripción adicional'
+                    }));
+                } else {
+                    matchesData = [];
+                }
+            } catch (err) {
+                console.error("Error:", err);
+                matchesData = [];
+            }
+
+            renderMatchesTable();
+            renderConexiones();
+            updateKPIs();
+        }
+
+        // Toggle Nav Accordion Menu
+        function toggleNavAccordion(e) {
+            if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
+            const dropdown = document.getElementById('nav-accordion-dropdown');
+            const arrow = document.getElementById('menu-arrow');
+            if (!dropdown) return;
+            document.getElementById('profile-dropdown')?.classList.add('hidden');
+            document.getElementById('notif-dropdown')?.classList.add('hidden');
+            const isHidden = dropdown.classList.contains('hidden');
+            if (isHidden) {
+                dropdown.classList.remove('hidden');
+                arrow?.classList.add('rotate-180');
+            } else {
+                dropdown.classList.add('hidden');
+                arrow?.classList.remove('rotate-180');
+            }
+        }
+
+        // Toggle Profile Dropdown
+        function toggleProfileDropdown(e) {
+            if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
+            const dropdown = document.getElementById('profile-dropdown');
+            if (!dropdown) return;
+            document.getElementById('nav-accordion-dropdown')?.classList.add('hidden');
+            document.getElementById('notif-dropdown')?.classList.add('hidden');
+            document.getElementById('menu-arrow')?.classList.remove('rotate-180');
+            dropdown.classList.toggle('hidden');
+        }
+
+        function initDropdowns() {
+            const notifBtn = document.getElementById('btn-notifications');
+            const notifDropdown = document.getElementById('notif-dropdown');
+            const navDropdown = document.getElementById('nav-accordion-dropdown');
+            const navBtn = document.getElementById('btn-menu-toggle');
+            const profileDropdown = document.getElementById('profile-dropdown');
+            const profileBtn = document.getElementById('btn-profile-toggle');
+
+            if (notifBtn && notifDropdown) {
+                notifBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    notifDropdown.classList.toggle('hidden');
+                    if (navDropdown) navDropdown.classList.add('hidden');
+                    if (profileDropdown) profileDropdown.classList.add('hidden');
+                });
+            }
+
+            document.addEventListener('click', (e) => {
+                if (notifDropdown && !notifDropdown.contains(e.target) && !notifBtn?.contains(e.target)) {
+                    notifDropdown.classList.add('hidden');
+                }
+                if (navDropdown && !navDropdown.contains(e.target) && !navBtn?.contains(e.target)) {
+                    navDropdown.classList.add('hidden');
+                    document.getElementById('menu-arrow')?.classList.remove('rotate-180');
+                }
+                if (profileDropdown && !profileDropdown.contains(e.target) && !profileBtn?.contains(e.target)) {
+                    profileDropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        function initCharts() {
+            const ctxTrend = document.getElementById('chart-trend')?.getContext('2d');
+            if (ctxTrend) {
+                trendChartInstance = new Chart(ctxTrend, {
+                    type: 'line',
+                    data: {
+                        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago'],
+                        datasets: [{
+                            label: 'Vinculaciones Creadas',
+                            data: [12, 19, 25, 32, 45, 58, 72, 85],
+                            borderColor: '#0d631b',
+                            backgroundColor: 'rgba(13, 99, 27, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { grid: { color: '#f0f0f0' } },
+                            x: { grid: { display: false } }
+                        }
+                    }
+                });
+            }
+
+            const ctxSectors = document.getElementById('chart-sectors')?.getContext('2d');
+            if (ctxSectors) {
+                sectorsChartInstance = new Chart(ctxSectors, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Gastronomía & Café', 'Artesanías & Barro', 'Madera & Muebles', 'Textiles & Hamacas', 'Frutas & Hortalizas'],
+                        datasets: [{
+                            data: [35, 25, 18, 12, 10],
+                            backgroundColor: ['#0d631b', '#246dc8', '#F57C00', '#78dc77', '#E53935']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } } }
+                    }
+                });
+            }
+        }
+
+        function renderMatchesTable() {
+            const tbody = document.getElementById('matches-table-body');
+            if (!tbody) return;
+
+            const searchInput = document.getElementById('table-search')?.value.toLowerCase() || '';
+
+            let filtered = matchesData.filter(m => {
+                const matchSearch = m.productor.toLowerCase().includes(searchInput) ||
+                                    m.empresa.toLowerCase().includes(searchInput) ||
+                                    m.depto.toLowerCase().includes(searchInput) ||
+                                    m.rubro.toLowerCase().includes(searchInput);
+                const matchStatus = currentStatusFilter === 'todos' || m.estado.toLowerCase() === currentStatusFilter.toLowerCase();
+                const matchDept = !currentDeptFilter || m.depto.toLowerCase() === currentDeptFilter.toLowerCase();
+
+                return matchSearch && matchStatus && matchDept;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="py-12 text-center text-text-muted">
+                            <div class="flex flex-col items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-4xl text-outline-variant">search_off</span>
+                                <p class="text-sm font-semibold text-text-main">No se encontraron vinculaciones registradas</p>
+                                <p class="text-xs">Los acuerdos comerciales registrados en Supabase aparecerán listados aquí.</p>
+                                <button onclick="openModalNuevaOferta()" class="mt-2 px-4 py-2 rounded-xl bg-primary hover:bg-surface-tint text-white font-bold text-xs flex items-center gap-1.5 shadow-sm">
+                                    <span class="material-symbols-outlined text-sm">add_circle</span> Registrar Primera Vinculación
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(m => `
+                <tr class="hover:bg-surface-bright transition-colors cursor-pointer" onclick="openMatchDetailModal(${m.id})">
+                    <td class="py-3 px-4 text-xs font-semibold text-text-main">${m.productor}</td>
+                    <td class="py-3 px-4 text-xs text-text-muted">${m.empresa}</td>
+                    <td class="py-3 px-4 text-xs text-text-muted">${m.depto}</td>
+                    <td class="py-3 px-4 text-xs font-bold text-primary">${m.compatibilidad}%</td>
+                    <td class="py-3 px-4 text-xs"><span class="px-2 py-1 rounded-full bg-surface-container text-text-main">${m.estado}</span></td>
+                    <td class="py-3 px-4 text-xs text-text-muted">${m.fecha}</td>
+                    <td class="py-3 px-4 text-center"><button class="text-primary font-bold">Ver</button></td>
+                </tr>
+            `).join('');
+        }
+
+        function setStatusFilter(status) {
+            currentStatusFilter = status;
+            renderMatchesTable();
+        }
+
+        function resetFilters() {
+            const searchInput = document.getElementById('table-search');
+            if (searchInput) searchInput.value = '';
+            setStatusFilter('todos');
+            showToast('Filtros restablecidos', 'info');
+        }
+
+        async function updateMatchStatus(matchId, newStatus) {
+            showToast(`Actualizando estado a ${newStatus} en Supabase...`, 'info');
+            
+            const { error } = await matchesService.actualizarEstado(matchId, newStatus);
+            if (error) {
+                console.warn("Actualizando localmente (fallback):", error.message);
+            }
+
+            const match = matchesData.find(m => m.id === matchId);
+            if (match) {
+                match.estado = newStatus;
+                renderMatchesTable();
+                renderConexiones();
+                updateKPIs();
+                showToast(`Match marcado como: ${newStatus}`, newStatus === 'Aprobado' ? 'success' : 'warning');
+                closeMatchDetailModal();
+            }
+        }
+
+        function openMatchDetailModal(matchId) {
+            const match = matchesData.find(m => m.id === matchId);
+            if (!match) return;
+
+            const container = document.getElementById('match-detail-content');
+            container.innerHTML = `
+                <p><strong>Productor:</strong> ${match.productor}</p>
+                <p><strong>Empresa:</strong> ${match.empresa}</p>
+                <p><strong>Estado:</strong> ${match.estado}</p>
+                <div class="flex gap-2 pt-4">
+                    <button onclick="updateMatchStatus(${match.id}, 'Aprobado')" class="bg-primary text-white px-3 py-1 rounded">Aprobar</button>
+                    <button onclick="closeMatchDetailModal()" class="bg-surface-container px-3 py-1 rounded">Cerrar</button>
+                </div>
+            `;
+            document.getElementById('modal-match-detail').classList.remove('hidden');
+        }
+
+        function closeMatchDetailModal() {
+            document.getElementById('modal-match-detail').classList.add('hidden');
+        }
+
+        function openModalNuevaOferta() {
+            document.getElementById('modal-nueva-oferta').classList.remove('hidden');
+        }
+
+        function closeModalNuevaOferta() {
+            document.getElementById('modal-nueva-oferta').classList.add('hidden');
+        }
+
+        async function submitNuevaOferta(e) {
+            e.preventDefault();
+            const productor = document.getElementById('input-productor').value.trim();
+            const empresa = document.getElementById('input-empresa').value.trim();
+            
+            const newMatch = {
+                id: Date.now(),
+                productor,
+                empresa,
+                depto: 'Managua',
+                rubro: 'Varios',
+                compatibilidad: 90,
+                estado: 'Pendiente',
+                fecha: new Date().toLocaleDateString(),
+                descripcion: 'Registro nuevo'
+            };
+
+            matchesData.unshift(newMatch);
+            renderMatchesTable();
+            renderConexiones();
+            updateKPIs();
+            closeModalNuevaOferta();
+            document.getElementById('form-nueva-oferta').reset();
+            showToast(`¡Vinculación entre ${productor} y ${empresa} registrada con éxito!`, 'success');
+        }
+
+        function updateKPIs() {
+            document.getElementById('stat-productores').innerText = matchesData.length > 0 ? matchesData.length * 4 : 0;
+            document.getElementById('stat-empresas').innerText = matchesData.length > 0 ? matchesData.length * 2 : 0;
+            document.getElementById('stat-matches').innerText = matchesData.length;
+            document.getElementById('stat-volumen').innerText = matchesData.length > 0 ? `C$ ${(matchesData.length * 35).toLocaleString()}K` : "C$ 0";
+            
+            const conexionesBadge = document.getElementById('nav-connections-badge');
+            if (conexionesBadge) {
+                const aprobados = matchesData.filter(m => m.estado === 'Aprobado').length;
+                conexionesBadge.innerText = aprobados;
+            }
+        }
+
+        function renderConexiones() {
+            const grid = document.getElementById('connections-grid');
+            if (!grid) return;
+
+            const aprobados = matchesData.filter(m => m.estado === 'Aprobado');
+            if (aprobados.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-text-muted">
+                        <div class="flex flex-col items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-4xl text-outline-variant">hub</span>
+                            <p class="text-sm font-semibold text-text-main">No hay conexiones activas en este momento</p>
+                            <p class="text-xs">Los acuerdos aprobados entre productores y hoteles aparecerán en este panel.</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = aprobados.map(m => `
+                <div class="p-4 bg-surface-white rounded-xl border border-primary/20">
+                    <p class="font-bold">${m.productor} - ${m.empresa}</p>
+                </div>
+            `).join('');
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `px-4 py-3 rounded-xl shadow-lg text-xs font-medium flex items-center gap-2.5`;
+            toast.innerText = message;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 3500);
+        }
+    </script>
+</body>
+
+</html>

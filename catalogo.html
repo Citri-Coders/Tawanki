@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Catálogo de Productos Locales - Turismo Nicaragua Conecta</title>
+    <!-- Google Fonts & Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-bright": "#F4EFE2",
+                        "on-error-container": "#7A0E1A",
+                        "inverse-surface": "#3A2E1F",
+                        "inverse-primary": "#7BAF6E",
+                        "on-surface": "#2A2114",
+                        "outline": "#8B7B5C",
+                        "warning-orange": "#D97706",
+                        "on-surface-variant": "#4A3F2A",
+                        "text-main": "#2A2114",
+                        "secondary-fixed-dim": "#6FA85A",
+                        "tertiary-fixed-dim": "#D89A4A",
+                        "tertiary-fixed": "#F0D9A8",
+                        "on-secondary": "#FFFFFF",
+                        "primary-fixed-dim": "#6FA85A",
+                        "inverse-on-surface": "#FBF8F0",
+                        "surface-container": "#EFE7D2",
+                        "surface-container-lowest": "#FFFCF5",
+                        "on-primary": "#FFFFFF",
+                        "surface-container-highest": "#D9CFB4",
+                        "on-background": "#2A2114",
+                        "on-secondary-container": "#0D3A0A",
+                        "secondary": "#1B6E3C",
+                        "primary-container": "#3D7A3D",
+                        "text-muted": "#6B5E47",
+                        "on-tertiary-container": "#3D2810",
+                        "secondary-fixed": "#94C078",
+                        "surface-container-high": "#E2D8BE",
+                        "surface-tint": "#0d631b",
+                        "primary-fixed": "#A3D49A",
+                        "error-red": "#B5391E",
+                        "on-primary-fixed-variant": "#003A0A",
+                        "error-container": "#F5D6CC",
+                        "primary": "#0d631b",
+                        "tertiary-container": "#C9612A",
+                        "on-tertiary-fixed": "#3D2810",
+                        "on-tertiary-fixed-variant": "#7A4012",
+                        "background": "#F4EFE2",
+                        "on-secondary-fixed": "#0A2A06",
+                        "error": "#A33A1A",
+                        "tertiary": "#C9612A",
+                        "on-tertiary": "#FFFFFF",
+                        "outline-variant": "#C9BC9A",
+                        "on-primary-container": "#CBFFC2",
+                        "on-primary-fixed": "#002204",
+                        "on-secondary-fixed-variant": "#0D3A0A",
+                        "green-light-bg": "#E8F0DC",
+                        "surface-variant": "#E2D8BE",
+                        "surface-container-low": "#EFE9D7",
+                        "on-error": "#FFFFFF",
+                        "secondary-container": "#94C078",
+                        "surface": "#F4EFE2",
+                        "surface-dim": "#D9CFB4",
+                        "surface-white": "#FBF8F0"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.375rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-surface-bright text-text-main flex flex-col h-screen overflow-hidden font-sans antialiased select-none">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-5 right-5 z-[100] flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- ================= TOP APP BAR (HEADER SUPERIOR) ================= -->
+    <header class="bg-surface-white w-full z-40 flex justify-between items-center px-4 md:px-8 py-3 border-b border-outline-variant/30 shadow-xs shrink-0 relative">
+        
+        <!-- ESQUINA SUPERIOR IZQUIERDA: ACORDEÓN / MENÚ DE MÓDULOS -->
+        <div class="flex items-center gap-3">
+            <div class="relative">
+                <button id="btn-menu-toggle" onclick="toggleNavAccordion(event)"
+                    class="flex items-center gap-2 px-3 py-2 rounded-xl bg-surface-bright hover:bg-green-light-bg text-primary border border-outline-variant/40 hover:border-primary transition-all active:scale-95 shadow-2xs cursor-pointer">
+                    <span class="material-symbols-outlined text-2xl">menu</span>
+                    <span class="text-xs font-bold hidden sm:inline">Menú Catálogo</span>
+                    <span class="material-symbols-outlined text-sm text-text-muted transition-transform" id="menu-arrow">expand_more</span>
+                </button>
+
+                <!-- Menú Acordeón Desplegable Flotante -->
+                <div id="nav-accordion-dropdown"
+                    class="hidden absolute left-0 mt-2 w-72 sm:w-80 bg-surface-white rounded-2xl shadow-2xl border border-outline-variant/40 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
+                    <div class="px-3 py-2 border-b border-outline-variant/30 mb-2">
+                        <p class="text-xs font-bold text-primary flex items-center gap-1.5" id="cat-portal-badge">
+                            <span class="material-symbols-outlined text-base">explore</span>
+                            Turismo Nicaragua Conecta
+                        </p>
+                        <p class="text-[11px] text-text-muted" id="cat-portal-sub">Catálogo Nacional B2B</p>
+                    </div>
+
+                    <div class="space-y-1" id="cat-nav-links-container">
+                        <a href="catalogo.html"
+                            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs bg-green-light-bg text-primary font-bold transition-all text-left">
+                            <span class="material-symbols-outlined text-lg text-primary">inventory_2</span>
+                            <span>Catálogo de Productos</span>
+                        </a>
+
+                        <a href="proveedores.html"
+                            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left group">
+                            <span class="material-symbols-outlined text-lg text-text-muted group-hover:text-primary">storefront</span>
+                            <span class="font-medium">Directorio de Proveedores</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Título / Logo -->
+            <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm">
+                    <span class="material-symbols-outlined text-xl">inventory_2</span>
+                </div>
+                <div>
+                    <h1 class="text-sm font-extrabold text-primary leading-tight">Catálogo de Insumos y Productos</h1>
+                    <p class="text-[11px] text-text-muted font-medium">Turismo Nicaragua Conecta · B2B</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ESQUINA SUPERIOR DERECHA: NOTIFICACIONES + PERFIL + CAMBIO DE PERFIL SEGURO + CERRAR SESIÓN -->
+        <div class="flex items-center gap-3">
+            
+            <button onclick="showToast('No hay notificaciones pendientes', 'info')"
+                class="text-text-muted hover:text-primary hover:bg-surface-container p-2 rounded-full transition-colors relative flex items-center justify-center">
+                <span class="material-symbols-outlined text-2xl">notifications</span>
+            </button>
+
+            <!-- Menú Desplegable de Perfil Seguro -->
+            <div class="relative">
+                <button id="btn-profile-toggle" onclick="toggleProfileDropdown(event)"
+                    class="flex items-center gap-2.5 p-1.5 pr-2.5 rounded-xl hover:bg-surface-bright border border-transparent hover:border-outline-variant/40 transition-all cursor-pointer">
+                    <img id="user-cat-avatar" alt="Foto Perfil" class="w-8 h-8 rounded-full object-cover border border-primary/40 shadow-xs bg-surface-container"
+                        src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" />
+                    <div class="hidden sm:block text-left">
+                        <p id="user-cat-name-header" class="text-xs font-bold text-on-surface leading-tight">Cargando…</p>
+                        <p class="text-[10px] text-primary font-semibold">Turismo Conecta</p>
+                    </div>
+                    <span class="material-symbols-outlined text-sm text-text-muted">arrow_drop_down</span>
+                </button>
+
+                <!-- Profile Dropdown Menu -->
+                <div id="profile-dropdown"
+                    class="hidden absolute right-0 mt-2 w-64 bg-surface-white rounded-2xl shadow-2xl border border-outline-variant/40 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
+                    <div class="flex items-center gap-3 p-2 bg-surface-bright rounded-xl mb-3 border border-outline-variant/30">
+                        <img id="user-cat-avatar-dropdown" class="w-10 h-10 rounded-full object-cover border border-primary/30 bg-surface-container"
+                            src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" />
+                        <div class="overflow-hidden">
+                            <p id="user-cat-name" class="text-xs font-bold text-on-surface truncate">Cargando…</p>
+                            <p id="user-cat-email" class="text-[10px] text-text-muted truncate">—</p>
+                            <span class="inline-block mt-0.5 text-[9px] bg-green-light-bg text-primary font-bold px-1.5 py-0.2 rounded">Sesión Activa</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-1 text-xs">
+                        <button onclick="openEditCatUserModal(); toggleProfileDropdown();"
+                            class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left">
+                            <span class="material-symbols-outlined text-base text-primary">manage_accounts</span>
+                            <span>Editar Mis Datos / Foto</span>
+                        </button>
+
+                        <div class="pt-2 border-t border-outline-variant/30 mt-2 space-y-1">
+                            <button onclick="cambiarPerfilSeguro()"
+                                class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-text-main hover:bg-amber-50 hover:text-amber-700 transition-all font-semibold text-left">
+                                <span class="material-symbols-outlined text-base text-amber-600">switch_account</span>
+                                <span>Cambiar de Perfil / Rol</span>
+                            </button>
+
+                            <button onclick="cerrarSesionSegura()"
+                                class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-error-red hover:bg-error-container/40 transition-all font-semibold text-left">
+                                <span class="material-symbols-outlined text-base">logout</span>
+                                <span>Cerrar Sesión</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- ================= MAIN CANVAS FULL-WIDTH ================= -->
+    <main class="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar pb-20 w-full">
+        <div class="max-w-[1600px] mx-auto space-y-6">
+
+            <!-- Context Banner Full Width -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface-white p-6 rounded-2xl shadow-sm border border-outline-variant/30">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-on-surface mb-1">Catálogo Nacional de Insumos</h2>
+                    <p class="text-xs text-text-muted">Insumos auténticos con precios directos de productor y certificación INTUR.</p>
+                </div>
+                <div class="flex gap-2">
+                    <span class="px-3.5 py-2 bg-green-light-bg text-primary text-xs font-bold rounded-xl border border-primary/20 flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-base">cloud_done</span> Base de Datos Supabase
+                    </span>
+                </div>
+            </div>
+
+            <!-- Filter Chips & Search Bar Full Width -->
+            <div class="bg-surface-white p-5 rounded-2xl shadow-sm border border-outline-variant/30 space-y-3">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-3">
+                    <div class="relative w-full md:w-96">
+                        <span class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg">search</span>
+                        <input id="cat-search" oninput="filterCatalog()"
+                            class="w-full pl-9 pr-3 py-2 bg-surface-bright border border-outline-variant/40 rounded-xl text-xs text-text-main focus:ring-1 focus:ring-primary outline-none"
+                            placeholder="Buscar café, hamacas, cacao, miel..." type="text" />
+                    </div>
+
+                    <!-- Category Pills -->
+                    <div class="flex flex-wrap items-center gap-2 text-xs w-full md:w-auto">
+                        <button onclick="setCatFilter('all', this)" id="cat-pill-all" class="cat-pill active px-3 py-1.5 rounded-full bg-primary text-white font-semibold transition-all">Todos</button>
+                        <button onclick="setCatFilter('Gastronomía', this)" class="cat-pill px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all">Gastronomía & Café</button>
+                        <button onclick="setCatFilter('Artesanías', this)" class="cat-pill px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all">Artesanías & Barro</button>
+                        <button onclick="setCatFilter('Textiles', this)" class="cat-pill px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all">Textiles & Hamacas</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Grid (Full Panoramic Width with Empty State) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="catalog-grid">
+                <!-- Populated dynamically or shows Empty State ready for Supabase -->
+            </div>
+        </div>
+    </main>
+
+    <!-- ================= MODAL: EDITAR DATOS DE USUARIO / FOTO ================= -->
+    <div id="modal-edit-user" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-surface-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-outline-variant/40 animate-in fade-in zoom-in-95 duration-200">
+            <div class="flex justify-between items-center pb-3 border-b border-outline-variant/30 mb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-green-light-bg text-primary flex items-center justify-center font-bold">
+                        <span class="material-symbols-outlined text-lg">person_edit</span>
+                    </div>
+                    <h3 class="font-bold text-base text-on-surface">Editar Mis Datos de Usuario</h3>
+                </div>
+                <button onclick="closeEditCatUserModal()" class="text-text-muted hover:text-on-surface p-1 rounded-lg">
+                    <span class="material-symbols-outlined text-xl">close</span>
+                </button>
+            </div>
+
+            <form id="form-edit-user" onsubmit="saveCatUserProfile(event)" class="space-y-3.5 text-xs">
+                <!-- Preview de Foto / Avatar con Carga Local -->
+                <div class="p-3 bg-surface-bright rounded-xl border border-outline-variant/30 space-y-2.5">
+                    <div class="flex items-center gap-4">
+                        <img id="edit-user-avatar-preview" class="w-16 h-16 rounded-full object-cover border-2 border-primary/40 shadow-sm shrink-0 bg-surface-container"
+                            src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M32%2024a10%2010%200%201%200%200-20%2010%2010%200%200%200%200%2020zm0%208c-8%200-16%206-16%2012v4h32v-4c0-6-8-12-16-12z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" />
+                        <div class="flex-1 space-y-1.5">
+                            <label class="block font-bold text-text-main">Foto / Avatar de Perfil</label>
+                            <input type="file" id="input-cat-user-file" accept="image/*" onchange="handleLocalCatUserPhotoUpload(event)" class="hidden" />
+                            <div class="flex flex-wrap gap-2">
+                                <button type="button" onclick="document.getElementById('input-cat-user-file').click()"
+                                    class="px-3 py-1.5 rounded-lg bg-primary hover:bg-surface-tint text-white font-bold text-xs flex items-center gap-1 shadow-2xs transition-all">
+                                    <span class="material-symbols-outlined text-sm">upload_file</span>
+                                    <span>Subir Imagen Local</span>
+                                </button>
+                                <button type="button" onclick="toggleCatUserUrlInput()" id="btn-toggle-cat-url"
+                                    class="px-2.5 py-1.5 rounded-lg bg-surface-white hover:bg-surface-container border border-outline-variant/40 text-text-muted font-medium text-xs transition-all">
+                                    Usar URL
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Input opcional para URL -->
+                    <div id="container-cat-user-photo-url" class="hidden pt-2 border-t border-outline-variant/20">
+                        <label class="block font-semibold text-text-muted text-[11px] mb-1">O escribe la URL directa de la imagen:</label>
+                        <input type="url" id="input-user-photo" oninput="previewUserPhotoUrl(this.value)"
+                            placeholder="https://ejemplo.com/mifoto.jpg"
+                            class="w-full bg-surface-white border border-outline-variant/40 rounded-lg px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-primary outline-none" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Nombre Completo *</label>
+                    <input type="text" id="input-user-name" required placeholder="Nombre Completo"
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-text-main mb-1">Teléfono / WhatsApp *</label>
+                        <input type="tel" id="input-user-phone" required placeholder="+505 0000-0000"
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                    </div>
+                    <div>
+                        <label class="block font-bold text-text-main mb-1">Correo Electrónico *</label>
+                        <input type="email" id="input-user-email" required placeholder="tu@correo.com"
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-2.5 pt-3 border-t border-outline-variant/30">
+                    <button type="button" onclick="closeEditCatUserModal()" class="px-4 py-2 rounded-xl bg-surface-bright hover:bg-surface-container font-semibold text-text-muted text-xs">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-primary hover:bg-surface-tint text-white font-bold text-xs shadow-sm">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: SOLICITAR COTIZACIÓN ================= -->
+    <div id="modal-solicitar" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-surface-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-outline-variant/40 animate-in fade-in zoom-in-95 duration-200">
+            <div class="flex justify-between items-center pb-3 border-b border-outline-variant/30 mb-4">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-xl">request_quote</span>
+                    <h3 class="font-bold text-base text-on-surface">Solicitar Cotización</h3>
+                </div>
+                <button onclick="closeSolicitarModal()" class="text-text-muted hover:text-on-surface p-1 rounded-lg">
+                    <span class="material-symbols-outlined text-xl">close</span>
+                </button>
+            </div>
+
+            <form id="form-solicitar" onsubmit="submitSolicitud(event)" class="space-y-3.5 text-xs">
+                <input type="hidden" id="solicitar-prod-id" />
+                <input type="hidden" id="solicitar-productor-id" />
+
+                <div class="p-3 bg-surface-bright rounded-xl border border-outline-variant/30">
+                    <p class="text-[11px] text-text-muted mb-0.5">Producto</p>
+                    <p id="solicitar-prod-name" class="font-bold text-on-surface text-sm">—</p>
+                    <p id="solicitar-prod-meta" class="text-[11px] text-text-muted">—</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-text-main mb-1">Cantidad *</label>
+                        <input type="number" id="solicitar-cantidad" required min="1" value="1"
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                    </div>
+                    <div>
+                        <label class="block font-bold text-text-main mb-1">Unidad</label>
+                        <input type="text" id="solicitar-unidad" readonly
+                            class="w-full bg-surface-container border border-outline-variant/40 rounded-xl px-3 py-2 text-xs text-text-muted cursor-not-allowed" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Mensaje para el productor (opcional)</label>
+                    <textarea id="solicitar-mensaje" rows="2" placeholder="Ej: Necesitamos el lote para el 15 de diciembre, 2 veces por semana."
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none resize-none"></textarea>
+                </div>
+
+                <div class="p-2.5 bg-green-light-bg border border-primary/20 rounded-xl text-[11px] text-text-main">
+                    <p>Al enviar, el productor recibirá tu solicitud y, si la acepta, el producto se marcará como <strong>no disponible</strong> para otras empresas.</p>
+                </div>
+
+                <div class="flex justify-end gap-2.5 pt-3 border-t border-outline-variant/30">
+                    <button type="button" onclick="closeSolicitarModal()" class="px-4 py-2 rounded-xl bg-surface-bright hover:bg-surface-container font-semibold text-text-muted text-xs">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-primary hover:bg-surface-tint text-white font-bold text-xs shadow-sm">
+                        Enviar Solicitud
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Supabase SDK + Config -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        let currentUserProfile = null;
+        let catUserProfile = {
+            name: "",
+            email: "",
+            phone: "",
+            photo: ""
+        };
+
+        let catalogProducts = [];
+
+        /**
+         * Helper central para renderizar la imagen de un producto.
+         * Regla estricta: si NO hay `imagen_url` en la BD, no se muestra NINGUNA imagen,
+         * solo un placeholder con icono. Esto evita inconsistencia visual donde algunos
+         * productos tienen foto real y otros una imagen ficticia.
+         */
+        function productImageHTML(imageUrl, altText, size = 'lg') {
+            const isValidUrl = imageUrl && typeof imageUrl === 'string' && imageUrl.trim() && imageUrl.trim() !== 'null' && imageUrl.trim() !== 'undefined';
+            const placeholder = size === 'lg' ? '<span class="material-symbols-outlined text-5xl text-text-muted/40">image</span>'
+                              : size === 'sm' ? '<span class="material-symbols-outlined text-xl text-text-muted/60">image</span>'
+                              : '<span class="material-symbols-outlined text-2xl text-text-muted/50">image</span>';
+            if (isValidUrl) {
+                return `<img alt="${altText || 'Producto'}" class="w-full h-full object-cover" src="${imageUrl}" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=&quot;material-symbols-outlined text-5xl text-text-muted/40&quot;>image</span>';" />`;
+            }
+            return placeholder;
+        }
+
+        let catalogChannel = null;
+
+        function subscribeCatalogRealtime() {
+            try {
+                if (catalogChannel) return;
+                catalogChannel = supabaseClient
+                    .channel('public:productos')
+                    .on('postgres_changes', { event: '*', schema: 'public', table: 'productos' }, () => {
+                        console.log('🔄 Cambio detectado en productos en tiempo real, recargando catálogo...');
+                        loadCatalogProductsFromSupabase();
+                    })
+                    .subscribe();
+            } catch (e) {
+                console.warn('Realtime no disponible en catálogo:', e);
+            }
+        }
+
+        function unsubscribeCatalogRealtime() {
+            try {
+                if (catalogChannel) {
+                    supabaseClient.removeChannel(catalogChannel);
+                    catalogChannel = null;
+                }
+            } catch (e) {}
+        }
+
+        // 🔒 AUTH GUARD & INICIALIZACIÓN
+        document.addEventListener('DOMContentLoaded', async () => {
+            initDropdowns();
+
+            try {
+                const { user, profile } = await authService.getCurrentUser();
+                if (user && profile) {
+                    currentUserProfile = profile;
+                    setupDynamicNavMenu();
+                    await loadCatUserProfileFromSupabase();
+                }
+            } catch (err) {
+                console.warn("Aviso al verificar sesión:", err);
+            }
+
+            await loadCatalogProductsFromSupabase();
+            subscribeCatalogRealtime();
+        });
+
+        window.addEventListener('beforeunload', () => {
+            unsubscribeCatalogRealtime();
+        });
+
+        // Configurar menú de navegación según el rol activo
+        function setupDynamicNavMenu() {
+            const container = document.getElementById('cat-nav-links-container');
+            const portalBadge = document.getElementById('cat-portal-badge');
+            const portalSub = document.getElementById('cat-portal-sub');
+
+            const rol = currentUserProfile?.rol || 'empresa';
+            let roleSpecificLink = '';
+
+            if (rol === 'productor') {
+                if (portalBadge) portalBadge.innerHTML = `<span class="material-symbols-outlined text-base">agriculture</span> Portal del Productor Local`;
+                if (portalSub) portalSub.innerText = "Catálogo y Gestión de Productos";
+                roleSpecificLink = `
+                    <a href="perfil-productor.html"
+                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left group">
+                        <span class="material-symbols-outlined text-lg text-text-muted group-hover:text-primary">person</span>
+                        <span class="font-medium">Mi Panel de Productor</span>
+                    </a>
+                `;
+            } else if (rol === 'intur') {
+                if (portalBadge) portalBadge.innerHTML = `<span class="material-symbols-outlined text-base">verified_user</span> Portal Institucional INTUR`;
+                if (portalSub) portalSub.innerText = "Monitoreo y Verificación Nacional";
+                roleSpecificLink = `
+                    <a href="dashboard INTUR.html"
+                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left group">
+                        <span class="material-symbols-outlined text-lg text-text-muted group-hover:text-primary">dashboard</span>
+                        <span class="font-medium">Panel Administrativo INTUR</span>
+                    </a>
+                `;
+            }
+
+            if (container) {
+                container.innerHTML = `
+                    ${roleSpecificLink}
+                    <a href="catalogo.html"
+                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs bg-green-light-bg text-primary font-bold transition-all text-left">
+                        <span class="material-symbols-outlined text-lg text-primary">inventory_2</span>
+                        <span>Catálogo de Productos</span>
+                    </a>
+                    <a href="proveedores.html"
+                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left group">
+                        <span class="material-symbols-outlined text-lg text-text-muted group-hover:text-primary">storefront</span>
+                        <span class="font-medium">Directorio de Proveedores</span>
+                    </a>
+                `;
+            }
+        }
+
+        // Re-sincronizar automáticamente en tiempo real cuando el usuario regrese a la pestaña
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                loadCatalogProductsFromSupabase();
+            }
+        });
+
+        async function loadCatUserProfileFromSupabase() {
+            if (!currentUserProfile) return;
+
+            // ⚠️ FIX: solo pintar lo que realmente existe. Sin fallbacks ficticios.
+            catUserProfile.name = currentUserProfile.nombre_completo || "";
+            catUserProfile.email = currentUserProfile.email || "";
+            catUserProfile.phone = currentUserProfile.telefono || "";
+            catUserProfile.photo = currentUserProfile.avatar_url || "";
+
+            applyCatUserProfile();
+        }
+
+        function applyCatUserProfile() {
+            // ⚠️ FIX: solo pintar lo que realmente existe. Sin fallbacks ficticios.
+            const name = catUserProfile.name?.trim() || 'Cargando…';
+            const email = catUserProfile.email?.trim() || '—';
+            const phone = catUserProfile.phone?.trim() || '';
+            const photo = catUserProfile.photo?.trim();
+            const avatarSmPlaceholder = 'data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E';
+            const avatarEditPlaceholder = 'data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M32%2024a10%2010%200%201%200%200-20%2010%2010%200%200%200%200%2020zm0%208c-8%200-16%206-16%2012v4h32v-4c0-6-8-12-16-12z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E';
+
+            document.getElementById('user-cat-name-header').innerText = name;
+            document.getElementById('user-cat-avatar').src = photo || avatarSmPlaceholder;
+            document.getElementById('user-cat-name').innerText = name;
+            document.getElementById('user-cat-email').innerText = email;
+            document.getElementById('user-cat-avatar-dropdown').src = photo || avatarSmPlaceholder;
+
+            // Form (dejar vacío si no hay dato; el placeholder HTML se mostrará)
+            document.getElementById('input-user-name').value = catUserProfile.name || '';
+            document.getElementById('input-user-email').value = catUserProfile.email || '';
+            document.getElementById('input-user-phone').value = phone;
+            document.getElementById('input-user-photo').value = catUserProfile.photo || '';
+            document.getElementById('edit-user-avatar-preview').src = photo || avatarEditPlaceholder;
+        }
+
+        function previewUserPhotoUrl(url) {
+            if (url && url.startsWith('http')) {
+                document.getElementById('edit-user-avatar-preview').src = url;
+            }
+        }
+
+        function handleLocalCatUserPhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                if (!file.type.startsWith('image/')) {
+                    showToast('Por favor selecciona una imagen válida', 'error');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Image = e.target.result;
+                    document.getElementById('edit-user-avatar-preview').src = base64Image;
+                    catUserProfile.photo = base64Image;
+                    const urlInput = document.getElementById('input-user-photo');
+                    if (urlInput) urlInput.value = '';
+                    showToast('Foto de usuario cargada localmente con éxito', 'info');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function toggleCatUserUrlInput() {
+            const container = document.getElementById('container-cat-user-photo-url');
+            const btn = document.getElementById('btn-toggle-cat-url');
+            if (container.classList.contains('hidden')) {
+                container.classList.remove('hidden');
+                btn.innerText = 'Ocultar URL';
+            } else {
+                container.classList.add('hidden');
+                btn.innerText = 'Usar URL';
+            }
+        }
+
+        function openEditCatUserModal() {
+            applyCatUserProfile();
+            document.getElementById('modal-edit-user').classList.remove('hidden');
+        }
+
+        function closeEditCatUserModal() {
+            document.getElementById('modal-edit-user').classList.add('hidden');
+        }
+
+        async function saveCatUserProfile(e) {
+            e.preventDefault();
+            catUserProfile.name = document.getElementById('input-user-name').value.trim();
+            catUserProfile.phone = document.getElementById('input-user-phone').value.trim();
+            const photoUrl = document.getElementById('input-user-photo').value.trim();
+            if (photoUrl) catUserProfile.photo = photoUrl;
+
+            showToast('Guardando perfil en Supabase...', 'info');
+
+            if (currentUserProfile) {
+                await profileService.updateProfile(currentUserProfile.id, {
+                    nombre_completo: catUserProfile.name,
+                    telefono: catUserProfile.phone,
+                    avatar_url: catUserProfile.photo
+                });
+            }
+
+            applyCatUserProfile();
+            closeEditCatUserModal();
+            showToast('Datos de usuario actualizados correctamente', 'success');
+        }
+
+        // SEGURIDAD: Cambiar de Perfil / Rol (Cierra sesión obligatoriamente y redirige al login)
+        async function cambiarPerfilSeguro() {
+            showToast('Cerrando sesión de forma segura...', 'warning');
+            await authService.signOut();
+            setTimeout(() => {
+                window.location.href = 'inicio.html';
+            }, 800);
+        }
+
+        async function cerrarSesionSegura() {
+            showToast('Cerrando sesión del sistema...', 'info');
+            await authService.signOut();
+            setTimeout(() => {
+                window.location.href = 'inicio.html';
+            }, 800);
+        }
+
+        async function loadCatalogProductsFromSupabase() {
+            try {
+                const { data, error } = await productosService.getProductos();
+
+                // ⚠️ FIX CRÍTICO: Distinguir entre "no hay productos" (mostrar empty state)
+                // y "hubo error de lectura" (mostrar aviso). ANTES, este código mostraba 4
+                // productos de muestra hardcodeados cuando la consulta devolvía [] o fallaba
+                // por JOIN, lo que hacía creer al usuario que el catálogo SÍ tenía productos
+                // cuando en realidad no se estaba leyendo nada de Supabase.
+                const realProducts = (data || []).filter(p => p && p.id);
+
+                if (realProducts.length > 0) {
+                    catalogProducts = realProducts.map(p => {
+                        let catName = p.rubros?.nombre || '';
+                        if (!catName) {
+                            const nameLower = (p.nombre || '').toLowerCase();
+                            if (nameLower.includes('café') || nameLower.includes('cafe') || nameLower.includes('cacao') || nameLower.includes('chocolate')) {
+                                catName = 'gastronomia';
+                            } else if (nameLower.includes('barro') || nameLower.includes('ceramica') || nameLower.includes('artesania')) {
+                                catName = 'artesanias';
+                            } else if (nameLower.includes('madera') || nameLower.includes('mueble')) {
+                                catName = 'maderas';
+                            } else if (nameLower.includes('hamaca') || nameLower.includes('textil')) {
+                                catName = 'textiles';
+                            } else {
+                                catName = 'gastronomia';
+                            }
+                        } else {
+                            catName = catName.toLowerCase();
+                        }
+
+                        return {
+                            id: p.id,
+                            title: p.nombre || 'Producto Local',
+                            category: catName,
+                            price: p.precio_unitario || 0,
+                            unit: p.unidad_medida || 'unidad',
+                            capacity: p.badge_distintivo || 'Disponible',
+                            producer: p.productores?.nombre_cooperativa_o_taller || 'Productor Local',
+                            dept: p.productores?.departamentos?.nombre || '',
+                            productorId: p.productor_id,
+                            disponible: p.disponible !== false,
+                            // ⚠️ FIX: sin fallback de Unsplash. Si no hay imagen, queda vacío
+                            // y el render muestra un placeholder con icono "image".
+                            image: p.imagen_url || ''
+                        };
+                    });
+                } else {
+                    // ⚠️ Ya NO inyectamos productos de muestra. Si la BD está vacía, mostramos
+                    // el empty state real para que el usuario sepa la verdad y pueda reintentar.
+                    if (error) {
+                        console.warn("Aviso al leer el catálogo desde Supabase:", error);
+                    }
+                    catalogProducts = [];
+                }
+            } catch (err) {
+                console.error("Error cargando catálogo:", err);
+                catalogProducts = [];
+            }
+            renderCatalog();
+        }
+
+        // Función renderCatalog: pinta el grid del catálogo (productos reales o empty state).
+        function renderCatalog() {
+            const grid = document.getElementById('catalog-grid');
+            if (!grid) return;
+
+            if (catalogProducts.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full p-12 bg-surface-white rounded-2xl border border-outline-variant/30 text-center flex flex-col items-center justify-center gap-3 shadow-sm">
+                        <span class="material-symbols-outlined text-4xl text-primary/40">inventory_2</span>
+                        <p class="font-bold text-sm text-text-main">No hay productos en el catálogo aún</p>
+                        <p class="text-xs text-text-muted max-w-sm">Los productos que publiquen los productores locales en Supabase aparecerán disponibles aquí para cotización inmediata.</p>
+                        <button onclick="loadCatalogProductsFromSupabase(); showToast('Catálogo actualizado', 'info');" class="px-4 py-2 bg-primary hover:bg-primary-container text-white text-xs font-bold rounded-xl transition-all shadow-sm">
+                            🔄 Actualizar Catálogo
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = catalogProducts.map(p => {
+                const isAvail = p.disponible !== false;
+                const availableBadge = isAvail
+                    ? '<span class="absolute top-3 left-3 px-2 py-0.5 bg-white/90 backdrop-blur-sm text-primary rounded-full text-[10px] font-bold border border-primary/20">Verificado</span>'
+                    : '<span class="absolute top-3 left-3 px-2 py-0.5 bg-error-container text-on-error-container rounded-full text-[10px] font-bold border border-error-red/30">No disponible</span>';
+                return `
+                <div class="catalog-item bg-surface-white rounded-2xl shadow-sm hover:shadow-md transition-all border border-outline-variant/30 flex flex-col overflow-hidden group ${!isAvail ? 'opacity-70' : ''}"
+                    data-category="${p.category || ''}">
+                    <div class="h-48 w-full relative bg-surface-container overflow-hidden flex items-center justify-center">
+                        ${productImageHTML(p.image, p.title, 'lg')}
+                        ${availableBadge}
+                    </div>
+                    <div class="p-5 flex flex-col flex-1 justify-between">
+                        <div>
+                            <h3 class="font-bold text-sm text-on-surface">${p.title || '—'}</h3>
+                            <p class="text-xs text-text-muted mt-1 flex items-center gap-1">
+                                <span class="material-symbols-outlined text-xs text-primary">location_on</span> ${p.producer || '—'}${p.dept ? ' · ' + p.dept : ''}
+                            </p>
+                            <div class="grid grid-cols-2 gap-2 mt-3 bg-surface-bright p-2.5 rounded-xl text-xs">
+                                <div>
+                                    <span class="text-text-muted text-[10px] block">Precio B2B</span>
+                                    <span class="font-extrabold text-primary text-sm">C$ ${p.price} <span class="text-[10px] font-normal text-text-muted">${p.unit ? '/ ' + p.unit : ''}</span></span>
+                                </div>
+                                <div>
+                                    <span class="text-text-muted text-[10px] block">Capacidad</span>
+                                    <span class="font-bold text-text-main text-xs">${p.capacity || '—'}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 pt-4">
+                            <button onclick="solicitarCotizacion('${p.id}')" ${!isAvail ? 'disabled' : ''} class="py-2 bg-primary hover:bg-surface-tint disabled:bg-text-muted/40 disabled:cursor-not-allowed text-white text-xs font-bold rounded-xl transition-colors">${!isAvail ? 'Agotado' : 'Cotizar'}</button>
+                            <button onclick="showToast('Mostrando ficha técnica de ${(p.title || 'producto')}', 'info')" class="py-2 border border-outline-variant/40 hover:border-primary text-text-main hover:text-primary text-xs font-bold rounded-xl transition-colors">Detalle</button>
+                        </div>
+                    </div>
+                </div>
+            `;}).join('');
+        }
+
+        // ============== SOLICITAR COTIZACIÓN (crear match pendiente) ==============
+        let currentEmpresaRecord = null;
+
+        async function loadCurrentEmpresaRecord() {
+            if (!currentUserProfile) return null;
+            if (currentEmpresaRecord && currentEmpresaRecord.profile_id === currentUserProfile.id) {
+                return currentEmpresaRecord;
+            }
+            const { data, error } = await empresasService.getEmpresaByProfileId(currentUserProfile.id);
+            if (error) {
+                console.warn('No se pudo cargar el registro de empresa:', error);
+                return null;
+            }
+            currentEmpresaRecord = data || null;
+            return currentEmpresaRecord;
+        }
+
+        async function solicitarCotizacion(productoId) {
+            if (!productoId) return;
+            const prod = catalogProducts.find(p => p.id === productoId);
+            if (!prod) {
+                showToast('Producto no encontrado en memoria. Recarga el catálogo.', 'error');
+                return;
+            }
+            if (prod.disponible === false) {
+                showToast('Este producto ya no está disponible.', 'warning');
+                return;
+            }
+
+            // Solo empresas (o INTUR en modo admin) pueden cotizar.
+            const rol = currentUserProfile?.rol;
+            if (rol !== 'empresa' && rol !== 'intur') {
+                showToast('Solo las cuentas de empresa o INTUR pueden solicitar cotizaciones.', 'warning');
+                return;
+            }
+
+            // Si es empresa, asegurar que tenga su registro en `empresas_turísticas`
+            let empresaId = null;
+            if (rol === 'empresa') {
+                const emp = await loadCurrentEmpresaRecord();
+                if (!emp) {
+                    showToast('Tu cuenta no tiene un registro de empresa asociado. Pide a INTUR que lo cree.', 'error');
+                    return;
+                }
+                empresaId = emp.id;
+            } else {
+                // INTUR: usamos el id de la primera empresa disponible como "destino" del match
+                // (en el flujo real, INTUR registraría el match a nombre de una empresa)
+                const { data: empresas } = await empresasService.getEmpresas();
+                if (empresas && empresas.length > 0) {
+                    empresaId = empresas[0].id;
+                } else {
+                    showToast('No hay empresas turísticas registradas todavía. Crea una desde el portal de empresa.', 'warning');
+                    return;
+                }
+            }
+
+            document.getElementById('solicitar-prod-id').value = productoId;
+            document.getElementById('solicitar-productor-id').value = prod.productorId || '';
+            document.getElementById('solicitar-prod-name').innerText = prod.title || '—';
+            document.getElementById('solicitar-prod-meta').innerText = `${prod.producer || '—'}${prod.dept ? ' · ' + prod.dept : ''} · C$ ${prod.price} / ${prod.unit || 'unidad'}`;
+            document.getElementById('solicitar-unidad').value = prod.unit || 'unidad';
+            document.getElementById('solicitar-cantidad').value = 1;
+            document.getElementById('solicitar-mensaje').value = '';
+            document.getElementById('modal-solicitar').classList.remove('hidden');
+        }
+
+        function closeSolicitarModal() {
+            document.getElementById('modal-solicitar').classList.add('hidden');
+        }
+
+        async function submitSolicitud(e) {
+            e.preventDefault();
+            const productoId = document.getElementById('solicitar-prod-id').value;
+            const productorId = document.getElementById('solicitar-productor-id').value;
+            const cantidad = parseInt(document.getElementById('solicitar-cantidad').value, 10) || 1;
+            const mensaje = document.getElementById('solicitar-mensaje').value.trim();
+            const prod = catalogProducts.find(p => p.id === productoId);
+            if (!productoId || !prod) {
+                showToast('Faltan datos del producto', 'error');
+                return;
+            }
+
+            const rol = currentUserProfile?.rol;
+            let empresaId = null;
+            if (rol === 'empresa') {
+                const emp = await loadCurrentEmpresaRecord();
+                if (!emp) {
+                    showToast('No se encontró el registro de tu empresa.', 'error');
+                    return;
+                }
+                empresaId = emp.id;
+            } else {
+                const { data: empresas } = await empresasService.getEmpresas();
+                if (empresas && empresas.length > 0) empresaId = empresas[0].id;
+            }
+
+            const montoEstimado = (prod.price || 0) * cantidad;
+            const descripcion = mensaje || `Solicitud de ${cantidad} ${prod.unit || 'unidad(es)'}`;
+
+            showToast('Enviando solicitud al productor...', 'info');
+            const { data, error } = await matchesService.crearSolicitud({
+                productorId,
+                empresaId,
+                productoId,
+                compatibilidad: 0,
+                descripcionAcuerdo: descripcion,
+                montoEstimado,
+                cantidadSolicitada: cantidad
+            });
+
+            if (error) {
+                const msg = error.message || error.error_description || JSON.stringify(error);
+                showToast('Error al enviar la solicitud: ' + msg, 'error');
+                return;
+            }
+
+            console.log('✅ Solicitud creada (match pendiente):', data);
+            closeSolicitarModal();
+            showToast('Solicitud enviada. El productor la revisará pronto.', 'success');
+        }
+
+        // ============== SUSCRIPCIÓN REALTIME EN EL CATÁLOGO ==============
+        let catalogRealtimeChannel = null;
+        function subscribeCatalogRealtime() {
+            if (catalogRealtimeChannel) return;
+            try {
+                catalogRealtimeChannel = supabaseClient
+                    .channel('tnc-realtime-catalog')
+                    .on('postgres_changes',
+                        { event: '*', schema: 'public', table: 'productos' },
+                        (payload) => {
+                            console.log('🔄 Cambio en productos (catálogo):', payload.eventType, payload);
+                            loadCatalogProductsFromSupabase();
+                        }
+                    )
+                    .on('postgres_changes',
+                        { event: '*', schema: 'public', table: 'matches' },
+                        (payload) => {
+                            console.log('🔄 Cambio en matches (catálogo):', payload.eventType, payload);
+                            loadCatalogProductsFromSupabase();
+                        }
+                    )
+                    .subscribe((status) => {
+                        console.log('📡 Catálogo realtime status:', status);
+                    });
+            } catch (err) {
+                console.warn('No se pudo suscribir a realtime en catálogo:', err);
+            }
+        }
+        function unsubscribeCatalogRealtime() {
+            if (catalogRealtimeChannel) {
+                try { supabaseClient.removeChannel(catalogRealtimeChannel); } catch (e) {}
+                catalogRealtimeChannel = null;
+            }
+        }
+
+        function toggleNavAccordion(e) {
+            if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
+            const dropdown = document.getElementById('nav-accordion-dropdown');
+            const arrow = document.getElementById('menu-arrow');
+            if (!dropdown) return;
+            // Cerrar el de perfil si está abierto
+            document.getElementById('profile-dropdown')?.classList.add('hidden');
+            const isHidden = dropdown.classList.contains('hidden');
+            if (isHidden) {
+                dropdown.classList.remove('hidden');
+                arrow?.classList.add('rotate-180');
+            } else {
+                dropdown.classList.add('hidden');
+                arrow?.classList.remove('rotate-180');
+            }
+        }
+
+        function toggleProfileDropdown(e) {
+            if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
+            const dropdown = document.getElementById('profile-dropdown');
+            if (!dropdown) return;
+            // Cerrar el de nav si está abierto
+            document.getElementById('nav-accordion-dropdown')?.classList.add('hidden');
+            document.getElementById('menu-arrow')?.classList.remove('rotate-180');
+            dropdown.classList.toggle('hidden');
+        }
+
+        function initDropdowns() {
+            const navDropdown = document.getElementById('nav-accordion-dropdown');
+            const navBtn = document.getElementById('btn-menu-toggle');
+            const profileDropdown = document.getElementById('profile-dropdown');
+            const profileBtn = document.getElementById('btn-profile-toggle');
+
+            document.addEventListener('click', (e) => {
+                if (navDropdown && !navDropdown.contains(e.target) && !navBtn.contains(e.target)) {
+                    navDropdown.classList.add('hidden');
+                    document.getElementById('menu-arrow')?.classList.remove('rotate-180');
+                }
+                if (profileDropdown && !profileDropdown.contains(e.target) && !profileBtn.contains(e.target)) {
+                    profileDropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        function normalizeText(str) {
+            return (str || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function filterCatalog() {
+            const query = normalizeText(document.getElementById('cat-search').value);
+            const items = document.querySelectorAll('.catalog-item');
+            items.forEach(item => {
+                const text = normalizeText(item.innerText);
+                const cat = normalizeText(item.getAttribute('data-category'));
+                if (text.includes(query) || cat.includes(query)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function setCatFilter(cat, btn) {
+            document.querySelectorAll('.cat-pill').forEach(p => {
+                p.className = "cat-pill px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all";
+            });
+            if (btn) {
+                btn.className = "cat-pill active px-3 py-1.5 rounded-full bg-primary text-white font-semibold transition-all";
+            }
+
+            const cleanCat = normalizeText(cat);
+            const items = document.querySelectorAll('.catalog-item');
+            items.forEach(item => {
+                const itemCat = normalizeText(item.getAttribute('data-category'));
+                if (cleanCat === 'all' || itemCat.includes(cleanCat) || cleanCat.includes(itemCat)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            let bgClass = "bg-on-surface text-white";
+            let iconName = "info";
+            if (type === 'success') { bgClass = "bg-primary text-white"; iconName = "check_circle"; }
+            if (type === 'warning') { bgClass = "bg-warning-orange text-white"; iconName = "warning"; }
+            if (type === 'error') { bgClass = "bg-error text-white"; iconName = "error"; }
+
+            toast.className = `${bgClass} px-4 py-3 rounded-xl shadow-lg text-xs font-medium flex items-center gap-2.5 pointer-events-auto transition-all transform translate-y-2 opacity-0 duration-200 border border-white/20`;
+            toast.innerHTML = `<span class="material-symbols-outlined text-lg shrink-0">${iconName}</span><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

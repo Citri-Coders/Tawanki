@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Perfil Productor - Turismo Nicaragua Conecta</title>
+    <!-- Google Fonts & Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-bright": "#F4EFE2",
+                        "on-error-container": "#7A0E1A",
+                        "inverse-surface": "#3A2E1F",
+                        "inverse-primary": "#7BAF6E",
+                        "on-surface": "#2A2114",
+                        "outline": "#8B7B5C",
+                        "warning-orange": "#D97706",
+                        "on-surface-variant": "#4A3F2A",
+                        "text-main": "#2A2114",
+                        "secondary-fixed-dim": "#6FA85A",
+                        "tertiary-fixed-dim": "#D89A4A",
+                        "tertiary-fixed": "#F0D9A8",
+                        "on-secondary": "#FFFFFF",
+                        "primary-fixed-dim": "#6FA85A",
+                        "inverse-on-surface": "#FBF8F0",
+                        "surface-container": "#EFE7D2",
+                        "surface-container-lowest": "#FFFCF5",
+                        "on-primary": "#FFFFFF",
+                        "surface-container-highest": "#D9CFB4",
+                        "on-background": "#2A2114",
+                        "on-secondary-container": "#0D3A0A",
+                        "secondary": "#1B6E3C",
+                        "primary-container": "#3D7A3D",
+                        "text-muted": "#6B5E47",
+                        "on-tertiary-container": "#3D2810",
+                        "secondary-fixed": "#94C078",
+                        "surface-container-high": "#E2D8BE",
+                        "surface-tint": "#0d631b",
+                        "primary-fixed": "#A3D49A",
+                        "error-red": "#B5391E",
+                        "on-primary-fixed-variant": "#003A0A",
+                        "error-container": "#F5D6CC",
+                        "primary": "#0d631b",
+                        "tertiary-container": "#C9612A",
+                        "on-tertiary-fixed": "#3D2810",
+                        "on-tertiary-fixed-variant": "#7A4012",
+                        "background": "#F4EFE2",
+                        "on-secondary-fixed": "#0A2A06",
+                        "error": "#A33A1A",
+                        "tertiary": "#C9612A",
+                        "on-tertiary": "#FFFFFF",
+                        "outline-variant": "#C9BC9A",
+                        "on-primary-container": "#CBFFC2",
+                        "on-primary-fixed": "#002204",
+                        "on-secondary-fixed-variant": "#0D3A0A",
+                        "green-light-bg": "#E8F0DC",
+                        "surface-variant": "#E2D8BE",
+                        "surface-container-low": "#EFE9D7",
+                        "on-error": "#FFFFFF",
+                        "secondary-container": "#94C078",
+                        "surface": "#F4EFE2",
+                        "surface-dim": "#D9CFB4",
+                        "surface-white": "#FBF8F0"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.375rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-background text-on-background font-sans h-screen flex flex-col overflow-hidden antialiased select-none">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-5 right-5 z-[100] flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- ================= TOP APP BAR (HEADER SUPERIOR) ================= -->
+    <header class="bg-surface-white w-full z-40 flex justify-between items-center px-4 md:px-8 py-3 border-b border-outline-variant/30 shadow-xs shrink-0 relative">
+        
+        <!-- ESQUINA SUPERIOR IZQUIERDA: ACORDEÓN / MENÚ DEL PRODUCTOR -->
+        <div class="flex items-center gap-3">
+            <div class="relative">
+                <button id="btn-menu-toggle" onclick="toggleNavAccordion(event)"
+                    class="flex items-center gap-2 px-3 py-2 rounded-xl bg-surface-bright hover:bg-green-light-bg text-primary border border-outline-variant/40 hover:border-primary transition-all active:scale-95 shadow-2xs cursor-pointer">
+                    <span class="material-symbols-outlined text-2xl">menu</span>
+                    <span class="text-xs font-bold hidden sm:inline">Menú Productor</span>
+                    <span class="material-symbols-outlined text-sm text-text-muted transition-transform" id="menu-arrow">expand_more</span>
+                </button>
+
+                <!-- Menú Acordeón Desplegable Flotante -->
+                <div id="nav-accordion-dropdown"
+                    class="hidden absolute left-0 mt-2 w-72 sm:w-80 bg-surface-white rounded-2xl shadow-2xl border border-outline-variant/40 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
+                    <div class="px-3 py-2 border-b border-outline-variant/30 mb-2">
+                        <p class="text-xs font-bold text-primary flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-base">agriculture</span>
+                            Portal de Productor Local
+                        </p>
+                        <p class="text-[11px] text-text-muted">Gestión de Catálogo y Ofertas</p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <a href="perfil-productor.html"
+                            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs bg-green-light-bg text-primary font-bold transition-all text-left">
+                            <span class="material-symbols-outlined text-lg text-primary">person</span>
+                            <span>Mi Perfil & Productos</span>
+                        </a>
+
+                        <a href="catalogo.html"
+                            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left group">
+                            <span class="material-symbols-outlined text-lg text-text-muted group-hover:text-primary">inventory_2</span>
+                            <span class="font-medium">Catálogo Nacional de Insumos</span>
+                        </a>
+
+                        <a href="proveedores.html"
+                            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left group">
+                            <span class="material-symbols-outlined text-lg text-text-muted group-hover:text-primary">storefront</span>
+                            <span class="font-medium">Directorio de Proveedores</span>
+                        </a>
+
+                        <button onclick="openModalAddProduct(); toggleNavAccordion();"
+                            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left group">
+                            <span class="material-symbols-outlined text-lg text-text-muted group-hover:text-primary">add_box</span>
+                            <span class="font-medium">Publicar Nuevo Producto</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Título / Logo -->
+            <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm">
+                    <span class="material-symbols-outlined text-xl">agriculture</span>
+                </div>
+                <div>
+                    <h1 class="text-sm font-extrabold text-primary leading-tight">Portal del Productor Local</h1>
+                    <p id="header-producer-name" class="text-[11px] text-text-muted font-medium">Cargando…</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ESQUINA SUPERIOR DERECHA: NOTIFICACIONES + PERFIL + CAMBIO DE PERFIL SEGURO + CERRAR SESIÓN -->
+        <div class="flex items-center gap-3">
+            
+            <button onclick="showToast('No hay notificaciones nuevas en este momento', 'info')"
+                class="text-text-muted hover:text-primary hover:bg-surface-container p-2 rounded-full transition-colors relative flex items-center justify-center">
+                <span class="material-symbols-outlined text-2xl">notifications</span>
+            </button>
+
+            <!-- Menú Desplegable de Perfil Seguro -->
+            <div class="relative">
+                <button id="btn-profile-toggle" onclick="toggleProfileDropdown(event)"
+                    class="flex items-center gap-2.5 p-1.5 pr-2.5 rounded-xl hover:bg-surface-bright border border-transparent hover:border-outline-variant/40 transition-all cursor-pointer">
+                    <img id="producer-header-avatar" alt="Foto Productor" class="w-8 h-8 rounded-full object-cover border border-primary/40 shadow-xs bg-surface-container"
+                        src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" />
+                    <div class="hidden sm:block text-left">
+                        <p id="producer-display-name-header" class="text-xs font-bold text-on-surface leading-tight">Cargando…</p>
+                        <p class="text-[10px] text-primary font-semibold">Productor Local</p>
+                    </div>
+                    <span class="material-symbols-outlined text-sm text-text-muted">arrow_drop_down</span>
+                </button>
+
+                <!-- Profile Dropdown Menu -->
+                <div id="profile-dropdown"
+                    class="hidden absolute right-0 mt-2 w-64 bg-surface-white rounded-2xl shadow-2xl border border-outline-variant/40 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
+                    <div class="flex items-center gap-3 p-2 bg-surface-bright rounded-xl mb-3 border border-outline-variant/30">
+                        <img id="producer-dropdown-avatar" class="w-10 h-10 rounded-full object-cover border border-primary/30 bg-surface-container"
+                            src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" />
+                        <div class="overflow-hidden">
+                            <p id="producer-dropdown-name" class="text-xs font-bold text-on-surface truncate">Cargando…</p>
+                            <p id="producer-dropdown-email" class="text-[10px] text-text-muted truncate">—</p>
+                            <span class="inline-block mt-0.5 text-[9px] bg-green-light-bg text-primary font-bold px-1.5 py-0.2 rounded">Rol: Productor Local</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-1 text-xs">
+                        <button onclick="openEditProducerModal(); toggleProfileDropdown();"
+                            class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left">
+                            <span class="material-symbols-outlined text-base text-primary">manage_accounts</span>
+                            <span>Editar Mis Datos / Foto</span>
+                        </button>
+
+                        <div class="pt-2 border-t border-outline-variant/30 mt-2 space-y-1">
+                            <button onclick="cambiarPerfilSeguro()"
+                                class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-text-main hover:bg-amber-50 hover:text-amber-700 transition-all font-semibold text-left">
+                                <span class="material-symbols-outlined text-base text-amber-600">switch_account</span>
+                                <span>Cambiar de Perfil / Rol</span>
+                            </button>
+
+                            <button onclick="cerrarSesionSegura()"
+                                class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-error-red hover:bg-error-container/40 transition-all font-semibold text-left">
+                                <span class="material-symbols-outlined text-base">logout</span>
+                                <span>Cerrar Sesión</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- ================= CONTENIDO PRINCIPAL FULL-WIDTH ================= -->
+    <main class="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar pb-20 w-full">
+        <div class="max-w-[1600px] mx-auto space-y-6">
+
+            <!-- Profile Header Card Full Width -->
+            <div class="bg-surface-white rounded-2xl shadow-sm p-6 md:p-8 border border-outline-variant/30 flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6 relative overflow-hidden">
+                <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
+                    <div class="w-24 h-24 shrink-0 rounded-2xl shadow-md border-2 border-primary/20 overflow-hidden bg-surface-container">
+                        <img id="producer-main-avatar" class="w-full h-full object-cover"
+                            src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2096%2096%22%3E%3Crect%20width%3D%2296%22%20height%3D%2296%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M48%2040a14%2014%200%201%200%200-28%2014%2014%200%200%200%200%2028zm0%2012c-12%200-24%208-24%2016v8h48v-8c0-8-12-16-24-16z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" />
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1">
+                            <h1 id="producer-title-name" class="text-2xl md:text-3xl font-extrabold text-on-surface">Cargando…</h1>
+                            <span id="producer-verified-badge" class="hidden inline-flex items-center gap-1 bg-green-light-bg text-primary text-xs font-bold px-2.5 py-0.5 rounded-full border border-primary/20">
+                                <span class="material-symbols-outlined text-xs">verified</span> Productor Conectado
+                            </span>
+                        </div>
+                        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-4 text-text-muted text-xs mb-2">
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-primary">location_on</span> <span id="producer-location">—</span></span>
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-primary">phone</span> <span id="producer-phone">—</span></span>
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">cloud_done</span> <span id="producer-sync-status">Sincronizando…</span></span>
+                        </div>
+                        <p id="producer-bio" class="text-xs text-text-muted max-w-2xl">—</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-2.5 shrink-0">
+                    <button onclick="openEditProducerModal()"
+                        class="bg-primary hover:bg-surface-tint text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm transition-all flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-sm">edit</span>
+                        <span>Editar Perfil / Foto</span>
+                    </button>
+                    <a href="catalogo.html"
+                        class="bg-surface-bright hover:bg-green-light-bg border border-outline-variant/40 hover:border-primary text-primary text-xs font-bold px-4 py-2.5 rounded-xl transition-all flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-sm">inventory_2</span>
+                        <span>Ver en Catálogo</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stats Grid Full Width -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                <div class="bg-surface-white rounded-2xl shadow-sm p-5 border border-outline-variant/30 flex flex-col justify-between">
+                    <span class="text-xs text-text-muted font-bold uppercase tracking-wider mb-2">Productos en Catálogo</span>
+                    <div class="flex items-end justify-between">
+                        <span id="stat-producer-products" class="text-3xl md:text-4xl font-extrabold text-primary">0</span>
+                        <span class="text-xs font-bold text-primary bg-green-light-bg px-2.5 py-1 rounded-full flex items-center gap-1">
+                            <span class="material-symbols-outlined text-xs">inventory</span> Activos
+                        </span>
+                    </div>
+                </div>
+
+                <div class="bg-surface-white rounded-2xl shadow-sm p-5 border border-outline-variant/30 flex flex-col justify-between">
+                    <span class="text-xs text-text-muted font-bold uppercase tracking-wider mb-2">Solicitudes Recibidas</span>
+                    <div class="flex items-end justify-between">
+                        <span id="stat-producer-requests" class="text-3xl md:text-4xl font-extrabold text-tertiary">0</span>
+                        <span class="text-xs font-bold text-tertiary bg-tertiary-fixed/40 px-2.5 py-1 rounded-full flex items-center gap-1">
+                            <span class="material-symbols-outlined text-xs">pending_actions</span> En espera
+                        </span>
+                    </div>
+                </div>
+
+                <div class="bg-surface-white rounded-2xl shadow-sm p-5 border border-outline-variant/30 flex flex-col justify-between">
+                    <span class="text-xs text-text-muted font-bold uppercase tracking-wider mb-2">Alianzas Comerciales</span>
+                    <div class="flex items-end justify-between">
+                        <span id="stat-producer-matches" class="text-3xl md:text-4xl font-extrabold text-secondary">0</span>
+                        <span class="text-xs font-bold text-secondary bg-secondary-container/40 px-2.5 py-1 rounded-full flex items-center gap-1">
+                            <span class="material-symbols-outlined text-xs">handshake</span> Concretadas
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Columns: Products & Requests (Full Panoramic Width) -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Left 2 Cols: Mis Productos y Solicitudes -->
+                <div class="lg:col-span-2 space-y-6">
+                    
+                    <!-- Mis Productos -->
+                    <section class="bg-surface-white p-6 rounded-2xl shadow-sm border border-outline-variant/30">
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <h2 class="text-lg font-bold text-on-surface">Mis Productos Publicados</h2>
+                                <p class="text-xs text-text-muted">Insumos visibles para hoteles y restaurantes en el catálogo nacional</p>
+                            </div>
+                            <button onclick="openModalAddProduct()"
+                                class="flex items-center gap-1 text-primary text-xs font-bold hover:bg-green-light-bg px-3 py-1.5 rounded-lg border border-primary/30 transition-colors">
+                                <span class="material-symbols-outlined text-sm">add</span> Agregar Producto
+                            </button>
+                        </div>
+
+                        <div id="producer-products-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Populated dynamically or shows Empty State -->
+                        </div>
+                    </section>
+
+                    <!-- Solicitudes Recibidas Table -->
+                    <section class="bg-surface-white rounded-2xl shadow-sm border border-outline-variant/30 overflow-hidden">
+                        <div class="p-5 border-b border-outline-variant/30 flex justify-between items-center">
+                            <div>
+                                <h2 class="text-lg font-bold text-on-surface">Solicitudes de Suministro Recibidas</h2>
+                                <p class="text-xs text-text-muted">Peticiones comerciales de hoteles y empresas turísticas</p>
+                            </div>
+                            <span id="pending-requests-count" class="text-xs text-primary font-semibold">0 pendientes</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse min-w-[550px] text-xs">
+                                <thead>
+                                    <tr class="bg-surface-bright border-b border-outline-variant/30 text-text-muted uppercase font-bold tracking-wider">
+                                        <th class="p-3.5">Empresa Turística</th>
+                                        <th class="p-3.5">Insumo Solicitado</th>
+                                        <th class="p-3.5">Volumen Estimado</th>
+                                        <th class="p-3.5">Estado</th>
+                                        <th class="p-3.5 text-right">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="producer-requests-table-body" class="divide-y divide-outline-variant/20">
+                                    <!-- Populated dynamically or shows Empty State -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Col: Oportunidades Directas B2B -->
+                <div class="lg:col-span-1 space-y-4">
+                    <div class="bg-surface-white p-6 rounded-2xl shadow-sm border border-outline-variant/30">
+                        <h2 class="text-lg font-bold text-on-surface mb-1 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-warning-orange text-xl">lightbulb</span>
+                            Conexión con Supabase
+                        </h2>
+                        <p class="text-xs text-text-muted mb-4">Esta vista está lista para sincronizar con la tabla <code class="text-primary font-bold">productores</code> y <code class="text-primary font-bold">productos</code>.</p>
+
+                        <div class="p-4 rounded-xl bg-surface-bright border border-outline-variant/30 space-y-2.5 text-xs">
+                            <div class="flex items-center justify-between">
+                                <span class="text-text-muted">Estado del Perfil:</span>
+                                <span class="font-bold text-primary">Listo para BD</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-text-muted">Autenticación RLS:</span>
+                                <span class="font-bold text-primary flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">verified</span>Verificada</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-text-muted">Actualizaciones locales:</span>
+                                <span class="font-bold text-text-main">Habilitadas</span>
+                            </div>
+                            <button onclick="openEditProducerModal()" class="w-full mt-2 py-2 rounded-xl bg-primary hover:bg-surface-tint text-white font-bold text-xs transition-colors">
+                                Actualizar Datos del Negocio
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ================= MODAL: EDITAR DATOS DEL PRODUCTOR / FOTO ================= -->
+    <div id="modal-edit-producer" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-surface-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-outline-variant/40 animate-in fade-in zoom-in-95 duration-200">
+            <div class="flex justify-between items-center pb-3 border-b border-outline-variant/30 mb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-green-light-bg text-primary flex items-center justify-center font-bold">
+                        <span class="material-symbols-outlined text-lg">store</span>
+                    </div>
+                    <h3 class="font-bold text-base text-on-surface">Editar Perfil de Productor</h3>
+                </div>
+                <button onclick="closeEditProducerModal()" class="text-text-muted hover:text-on-surface p-1 rounded-lg">
+                    <span class="material-symbols-outlined text-xl">close</span>
+                </button>
+            </div>
+
+            <form id="form-edit-producer" onsubmit="saveProducerProfile(event)" class="space-y-3.5 text-xs">
+                <!-- Preview de Foto / Avatar con Carga Local -->
+                <div class="p-3 bg-surface-bright rounded-xl border border-outline-variant/30 space-y-2.5">
+                    <div class="flex items-center gap-4">
+                        <img id="edit-producer-avatar-preview" class="w-16 h-16 rounded-full object-cover border-2 border-primary/40 shadow-sm shrink-0 bg-surface-container"
+                            src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M32%2024a10%2010%200%201%200%200-20%2010%2010%200%200%200%200%2020zm0%208c-8%200-16%206-16%2012v4h32v-4c0-6-8-12-16-12z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" />
+                        <div class="flex-1 space-y-1.5">
+                            <label class="block font-bold text-text-main">Foto de Perfil / Logo del Negocio</label>
+                            <input type="file" id="input-producer-file" accept="image/*" onchange="handleLocalProducerPhotoUpload(event)" class="hidden" />
+                            <div class="flex flex-wrap gap-2">
+                                <button type="button" onclick="document.getElementById('input-producer-file').click()"
+                                    class="px-3 py-1.5 rounded-lg bg-primary hover:bg-surface-tint text-white font-bold text-xs flex items-center gap-1 shadow-2xs transition-all">
+                                    <span class="material-symbols-outlined text-sm">upload_file</span>
+                                    <span>Subir Imagen Local</span>
+                                </button>
+                                <button type="button" onclick="toggleProducerUrlInput()" id="btn-toggle-producer-url"
+                                    class="px-2.5 py-1.5 rounded-lg bg-surface-white hover:bg-surface-container border border-outline-variant/40 text-text-muted font-medium text-xs transition-all">
+                                    Usar URL
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Input opcional para URL -->
+                    <div id="container-producer-photo-url" class="hidden pt-2 border-t border-outline-variant/20">
+                        <label class="block font-semibold text-text-muted text-[11px] mb-1">O escribe la URL directa de la imagen:</label>
+                        <input type="url" id="input-producer-photo" oninput="previewProducerPhotoUrl(this.value)"
+                            placeholder="https://ejemplo.com/mifoto.jpg"
+                            class="w-full bg-surface-white border border-outline-variant/40 rounded-lg px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-primary outline-none" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Nombre Comercial / Finca *</label>
+                    <input type="text" id="input-producer-name" required placeholder="Ej: Cafetal Las Nubes"
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-text-main mb-1">Teléfono / WhatsApp *</label>
+                        <input type="tel" id="input-producer-phone" required placeholder="+505 0000-0000"
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                    </div>
+                    <div>
+                        <label class="block font-bold text-text-main mb-1">Correo Electrónico *</label>
+                        <input type="email" id="input-producer-email" required placeholder="contacto@xalteva.com.ni"
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Departamento</label>
+                    <select id="input-producer-dept" class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                        <option value="Granada">Granada</option>
+                        <option value="Masaya">Masaya</option>
+                        <option value="León">León</option>
+                        <option value="Rivas">Rivas</option>
+                        <option value="Matagalpa">Matagalpa</option>
+                        <option value="Estelí">Estelí</option>
+                        <option value="Managua">Managua</option>
+                        <option value="Madriz">Madriz</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Descripción de la Producción / Negocio</label>
+                    <textarea id="input-producer-bio" rows="2" placeholder="Describe tus insumos, capacidad de entrega y origen..."
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"></textarea>
+                </div>
+
+                <div class="flex justify-end gap-2.5 pt-3 border-t border-outline-variant/30">
+                    <button type="button" onclick="closeEditProducerModal()" class="px-4 py-2 rounded-xl bg-surface-bright hover:bg-surface-container font-semibold text-text-muted text-xs">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-primary hover:bg-surface-tint text-white font-bold text-xs shadow-sm">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: AGREGAR NUEVO PRODUCTO ================= -->
+    <div id="modal-add-product" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-surface-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-outline-variant/40 animate-in fade-in zoom-in-95 duration-200">
+            <div class="flex justify-between items-center pb-3 border-b border-outline-variant/30 mb-4">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-xl">add_box</span>
+                    <h3 class="font-bold text-base text-on-surface">Publicar Nuevo Producto</h3>
+                </div>
+                <button onclick="closeModalAddProduct()" class="text-text-muted hover:text-on-surface p-1 rounded-lg">
+                    <span class="material-symbols-outlined text-xl">close</span>
+                </button>
+            </div>
+
+            <form id="form-add-product" onsubmit="submitNewProduct(event)" class="space-y-3.5 text-xs">
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Nombre del Producto / Insumo *</label>
+                    <input type="text" id="input-prod-title" required placeholder="Ej: Cacao Orgánico en Grano"
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-text-main mb-1">Precio Unitario (C$) *</label>
+                        <input type="number" id="input-prod-price" required placeholder="Ej: 85" min="1"
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                    </div>
+                    <div>
+                        <label class="block font-bold text-text-main mb-1">Unidad de Medida *</label>
+                        <input type="text" id="input-prod-unit" required placeholder="kg, barra, docena"
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Capacidad de Entrega Mensual</label>
+                    <input type="text" id="input-prod-capacity" placeholder="Ej: 150 kg / mes"
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                </div>
+
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Foto del Producto</label>
+                    <input type="file" id="input-prod-file" accept="image/*" onchange="handleLocalProductImageUpload(event)" class="hidden" />
+                    <div class="flex items-center gap-3 p-2.5 bg-surface-bright rounded-xl border border-outline-variant/30">
+                        <div id="new-prod-preview-container" class="w-12 h-12 rounded-lg bg-surface-container shrink-0 border flex items-center justify-center">
+                            <span class="material-symbols-outlined text-xl text-text-muted/60">image</span>
+                        </div>
+                        <input type="hidden" id="new-prod-preview" value="" />
+                        <div class="flex-1 space-y-1">
+                            <button type="button" onclick="document.getElementById('input-prod-file').click()"
+                                class="px-2.5 py-1 rounded-lg bg-primary hover:bg-surface-tint text-white font-bold text-xs flex items-center gap-1 shadow-2xs">
+                                <span class="material-symbols-outlined text-xs">upload_file</span>
+                                <span>Cargar Imagen Local</span>
+                            </button>
+                            <input type="url" id="input-prod-image" placeholder="O pega URL de imagen" oninput="updateNewProdPreview(this.value)"
+                                class="w-full bg-surface-white border border-outline-variant/40 rounded-lg px-2 py-1 text-[11px] outline-none" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-2.5 pt-3 border-t border-outline-variant/30">
+                    <button type="button" onclick="closeModalAddProduct()" class="px-4 py-2 rounded-xl bg-surface-bright hover:bg-surface-container font-semibold text-text-muted text-xs">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-primary hover:bg-surface-tint text-white font-bold text-xs shadow-sm">
+                        Publicar Producto
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: EDITAR PRODUCTO EXISTENTE ================= -->
+    <div id="modal-edit-product" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-surface-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-outline-variant/40 animate-in fade-in zoom-in-95 duration-200">
+            <div class="flex justify-between items-center pb-3 border-b border-outline-variant/30 mb-4">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-xl">edit</span>
+                    <h3 class="font-bold text-base text-on-surface">Editar Producto</h3>
+                </div>
+                <button onclick="closeModalEditProduct()" class="text-text-muted hover:text-on-surface p-1 rounded-lg">
+                    <span class="material-symbols-outlined text-xl">close</span>
+                </button>
+            </div>
+
+            <form id="form-edit-product" onsubmit="submitEditProduct(event)" class="space-y-3.5 text-xs">
+                <input type="hidden" id="edit-prod-id" />
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Nombre del Producto / Insumo *</label>
+                    <input type="text" id="edit-prod-title" required
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-text-main mb-1">Precio Unitario (C$) *</label>
+                        <input type="number" id="edit-prod-price" required min="0" step="0.01"
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                    </div>
+                    <div>
+                        <label class="block font-bold text-text-main mb-1">Unidad de Medida *</label>
+                        <input type="text" id="edit-prod-unit" required
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Capacidad de Entrega Mensual</label>
+                    <input type="text" id="edit-prod-capacity"
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                </div>
+
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Descripción</label>
+                    <textarea id="edit-prod-description" rows="2"
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none resize-none"></textarea>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Disponibilidad</label>
+                    <select id="edit-prod-disponible"
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                        <option value="true">Disponible</option>
+                        <option value="false">No disponible (agotado / fuera de temporada)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Imagen del Producto</label>
+                    <div class="flex items-center gap-3 p-2.5 bg-surface-bright rounded-xl border border-outline-variant/30">
+                        <div id="edit-prod-preview-container" class="w-12 h-12 rounded-lg bg-surface-container shrink-0 border flex items-center justify-center overflow-hidden">
+                            <span class="material-symbols-outlined text-xl text-text-muted/60">image</span>
+                        </div>
+                        <div class="flex-1 space-y-1">
+                            <button type="button" onclick="document.getElementById('edit-prod-file').click()"
+                                class="px-2.5 py-1 rounded-lg bg-primary hover:bg-surface-tint text-white font-bold text-xs flex items-center gap-1 shadow-2xs">
+                                <span class="material-symbols-outlined text-xs">upload_file</span>
+                                <span>Cargar Nueva</span>
+                            </button>
+                            <input type="file" id="edit-prod-file" accept="image/*" class="hidden" onchange="handleEditProdImageUpload(event)" />
+                            <input type="url" id="edit-prod-image" placeholder="O pega URL de imagen" oninput="updateEditProdPreview(this.value)"
+                                class="w-full bg-surface-white border border-outline-variant/40 rounded-lg px-2 py-1 text-[11px] outline-none" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-2.5 pt-3 border-t border-outline-variant/30">
+                    <button type="button" onclick="closeModalEditProduct()" class="px-4 py-2 rounded-xl bg-surface-bright hover:bg-surface-container font-semibold text-text-muted text-xs">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-primary hover:bg-surface-tint text-white font-bold text-xs shadow-sm">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: CONFIRMAR ELIMINACIÓN ================= -->
+    <div id="modal-confirm-delete" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-surface-white rounded-2xl shadow-2xl max-w-sm w-full p-6 border border-outline-variant/40 animate-in fade-in zoom-in-95 duration-200">
+            <div class="flex items-center gap-2 mb-3">
+                <span class="material-symbols-outlined text-error-red text-2xl">delete_forever</span>
+                <h3 class="font-bold text-base text-on-surface">Eliminar Producto</h3>
+            </div>
+            <p class="text-xs text-text-muted mb-4">
+                ¿Estás seguro de eliminar <strong id="delete-prod-name" class="text-on-surface">este producto</strong>?
+                Esta acción no se puede deshacer y se removerá del catálogo para los compradores.
+            </p>
+            <input type="hidden" id="delete-prod-id" />
+            <div class="flex justify-end gap-2.5 pt-3 border-t border-outline-variant/30">
+                <button type="button" onclick="closeConfirmDelete()" class="px-4 py-2 rounded-xl bg-surface-bright hover:bg-surface-container font-semibold text-text-muted text-xs">
+                    Cancelar
+                </button>
+                <button type="button" onclick="confirmDeleteProduct()" class="px-4 py-2 rounded-xl bg-error-red hover:bg-error text-white font-bold text-xs shadow-sm">
+                    Sí, eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase SDK + Config -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        let currentUserProfile = null;
+        let currentProductorRecord = null;
+        // ⚠️ FIX: Sin valores ficticios. Todos los campos inician vacíos hasta que
+        // lleguen los datos reales de Supabase. La UI muestra "Cargando…" o "—"
+        // mientras se obtiene la información del productor.
+        let producerProfile = {
+            name: "",
+            email: "",
+            phone: "",
+            dept: "",
+            bio: "",
+            photo: ""
+        };
+
+        // ⚠️ FIX: sin imagen por defecto de Unsplash. Mientras el usuario no suba
+        // o pegue una URL, el preview muestra un placeholder con icono.
+        let tempProductImage = "";
+        let producerProducts = [];
+        let producerRequests = [];
+
+        // Placeholders SVG inline (no se cargan URLs externas).
+        const PROD_IMAGE_PLACEHOLDER_HTML = '<span class="material-symbols-outlined text-2xl text-text-muted/50">image</span>';
+        const PROD_IMAGE_PLACEHOLDER_HTML_LARGE = '<span class="material-symbols-outlined text-5xl text-text-muted/40">image</span>';
+        const PROD_IMAGE_PLACEHOLDER_HTML_SMALL = '<span class="material-symbols-outlined text-xl text-text-muted/60">image</span>';
+
+        /**
+         * Helper central para renderizar la imagen de un producto.
+         * Regla estricta: si NO hay `imagen_url` en la BD, no se muestra NINGUNA imagen,
+         * solo un placeholder con icono. Esto evita inconsistencia visual donde algunos
+         * productos tienen foto real y otros una imagen ficticia.
+         */
+        function productImageHTML(imageUrl, altText, size = 'sm') {
+            const isValidUrl = imageUrl && typeof imageUrl === 'string' && imageUrl.trim() && imageUrl.trim() !== 'null' && imageUrl.trim() !== 'undefined';
+            const placeholder = size === 'lg' ? PROD_IMAGE_PLACEHOLDER_HTML_LARGE
+                              : size === 'sm' ? PROD_IMAGE_PLACEHOLDER_HTML_SMALL
+                              : PROD_IMAGE_PLACEHOLDER_HTML;
+            if (isValidUrl) {
+                return `<img alt="${altText || 'Producto'}" class="w-full h-full object-cover" src="${imageUrl}" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=&quot;material-symbols-outlined text-5xl text-text-muted/40&quot;>image</span>';" />`;
+            }
+            return placeholder;
+        }
+
+        // Helper: actualiza el preview del modal "Agregar producto".
+        function updateNewProdPreview(url) {
+            const container = document.getElementById('new-prod-preview-container');
+            if (!container) return;
+            const isValidUrl = url && url.trim();
+            if (isValidUrl) {
+                container.innerHTML = `<img id="new-prod-preview-img" class="w-12 h-12 rounded-lg object-cover" src="${url}" alt="preview" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=&quot;material-symbols-outlined text-xl text-text-muted/60&quot;>image</span>';" />`;
+                tempProductImage = url.trim();
+            } else {
+                container.innerHTML = PROD_IMAGE_PLACEHOLDER_HTML_SMALL;
+                tempProductImage = "";
+            }
+        }
+
+        let producerChannel = null;
+
+        function subscribeRealtimeUpdates() {
+            try {
+                if (producerChannel) return;
+                producerChannel = supabaseClient
+                    .channel('public:productor_updates')
+                    .on('postgres_changes', { event: '*', schema: 'public', table: 'productos' }, () => {
+                        console.log('🔄 Cambio en productos en tiempo real, recargando...');
+                        loadProducerProductsFromSupabase();
+                    })
+                    .on('postgres_changes', { event: '*', schema: 'public', table: 'matches' }, () => {
+                        console.log('🔄 Cambio en matches en tiempo real, recargando...');
+                        loadProducerRequestsFromSupabase();
+                    })
+                    .subscribe();
+            } catch (e) {
+                console.warn('Realtime no disponible:', e);
+            }
+        }
+
+        function unsubscribeRealtimeUpdates() {
+            try {
+                if (producerChannel) {
+                    supabaseClient.removeChannel(producerChannel);
+                    producerChannel = null;
+                }
+            } catch (e) {}
+        }
+
+        // 🔒 AUTH GUARD & INICIALIZACIÓN
+        document.addEventListener('DOMContentLoaded', async () => {
+            initDropdowns();
+
+            // Verificar sesión de Productor
+            const authResult = await authGuard('productor');
+            if (!authResult) return;
+
+            currentUserProfile = authResult.profile;
+            await loadProducerProfileFromSupabase();
+            await loadProducerProductsFromSupabase();
+            await loadProducerRequestsFromSupabase();
+            subscribeRealtimeUpdates();
+        });
+
+        window.addEventListener('beforeunload', () => {
+            unsubscribeRealtimeUpdates();
+        });
+
+        async function loadProducerProfileFromSupabase() {
+            if (!currentUserProfile) {
+                const res = await authService.getCurrentUser();
+                currentUserProfile = res?.profile;
+            }
+            if (!currentUserProfile) return;
+
+            // ⚠️ FIX: Solo aplicar valores REALES que vienen del profile. Sin fallbacks
+            // ficticios como "+505 8888-9999" o "Granada".
+            producerProfile.name = currentUserProfile.nombre_completo || "";
+            producerProfile.email = currentUserProfile.email || "";
+            producerProfile.phone = currentUserProfile.telefono || "";
+            producerProfile.photo = currentUserProfile.avatar_url || "";
+
+            try {
+                const { data: prodData, error: getProdErr } = await productoresService.getProductorByProfileId(currentUserProfile.id);
+                if (getProdErr) {
+                    console.warn("Aviso al leer productor:", getProdErr);
+                }
+                if (prodData) {
+                    currentProductorRecord = prodData;
+                    if (prodData.nombre_cooperativa_o_taller) producerProfile.name = prodData.nombre_cooperativa_o_taller;
+                    if (prodData.telefono_whatsapp) producerProfile.phone = prodData.telefono_whatsapp;
+                    if (prodData.descripcion) producerProfile.bio = prodData.descripcion;
+                    if (prodData.departamentos) producerProfile.dept = prodData.departamentos.nombre;
+                    // La verificación INTUR controla si mostramos el badge "Productor Conectado".
+                    const verifiedBadge = document.getElementById('producer-verified-badge');
+                    if (verifiedBadge) {
+                        if (prodData.verificado_intur) {
+                            verifiedBadge.classList.remove('hidden');
+                            verifiedBadge.classList.add('inline-flex');
+                        } else {
+                            verifiedBadge.classList.add('hidden');
+                            verifiedBadge.classList.remove('inline-flex');
+                        }
+                    }
+                } else {
+                    // Si no tiene registro en productores, asegurar uno automáticamente.
+                    // ⚠️ FIX: usamos ensureProductorRecord que propaga errores reales.
+                    const { data: ensured, error: ensureErr } = await productosService.ensureProductorRecord(
+                        currentUserProfile.id,
+                        {
+                            nombre_completo: producerProfile.name,
+                            telefono: producerProfile.phone
+                        }
+                    );
+                    if (ensureErr) {
+                        console.error("❌ No se pudo crear el registro de productor:", ensureErr);
+                        const msg = ensureErr.message || ensureErr.error_description || JSON.stringify(ensureErr);
+                        showToast(`No se pudo sincronizar tu perfil de productor: ${msg}. Intenta cerrar sesión y volver a entrar.`, 'error');
+                    } else if (ensured) {
+                        currentProductorRecord = ensured;
+                    }
+                }
+            } catch (e) {
+                console.warn("Aviso cargando productor:", e);
+            }
+
+            applyProducerProfile();
+        }
+
+        function handleLocalProducerPhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                if (!file.type.startsWith('image/')) {
+                    showToast('Por favor selecciona una imagen válida', 'error');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Image = e.target.result;
+                    document.getElementById('edit-producer-avatar-preview').src = base64Image;
+                    producerProfile.photo = base64Image;
+                    const urlInput = document.getElementById('input-producer-photo');
+                    if (urlInput) urlInput.value = '';
+                    showToast('Imagen local cargada con éxito', 'info');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleLocalProductImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                if (!file.type.startsWith('image/')) {
+                    showToast('Por favor selecciona una imagen válida', 'error');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // ⚠️ FIX: usar el helper que actualiza el contenedor con icono/imagen.
+                    updateNewProdPreview(e.target.result);
+                    const urlInput = document.getElementById('input-prod-image');
+                    if (urlInput) urlInput.value = '';
+                    showToast('Imagen de producto cargada', 'info');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function toggleProducerUrlInput() {
+            const container = document.getElementById('container-producer-photo-url');
+            const btn = document.getElementById('btn-toggle-producer-url');
+            if (container.classList.contains('hidden')) {
+                container.classList.remove('hidden');
+                btn.innerText = 'Ocultar URL';
+            } else {
+                container.classList.add('hidden');
+                btn.innerText = 'Usar URL';
+            }
+        }
+
+        function applyProducerProfile() {
+            // ⚠️ FIX: Solo pintar lo que realmente existe. Sin fallbacks ficticios.
+            const name = producerProfile.name?.trim() || 'Cargando…';
+            const dept = producerProfile.dept?.trim();
+            const email = producerProfile.email?.trim() || '—';
+            const phone = producerProfile.phone?.trim() || '—';
+            const location = dept ? dept : '—';
+            const bio = producerProfile.bio?.trim() || '—';
+            const photo = producerProfile.photo?.trim();
+
+            document.getElementById('header-producer-name').innerText = dept ? `${name} · ${dept}` : name;
+            document.getElementById('producer-header-avatar').src = photo || 'data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E';
+            document.getElementById('producer-display-name-header').innerText = name;
+            document.getElementById('producer-dropdown-name').innerText = name;
+            document.getElementById('producer-dropdown-email').innerText = email;
+            document.getElementById('producer-dropdown-avatar').src = photo || 'data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E';
+            const avatarBigPlaceholder = 'data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2096%2096%22%3E%3Crect%20width%3D%2296%22%20height%3D%2296%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M48%2040a14%2014%200%201%200%200-28%2014%2014%200%200%200%200%2028zm0%2012c-12%200-24%208-24%2016v8h48v-8c0-8-12-16-24-16z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E';
+            const avatarEditPlaceholder = 'data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M32%2024a10%2010%200%201%200%200-20%2010%2010%200%200%200%200%2020zm0%208c-8%200-16%206-16%2012v4h32v-4c0-6-8-12-16-12z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E';
+            document.getElementById('producer-main-avatar').src = photo || avatarBigPlaceholder;
+            document.getElementById('producer-title-name').innerText = name;
+            document.getElementById('producer-location').innerText = location;
+            document.getElementById('producer-phone').innerText = phone;
+            document.getElementById('producer-bio').innerText = bio;
+
+            // Estado de sincronización
+            const syncStatus = document.getElementById('producer-sync-status');
+            if (syncStatus) {
+                syncStatus.innerText = currentProductorRecord ? 'Sincronizado' : 'Sin registro de productor';
+                syncStatus.parentElement.classList.toggle('text-primary', !!currentProductorRecord);
+            }
+
+            // Form (dejar vacío si no hay dato; el placeholder HTML se mostrará)
+            document.getElementById('input-producer-name').value = producerProfile.name || '';
+            document.getElementById('input-producer-email').value = producerProfile.email || '';
+            document.getElementById('input-producer-phone').value = producerProfile.phone || '';
+            document.getElementById('input-producer-dept').value = producerProfile.dept || '';
+            document.getElementById('input-producer-bio').value = producerProfile.bio || '';
+            document.getElementById('input-producer-photo').value = producerProfile.photo || '';
+            document.getElementById('edit-producer-avatar-preview').src = photo || avatarEditPlaceholder;
+        }
+
+        function previewProducerPhotoUrl(url) {
+            if (url && url.startsWith('http')) {
+                document.getElementById('edit-producer-avatar-preview').src = url;
+            }
+        }
+
+        function openEditProducerModal() {
+            applyProducerProfile();
+            document.getElementById('modal-edit-producer').classList.remove('hidden');
+        }
+
+        function closeEditProducerModal() {
+            document.getElementById('modal-edit-producer').classList.add('hidden');
+        }
+
+        async function saveProducerProfile(e) {
+            e.preventDefault();
+            producerProfile.name = document.getElementById('input-producer-name').value.trim();
+            producerProfile.phone = document.getElementById('input-producer-phone').value.trim();
+            producerProfile.dept = document.getElementById('input-producer-dept').value;
+            producerProfile.bio = document.getElementById('input-producer-bio').value.trim();
+            const photoUrl = document.getElementById('input-producer-photo').value.trim();
+            if (photoUrl) producerProfile.photo = photoUrl;
+
+            showToast('Actualizando perfil en Supabase...', 'info');
+
+            if (currentUserProfile) {
+                await profileService.updateProfile(currentUserProfile.id, {
+                    nombre_completo: producerProfile.name,
+                    telefono: producerProfile.phone,
+                    avatar_url: producerProfile.photo
+                });
+
+                if (currentProductorRecord) {
+                    await supabaseClient.from('productores').update({
+                        nombre_cooperativa_o_taller: producerProfile.name,
+                        telefono_whatsapp: producerProfile.phone,
+                        descripcion: producerProfile.bio
+                    }).eq('id', currentProductorRecord.id);
+                }
+            }
+
+            applyProducerProfile();
+            closeEditProducerModal();
+            showToast('Perfil de productor actualizado correctamente', 'success');
+        }
+
+        // SEGURIDAD: Cambiar de Perfil / Rol (Cierra sesión obligatoriamente y redirige al login)
+        async function cambiarPerfilSeguro() {
+            showToast('Cerrando sesión de Productor de forma segura...', 'warning');
+            await authService.signOut();
+            setTimeout(() => {
+                window.location.href = 'inicio.html';
+            }, 800);
+        }
+
+        async function cerrarSesionSegura() {
+            showToast('Cerrando sesión del sistema...', 'info');
+            await authService.signOut();
+            setTimeout(() => {
+                window.location.href = 'inicio.html';
+            }, 800);
+        }
+
+        async function loadProducerProductsFromSupabase() {
+            try {
+                if (!currentProductorRecord && currentUserProfile) {
+                    // ⚠️ FIX: usar la nueva firma { data, error }
+                    const { data: ensured, error: ensureErr } = await productosService.ensureProductorRecord(currentUserProfile.id, {
+                        nombre_completo: currentUserProfile.nombre_completo,
+                        telefono: currentUserProfile.telefono
+                    });
+                    if (ensureErr) {
+                        console.warn("No se pudo asegurar el registro de productor en loadProducerProducts:", ensureErr);
+                    } else if (ensured) {
+                        currentProductorRecord = ensured;
+                    }
+                }
+
+                let prods = [];
+                if (currentProductorRecord?.id) {
+                    const { data } = await productosService.getProductosByProductor(currentProductorRecord.id);
+                    if (data && data.length > 0) prods = data;
+                }
+
+                producerProducts = prods.map(p => ({
+                    id: p.id,
+                    title: p.nombre || '',
+                    price: p.precio_unitario || 0,
+                    unit: p.unidad_medida || '',
+                    capacity: p.badge_distintivo || '',
+                    description: p.descripcion || '',
+                    disponible: p.disponible !== false,
+                    rubroId: p.rubro_id,
+                    // ⚠️ FIX: sin fallback de Unsplash. Si no hay imagen, queda vacío
+                    // y el render muestra un placeholder con icono "image".
+                    image: p.imagen_url || ''
+                }));
+            } catch(e) {
+                console.warn("Aviso al cargar productos del productor:", e);
+                producerProducts = [];
+            }
+            renderProducerProducts();
+        }
+
+        function renderProducerProducts() {
+            const container = document.getElementById('producer-products-grid');
+            if (!container) return;
+            const disponibles = producerProducts.filter(p => p.disponible !== false).length;
+            document.getElementById('stat-producer-products').innerText = producerProducts.length;
+
+            if (producerProducts.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-2 p-8 bg-surface-bright rounded-xl border border-outline-variant/30 text-center flex flex-col items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-3xl text-primary/40">inventory_2</span>
+                        <p class="font-bold text-xs text-text-main">No tienes productos publicados aún</p>
+                        <p class="text-[11px] text-text-muted max-w-xs">Agrega tu primer producto para que aparezca en el catálogo y los hoteles puedan solicitar cotizaciones.</p>
+                        <button onclick="openModalAddProduct()" class="mt-2 px-3 py-1.5 rounded-lg bg-primary text-white text-xs font-bold hover:bg-surface-tint">
+                            + Publicar Producto
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = producerProducts.map((p) => {
+                const isAvailable = p.disponible !== false;
+                const statusBadge = isAvailable
+                    ? '<span class="text-[9px] bg-green-light-bg text-primary font-bold px-1.5 py-0.5 rounded border border-primary/20">Disponible</span>'
+                    : '<span class="text-[9px] bg-error-container text-on-error-container font-bold px-1.5 py-0.5 rounded border border-error-red/20">No disponible</span>';
+                // Escapar comillas para evitar romper atributos HTML
+                const safeTitle = (p.title || '').replace(/"/g, '&quot;');
+                return `
+                <div class="p-3 rounded-xl bg-surface-bright border border-outline-variant/30 hover:border-primary transition-all relative group">
+                    <div class="flex gap-3">
+                        <div class="w-14 h-14 shrink-0 rounded-lg bg-surface-container overflow-hidden flex items-center justify-center">
+                            ${productImageHTML(p.image, p.title, 'sm')}
+                        </div>
+                        <div class="flex flex-col flex-1 min-w-0">
+                            <div class="flex items-start justify-between gap-2 mb-0.5">
+                                <h3 class="font-bold text-xs text-on-surface truncate">${p.title || '—'}</h3>
+                                ${statusBadge}
+                            </div>
+                            <p class="text-[10px] text-text-muted truncate">${p.capacity || ''}</p>
+                            <p class="text-xs font-extrabold text-primary mt-0.5">C$ ${p.price} <span class="text-text-muted font-normal text-[9px]">${p.unit ? '/ ' + p.unit : ''}</span></p>
+                        </div>
+                    </div>
+                    <div class="flex gap-1.5 mt-2.5 pt-2.5 border-t border-outline-variant/20">
+                        <button onclick="openModalEditProduct('${p.id}')" title="Editar producto"
+                            class="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg bg-surface-white hover:bg-green-light-bg border border-outline-variant/40 hover:border-primary text-text-main hover:text-primary text-[10px] font-bold transition-colors">
+                            <span class="material-symbols-outlined text-xs">edit</span>
+                            Editar
+                        </button>
+                        <button onclick="openConfirmDelete('${p.id}')" title="Eliminar producto"
+                            class="flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg bg-surface-white hover:bg-error-container/40 border border-outline-variant/40 hover:border-error-red text-text-muted hover:text-error-red text-[10px] font-bold transition-colors">
+                            <span class="material-symbols-outlined text-xs">delete</span>
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        async function loadProducerRequestsFromSupabase() {
+            if (currentProductorRecord) {
+                const { data } = await matchesService.getMatches({ productorId: currentProductorRecord.id });
+                producerRequests = data || [];
+            } else {
+                producerRequests = [];
+            }
+            renderProducerRequests();
+        }
+
+        function renderProducerRequests() {
+            const tbody = document.getElementById('producer-requests-table-body');
+            if (!tbody) return;
+            const pendientes = producerRequests.filter(r => r.estado === 'Pendiente');
+            document.getElementById('stat-producer-requests').innerText = pendientes.length;
+            document.getElementById('pending-requests-count').innerText = `${pendientes.length} pendientes`;
+
+            if (producerRequests.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="py-8 text-center text-text-muted">
+                            <span class="material-symbols-outlined text-3xl block text-text-muted/40 mb-1">inbox</span>
+                            No hay solicitudes pendientes de hoteles en este momento.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = producerRequests.map(r => {
+                const empresa = r.empresas_turisticas?.nombre_comercial || r.empresa_nombre || '—';
+                const estado = r.estado || 'Pendiente';
+                const estadoBadge =
+                    estado === 'Pendiente' ? 'bg-amber-50 text-warning-orange border-warning-orange/30' :
+                    estado === 'Aprobado' ? 'bg-green-light-bg text-primary border-primary/30' :
+                    estado === 'En_Negociacion' ? 'bg-tertiary-fixed/40 text-tertiary border-tertiary/30' :
+                    estado === 'Rechazado' ? 'bg-error-container text-on-error-container border-error-red/30' :
+                    'bg-surface-container text-text-muted border-outline-variant/30';
+                const fecha = r.created_at ? new Date(r.created_at).toLocaleDateString('es-NI', { day: '2-digit', month: 'short' }) : '—';
+                const monto = r.monto_estimado_cordobas ? `C$ ${Number(r.monto_estimado_cordobas).toLocaleString('es-NI')}` : '—';
+                const descripcion = r.descripcion_acuerdo || '—';
+                const canAct = estado === 'Pendiente' || estado === 'En_Negociacion';
+                return `
+                    <tr class="hover:bg-surface-bright transition-colors">
+                        <td class="py-3 pr-3 font-semibold text-on-surface text-xs">${empresa}</td>
+                        <td class="py-3 pr-3 text-text-muted text-xs">${descripcion}</td>
+                        <td class="py-3 pr-3 font-bold text-primary text-xs">${monto}</td>
+                        <td class="py-3 pr-3">
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${estadoBadge}">${estado}</span>
+                        </td>
+                        <td class="py-3 text-right">
+                            <div class="flex gap-1.5 justify-end">
+                                ${canAct ? `
+                                    <button onclick="aprobarSolicitud('${r.id}')" title="Aprobar y marcar producto como no disponible"
+                                        class="px-2 py-1 rounded-lg bg-primary hover:bg-surface-tint text-white text-[10px] font-bold flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-xs">check</span> Aprobar
+                                    </button>
+                                    <button onclick="rechazarSolicitud('${r.id}')" title="Rechazar solicitud"
+                                        class="px-2 py-1 rounded-lg bg-surface-bright hover:bg-error-container border border-outline-variant/40 hover:border-error-red text-text-muted hover:text-error-red text-[10px] font-bold flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-xs">close</span>
+                                    </button>
+                                ` : `<span class="text-[10px] text-text-muted">${fecha}</span>`}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function aprobarSolicitud(matchId) {
+            if (!currentProductorRecord) {
+                showToast('No se encontró tu registro de productor', 'error');
+                return;
+            }
+            // Buscamos el match para identificar el producto (guardado en descripcion_acuerdo
+            // o como product_id; en esta versión lo inferimos del producto del productor
+            // pendiente de cerrar).
+            const match = producerRequests.find(r => r.id === matchId);
+            if (!match) {
+                showToast('No se encontró la solicitud', 'error');
+                return;
+            }
+            // Por ahora tomamos el primer producto disponible del productor como el que
+            // se va a "comprometer" (en una versión mejor, el match debería tener
+            // producto_id directo).
+            const { data: prods } = await productosService.getProductosByProductor(currentProductorRecord.id);
+            const targetProduct = (prods || []).find(p => p.disponible !== false);
+
+            showToast('Concretando acuerdo y bloqueando producto...', 'info');
+            const { match: updatedMatch, producto, error } = await matchesService.concretarMatch(matchId, {
+                nuevoEstado: 'Aprobado',
+                marcarProductoNoDisponible: !!targetProduct,
+                productoId: targetProduct ? targetProduct.id : null
+            });
+            if (error) {
+                const msg = error.message || error.error_description || JSON.stringify(error);
+                showToast('Error al aprobar: ' + msg, 'error');
+                return;
+            }
+            console.log('✅ Match aprobado:', updatedMatch, 'Producto bloqueado:', producto);
+            await loadProducerRequestsFromSupabase();
+            await loadProducerProductsFromSupabase();
+            showToast('Solicitud aprobada. Producto bloqueado para otras empresas.', 'success');
+        }
+
+        async function rechazarSolicitud(matchId) {
+            showToast('Rechazando solicitud...', 'info');
+            const { data, error } = await matchesService.actualizarEstado(matchId, 'Rechazado');
+            if (error) {
+                const msg = error.message || error.error_description || JSON.stringify(error);
+                showToast('Error al rechazar: ' + msg, 'error');
+                return;
+            }
+            await loadProducerRequestsFromSupabase();
+            showToast('Solicitud rechazada', 'info');
+        }
+
+        function openModalAddProduct() {
+            // ⚠️ FIX: al abrir el modal, limpiar el preview para que se vea el placeholder
+            // genérico (icono "image") en vez de una imagen de muestra.
+            document.getElementById('modal-add-product').classList.remove('hidden');
+            updateNewProdPreview('');
+            const urlInput = document.getElementById('input-prod-image');
+            if (urlInput) urlInput.value = '';
+        }
+
+        function closeModalAddProduct() {
+            document.getElementById('modal-add-product').classList.add('hidden');
+        }
+
+        async function submitNewProduct(e) {
+            e.preventDefault();
+            const title = document.getElementById('input-prod-title').value.trim();
+            const price = parseFloat(document.getElementById('input-prod-price').value.trim()) || 0;
+            const unit = document.getElementById('input-prod-unit').value.trim();
+            const capacity = document.getElementById('input-prod-capacity').value.trim() || 'Disponible';
+            const urlImg = document.getElementById('input-prod-image')?.value.trim();
+            const image = urlImg || tempProductImage;
+
+            showToast('Guardando producto en Supabase...', 'info');
+
+            // 1. Asegurar sesión y perfil
+            if (!currentUserProfile) {
+                const res = await authService.getCurrentUser();
+                currentUserProfile = res?.profile;
+            }
+
+            // 2. Asegurar que tenemos el registro del productor en la base de datos.
+            // ⚠️ FIX: usamos ensureProductorRecord que propaga errores reales.
+            if (!currentProductorRecord && currentUserProfile) {
+                const { data: ensured, error: ensureErr } = await productosService.ensureProductorRecord(
+                    currentUserProfile.id,
+                    {
+                        nombre_completo: currentUserProfile.nombre_completo,
+                        telefono: currentUserProfile.telefono
+                    }
+                );
+                if (ensureErr) {
+                    const msg = ensureErr.message || ensureErr.error_description || JSON.stringify(ensureErr);
+                    showToast(`No se pudo sincronizar tu perfil de productor: ${msg}. Cierra sesión y vuelve a entrar.`, 'error');
+                    return; // abortar: sin productorId no podemos guardar el producto
+                }
+                if (ensured) {
+                    currentProductorRecord = ensured;
+                }
+            }
+
+            const productorId = currentProductorRecord?.id;
+            const rubroId = currentProductorRecord?.rubro_id || 1;
+
+            // ⚠️ FIX CRÍTICO: Detectar éxito/fracaso REAL del INSERT antes de mentirle al usuario.
+            // Antes, el toast de éxito se mostraba SIEMPRE aunque el INSERT fallara, dejando
+            // al usuario pensando que se guardó cuando en realidad nunca entró a Supabase.
+            const submitBtn = document.querySelector('#form-add-product button[type="submit"]');
+            const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
+
+            let createdProd = null;
+            let prodErr = null;
+            try {
+                if (!productorId) {
+                    throw new Error('No se pudo obtener el ID del productor. Cierra sesión y vuelve a entrar para sincronizar tu perfil.');
+                }
+                const result = await productosService.crearProducto({
+                    productorId: productorId,
+                    rubroId: rubroId,
+                    nombre: title,
+                    descripcion: `${title} de producción artesanal local.`,
+                    precioUnitario: price,
+                    unidadMedida: unit,
+                    badgeDistintivo: capacity,
+                    imagenUrl: image
+                });
+                createdProd = result?.data;
+                prodErr = result?.error;
+            } catch (err) {
+                console.error("Excepción al guardar producto:", err);
+                prodErr = err;
+            }
+
+            // Restaurar el botón siempre
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+
+            // ✅ Solo si NO hubo error y SÍ tenemos un producto creado con id
+            if (!prodErr && createdProd && createdProd.id) {
+                console.log("✅ Producto guardado en Supabase:", createdProd);
+                await loadProducerProductsFromSupabase();
+                closeModalAddProduct();
+                document.getElementById('form-add-product').reset();
+                // ⚠️ FIX: limpiar el preview al guardar, sin fallback de Unsplash.
+                tempProductImage = "";
+                updateNewProdPreview('');
+                showToast(`¡Producto "${title}" publicado en tu catálogo con éxito!`, 'success');
+            } else {
+                // ❌ Mostrar el error REAL al usuario en vez de mentir con "guardado con éxito"
+                const msgError = (prodErr && (prodErr.message || prodErr.error_description || prodErr.hint || prodErr.details))
+                    || (prodErr && typeof prodErr === 'string' ? prodErr : null)
+                    || 'No se pudo guardar el producto en Supabase. Revisa tu conexión e inténtalo de nuevo.';
+                console.error("❌ No se guardó el producto. Error:", prodErr);
+                showToast(`Error al guardar: ${msgError}`, 'error');
+                // NO cerramos el modal ni reseteamos para que el usuario pueda reintentar.
+            }
+        }
+
+        // ============== EDICIÓN DE PRODUCTO ==============
+        let editProdImage = '';
+
+        function openModalEditProduct(prodId) {
+            const prod = producerProducts.find(p => p.id === prodId);
+            if (!prod) {
+                showToast('No se encontró el producto en memoria. Recarga la página.', 'error');
+                return;
+            }
+            // Para tener todos los campos (descripción, rubroId, etc.), recuperamos desde
+            // Supabase por si la versión en memoria está incompleta.
+            supabaseClient.from('productos').select('*').eq('id', prodId).maybeSingle().then(({ data, error }) => {
+                if (error) {
+                    showToast('No se pudo cargar el producto: ' + error.message, 'error');
+                    return;
+                }
+                if (!data) {
+                    showToast('El producto ya no existe en la base de datos.', 'warning');
+                    return;
+                }
+                document.getElementById('edit-prod-id').value = data.id;
+                document.getElementById('edit-prod-title').value = data.nombre || '';
+                document.getElementById('edit-prod-price').value = data.precio_unitario ?? '';
+                document.getElementById('edit-prod-unit').value = data.unidad_medida || '';
+                document.getElementById('edit-prod-capacity').value = data.badge_distintivo || '';
+                document.getElementById('edit-prod-description').value = data.descripcion || '';
+                document.getElementById('edit-prod-disponible').value = data.disponible === false ? 'false' : 'true';
+                document.getElementById('edit-prod-image').value = data.imagen_url || '';
+                editProdImage = data.imagen_url || '';
+                updateEditProdPreview(data.imagen_url || '');
+                document.getElementById('modal-edit-product').classList.remove('hidden');
+            });
+        }
+
+        function closeModalEditProduct() {
+            document.getElementById('modal-edit-product').classList.add('hidden');
+            editProdImage = '';
+        }
+
+        function updateEditProdPreview(url) {
+            const container = document.getElementById('edit-prod-preview-container');
+            if (!container) return;
+            const isValidUrl = url && url.trim();
+            if (isValidUrl) {
+                container.innerHTML = `<img class="w-12 h-12 rounded-lg object-cover" src="${url}" alt="preview" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=&quot;material-symbols-outlined text-xl text-text-muted/60&quot;>image</span>';" />`;
+                editProdImage = url.trim();
+            } else {
+                container.innerHTML = '<span class="material-symbols-outlined text-xl text-text-muted/60">image</span>';
+                editProdImage = '';
+            }
+        }
+
+        function handleEditProdImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            if (!file.type.startsWith('image/')) {
+                showToast('Por favor selecciona una imagen válida', 'error');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                updateEditProdPreview(e.target.result);
+                const urlInput = document.getElementById('edit-prod-image');
+                if (urlInput) urlInput.value = '';
+                showToast('Imagen cargada (pendiente de guardar)', 'info');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function submitEditProduct(e) {
+            e.preventDefault();
+            const id = document.getElementById('edit-prod-id').value;
+            const urlInput = document.getElementById('edit-prod-image')?.value.trim();
+            const finalImage = urlInput || editProdImage;
+            const disponible = document.getElementById('edit-prod-disponible').value === 'true';
+
+            if (!id) {
+                showToast('Falta el ID del producto. Recarga la página.', 'error');
+                return;
+            }
+
+            const updates = {
+                nombre: document.getElementById('edit-prod-title').value.trim(),
+                precio_unitario: parseFloat(document.getElementById('edit-prod-price').value) || 0,
+                unidad_medida: document.getElementById('edit-prod-unit').value.trim(),
+                badge_distintivo: document.getElementById('edit-prod-capacity').value.trim() || null,
+                descripcion: document.getElementById('edit-prod-description').value.trim() || null,
+                disponible: disponible,
+                imagen_url: finalImage || null
+            };
+
+            if (!updates.nombre) {
+                showToast('El nombre del producto es obligatorio.', 'error');
+                return;
+            }
+
+            showToast('Guardando cambios en Supabase...', 'info');
+            const { data, error } = await productosService.actualizarProducto(id, updates);
+            if (error) {
+                const msg = error.message || error.error_description || JSON.stringify(error);
+                showToast('Error al actualizar: ' + msg, 'error');
+                return;
+            }
+            console.log('✅ Producto actualizado:', data);
+            await loadProducerProductsFromSupabase();
+            closeModalEditProduct();
+            showToast('Producto actualizado correctamente', 'success');
+        }
+
+        // ============== ELIMINACIÓN DE PRODUCTO ==============
+        function openConfirmDelete(prodId) {
+            const prod = producerProducts.find(p => p.id === prodId);
+            const nameEl = document.getElementById('delete-prod-name');
+            if (prod && nameEl) {
+                nameEl.innerText = prod.title || 'este producto';
+            } else if (nameEl) {
+                nameEl.innerText = 'este producto';
+            }
+            document.getElementById('delete-prod-id').value = prodId || '';
+            document.getElementById('modal-confirm-delete').classList.remove('hidden');
+        }
+
+        function closeConfirmDelete() {
+            document.getElementById('modal-confirm-delete').classList.add('hidden');
+            document.getElementById('delete-prod-id').value = '';
+        }
+
+        async function confirmDeleteProduct() {
+            const id = document.getElementById('delete-prod-id').value;
+            if (!id) {
+                showToast('Falta el ID del producto', 'error');
+                return;
+            }
+            showToast('Eliminando producto de Supabase...', 'info');
+            const { error } = await productosService.eliminarProducto(id);
+            if (error) {
+                const msg = error.message || error.error_description || JSON.stringify(error);
+                showToast('Error al eliminar: ' + msg, 'error');
+                return;
+            }
+            console.log('✅ Producto eliminado:', id);
+            closeConfirmDelete();
+            await loadProducerProductsFromSupabase();
+            showToast('Producto eliminado del catálogo', 'success');
+        }
+
+        // ============== SUSCRIPCIÓN REALTIME ==============
+        // Refresca automáticamente el grid de productos y la tabla de solicitudes
+        // del productor cuando hay cambios en Supabase (incluso desde otras pestañas/dispositivos).
+        let realtimeChannel = null;
+        function subscribeRealtimeUpdates() {
+            if (realtimeChannel) return; // ya suscrito
+            try {
+                realtimeChannel = supabaseClient
+                    .channel('tnc-realtime-producer')
+                    .on('postgres_changes',
+                        { event: '*', schema: 'public', table: 'productos' },
+                        (payload) => {
+                            console.log('🔄 Cambio en productos:', payload.eventType, payload);
+                            loadProducerProductsFromSupabase();
+                        }
+                    )
+                    .on('postgres_changes',
+                        { event: '*', schema: 'public', table: 'matches' },
+                        (payload) => {
+                            console.log('🔄 Cambio en matches:', payload.eventType, payload);
+                            loadProducerRequestsFromSupabase();
+                        }
+                    )
+                    .subscribe((status) => {
+                        console.log('📡 Realtime status:', status);
+                    });
+            } catch (err) {
+                console.warn('No se pudo suscribir a realtime:', err);
+            }
+        }
+
+        function unsubscribeRealtimeUpdates() {
+            if (realtimeChannel) {
+                try { supabaseClient.removeChannel(realtimeChannel); } catch (e) {}
+                realtimeChannel = null;
+            }
+        }
+
+        // Re-sincronizar al volver a la pestaña
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                loadProducerProductsFromSupabase();
+            }
+        });
+
+        function toggleNavAccordion(e) {
+            if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
+            const dropdown = document.getElementById('nav-accordion-dropdown');
+            const arrow = document.getElementById('menu-arrow');
+            if (!dropdown) return;
+            document.getElementById('profile-dropdown')?.classList.add('hidden');
+            const isHidden = dropdown.classList.contains('hidden');
+            if (isHidden) {
+                dropdown.classList.remove('hidden');
+                arrow?.classList.add('rotate-180');
+            } else {
+                dropdown.classList.add('hidden');
+                arrow?.classList.remove('rotate-180');
+            }
+        }
+
+        function toggleProfileDropdown(e) {
+            if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
+            const dropdown = document.getElementById('profile-dropdown');
+            if (!dropdown) return;
+            document.getElementById('nav-accordion-dropdown')?.classList.add('hidden');
+            document.getElementById('menu-arrow')?.classList.remove('rotate-180');
+            dropdown.classList.toggle('hidden');
+        }
+
+        function initDropdowns() {
+            const navDropdown = document.getElementById('nav-accordion-dropdown');
+            const navBtn = document.getElementById('btn-menu-toggle');
+            const profileDropdown = document.getElementById('profile-dropdown');
+            const profileBtn = document.getElementById('btn-profile-toggle');
+
+            document.addEventListener('click', (e) => {
+                if (navDropdown && !navDropdown.contains(e.target) && !navBtn.contains(e.target)) {
+                    navDropdown.classList.add('hidden');
+                    document.getElementById('menu-arrow')?.classList.remove('rotate-180');
+                }
+                if (profileDropdown && !profileDropdown.contains(e.target) && !profileBtn.contains(e.target)) {
+                    profileDropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            let bgClass = "bg-on-surface text-white";
+            let iconName = "info";
+            if (type === 'success') { bgClass = "bg-primary text-white"; iconName = "check_circle"; }
+            if (type === 'warning') { bgClass = "bg-warning-orange text-white"; iconName = "warning"; }
+            if (type === 'error') { bgClass = "bg-error text-white"; iconName = "error"; }
+
+            toast.className = `${bgClass} px-4 py-3 rounded-xl shadow-lg text-xs font-medium flex items-center gap-2.5 pointer-events-auto transition-all transform translate-y-2 opacity-0 duration-200 border border-white/20`;
+            toast.innerHTML = `<span class="material-symbols-outlined text-lg shrink-0">${iconName}</span><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>
