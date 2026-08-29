@@ -156,10 +156,10 @@
             <div class="relative">
                 <button id="btn-profile-toggle" onclick="toggleProfileDropdown(event)"
                     class="flex items-center gap-2.5 p-1.5 pr-2.5 rounded-xl hover:bg-surface-bright border border-transparent hover:border-outline-variant/40 transition-all cursor-pointer">
-                    <img id="company-header-avatar" alt="Foto Empresa" class="w-8 h-8 rounded-full object-cover border border-primary/40 shadow-xs"
-                        src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=150&auto=format&fit=crop&q=80" />
+                    <img id="company-header-avatar" alt="Foto Empresa" class="w-8 h-8 rounded-full object-cover border border-primary/40 shadow-xs bg-surface-container"
+                        src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" />
                     <div class="hidden sm:block text-left">
-                        <p id="company-display-name-header" class="text-xs font-bold text-on-surface leading-tight">Hotel Plaza Colón</p>
+                        <p id="company-display-name-header" class="text-xs font-bold text-on-surface leading-tight">Cargando...</p>
                         <p class="text-[10px] text-primary font-semibold">Empresa Turística</p>
                     </div>
                     <span class="material-symbols-outlined text-sm text-text-muted">arrow_drop_down</span>
@@ -169,11 +169,11 @@
                 <div id="profile-dropdown"
                     class="hidden absolute right-0 mt-2 w-64 bg-surface-white rounded-2xl shadow-2xl border border-outline-variant/40 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
                     <div class="flex items-center gap-3 p-2 bg-surface-bright rounded-xl mb-3 border border-outline-variant/30">
-                        <img id="company-dropdown-avatar" class="w-10 h-10 rounded-full object-cover border border-primary/30"
-                            src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=150&auto=format&fit=crop&q=80" />
+                        <img id="company-dropdown-avatar" class="w-10 h-10 rounded-full object-cover border border-primary/30 bg-surface-container"
+                            src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" />
                         <div class="overflow-hidden">
-                            <p id="company-dropdown-name" class="text-xs font-bold text-on-surface truncate">Hotel Plaza Colón</p>
-                            <p id="company-dropdown-email" class="text-[10px] text-text-muted truncate">compras@plazacolon.com.ni</p>
+                            <p id="company-dropdown-name" class="text-xs font-bold text-on-surface truncate">Cargando...</p>
+                            <p id="company-dropdown-email" class="text-[10px] text-text-muted truncate">—</p>
                             <span class="inline-block mt-0.5 text-[9px] bg-blue-100 text-blue-700 font-bold px-1.5 py-0.2 rounded">Rol: Empresa Turística</span>
                         </div>
                     </div>
@@ -355,9 +355,9 @@
         let companyProfile = {
             name: "Cargando...",
             email: "",
-            phone: "+505 2552-0000",
-            dept: "Granada",
-            photo: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=150&auto=format&fit=crop&q=80"
+            phone: "",
+            dept: "",
+            photo: ""
         };
 
         let providersList = [];
@@ -599,6 +599,14 @@
             renderProviders();
         }
 
+        function providerAvatarHTML(photo, altText) {
+            const isValidUrl = photo && typeof photo === 'string' && photo.trim() && photo.trim() !== 'null' && photo.trim() !== 'undefined';
+            if (isValidUrl) {
+                return `<img alt="${altText || 'Proveedor'}" class="w-full h-full object-cover" src="${photo}" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=&quot;material-symbols-outlined text-4xl text-text-muted/40&quot;>person</span>'" />`;
+            }
+            return `<span class="material-symbols-outlined text-4xl text-text-muted/40">person</span>`;
+        }
+
         function renderProviders() {
             const grid = document.getElementById('providers-grid');
             if (!grid) return;
@@ -620,13 +628,13 @@
                     <div>
                         <div class="flex items-start justify-between gap-3 mb-4">
                             <div class="flex items-center gap-3">
-                                <div class="w-14 h-14 rounded-2xl bg-surface-container overflow-hidden shrink-0 border border-outline-variant/30 shadow-xs">
-                                    <img alt="${p.name}" class="w-full h-full object-cover" src="${p.photo || 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80'}" />
+                                <div class="w-14 h-14 rounded-2xl bg-surface-container overflow-hidden shrink-0 border border-outline-variant/30 shadow-xs flex items-center justify-center">
+                                    ${providerAvatarHTML(p.photo, p.name)}
                                 </div>
                                 <div>
                                     <h3 class="font-bold text-base text-on-surface">${p.name}</h3>
                                     <p class="text-xs text-text-muted flex items-center gap-1 mt-0.5">
-                                        <span class="material-symbols-outlined text-xs text-primary">location_on</span> ${p.dept}, Nicaragua
+                                        <span class="material-symbols-outlined text-xs text-primary">location_on</span> ${p.dept || 'Nicaragua'} · Nicaragua
                                     </p>
                                 </div>
                             </div>
