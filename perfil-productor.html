@@ -4,7 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Perfil Productor - Turismo Nicaragua Conecta</title>
+    <title>Mi Panel de Productor · Tawanki</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0d631b" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <!-- Google Fonts & Material Symbols -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
@@ -87,7 +90,7 @@
     </script>
 </head>
 
-<body class="bg-background text-on-background font-sans h-screen flex flex-col overflow-hidden antialiased select-none">
+<body class="bg-background text-on-background font-sans h-screen flex flex-col overflow-hidden antialiased">
 
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-5 right-5 z-[100] flex flex-col gap-3 pointer-events-none"></div>
@@ -150,7 +153,7 @@
                     <span class="material-symbols-outlined text-xl">agriculture</span>
                 </div>
                 <div>
-                    <h1 class="text-sm font-extrabold text-primary leading-tight">Portal del Productor Local</h1>
+                    <p class="text-sm font-extrabold text-primary leading-tight">Portal del Productor Local</p>
                     <p id="header-producer-name" class="text-[11px] text-text-muted font-medium">Cargando…</p>
                 </div>
             </div>
@@ -348,23 +351,22 @@
                     <div class="bg-surface-white p-6 rounded-2xl shadow-sm border border-outline-variant/30">
                         <h2 class="text-lg font-bold text-on-surface mb-1 flex items-center gap-2">
                             <span class="material-symbols-outlined text-warning-orange text-xl">lightbulb</span>
-                            Conexión con Supabase
+                            Estado de tu cuenta
                         </h2>
-                        <p class="text-xs text-text-muted mb-4">Esta vista está lista para sincronizar con la tabla <code class="text-primary font-bold">productores</code> y <code class="text-primary font-bold">productos</code>.</p>
+                        <p class="text-xs text-text-muted mb-4">Resumen real de tu perfil y actividad en la plataforma.</p>
 
                         <div class="p-4 rounded-xl bg-surface-bright border border-outline-variant/30 space-y-2.5 text-xs">
                             <div class="flex items-center justify-between">
-                                <span class="text-text-muted">Estado del Perfil:</span>
-                                <span class="font-bold text-primary">Listo para BD</span>
+                                <span class="text-text-muted">Verificación INTUR:</span>
+                                <span id="producer-verification-status" class="font-bold text-text-muted">Sin verificar</span>
                             </div>
                             <div class="flex items-center justify-between">
-                                <span class="text-text-muted">Autenticación RLS:</span>
-                                <span class="font-bold text-primary flex items-center gap-1">
-                                <span class="material-symbols-outlined text-sm">verified</span>Verificada</span>
+                                <span class="text-text-muted">Productos publicados:</span>
+                                <span id="stat-producer-products-side" class="font-bold text-primary">0</span>
                             </div>
                             <div class="flex items-center justify-between">
-                                <span class="text-text-muted">Actualizaciones locales:</span>
-                                <span class="font-bold text-text-main">Habilitadas</span>
+                                <span class="text-text-muted">Solicitudes pendientes:</span>
+                                <span id="stat-producer-requests-side" class="font-bold text-tertiary">0</span>
                             </div>
                             <button onclick="openEditProducerModal()" class="w-full mt-2 py-2 rounded-xl bg-primary hover:bg-surface-tint text-white font-bold text-xs transition-colors">
                                 Actualizar Datos del Negocio
@@ -439,7 +441,7 @@
                     </div>
                     <div>
                         <label class="block font-bold text-text-main mb-1">Correo Electrónico *</label>
-                        <input type="email" id="input-producer-email" required placeholder="contacto@xalteva.com.ni"
+                        <input type="email" id="input-producer-email" required readonly title="El correo de acceso no se cambia aquí" placeholder="contacto@xalteva.com.ni"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                     </div>
                 </div>
@@ -447,14 +449,7 @@
                 <div>
                     <label class="block font-bold text-text-main mb-1">Departamento</label>
                     <select id="input-producer-dept" class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
-                        <option value="Granada">Granada</option>
-                        <option value="Masaya">Masaya</option>
-                        <option value="León">León</option>
-                        <option value="Rivas">Rivas</option>
-                        <option value="Matagalpa">Matagalpa</option>
-                        <option value="Estelí">Estelí</option>
-                        <option value="Managua">Managua</option>
-                        <option value="Madriz">Madriz</option>
+                        <option value="">Cargando departamentos…</option>
                     </select>
                 </div>
 
@@ -657,7 +652,8 @@
     </div>
 
     <!-- Supabase SDK + Config -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"
+        integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
     <script src="supabase-config.js"></script>
 
     <!-- ================= JAVASCRIPT LOGIC ================= -->
@@ -672,9 +668,14 @@
             email: "",
             phone: "",
             dept: "",
+            deptoId: "",
             bio: "",
             photo: ""
         };
+
+        // Archivos pendientes de subir a Storage (nunca base64 en la BD).
+        let tempProductFile = null;
+        let editProdFile = null;
 
         // ⚠️ FIX: sin imagen por defecto de Unsplash. Mientras el usuario no suba
         // o pegue una URL, el preview muestra un placeholder con icono.
@@ -688,30 +689,31 @@
         const PROD_IMAGE_PLACEHOLDER_HTML_SMALL = '<span class="material-symbols-outlined text-xl text-text-muted/60">image</span>';
 
         /**
-         * Helper central para renderizar la imagen de un producto.
-         * Regla estricta: si NO hay `imagen_url` en la BD, no se muestra NINGUNA imagen,
-         * solo un placeholder con icono. Esto evita inconsistencia visual donde algunos
-         * productos tienen foto real y otros una imagen ficticia.
+         * Imagen de producto segura: solo http(s) o data:image.
          */
         function productImageHTML(imageUrl, altText, size = 'sm') {
-            const isValidUrl = imageUrl && typeof imageUrl === 'string' && imageUrl.trim() && imageUrl.trim() !== 'null' && imageUrl.trim() !== 'undefined';
+            const src = safeImageUrl(imageUrl);
             const placeholder = size === 'lg' ? PROD_IMAGE_PLACEHOLDER_HTML_LARGE
                               : size === 'sm' ? PROD_IMAGE_PLACEHOLDER_HTML_SMALL
                               : PROD_IMAGE_PLACEHOLDER_HTML;
-            if (isValidUrl) {
-                return `<img alt="${altText || 'Producto'}" class="w-full h-full object-cover" src="${imageUrl}" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=&quot;material-symbols-outlined text-5xl text-text-muted/40&quot;>image</span>';" />`;
-            }
-            return placeholder;
+            if (!src) return placeholder;
+
+            return `
+                <img alt="${escapeHtml(altText || 'Producto')}" class="w-full h-full object-cover"
+                    width="400" height="300" loading="lazy" decoding="async" src="${escapeHtml(src)}"
+                    onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');" />
+                <span class="material-symbols-outlined ${size === 'lg' ? 'text-5xl text-text-muted/40' : 'text-xl text-text-muted/60'} hidden">image</span>
+            `;
         }
 
         // Helper: actualiza el preview del modal "Agregar producto".
         function updateNewProdPreview(url) {
             const container = document.getElementById('new-prod-preview-container');
             if (!container) return;
-            const isValidUrl = url && url.trim();
-            if (isValidUrl) {
-                container.innerHTML = `<img id="new-prod-preview-img" class="w-12 h-12 rounded-lg object-cover" src="${url}" alt="preview" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=&quot;material-symbols-outlined text-xl text-text-muted/60&quot;>image</span>';" />`;
-                tempProductImage = url.trim();
+            const safe = safeImageUrl(url);
+            if (safe) {
+                container.innerHTML = `<img id="new-prod-preview-img" class="w-12 h-12 rounded-lg object-cover" src="${escapeHtml(safe)}" alt="preview" />`;
+                tempProductImage = safe;
             } else {
                 container.innerHTML = PROD_IMAGE_PLACEHOLDER_HTML_SMALL;
                 tempProductImage = "";
@@ -757,11 +759,51 @@
             if (!authResult) return;
 
             currentUserProfile = authResult.profile;
+            await loadProducerDepartamentos();
             await loadProducerProfileFromSupabase();
             await loadProducerProductsFromSupabase();
             await loadProducerRequestsFromSupabase();
+            setupProducerGridEvents();
             subscribeRealtimeUpdates();
         });
+
+        function setupProducerGridEvents() {
+            const productsGrid = document.getElementById('producer-products-grid');
+            productsGrid?.addEventListener('click', (event) => {
+                const btn = event.target.closest('[data-product-action]');
+                if (!btn) return;
+                if (btn.dataset.productAction === 'edit') openModalEditProduct(btn.dataset.id);
+                if (btn.dataset.productAction === 'delete') openConfirmDelete(btn.dataset.id);
+            });
+
+            const requestsBody = document.getElementById('producer-requests-table-body');
+            requestsBody?.addEventListener('click', (event) => {
+                const btn = event.target.closest('[data-request-action]');
+                if (!btn) return;
+                if (btn.dataset.requestAction === 'approve') aprobarSolicitud(btn.dataset.id);
+                if (btn.dataset.requestAction === 'reject') rechazarSolicitud(btn.dataset.id);
+            });
+        }
+
+        async function loadProducerDepartamentos() {
+            const select = document.getElementById('input-producer-dept');
+            if (!select) return;
+
+            const { data: deptos } = await catalogoBaseService.getDepartamentos();
+            select.replaceChildren();
+
+            const first = document.createElement('option');
+            first.value = '';
+            first.textContent = deptos?.length ? 'Selecciona departamento' : 'Sin departamentos configurados';
+            select.appendChild(first);
+
+            for (const depto of deptos || []) {
+                const option = document.createElement('option');
+                option.value = String(depto.id);
+                option.textContent = depto.nombre;
+                select.appendChild(option);
+            }
+        }
 
         window.addEventListener('beforeunload', () => {
             unsubscribeRealtimeUpdates();
@@ -779,7 +821,7 @@
             producerProfile.name = currentUserProfile.nombre_completo || "";
             producerProfile.email = currentUserProfile.email || "";
             producerProfile.phone = currentUserProfile.telefono || "";
-            producerProfile.photo = currentUserProfile.avatar_url || "";
+            producerProfile.photo = safeImageUrl(currentUserProfile.avatar_url) || "";
 
             try {
                 const { data: prodData, error: getProdErr } = await productoresService.getProductorByProfileId(currentUserProfile.id);
@@ -792,33 +834,30 @@
                     if (prodData.telefono_whatsapp) producerProfile.phone = prodData.telefono_whatsapp;
                     if (prodData.descripcion) producerProfile.bio = prodData.descripcion;
                     if (prodData.departamentos) producerProfile.dept = prodData.departamentos.nombre;
-                    // La verificación INTUR controla si mostramos el badge "Productor Conectado".
+                    producerProfile.deptoId = prodData.departamento_id ?? prodData.departamentos?.id ?? '';
+
+                    // La verificación INTUR controla el badge y el estado de la cuenta.
+                    const verified = prodData.verificado_intur === true;
                     const verifiedBadge = document.getElementById('producer-verified-badge');
                     if (verifiedBadge) {
-                        if (prodData.verificado_intur) {
-                            verifiedBadge.classList.remove('hidden');
-                            verifiedBadge.classList.add('inline-flex');
-                        } else {
-                            verifiedBadge.classList.add('hidden');
-                            verifiedBadge.classList.remove('inline-flex');
-                        }
+                        verifiedBadge.classList.toggle('hidden', !verified);
+                        verifiedBadge.classList.toggle('inline-flex', verified);
+                    }
+
+                    const verificationStatus = document.getElementById('producer-verification-status');
+                    if (verificationStatus) {
+                        verificationStatus.textContent = verified ? 'Verificado INTUR' : 'Sin verificar';
+                        verificationStatus.className = verified ? 'font-bold text-primary' : 'font-bold text-warning-orange';
                     }
                 } else {
-                    // Si no tiene registro en productores, asegurar uno automáticamente.
-                    // ⚠️ FIX: usamos ensureProductorRecord que propaga errores reales.
-                    const { data: ensured, error: ensureErr } = await productosService.ensureProductorRecord(
-                        currentUserProfile.id,
-                        {
-                            nombre_completo: producerProfile.name,
-                            telefono: producerProfile.phone
-                        }
-                    );
+                    // Si no tiene registro en productores, crearlo con los metadatos del registro.
+                    const { data: ensured, error: ensureErr } = await productosService.ensureProductorRecord();
                     if (ensureErr) {
                         console.error("❌ No se pudo crear el registro de productor:", ensureErr);
-                        const msg = ensureErr.message || ensureErr.error_description || JSON.stringify(ensureErr);
-                        showToast(`No se pudo sincronizar tu perfil de productor: ${msg}. Intenta cerrar sesión y volver a entrar.`, 'error');
+                        showToast(`No se pudo sincronizar tu perfil de productor: ${ensureErr.message || 'intenta de nuevo'}.`, 'error');
                     } else if (ensured) {
                         currentProductorRecord = ensured;
+                        producerProfile.deptoId = ensured.departamento_id ?? '';
                     }
                 }
             } catch (e) {
@@ -829,42 +868,53 @@
         }
 
         function handleLocalProducerPhotoUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                if (!file.type.startsWith('image/')) {
-                    showToast('Por favor selecciona una imagen válida', 'error');
-                    return;
-                }
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const base64Image = e.target.result;
-                    document.getElementById('edit-producer-avatar-preview').src = base64Image;
-                    producerProfile.photo = base64Image;
-                    const urlInput = document.getElementById('input-producer-photo');
-                    if (urlInput) urlInput.value = '';
-                    showToast('Imagen local cargada con éxito', 'info');
-                };
-                reader.readAsDataURL(file);
+            const file = event.target.files?.[0];
+            if (!file) return;
+
+            if (!/^image\/(png|jpe?g|webp|gif)$/i.test(file.type)) {
+                showToast('Formato no permitido. Usa PNG, JPG, WEBP o GIF.', 'error');
+                return;
             }
+            if (file.size > LIMITS.imagenBytes) {
+                showToast('La imagen supera los 2 MB.', 'error');
+                return;
+            }
+
+            producerAvatarFile = file;
+            document.getElementById('edit-producer-avatar-preview').src = URL.createObjectURL(file);
+            const urlInput = document.getElementById('input-producer-photo');
+            if (urlInput) urlInput.value = '';
+            showToast('Imagen lista. Pulsa Guardar para subirla.', 'info');
         }
 
+        let producerAvatarFile = null;
+
         function handleLocalProductImageUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                if (!file.type.startsWith('image/')) {
-                    showToast('Por favor selecciona una imagen válida', 'error');
-                    return;
-                }
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    // ⚠️ FIX: usar el helper que actualiza el contenedor con icono/imagen.
-                    updateNewProdPreview(e.target.result);
-                    const urlInput = document.getElementById('input-prod-image');
-                    if (urlInput) urlInput.value = '';
-                    showToast('Imagen de producto cargada', 'info');
-                };
-                reader.readAsDataURL(file);
+            const file = event.target.files?.[0];
+            if (!file) return;
+
+            if (!/^image\/(png|jpe?g|webp|gif)$/i.test(file.type)) {
+                showToast('Formato no permitido. Usa PNG, JPG, WEBP o GIF.', 'error');
+                return;
             }
+            if (file.size > LIMITS.imagenBytes) {
+                showToast('La imagen supera los 2 MB.', 'error');
+                return;
+            }
+
+            tempProductFile = file;
+            tempProductImage = '';
+
+            const container = document.getElementById('new-prod-preview-container');
+            if (container) {
+                const previewUrl = URL.createObjectURL(file);
+                container.innerHTML = `<img id="new-prod-preview-img" class="w-12 h-12 rounded-lg object-cover"
+                    src="${escapeHtml(previewUrl)}" alt="preview" />`;
+            }
+
+            const urlInput = document.getElementById('input-prod-image');
+            if (urlInput) urlInput.value = '';
+            showToast('Imagen lista. Pulsa Publicar para subirla.', 'info');
         }
 
         function toggleProducerUrlInput() {
@@ -887,26 +937,26 @@
             const phone = producerProfile.phone?.trim() || '—';
             const location = dept ? dept : '—';
             const bio = producerProfile.bio?.trim() || '—';
-            const photo = producerProfile.photo?.trim();
+            const photo = safeImageUrl(producerProfile.photo);
 
-            document.getElementById('header-producer-name').innerText = dept ? `${name} · ${dept}` : name;
+            document.getElementById('header-producer-name').textContent = dept ? `${name} · ${dept}` : name;
             document.getElementById('producer-header-avatar').src = photo || 'data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E';
-            document.getElementById('producer-display-name-header').innerText = name;
-            document.getElementById('producer-dropdown-name').innerText = name;
-            document.getElementById('producer-dropdown-email').innerText = email;
+            document.getElementById('producer-display-name-header').textContent = name;
+            document.getElementById('producer-dropdown-name').textContent = name;
+            document.getElementById('producer-dropdown-email').textContent = email;
             document.getElementById('producer-dropdown-avatar').src = photo || 'data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E';
             const avatarBigPlaceholder = 'data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2096%2096%22%3E%3Crect%20width%3D%2296%22%20height%3D%2296%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M48%2040a14%2014%200%201%200%200-28%2014%2014%200%200%200%200%2028zm0%2012c-12%200-24%208-24%2016v8h48v-8c0-8-12-16-24-16z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E';
             const avatarEditPlaceholder = 'data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M32%2024a10%2010%200%201%200%200-20%2010%2010%200%200%200%200%2020zm0%208c-8%200-16%206-16%2012v4h32v-4c0-6-8-12-16-12z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E';
             document.getElementById('producer-main-avatar').src = photo || avatarBigPlaceholder;
-            document.getElementById('producer-title-name').innerText = name;
-            document.getElementById('producer-location').innerText = location;
-            document.getElementById('producer-phone').innerText = phone;
-            document.getElementById('producer-bio').innerText = bio;
+            document.getElementById('producer-title-name').textContent = name;
+            document.getElementById('producer-location').textContent = location;
+            document.getElementById('producer-phone').textContent = phone;
+            document.getElementById('producer-bio').textContent = bio;
 
             // Estado de sincronización
             const syncStatus = document.getElementById('producer-sync-status');
             if (syncStatus) {
-                syncStatus.innerText = currentProductorRecord ? 'Sincronizado' : 'Sin registro de productor';
+                syncStatus.textContent = currentProductorRecord ? 'Sincronizado' : 'Sin registro de productor';
                 syncStatus.parentElement.classList.toggle('text-primary', !!currentProductorRecord);
             }
 
@@ -914,19 +964,27 @@
             document.getElementById('input-producer-name').value = producerProfile.name || '';
             document.getElementById('input-producer-email').value = producerProfile.email || '';
             document.getElementById('input-producer-phone').value = producerProfile.phone || '';
-            document.getElementById('input-producer-dept').value = producerProfile.dept || '';
+            const deptoSelect = document.getElementById('input-producer-dept');
+            if (deptoSelect && producerProfile.deptoId) {
+                deptoSelect.value = String(producerProfile.deptoId);
+            }
             document.getElementById('input-producer-bio').value = producerProfile.bio || '';
             document.getElementById('input-producer-photo').value = producerProfile.photo || '';
             document.getElementById('edit-producer-avatar-preview').src = photo || avatarEditPlaceholder;
         }
 
         function previewProducerPhotoUrl(url) {
-            if (url && url.startsWith('http')) {
-                document.getElementById('edit-producer-avatar-preview').src = url;
+            const safe = safeImageUrl(url);
+            if (safe) {
+                document.getElementById('edit-producer-avatar-preview').src = safe;
             }
         }
 
         function openEditProducerModal() {
+            if (!currentUserProfile) {
+                showToast('Inicia sesión para editar tus datos.', 'warning');
+                return;
+            }
             applyProducerProfile();
             document.getElementById('modal-edit-producer').classList.remove('hidden');
         }
@@ -937,30 +995,95 @@
 
         async function saveProducerProfile(e) {
             e.preventDefault();
-            producerProfile.name = document.getElementById('input-producer-name').value.trim();
-            producerProfile.phone = document.getElementById('input-producer-phone').value.trim();
-            producerProfile.dept = document.getElementById('input-producer-dept').value;
-            producerProfile.bio = document.getElementById('input-producer-bio').value.trim();
-            const photoUrl = document.getElementById('input-producer-photo').value.trim();
-            if (photoUrl) producerProfile.photo = photoUrl;
 
-            showToast('Actualizando perfil en Supabase...', 'info');
+            if (!currentUserProfile) {
+                showToast('Inicia sesión para guardar tu perfil.', 'warning');
+                return;
+            }
 
-            if (currentUserProfile) {
-                await profileService.updateProfile(currentUserProfile.id, {
-                    nombre_completo: producerProfile.name,
-                    telefono: producerProfile.phone,
-                    avatar_url: producerProfile.photo
-                });
+            const nameCheck = validarTexto(document.getElementById('input-producer-name').value, LIMITS.nombre, true);
+            if (!nameCheck.ok) {
+                showToast(nameCheck.error, 'error');
+                return;
+            }
 
-                if (currentProductorRecord) {
-                    await supabaseClient.from('productores').update({
-                        nombre_cooperativa_o_taller: producerProfile.name,
-                        telefono_whatsapp: producerProfile.phone,
-                        descripcion: producerProfile.bio
-                    }).eq('id', currentProductorRecord.id);
+            const phone = document.getElementById('input-producer-phone').value.trim();
+            if (phone && !/^[+0-9()\s-]{7,20}$/.test(phone)) {
+                showToast('Teléfono inválido. Usa el formato +505 8888-9999.', 'error');
+                return;
+            }
+
+            const bioCheck = validarTexto(document.getElementById('input-producer-bio').value, LIMITS.descripcion);
+            if (!bioCheck.ok) {
+                showToast(bioCheck.error, 'error');
+                return;
+            }
+
+            const deptoId = document.getElementById('input-producer-dept').value || null;
+
+            showToast('Actualizando perfil...', 'info');
+
+            let avatarUrl = producerProfile.photo;
+
+            if (producerAvatarFile) {
+                const { publicUrl, error: uploadError } = await profileService.uploadAvatar(currentUserProfile.id, producerAvatarFile);
+                if (uploadError) {
+                    showToast('No se pudo subir la imagen: ' + (uploadError.message || 'intenta de nuevo'), 'error');
+                    return;
+                }
+                avatarUrl = publicUrl;
+                producerAvatarFile = null;
+                document.getElementById('input-producer-file').value = '';
+            } else {
+                const urlInput = document.getElementById('input-producer-photo').value.trim();
+                if (urlInput) {
+                    const safe = safeImageUrl(urlInput);
+                    if (!safe) {
+                        showToast('La URL de la imagen no es válida.', 'error');
+                        return;
+                    }
+                    avatarUrl = safe;
                 }
             }
+
+            const { error: profileError } = await profileService.updateProfile(currentUserProfile.id, {
+                nombre_completo: nameCheck.value,
+                telefono: phone,
+                avatar_url: avatarUrl || ''
+            });
+
+            if (profileError) {
+                showToast('No se pudo actualizar el perfil: ' + (profileError.message || 'intenta de nuevo'), 'error');
+                return;
+            }
+
+            const producerUpdates = {
+                nombre_cooperativa_o_taller: nameCheck.value,
+                telefono_whatsapp: phone,
+                descripcion: bioCheck.value
+            };
+            if (deptoId) producerUpdates.departamento_id = deptoId;
+
+            const { error: prodError } = await supabaseClient
+                .from('productores')
+                .update(producerUpdates)
+                .eq('profile_id', currentUserProfile.id);
+
+            if (prodError) {
+                showToast('Perfil guardado, pero la ficha de productor falló: ' + (prodError.message || 'intenta de nuevo'), 'error');
+                return;
+            }
+
+            producerProfile.name = nameCheck.value;
+            producerProfile.phone = phone;
+            producerProfile.bio = bioCheck.value;
+            producerProfile.photo = avatarUrl || '';
+            producerProfile.deptoId = deptoId || '';
+            producerProfile.dept = document.getElementById('input-producer-dept').selectedOptions[0]?.textContent || producerProfile.dept;
+
+            currentUserProfile.nombre_completo = nameCheck.value;
+            currentUserProfile.telefono = phone;
+            currentUserProfile.avatar_url = avatarUrl || '';
 
             applyProducerProfile();
             closeEditProducerModal();
@@ -988,10 +1111,7 @@
             try {
                 if (!currentProductorRecord && currentUserProfile) {
                     // ⚠️ FIX: usar la nueva firma { data, error }
-                    const { data: ensured, error: ensureErr } = await productosService.ensureProductorRecord(currentUserProfile.id, {
-                        nombre_completo: currentUserProfile.nombre_completo,
-                        telefono: currentUserProfile.telefono
-                    });
+                    const { data: ensured, error: ensureErr } = await productosService.ensureProductorRecord();
                     if (ensureErr) {
                         console.warn("No se pudo asegurar el registro de productor en loadProducerProducts:", ensureErr);
                     } else if (ensured) {
@@ -1028,8 +1148,9 @@
         function renderProducerProducts() {
             const container = document.getElementById('producer-products-grid');
             if (!container) return;
-            const disponibles = producerProducts.filter(p => p.disponible !== false).length;
-            document.getElementById('stat-producer-products').innerText = producerProducts.length;
+            document.getElementById('stat-producer-products').textContent = producerProducts.length;
+            const sideCount = document.getElementById('stat-producer-products-side');
+            if (sideCount) sideCount.textContent = producerProducts.length;
 
             if (producerProducts.length === 0) {
                 container.innerHTML = `
@@ -1050,8 +1171,6 @@
                 const statusBadge = isAvailable
                     ? '<span class="text-[9px] bg-green-light-bg text-primary font-bold px-1.5 py-0.5 rounded border border-primary/20">Disponible</span>'
                     : '<span class="text-[9px] bg-error-container text-on-error-container font-bold px-1.5 py-0.5 rounded border border-error-red/20">No disponible</span>';
-                // Escapar comillas para evitar romper atributos HTML
-                const safeTitle = (p.title || '').replace(/"/g, '&quot;');
                 return `
                 <div class="p-3 rounded-xl bg-surface-bright border border-outline-variant/30 hover:border-primary transition-all relative group">
                     <div class="flex gap-3">
@@ -1060,20 +1179,20 @@
                         </div>
                         <div class="flex flex-col flex-1 min-w-0">
                             <div class="flex items-start justify-between gap-2 mb-0.5">
-                                <h3 class="font-bold text-xs text-on-surface truncate">${p.title || '—'}</h3>
+                                <h3 class="font-bold text-xs text-on-surface truncate">${escapeHtml(p.title || '—')}</h3>
                                 ${statusBadge}
                             </div>
-                            <p class="text-[10px] text-text-muted truncate">${p.capacity || ''}</p>
-                            <p class="text-xs font-extrabold text-primary mt-0.5">C$ ${p.price} <span class="text-text-muted font-normal text-[9px]">${p.unit ? '/ ' + p.unit : ''}</span></p>
+                            <p class="text-[10px] text-text-muted truncate">${escapeHtml(p.capacity || '')}</p>
+                            <p class="text-xs font-extrabold text-primary mt-0.5">${formatCordobas(p.price)} <span class="text-text-muted font-normal text-[9px]">/ ${escapeHtml(p.unit || 'unidad')}</span></p>
                         </div>
                     </div>
                     <div class="flex gap-1.5 mt-2.5 pt-2.5 border-t border-outline-variant/20">
-                        <button onclick="openModalEditProduct('${p.id}')" title="Editar producto"
+                        <button type="button" data-product-action="edit" data-id="${escapeHtml(String(p.id))}" title="Editar producto"
                             class="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg bg-surface-white hover:bg-green-light-bg border border-outline-variant/40 hover:border-primary text-text-main hover:text-primary text-[10px] font-bold transition-colors">
                             <span class="material-symbols-outlined text-xs">edit</span>
                             Editar
                         </button>
-                        <button onclick="openConfirmDelete('${p.id}')" title="Eliminar producto"
+                        <button type="button" data-product-action="delete" data-id="${escapeHtml(String(p.id))}" title="Eliminar producto"
                             class="flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg bg-surface-white hover:bg-error-container/40 border border-outline-variant/40 hover:border-error-red text-text-muted hover:text-error-red text-[10px] font-bold transition-colors">
                             <span class="material-symbols-outlined text-xs">delete</span>
                         </button>
@@ -1096,8 +1215,11 @@
             const tbody = document.getElementById('producer-requests-table-body');
             if (!tbody) return;
             const pendientes = producerRequests.filter(r => r.estado === 'Pendiente');
-            document.getElementById('stat-producer-requests').innerText = pendientes.length;
-            document.getElementById('pending-requests-count').innerText = `${pendientes.length} pendientes`;
+            document.getElementById('stat-producer-requests').textContent = pendientes.length;
+            document.getElementById('pending-requests-count').textContent = `${pendientes.length} pendientes`;
+            document.getElementById('stat-producer-matches').textContent = producerRequests.length;
+            const sideRequests = document.getElementById('stat-producer-requests-side');
+            if (sideRequests) sideRequests.textContent = pendientes.length;
 
             if (producerRequests.length === 0) {
                 tbody.innerHTML = `
@@ -1120,30 +1242,32 @@
                     estado === 'En_Negociacion' ? 'bg-tertiary-fixed/40 text-tertiary border-tertiary/30' :
                     estado === 'Rechazado' ? 'bg-error-container text-on-error-container border-error-red/30' :
                     'bg-surface-container text-text-muted border-outline-variant/30';
-                const fecha = r.created_at ? new Date(r.created_at).toLocaleDateString('es-NI', { day: '2-digit', month: 'short' }) : '—';
-                const monto = r.monto_estimado_cordobas ? `C$ ${Number(r.monto_estimado_cordobas).toLocaleString('es-NI')}` : '—';
+                const fecha = formatFecha(r.created_at);
+                const monto = r.monto_estimado_cordobas != null ? formatCordobas(r.monto_estimado_cordobas) : '—';
                 const descripcion = r.descripcion_acuerdo || '—';
                 const canAct = estado === 'Pendiente' || estado === 'En_Negociacion';
                 return `
                     <tr class="hover:bg-surface-bright transition-colors">
-                        <td class="py-3 pr-3 font-semibold text-on-surface text-xs">${empresa}</td>
-                        <td class="py-3 pr-3 text-text-muted text-xs">${descripcion}</td>
-                        <td class="py-3 pr-3 font-bold text-primary text-xs">${monto}</td>
+                        <td class="py-3 pr-3 font-semibold text-on-surface text-xs">${escapeHtml(empresa)}</td>
+                        <td class="py-3 pr-3 text-text-muted text-xs">${escapeHtml(descripcion)}</td>
+                        <td class="py-3 pr-3 font-bold text-primary text-xs">${escapeHtml(monto)}</td>
                         <td class="py-3 pr-3">
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${estadoBadge}">${estado}</span>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${estadoBadge}">${escapeHtml(estado)}</span>
                         </td>
                         <td class="py-3 text-right">
                             <div class="flex gap-1.5 justify-end">
                                 ${canAct ? `
-                                    <button onclick="aprobarSolicitud('${r.id}')" title="Aprobar y marcar producto como no disponible"
+                                    <button type="button" data-request-action="approve" data-id="${escapeHtml(String(r.id))}"
+                                        title="Aprobar y marcar el producto solicitado como no disponible"
                                         class="px-2 py-1 rounded-lg bg-primary hover:bg-surface-tint text-white text-[10px] font-bold flex items-center gap-1">
                                         <span class="material-symbols-outlined text-xs">check</span> Aprobar
                                     </button>
-                                    <button onclick="rechazarSolicitud('${r.id}')" title="Rechazar solicitud"
+                                    <button type="button" data-request-action="reject" data-id="${escapeHtml(String(r.id))}"
+                                        title="Rechazar solicitud"
                                         class="px-2 py-1 rounded-lg bg-surface-bright hover:bg-error-container border border-outline-variant/40 hover:border-error-red text-text-muted hover:text-error-red text-[10px] font-bold flex items-center gap-1">
                                         <span class="material-symbols-outlined text-xs">close</span>
                                     </button>
-                                ` : `<span class="text-[10px] text-text-muted">${fecha}</span>`}
+                                ` : `<span class="text-[10px] text-text-muted">${escapeHtml(fecha)}</span>`}
                             </div>
                         </td>
                     </tr>
@@ -1153,45 +1277,37 @@
 
         async function aprobarSolicitud(matchId) {
             if (!currentProductorRecord) {
-                showToast('No se encontró tu registro de productor', 'error');
+                showToast('No se encontró tu registro de productor.', 'error');
                 return;
             }
-            // Buscamos el match para identificar el producto (guardado en descripcion_acuerdo
-            // o como product_id; en esta versión lo inferimos del producto del productor
-            // pendiente de cerrar).
-            const match = producerRequests.find(r => r.id === matchId);
-            if (!match) {
-                showToast('No se encontró la solicitud', 'error');
-                return;
-            }
-            // Por ahora tomamos el primer producto disponible del productor como el que
-            // se va a "comprometer" (en una versión mejor, el match debería tener
-            // producto_id directo).
-            const { data: prods } = await productosService.getProductosByProductor(currentProductorRecord.id);
-            const targetProduct = (prods || []).find(p => p.disponible !== false);
 
-            showToast('Concretando acuerdo y bloqueando producto...', 'info');
-            const { match: updatedMatch, producto, error } = await matchesService.concretarMatch(matchId, {
-                nuevoEstado: 'Aprobado',
-                marcarProductoNoDisponible: !!targetProduct,
-                productoId: targetProduct ? targetProduct.id : null
-            });
+            const match = producerRequests.find(r => String(r.id) === String(matchId));
+            if (!match) {
+                showToast('No se encontró la solicitud.', 'error');
+                return;
+            }
+
+            showToast('Aprobando solicitud y bloqueando el producto...', 'info');
+
+            // El servidor identifica el producto exacto del match y lo bloquea
+            // de forma atómica (no se adivina desde el cliente).
+            const { error } = await matchesService.actualizarEstado(matchId, 'Aprobado');
             if (error) {
-                const msg = error.message || error.error_description || JSON.stringify(error);
+                const msg = error.message || error.error_description || 'Error desconocido';
                 showToast('Error al aprobar: ' + msg, 'error');
                 return;
             }
-            console.log('✅ Match aprobado:', updatedMatch, 'Producto bloqueado:', producto);
+
             await loadProducerRequestsFromSupabase();
             await loadProducerProductsFromSupabase();
-            showToast('Solicitud aprobada. Producto bloqueado para otras empresas.', 'success');
+            showToast('Solicitud aprobada. El producto solicitado quedó bloqueado.', 'success');
         }
 
         async function rechazarSolicitud(matchId) {
             showToast('Rechazando solicitud...', 'info');
-            const { data, error } = await matchesService.actualizarEstado(matchId, 'Rechazado');
+            const { error } = await matchesService.actualizarEstado(matchId, 'Rechazado');
             if (error) {
-                const msg = error.message || error.error_description || JSON.stringify(error);
+                const msg = error.message || error.error_description || 'Error desconocido';
                 showToast('Error al rechazar: ' + msg, 'error');
                 return;
             }
@@ -1200,8 +1316,11 @@
         }
 
         function openModalAddProduct() {
-            // ⚠️ FIX: al abrir el modal, limpiar el preview para que se vea el placeholder
-            // genérico (icono "image") en vez de una imagen de muestra.
+            // Limpiar restos de una apertura anterior (archivo, preview y URL).
+            tempProductFile = null;
+            tempProductImage = '';
+            const fileInput = document.getElementById('input-prod-file');
+            if (fileInput) fileInput.value = '';
             document.getElementById('modal-add-product').classList.remove('hidden');
             updateNewProdPreview('');
             const urlInput = document.getElementById('input-prod-image');
@@ -1210,101 +1329,111 @@
 
         function closeModalAddProduct() {
             document.getElementById('modal-add-product').classList.add('hidden');
+            tempProductFile = null;
+            tempProductImage = '';
+            const fileInput = document.getElementById('input-prod-file');
+            if (fileInput) fileInput.value = '';
         }
 
         async function submitNewProduct(e) {
             e.preventDefault();
             const title = document.getElementById('input-prod-title').value.trim();
-            const price = parseFloat(document.getElementById('input-prod-price').value.trim()) || 0;
+            const price = parseFloat(document.getElementById('input-prod-price').value.trim());
             const unit = document.getElementById('input-prod-unit').value.trim();
             const capacity = document.getElementById('input-prod-capacity').value.trim() || 'Disponible';
             const urlImg = document.getElementById('input-prod-image')?.value.trim();
-            const image = urlImg || tempProductImage;
+            let image = safeImageUrl(urlImg) || safeImageUrl(tempProductImage);
 
-            showToast('Guardando producto en Supabase...', 'info');
+            if (title.length < 3) {
+                showToast('El nombre del producto debe tener al menos 3 caracteres.', 'error');
+                return;
+            }
+            if (!Number.isFinite(price) || price < 0 || price > LIMITS.precioMax) {
+                showToast('Precio inválido.', 'error');
+                return;
+            }
+            if (unit.length > LIMITS.unidad) {
+                showToast('La unidad de medida es demasiado larga.', 'error');
+                return;
+            }
+
+            showToast('Guardando producto...', 'info');
 
             // 1. Asegurar sesión y perfil
             if (!currentUserProfile) {
                 const res = await authService.getCurrentUser();
                 currentUserProfile = res?.profile;
             }
+            if (!currentUserProfile) {
+                showToast('Tu sesión expiró. Inicia sesión de nuevo.', 'error');
+                return;
+            }
 
-            // 2. Asegurar que tenemos el registro del productor en la base de datos.
-            // ⚠️ FIX: usamos ensureProductorRecord que propaga errores reales.
-            if (!currentProductorRecord && currentUserProfile) {
-                const { data: ensured, error: ensureErr } = await productosService.ensureProductorRecord(
-                    currentUserProfile.id,
-                    {
-                        nombre_completo: currentUserProfile.nombre_completo,
-                        telefono: currentUserProfile.telefono
-                    }
-                );
+            // 2. Asegurar el registro de productor con los metadatos del registro.
+            if (!currentProductorRecord) {
+                const { data: ensured, error: ensureErr } = await productosService.ensureProductorRecord();
                 if (ensureErr) {
-                    const msg = ensureErr.message || ensureErr.error_description || JSON.stringify(ensureErr);
-                    showToast(`No se pudo sincronizar tu perfil de productor: ${msg}. Cierra sesión y vuelve a entrar.`, 'error');
-                    return; // abortar: sin productorId no podemos guardar el producto
+                    showToast(`No se pudo sincronizar tu perfil de productor: ${ensureErr.message || 'intenta de nuevo'}.`, 'error');
+                    return;
                 }
-                if (ensured) {
-                    currentProductorRecord = ensured;
-                }
+                if (ensured) currentProductorRecord = ensured;
             }
 
             const productorId = currentProductorRecord?.id;
-            const rubroId = currentProductorRecord?.rubro_id || 1;
+            const rubroId = currentProductorRecord?.rubro_id || null;
 
-            // ⚠️ FIX CRÍTICO: Detectar éxito/fracaso REAL del INSERT antes de mentirle al usuario.
-            // Antes, el toast de éxito se mostraba SIEMPRE aunque el INSERT fallara, dejando
-            // al usuario pensando que se guardó cuando en realidad nunca entró a Supabase.
-            const submitBtn = document.querySelector('#form-add-product button[type="submit"]');
-            const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
-
-            let createdProd = null;
-            let prodErr = null;
-            try {
-                if (!productorId) {
-                    throw new Error('No se pudo obtener el ID del productor. Cierra sesión y vuelve a entrar para sincronizar tu perfil.');
-                }
-                const result = await productosService.crearProducto({
-                    productorId: productorId,
-                    rubroId: rubroId,
-                    nombre: title,
-                    descripcion: `${title} de producción artesanal local.`,
-                    precioUnitario: price,
-                    unidadMedida: unit,
-                    badgeDistintivo: capacity,
-                    imagenUrl: image
-                });
-                createdProd = result?.data;
-                prodErr = result?.error;
-            } catch (err) {
-                console.error("Excepción al guardar producto:", err);
-                prodErr = err;
+            if (!productorId) {
+                showToast('No se pudo obtener tu registro de productor. Recarga la página.', 'error');
+                return;
             }
 
-            // Restaurar el botón siempre
+            // 3. Subir la imagen a Storage si se seleccionó un archivo local.
+            if (tempProductFile) {
+                const { publicUrl, error: uploadError } = await productosService.uploadProductImage(currentUserProfile.id, tempProductFile);
+                if (uploadError) {
+                    showToast('No se pudo subir la imagen: ' + (uploadError.message || 'intenta de nuevo'), 'error');
+                    return;
+                }
+                image = publicUrl;
+                tempProductFile = null;
+            }
+
+            const submitBtn = document.querySelector('#form-add-product button[type="submit"]');
+            const originalBtnText = submitBtn ? submitBtn.textContent : '';
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Publicando…';
+            }
+
+            const { data: createdProd, error: prodErr } = await productosService.crearProducto({
+                productorId,
+                rubroId,
+                nombre: title,
+                descripcion: `${title} de producción artesanal local.`,
+                precioUnitario: price,
+                unidadMedida: unit,
+                badgeDistintivo: capacity,
+                imagenUrl: image
+            });
+
             if (submitBtn) {
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnText;
+                submitBtn.textContent = originalBtnText;
             }
 
-            // ✅ Solo si NO hubo error y SÍ tenemos un producto creado con id
             if (!prodErr && createdProd && createdProd.id) {
-                console.log("✅ Producto guardado en Supabase:", createdProd);
                 await loadProducerProductsFromSupabase();
                 closeModalAddProduct();
                 document.getElementById('form-add-product').reset();
-                // ⚠️ FIX: limpiar el preview al guardar, sin fallback de Unsplash.
                 tempProductImage = "";
+                tempProductFile = null;
                 updateNewProdPreview('');
-                showToast(`¡Producto "${title}" publicado en tu catálogo con éxito!`, 'success');
+                showToast(`¡Producto "${title}" publicado en tu catálogo!`, 'success');
             } else {
-                // ❌ Mostrar el error REAL al usuario en vez de mentir con "guardado con éxito"
-                const msgError = (prodErr && (prodErr.message || prodErr.error_description || prodErr.hint || prodErr.details))
-                    || (prodErr && typeof prodErr === 'string' ? prodErr : null)
-                    || 'No se pudo guardar el producto en Supabase. Revisa tu conexión e inténtalo de nuevo.';
-                console.error("❌ No se guardó el producto. Error:", prodErr);
+                const msgError = prodErr?.message || prodErr?.details || prodErr?.hint
+                    || 'No se pudo guardar el producto. Revisa tu conexión e inténtalo de nuevo.';
+                console.error("❌ No se guardó el producto:", prodErr);
                 showToast(`Error al guardar: ${msgError}`, 'error');
-                // NO cerramos el modal ni reseteamos para que el usuario pueda reintentar.
             }
         }
 
@@ -1312,7 +1441,7 @@
         let editProdImage = '';
 
         function openModalEditProduct(prodId) {
-            const prod = producerProducts.find(p => p.id === prodId);
+            const prod = producerProducts.find(p => String(p.id) === String(prodId));
             if (!prod) {
                 showToast('No se encontró el producto en memoria. Recarga la página.', 'error');
                 return;
@@ -1328,7 +1457,7 @@
                     showToast('El producto ya no existe en la base de datos.', 'warning');
                     return;
                 }
-                document.getElementById('edit-prod-id').value = data.id;
+                document.getElementById('edit-prod-id').value = String(data.id);
                 document.getElementById('edit-prod-title').value = data.nombre || '';
                 document.getElementById('edit-prod-price').value = data.precio_unitario ?? '';
                 document.getElementById('edit-prod-unit').value = data.unidad_medida || '';
@@ -1337,6 +1466,9 @@
                 document.getElementById('edit-prod-disponible').value = data.disponible === false ? 'false' : 'true';
                 document.getElementById('edit-prod-image').value = data.imagen_url || '';
                 editProdImage = data.imagen_url || '';
+                editProdFile = null;
+                const fileInput = document.getElementById('edit-prod-file');
+                if (fileInput) fileInput.value = '';
                 updateEditProdPreview(data.imagen_url || '');
                 document.getElementById('modal-edit-product').classList.remove('hidden');
             });
@@ -1345,15 +1477,20 @@
         function closeModalEditProduct() {
             document.getElementById('modal-edit-product').classList.add('hidden');
             editProdImage = '';
+            editProdFile = null;
+            const fileInput = document.getElementById('edit-prod-file');
+            if (fileInput) fileInput.value = '';
         }
 
         function updateEditProdPreview(url) {
             const container = document.getElementById('edit-prod-preview-container');
             if (!container) return;
-            const isValidUrl = url && url.trim();
-            if (isValidUrl) {
-                container.innerHTML = `<img class="w-12 h-12 rounded-lg object-cover" src="${url}" alt="preview" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=&quot;material-symbols-outlined text-xl text-text-muted/60&quot;>image</span>';" />`;
-                editProdImage = url.trim();
+            const safe = safeImageUrl(url);
+            if (safe) {
+                container.innerHTML = `<img class="w-12 h-12 rounded-lg object-cover" src="${escapeHtml(safe)}" alt="preview"
+                    onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');" />
+                    <span class="material-symbols-outlined text-xl text-text-muted/60 hidden">image</span>`;
+                editProdImage = safe;
             } else {
                 container.innerHTML = '<span class="material-symbols-outlined text-xl text-text-muted/60">image</span>';
                 editProdImage = '';
@@ -1361,57 +1498,98 @@
         }
 
         function handleEditProdImageUpload(event) {
-            const file = event.target.files[0];
+            const file = event.target.files?.[0];
             if (!file) return;
-            if (!file.type.startsWith('image/')) {
-                showToast('Por favor selecciona una imagen válida', 'error');
+
+            if (!/^image\/(png|jpe?g|webp|gif)$/i.test(file.type)) {
+                showToast('Formato no permitido. Usa PNG, JPG, WEBP o GIF.', 'error');
                 return;
             }
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                updateEditProdPreview(e.target.result);
-                const urlInput = document.getElementById('edit-prod-image');
-                if (urlInput) urlInput.value = '';
-                showToast('Imagen cargada (pendiente de guardar)', 'info');
-            };
-            reader.readAsDataURL(file);
+            if (file.size > LIMITS.imagenBytes) {
+                showToast('La imagen supera los 2 MB.', 'error');
+                return;
+            }
+
+            editProdFile = file;
+            const container = document.getElementById('edit-prod-preview-container');
+            if (container) {
+                container.innerHTML = `<img class="w-12 h-12 rounded-lg object-cover" src="${escapeHtml(URL.createObjectURL(file))}" alt="preview" />`;
+            }
+            const urlInput = document.getElementById('edit-prod-image');
+            if (urlInput) urlInput.value = '';
+            showToast('Imagen lista. Pulsa Guardar para subirla.', 'info');
         }
 
         async function submitEditProduct(e) {
             e.preventDefault();
             const id = document.getElementById('edit-prod-id').value;
             const urlInput = document.getElementById('edit-prod-image')?.value.trim();
-            const finalImage = urlInput || editProdImage;
             const disponible = document.getElementById('edit-prod-disponible').value === 'true';
+            const nombre = document.getElementById('edit-prod-title').value.trim();
+            const precio = parseFloat(document.getElementById('edit-prod-price').value.trim());
+            const unidad = document.getElementById('edit-prod-unit').value.trim();
 
             if (!id) {
                 showToast('Falta el ID del producto. Recarga la página.', 'error');
                 return;
             }
+            if (nombre.length < 3 || nombre.length > LIMITS.nombre) {
+                showToast(`El nombre debe tener entre 3 y ${LIMITS.nombre} caracteres.`, 'error');
+                return;
+            }
+            if (!Number.isFinite(precio) || precio < 0 || precio > LIMITS.precioMax) {
+                showToast('Precio inválido.', 'error');
+                return;
+            }
+            if (unidad.length > LIMITS.unidad) {
+                showToast('La unidad de medida es demasiado larga.', 'error');
+                return;
+            }
+
+            let finalImage = editProdImage;
+
+            if (urlInput) {
+                const safe = safeImageUrl(urlInput);
+                if (!safe) {
+                    showToast('La URL de la imagen no es válida.', 'error');
+                    return;
+                }
+                finalImage = safe;
+            }
+
+            if (!currentUserProfile) {
+                showToast('Tu sesión expiró. Inicia sesión de nuevo.', 'error');
+                return;
+            }
+
+            if (editProdFile) {
+                const { publicUrl, error: uploadError } = await productosService.uploadProductImage(currentUserProfile.id, editProdFile);
+                if (uploadError) {
+                    showToast('No se pudo subir la imagen: ' + (uploadError.message || 'intenta de nuevo'), 'error');
+                    return;
+                }
+                finalImage = publicUrl;
+                editProdFile = null;
+            }
 
             const updates = {
-                nombre: document.getElementById('edit-prod-title').value.trim(),
-                precio_unitario: parseFloat(document.getElementById('edit-prod-price').value) || 0,
-                unidad_medida: document.getElementById('edit-prod-unit').value.trim(),
+                nombre,
+                precio_unitario: precio,
+                unidad_medida: unidad,
                 badge_distintivo: document.getElementById('edit-prod-capacity').value.trim() || null,
                 descripcion: document.getElementById('edit-prod-description').value.trim() || null,
-                disponible: disponible,
+                disponible,
                 imagen_url: finalImage || null
             };
 
-            if (!updates.nombre) {
-                showToast('El nombre del producto es obligatorio.', 'error');
-                return;
-            }
-
-            showToast('Guardando cambios en Supabase...', 'info');
-            const { data, error } = await productosService.actualizarProducto(id, updates);
-            if (error) {
-                const msg = error.message || error.error_description || JSON.stringify(error);
+            showToast('Guardando cambios...', 'info');
+            const { data: updated, error } = await productosService.actualizarProducto(id, updates);
+            if (error || !updated) {
+                const msg = error?.message || error?.error_description || 'No se pudo actualizar el producto.';
                 showToast('Error al actualizar: ' + msg, 'error');
                 return;
             }
-            console.log('✅ Producto actualizado:', data);
+
             await loadProducerProductsFromSupabase();
             closeModalEditProduct();
             showToast('Producto actualizado correctamente', 'success');
@@ -1419,12 +1597,12 @@
 
         // ============== ELIMINACIÓN DE PRODUCTO ==============
         function openConfirmDelete(prodId) {
-            const prod = producerProducts.find(p => p.id === prodId);
+            const prod = producerProducts.find(p => String(p.id) === String(prodId));
             const nameEl = document.getElementById('delete-prod-name');
             if (prod && nameEl) {
-                nameEl.innerText = prod.title || 'este producto';
+                nameEl.textContent = prod.title || 'este producto';
             } else if (nameEl) {
-                nameEl.innerText = 'este producto';
+                nameEl.textContent = 'este producto';
             }
             document.getElementById('delete-prod-id').value = prodId || '';
             document.getElementById('modal-confirm-delete').classList.remove('hidden');
@@ -1441,55 +1619,16 @@
                 showToast('Falta el ID del producto', 'error');
                 return;
             }
-            showToast('Eliminando producto de Supabase...', 'info');
-            const { error } = await productosService.eliminarProducto(id);
-            if (error) {
-                const msg = error.message || error.error_description || JSON.stringify(error);
+            showToast('Eliminando producto...', 'info');
+            const { data: deleted, error } = await productosService.eliminarProducto(id);
+            if (error || !deleted || deleted.length === 0) {
+                const msg = error?.message || error?.error_description || 'El producto no existe o no tienes permiso para eliminarlo.';
                 showToast('Error al eliminar: ' + msg, 'error');
                 return;
             }
-            console.log('✅ Producto eliminado:', id);
             closeConfirmDelete();
             await loadProducerProductsFromSupabase();
             showToast('Producto eliminado del catálogo', 'success');
-        }
-
-        // ============== SUSCRIPCIÓN REALTIME ==============
-        // Refresca automáticamente el grid de productos y la tabla de solicitudes
-        // del productor cuando hay cambios en Supabase (incluso desde otras pestañas/dispositivos).
-        let realtimeChannel = null;
-        function subscribeRealtimeUpdates() {
-            if (realtimeChannel) return; // ya suscrito
-            try {
-                realtimeChannel = supabaseClient
-                    .channel('tnc-realtime-producer')
-                    .on('postgres_changes',
-                        { event: '*', schema: 'public', table: 'productos' },
-                        (payload) => {
-                            console.log('🔄 Cambio en productos:', payload.eventType, payload);
-                            loadProducerProductsFromSupabase();
-                        }
-                    )
-                    .on('postgres_changes',
-                        { event: '*', schema: 'public', table: 'matches' },
-                        (payload) => {
-                            console.log('🔄 Cambio en matches:', payload.eventType, payload);
-                            loadProducerRequestsFromSupabase();
-                        }
-                    )
-                    .subscribe((status) => {
-                        console.log('📡 Realtime status:', status);
-                    });
-            } catch (err) {
-                console.warn('No se pudo suscribir a realtime:', err);
-            }
-        }
-
-        function unsubscribeRealtimeUpdates() {
-            if (realtimeChannel) {
-                try { supabaseClient.removeChannel(realtimeChannel); } catch (e) {}
-                realtimeChannel = null;
-            }
         }
 
         // Re-sincronizar al volver a la pestaña
@@ -1541,24 +1680,6 @@
             });
         }
 
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            let bgClass = "bg-on-surface text-white";
-            let iconName = "info";
-            if (type === 'success') { bgClass = "bg-primary text-white"; iconName = "check_circle"; }
-            if (type === 'warning') { bgClass = "bg-warning-orange text-white"; iconName = "warning"; }
-            if (type === 'error') { bgClass = "bg-error text-white"; iconName = "error"; }
-
-            toast.className = `${bgClass} px-4 py-3 rounded-xl shadow-lg text-xs font-medium flex items-center gap-2.5 pointer-events-auto transition-all transform translate-y-2 opacity-0 duration-200 border border-white/20`;
-            toast.innerHTML = `<span class="material-symbols-outlined text-lg shrink-0">${iconName}</span><span>${message}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
     </script>
 </body>
 

@@ -4,7 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Turismo Nicaragua Conecta - Acceso Productor Local</title>
+    <title>Acceso Productor Local · Tawanki</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0d631b" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <!-- Tailwind CSS with plugins -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
@@ -54,7 +57,7 @@
         body {
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, rgba(13, 99, 27, 0.85) 0%, rgba(0, 110, 28, 0.9) 100%), url('Mosaico NIC.png');
+            background: linear-gradient(135deg, rgba(13, 99, 27, 0.85) 0%, rgba(0, 110, 28, 0.9) 100%), url('assets/mosaico-nic.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -114,27 +117,27 @@
             <!-- Form: Iniciar Sesión Productor -->
             <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4 text-xs">
                 <div>
-                    <label class="block font-bold text-text-main mb-1.5">Teléfono WhatsApp o Correo *</label>
+                    <label class="block font-bold text-text-main mb-1.5">Correo Electrónico *</label>
                     <div class="relative">
                         <span
-                            class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg">call</span>
-                        <input type="text" id="login-identifier" required
-                            placeholder="+505 8899-1234 o correo@ejemplo.com"
+                            class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg">mail</span>
+                        <input type="email" id="login-email" required autocomplete="email"
+                            placeholder="correo@ejemplo.com"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl pl-9 pr-3 py-2.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
                     </div>
                 </div>
 
                 <div>
                     <div class="flex justify-between items-center mb-1.5">
-                        <label class="font-bold text-text-main">PIN o Contraseña *</label>
-                        <a href="#"
-                            onclick="showToast('Te enviaremos un código SMS para restablecer tu PIN', 'info'); return false;"
-                            class="text-[11px] text-primary hover:underline font-semibold">¿Olvidaste tu clave?</a>
+                        <label class="font-bold text-text-main">Contraseña *</label>
+                        <button type="button" onclick="solicitarRecuperacion()"
+                            class="text-[11px] text-primary hover:underline font-semibold">¿Olvidaste tu clave?</button>
                     </div>
                     <div class="relative">
                         <span
                             class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg">lock</span>
-                        <input type="password" id="login-password" required placeholder="••••••••••••"
+                        <input type="password" id="login-password" required minlength="8" autocomplete="current-password"
+                            placeholder="••••••••••••"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl pl-9 pr-3 py-2.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
                     </div>
                 </div>
@@ -167,26 +170,14 @@
                         <label class="block font-bold text-text-main mb-1">Departamento *</label>
                         <select id="reg-depto" required
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
-                            <option value="Granada">Granada</option>
-                            <option value="Masaya">Masaya</option>
-                            <option value="Matagalpa">Matagalpa</option>
-                            <option value="León">León</option>
-                            <option value="Rivas">Rivas</option>
-                            <option value="Estelí">Estelí</option>
-                            <option value="Carazo">Carazo</option>
-                            <option value="Nueva Segovia">Nueva Segovia</option>
+                            <option value="">Cargando departamentos…</option>
                         </select>
                     </div>
                     <div>
                         <label class="block font-bold text-text-main mb-1">Rubro Principal *</label>
                         <select id="reg-rubro" required
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
-                            <option value="Café y Cacao">Café y Cacao</option>
-                            <option value="Artesanías y Barro">Artesanías y Barro</option>
-                            <option value="Maderas y Muebles">Maderas y Muebles</option>
-                            <option value="Gastronomía y Frutas">Gastronomía y Frutas</option>
-                            <option value="Miel Orgánica">Miel Orgánica</option>
-                            <option value="Hamacas y Textiles">Hamacas y Textiles</option>
+                            <option value="">Cargando rubros…</option>
                         </select>
                     </div>
                 </div>
@@ -206,7 +197,8 @@
 
                 <div>
                     <label class="block font-bold text-text-main mb-1">Crear Contraseña *</label>
-                    <input type="password" id="reg-password" required placeholder="Mínimo 6 caracteres"
+                    <input type="password" id="reg-password" required minlength="8" autocomplete="new-password"
+                        placeholder="Mínimo 8 caracteres"
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                 </div>
 
@@ -233,17 +225,22 @@
     </main>
 
     <!-- Supabase SDK + Config -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"
+        integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
     <script src="supabase-config.js"></script>
 
     <script>
-        // Verificar si ya hay sesión activa de productor → redirigir directo
+        const PERFIL_URL = 'perfil-productor.html';
+
+        // Sesión de productor ya activa → ir directo al perfil.
         (async () => {
             const result = await authService.getCurrentUser();
-            if (result.user && result.profile && result.profile.rol === 'productor') {
-                window.location.href = 'perfil-productor.html';
+            if (result.user && result.profile && result.profile.rol === 'productor' && result.profile.activo !== false) {
+                window.location.replace(PERFIL_URL);
             }
         })();
+
+        document.addEventListener('DOMContentLoaded', cargarCatalogos);
 
         function switchAuthTab(tab) {
             const loginBtn = document.getElementById('tab-login-btn');
@@ -264,169 +261,199 @@
             }
         }
 
-        async function handleLogin(e) {
-            e.preventDefault();
-            const email = document.getElementById('login-identifier').value.trim();
-            const password = document.getElementById('login-password').value;
+        function llenarSelect(select, items, placeholder) {
+            if (!select) return;
+            select.replaceChildren();
+            const first = document.createElement('option');
+            first.value = '';
+            first.textContent = placeholder;
+            select.appendChild(first);
 
-            showToast('Validando credenciales en Supabase...', 'info');
+            for (const item of items) {
+                const option = document.createElement('option');
+                option.value = String(item.id);
+                option.textContent = item.nombre || String(item.id);
+                select.appendChild(option);
+            }
+        }
 
-            const { data, error } = await authService.signIn({ email, password });
-            if (error) {
-                console.error("Error en signIn:", error);
-                showToast('Error: ' + (error.message || 'Credenciales no válidas'), 'error');
+        async function cargarCatalogos() {
+            const deptoSelect = document.getElementById('reg-depto');
+            const rubroSelect = document.getElementById('reg-rubro');
+
+            const [deptosRes, rubrosRes] = await Promise.all([
+                catalogoBaseService.getDepartamentos(),
+                catalogoBaseService.getRubros()
+            ]);
+
+            const deptos = deptosRes.data || [];
+            const rubros = rubrosRes.data || [];
+
+            llenarSelect(deptoSelect, deptos, deptos.length ? 'Selecciona tu departamento' : 'Sin departamentos configurados');
+            llenarSelect(rubroSelect, rubros, rubros.length ? 'Selecciona tu rubro' : 'Sin rubros configurados');
+
+            if (deptosRes.error || rubrosRes.error) {
+                console.error('Error cargando catálogos base:', deptosRes.error || rubrosRes.error);
+                showToast('No se pudieron cargar departamentos/rubros. Recarga la página.', 'error');
+            }
+        }
+
+        async function solicitarRecuperacion() {
+            const email = document.getElementById('login-email').value.trim();
+            if (!email) {
+                showToast('Escribe primero tu correo electrónico.', 'warning');
+                document.getElementById('login-email').focus();
                 return;
             }
 
-            // Verificar rol
+            const { error } = await authService.resetPassword(email);
+            if (error) {
+                showToast('No se pudo enviar el correo: ' + (error.message || 'intenta de nuevo'), 'error');
+                return;
+            }
+            showToast('Si el correo está registrado, recibirás un enlace de recuperación.', 'success');
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            showToast('Validando credenciales...', 'info');
+
+            const { error } = await authService.signIn({ email, password });
+            if (error) {
+                console.error("Error en signIn:", error);
+                showToast('Credenciales inválidas. Verifica tu correo y contraseña.', 'error');
+                return;
+            }
+
             const { profile, error: profileError } = await authService.getCurrentUser();
-            if (profile && profile.rol !== 'productor') {
-                showToast('⛔ Esta cuenta no pertenece al perfil de Productor.', 'error');
+            if (profileError || !profile) {
+                showToast('Tu cuenta no tiene perfil asociado. Contacta a INTUR.', 'error');
                 await authService.signOut();
                 return;
             }
 
+            if (profile.activo === false) {
+                showToast('Tu cuenta está desactivada. Contacta a INTUR.', 'error');
+                await authService.signOut();
+                return;
+            }
+
+            if (profile.rol !== 'productor') {
+                showToast('Esta cuenta no pertenece al perfil de Productor.', 'error');
+                await authService.signOut();
+                return;
+            }
+
+            // Crea el registro de productor si el correo se confirmó después del registro.
+            const { error: ensureErr } = await productosService.ensureProductorRecord();
+            if (ensureErr) {
+                console.warn('No se pudo asegurar el registro de productor:', ensureErr);
+            }
+
             showToast('¡Bienvenido! Cargando tu perfil...', 'success');
-            setTimeout(() => {
-                window.location.href = 'perfil-productor.html';
-            }, 800);
+            setTimeout(() => window.location.replace(PERFIL_URL), 700);
         }
 
         async function handleRegister(e) {
             e.preventDefault();
             const nombre = document.getElementById('reg-name').value.trim();
-            const depto = document.getElementById('reg-depto').value;
-            const rubro = document.getElementById('reg-rubro').value;
+            const deptoId = document.getElementById('reg-depto').value;
+            const rubroId = document.getElementById('reg-rubro').value;
             const email = document.getElementById('reg-email').value.trim();
             const telefono = document.getElementById('reg-phone').value.trim();
             const password = document.getElementById('reg-password').value;
             const descripcion = document.getElementById('reg-desc').value.trim();
 
-            const deptosMap = {
-                'Granada': 1, 'Masaya': 2, 'Matagalpa': 5,
-                'León': 3, 'Rivas': 4, 'Estelí': 6,
-                'Carazo': 7, 'Nueva Segovia': 10
-            };
-            const rubrosMap = {
-                'Café y Cacao': 1, 'Artesanías y Barro': 2,
-                'Maderas y Muebles': 3, 'Gastronomía y Frutas': 5,
-                'Miel Orgánica': 1, 'Hamacas y Textiles': 4
-            };
+            if (nombre.length < 3) {
+                showToast('Escribe el nombre de tu finca, taller o cooperativa.', 'error');
+                return;
+            }
+            if (!deptoId || !rubroId) {
+                showToast('Selecciona departamento y rubro principal.', 'error');
+                return;
+            }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showToast('Correo electrónico inválido.', 'error');
+                return;
+            }
+            if (!/^[+0-9()\s-]{7,20}$/.test(telefono)) {
+                showToast('Teléfono inválido. Usa el formato +505 8888-9999.', 'error');
+                return;
+            }
+            if (password.length < 8) {
+                showToast('La contraseña debe tener al menos 8 caracteres.', 'error');
+                return;
+            }
+            if (descripcion.length > 2000) {
+                showToast('La descripción no puede superar los 2000 caracteres.', 'error');
+                return;
+            }
 
-            const deptoId = deptosMap[depto] || 1;
-            const rubroId = rubrosMap[rubro] || 1;
+            showToast('Creando cuenta de productor...', 'info');
 
-            showToast('Creando cuenta de productor en Supabase...', 'info');
-
-            // Asegurar sesión limpia para el nuevo registro
+            // Evita registrar sobre una sesión existente.
             await supabaseClient.auth.signOut();
 
-            // 1. Registrar usuario con metadatos completos en Supabase Auth
             const { data, error } = await supabaseClient.auth.signUp({
                 email,
                 password,
                 options: {
                     data: {
-                        nombre_completo: nombre,
+                        nombre_completo: nombre.slice(0, 120),
                         rol: 'productor',
-                        telefono: telefono,
+                        telefono,
                         departamento_id: deptoId,
                         rubro_id: rubroId,
-                        descripcion: descripcion
+                        descripcion
                     }
                 }
             });
 
             if (error) {
                 console.error("Error al registrar en Supabase Auth:", error);
-                showToast('Error: ' + error.message, 'error');
+                showToast('Error al registrar: ' + (error.message || 'intenta de nuevo'), 'error');
                 return;
             }
 
-            // 2. Iniciar sesión inmediatamente para obtener credenciales autenticadas (JWT)
-            showToast('Autenticando productor...', 'info');
-            const { data: authData, error: signInErr } = await supabaseClient.auth.signInWithPassword({
-                email,
-                password
-            });
+            const { data: authData } = await supabaseClient.auth.signInWithPassword({ email, password });
 
-            const userId = data?.user?.id || authData?.user?.id;
-
-            // 3. Crear o actualizar fila en public.profiles
-            if (userId) {
-                try {
-                    await supabaseClient.from('profiles').upsert({
-                        id: userId,
-                        email: email,
-                        nombre_completo: nombre,
-                        rol: 'productor',
-                        telefono: telefono,
-                        activo: true
-                    });
-                } catch (err) {
-                    console.warn("Aviso profiles:", err);
-                }
-
-                // 4. Crear fila en public.productores
-                try {
-                    const { error: prodErr } = await supabaseClient.from('productores').upsert({
-                        profile_id: userId,
-                        nombre_cooperativa_o_taller: nombre,
-                        departamento_id: deptoId,
-                        rubro_id: rubroId,
-                        descripcion: descripcion || '',
-                        telefono_whatsapp: telefono,
-                        verificado_intur: false
-                    }, { onConflict: 'profile_id' });
-
-                    if (prodErr) {
-                        console.error("Error insertando en tabla productores:", prodErr);
-                    } else {
-                        console.log("✅ Productor guardado en la BD exitosamente");
-                    }
-                } catch (err) {
-                    console.error("Error al guardar productor:", err);
-                }
-            }
-
-            if (authData?.session) {
-                showToast('¡Cuenta de productor creada y guardada con éxito en Supabase!', 'success');
-                setTimeout(() => {
-                    window.location.href = 'perfil-productor.html';
-                }, 1000);
-            } else {
-                showToast('¡Cuenta creada! Revisa tu correo si tienes confirmación de email activada.', 'success');
+            if (!authData?.session) {
+                showToast('¡Cuenta creada! Confirma tu correo y luego inicia sesión.', 'success');
                 setTimeout(() => {
                     switchAuthTab('login');
-                    document.getElementById('login-identifier').value = email;
-                }, 2000);
+                    document.getElementById('login-email').value = email;
+                }, 1800);
+                return;
             }
-        }
 
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
+            const userId = authData.user.id;
 
-            let bgClass = "bg-gray-900 text-white";
-            let iconName = "info";
-            if (type === 'success') { bgClass = "bg-primary text-white"; iconName = "check_circle"; }
-            if (type === 'warning') { bgClass = "bg-amber-600 text-white"; iconName = "warning"; }
-            if (type === 'error') { bgClass = "bg-red-600 text-white"; iconName = "error"; }
+            // El perfil lo crea el trigger de la base de datos. Aquí solo se
+            // registra la ficha de productor (verificado_intur=false por trigger).
+            const { error: prodErr } = await productoresService.upsertProductor({
+                profile_id: userId,
+                nombre_cooperativa_o_taller: nombre.slice(0, 120),
+                departamento_id: deptoId,
+                rubro_id: rubroId,
+                descripcion,
+                telefono_whatsapp: telefono
+            });
 
-            toast.className = `${bgClass} px-4 py-3 rounded-xl shadow-lg text-xs font-medium flex items-center gap-2.5 pointer-events-auto transition-all transform translate-y-2 opacity-0 duration-200 border border-white/20`;
-            toast.innerHTML = `
-                <span class="material-symbols-outlined text-lg shrink-0">${iconName}</span>
-                <span>${message}</span>
-            `;
+            if (prodErr) {
+                console.error("Error insertando en tabla productores:", prodErr);
+                showToast('Cuenta creada, pero no se pudo guardar tu ficha: ' + (prodErr.message || 'completa tu perfil'), 'warning');
+                setTimeout(() => window.location.replace(PERFIL_URL), 1500);
+                return;
+            }
 
-            container.appendChild(toast);
-            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            showToast('¡Cuenta de productor creada con éxito!', 'success');
+            setTimeout(() => window.location.replace(PERFIL_URL), 800);
         }
     </script>
+
 </body>
 
 </html>
