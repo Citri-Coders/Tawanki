@@ -12,8 +12,8 @@
  */
 
 // ── 1. Inicialización del Cliente ────────────────────────────
-const SUPABASE_URL = 'https://dthushapfizmpzoutpiw.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_oN_nH5CH0x9VC_sr6K3hXw_qG9a1lyh';
+const SUPABASE_URL = 'https://kilvjecoetbvcfofphoe.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_5PKZs7ahaASbuEpHLarhlQ_bYVLv5hY';
 
 const { createClient } = supabase;
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
