@@ -295,12 +295,15 @@
 
         const AVATAR_PLACEHOLDER = 'data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E';
 
-        // 🔒 El directorio B2B exige sesión.
+        // 🔒 El directorio B2B exige sesión (modo elegante sin rebote forzado).
         document.addEventListener('DOMContentLoaded', async () => {
             initDropdowns();
 
-            const session = await authGuard(['empresa', 'productor', 'intur']);
-            if (!session) return;
+            const session = await authGuard(['empresa', 'productor', 'intur'], { redirect: false });
+            if (!session) {
+                showB2BAuthGate();
+                return;
+            }
 
             currentUserProfile = session.profile;
             setupDynamicNavMenu();
@@ -309,6 +312,50 @@
             await loadProvidersFromSupabase();
             setupProviderGridEvents();
         });
+
+        // Pasarela amigable de acceso para visitantes no autenticados (sin parpadeo ni rebote)
+        function showB2BAuthGate() {
+            const grid = document.getElementById('providers-grid');
+            if (grid) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-16 px-6 bg-surface-white rounded-3xl border border-outline-variant/40 text-center flex flex-col items-center justify-center gap-4 shadow-sm max-w-xl mx-auto my-8 animate-in fade-in zoom-in-95 duration-200">
+                        <div class="w-16 h-16 rounded-2xl bg-green-light-bg text-primary flex items-center justify-center border border-primary/20 shadow-xs">
+                            <span class="material-symbols-outlined text-3xl">verified_user</span>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-on-surface">Directorio B2B Exclusivo</h2>
+                            <p class="text-xs text-text-muted mt-2 max-w-md mx-auto leading-relaxed">
+                                Este directorio contiene los datos de contacto directo de cooperativas, artesanos y productores locales verificados por INTUR. Para proteger la privacidad comercial del sector, el acceso requiere iniciar sesión.
+                            </p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-3 w-full max-w-sm mt-2">
+                            <a href="auth_empresa.html" class="flex-1 py-3 px-4 bg-primary hover:bg-surface-tint text-white font-bold rounded-xl text-xs transition-all shadow-xs flex items-center justify-center gap-1.5 text-center">
+                                <span class="material-symbols-outlined text-base">storefront</span>
+                                <span>Soy Empresa</span>
+                            </a>
+                            <a href="auth_productor.html" class="flex-1 py-3 px-4 bg-surface-bright hover:bg-green-light-bg text-text-main hover:text-primary font-bold rounded-xl text-xs transition-all border border-outline-variant/40 flex items-center justify-center gap-1.5 text-center">
+                                <span class="material-symbols-outlined text-base">agriculture</span>
+                                <span>Soy Productor</span>
+                            </a>
+                        </div>
+                        <a href="catalogo.html" class="text-xs text-text-muted hover:text-primary font-semibold flex items-center gap-1 mt-2 transition-colors">
+                            <span class="material-symbols-outlined text-sm">arrow_back</span>
+                            <span>Explorar el Catálogo Público</span>
+                        </a>
+                    </div>
+                `;
+            }
+
+            const profileBtn = document.getElementById('btn-profile-toggle');
+            if (profileBtn) {
+                profileBtn.outerHTML = `
+                    <a href="auth_empresa.html" class="px-3.5 py-1.5 bg-primary text-white text-xs font-bold rounded-xl hover:bg-surface-tint transition-all flex items-center gap-1.5 shadow-2xs">
+                        <span class="material-symbols-outlined text-sm">login</span>
+                        <span>Iniciar Sesión</span>
+                    </a>
+                `;
+            }
+        }
 
         // Configurar menú de navegación según el rol activo
         function setupDynamicNavMenu() {

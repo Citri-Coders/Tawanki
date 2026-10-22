@@ -879,24 +879,33 @@ const notificacionesService = {
  * Verifica sesión activa y rol autorizado. Si falla, cierra la sesión
  * inválida y redirige a index.html.
  */
-async function authGuard(rolesPermitidos) {
+async function authGuard(rolesPermitidos, options = {}) {
+    const redirect = options.redirect !== false;
+    const redirectTo = options.redirectTo || 'index.html';
+
     const { user, profile, error } = await authService.getCurrentUser();
 
     if (error || !user || !profile) {
-        await authService.signOut().catch(() => {});
-        window.location.replace('index.html');
+        if (redirect) {
+            await authService.signOut().catch(() => {});
+            window.location.replace(redirectTo);
+        }
         return null;
     }
 
     if (profile.activo === false) {
-        await authService.signOut().catch(() => {});
-        window.location.replace('index.html');
+        if (redirect) {
+            await authService.signOut().catch(() => {});
+            window.location.replace(redirectTo);
+        }
         return null;
     }
 
     const roles = Array.isArray(rolesPermitidos) ? rolesPermitidos : [rolesPermitidos];
     if (!roles.includes(profile.rol)) {
-        window.location.replace('index.html');
+        if (redirect) {
+            window.location.replace(redirectTo);
+        }
         return null;
     }
 
