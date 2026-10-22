@@ -70,7 +70,7 @@ Plataforma digital para la articulación comercial B2B entre pequeños productor
 Si estás configurando una base de datos vacía en Supabase, tienes dos opciones:
 
 #### Opción A: Script consolidado (Recomendado)
-Pega y ejecuta el contenido completo de [`supabase/setup_nuevo_proyecto.sql`](supabase/setup_nuevo_proyecto.sql) en el **SQL Editor** de Supabase.
+Pega y ejecuta el contenido completo de [`supabase/setup_tawanki.sql`](supabase/setup_tawanki.sql) en el **SQL Editor** de Supabase.
 
 #### Opción B: Ejecución por pasos individuales
 Ejecuta los archivos de la carpeta [`supabase/migrations/`](supabase/migrations/) en el siguiente orden secuencial:
@@ -81,6 +81,7 @@ Ejecuta los archivos de la carpeta [`supabase/migrations/`](supabase/migrations/
 5. `004_rpc.sql` — Procedimientos de negocio (`catalogo_publico`, `crear_solicitud`, `responder_match`, `verificar_productor`, `kpis_intur`, `crear_vinculacion_admin`).
 6. `005_storage.sql` — Configuración del bucket `avatars` y sus políticas de lectura/escritura.
 7. `006_pgcrypto_extensions.sql` — Ajuste de `search_path` para garantizar compatibilidad de cifrado (`digest`, `gen_random_bytes`).
+8. `007_solicitudes_y_codigos_intur.sql` — Flujo institucional dual de registro y validación INTUR (directo o vía código a correo oficial).
 
 ### Verificación de la Base de Datos
 
