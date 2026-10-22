@@ -140,13 +140,11 @@ node test_suite.js
 ```
 
 ### 4. Servir el sitio localmente
-Puedes utilizar cualquier servidor estático:
+Inicia el servidor local de desarrollo con:
 ```bash
-npx serve .
-# o con Python:
-python -m http.server 3000
+npm run dev
 ```
-Abre en tu navegador: `http://localhost:3000`
+O alternativamente con `npm start`. Abre en tu navegador: `http://localhost:3000`
 
 ---
 

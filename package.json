@@ -4,6 +4,9 @@
   "private": true,
   "description": "Tawanki · Turismo Nicaragua Conecta — sitio estático con Supabase",
   "scripts": {
+    "dev": "node serve.js",
+    "start": "node serve.js",
+    "test": "node test_suite.js",
     "build:css": "tailwindcss -i ./src/tailwind.css -o ./assets/tailwind.css --minify",
     "watch:css": "tailwindcss -i ./src/tailwind.css -o ./assets/tailwind.css --watch"
   },
