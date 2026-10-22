@@ -54,25 +54,19 @@
     </script>
 </head>
 
-<body class="flex flex-col items-center justify-center p-margin-mobile md:p-margin-desktop text-on-primary">
-    <main class="flex-grow flex flex-col items-center justify-center w-full max-w-md z-10">
-        <div class="bg-surface-white rounded-xl shadow-lg p-space-8 w-full flex flex-col gap-space-8">
+<body class="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 text-text-main">
+    <main class="w-full max-w-md my-auto">
+        <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-6 sm:p-8 border border-white/40 flex flex-col gap-6 w-full">
             <!-- Header / Logo inside Card -->
-            <div class="text-center flex flex-col items-center gap-space-4">
-                <div
-                    class="w-24 h-24 bg-green-light-bg rounded-full flex items-center justify-center shadow-md transform transition-transform hover:scale-105 duration-300">
-                    <span class="material-symbols-outlined text-primary text-5xl"
-                        style="font-variation-settings: 'FILL' 1;">
+            <div class="text-center flex flex-col items-center gap-2">
+                <div class="w-16 h-16 bg-green-light-bg rounded-2xl flex items-center justify-center shadow-xs border border-primary/20">
+                    <span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">
                         handshake
                     </span>
                 </div>
                 <div>
-                    <h1 class="font-headline-h1 text-headline-h1 text-primary mb-space-2 tracking-tight">
-                        Tawanki
-                    </h1>
-                    <p class="font-body-md text-body-md text-text-muted max-w-xs mx-auto">
-                        Conectando pequeños negocios con el turismo de Nicaragua
-                    </p>
+                    <h1 class="text-2xl font-extrabold text-primary tracking-tight">Tawanki</h1>
+                    <p class="text-xs text-text-muted mt-0.5">Conectando pequeños negocios con el turismo de Nicaragua</p>
                 </div>
             </div>
             <!-- Role Selector Buttons -->
@@ -155,10 +149,8 @@
     </noscript>
 
     <!-- Footer -->
-    <footer class="w-full text-center mt-space-8 pb-space-4 z-10">
-        <p class="font-label-sm text-label-sm text-green-light-bg opacity-75">
-            Rally Innova 2026
-        </p>
+    <footer class="w-full text-center mt-4 text-[11px] text-white/75 font-medium">
+        <p>Rally Innova 2026 · Turismo Nicaragua Conecta</p>
     </footer>
 
     <!-- Supabase SDK + Config -->

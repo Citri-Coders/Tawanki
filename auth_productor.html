@@ -18,10 +18,17 @@
         body {
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, rgba(13, 99, 27, 0.38) 0%, rgba(15, 23, 42, 0.48) 100%), url('assets/mosaico-nic.jpg');
+            background: linear-gradient(135deg, rgba(13, 99, 27, 0.38) 0%, rgba(15, 23, 42, 0.48) 100%), url('assets/mosaico-nic.jpg') center / cover no-repeat fixed;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+        }
+            @keyframes tabFadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .tab-pane {
+            animation: tabFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
     </style>
 </head>
@@ -74,7 +81,7 @@
             </div>
 
             <!-- Form: Iniciar Sesión Productor -->
-            <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4 text-xs">
+            <form id="form-login" onsubmit="handleLogin(event)" class="tab-pane space-y-4 text-xs">
                 <div>
                     <label class="block font-bold text-text-main mb-1.5">Correo Electrónico *</label>
                     <div class="relative">
@@ -116,7 +123,7 @@
             </form>
 
             <!-- Form: Registro de Nuevo Productor -->
-            <form id="form-register" onsubmit="handleRegister(event)" class="hidden space-y-3 text-xs">
+            <form id="form-register" onsubmit="handleRegister(event)" class="tab-pane hidden space-y-3 text-xs">
                 <div>
                     <label class="block font-bold text-text-main mb-1">Nombre o Nombre de Cooperativa *</label>
                     <input type="text" id="reg-name" required
@@ -208,14 +215,20 @@
             const regForm = document.getElementById('form-register');
 
             if (tab === 'login') {
-                loginBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center";
+                loginBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center font-bold";
                 regBtn.className = "flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center";
                 loginForm.classList.remove('hidden');
+                loginForm.classList.remove('tab-pane');
+                void loginForm.offsetWidth;
+                loginForm.classList.add('tab-pane');
                 regForm.classList.add('hidden');
             } else {
-                regBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center";
+                regBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center font-bold";
                 loginBtn.className = "flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center";
                 regForm.classList.remove('hidden');
+                regForm.classList.remove('tab-pane');
+                void regForm.offsetWidth;
+                regForm.classList.add('tab-pane');
                 loginForm.classList.add('hidden');
             }
         }
