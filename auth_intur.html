@@ -68,19 +68,23 @@
                 </div>
             </div>
 
-            <!-- Tabs: Iniciar Sesión / Registro Delegación -->
-            <div class="flex bg-surface-bright p-1 rounded-xl border border-outline-variant/40 text-xs font-bold">
-                <button onclick="switchAuthTab('login')" id="tab-login-btn"
+            <!-- Tabs: Iniciar Sesión / Solicitar Registro / Activar con Código -->
+            <div class="flex bg-surface-bright p-1 rounded-xl border border-outline-variant/40 text-[11px] font-bold gap-1">
+                <button type="button" onclick="switchAuthTab('login')" id="tab-login-btn"
                     class="flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center">
                     Iniciar Sesión
                 </button>
-                <button onclick="switchAuthTab('register')" id="tab-register-btn"
+                <button type="button" onclick="switchAuthTab('register')" id="tab-register-btn"
                     class="flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center">
-                    Registrar Funcionario
+                    Solicitar Registro
+                </button>
+                <button type="button" onclick="switchAuthTab('activate')" id="tab-activate-btn"
+                    class="flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center">
+                    Activar con Código
                 </button>
             </div>
 
-            <!-- Form: Iniciar Sesión INTUR -->
+            <!-- Form 1: Iniciar Sesión INTUR -->
             <form id="form-login" onsubmit="handleLogin(event)" class="tab-pane space-y-4 text-xs">
                 <div>
                     <label class="block font-bold text-text-main mb-1.5">Correo Institucional INTUR *</label>
@@ -121,7 +125,7 @@
                 </button>
             </form>
 
-            <!-- Form: Registrar Delegación / Funcionario -->
+            <!-- Form 2: Solicitar Registro Funcionario (Sin código previo) -->
             <form id="form-register" onsubmit="handleRegister(event)" class="hidden space-y-3 text-xs">
                 <div>
                     <label class="block font-bold text-text-main mb-1">Nombre Completo *</label>
@@ -136,24 +140,48 @@
                 </div>
 
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Código de Invitación INTUR *</label>
-                    <input type="text" id="reg-token" required autocomplete="off" placeholder="INTUR-XXXX"
-                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                    <p class="text-[10px] text-text-muted mt-1">Solicita tu código a la delegación central. La
-                        delegación se asigna después desde el panel administrador.</p>
-                </div>
-
-                <div>
                     <label class="block font-bold text-text-main mb-1">Crear Contraseña *</label>
                     <input type="password" id="reg-password" required minlength="8" autocomplete="new-password"
                         placeholder="Mínimo 8 caracteres"
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                 </div>
 
+                <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200/60 text-[11px] text-emerald-900 leading-relaxed">
+                    <p class="font-bold flex items-center gap-1 mb-1">
+                        <span class="material-symbols-outlined text-sm text-primary">verified_user</span>
+                        Validación Institucional Dual:
+                    </p>
+                    <p>Al registrarte, tu solicitud y código quedan registrados en Supabase. El Administrador de TI puede:</p>
+                    <p class="mt-1 font-semibold text-primary">• Aprobar tu cuenta directamente en el sistema, o</p>
+                    <p class="font-semibold text-primary">• Enviarte el código de 6 dígitos a tu correo @intur.gob.ni.</p>
+                </div>
+
                 <button type="submit"
                     class="w-full bg-primary hover:bg-primary-container active:scale-[0.99] text-white font-bold py-2.5 rounded-xl shadow-md hover:shadow transition-all flex items-center justify-center gap-2 text-xs mt-2">
-                    <span>Completar Registro Institucional</span>
+                    <span>Enviar Solicitud Institucional</span>
                     <span class="material-symbols-outlined text-base">how_to_reg</span>
+                </button>
+            </form>
+
+            <!-- Form 3: Activar Cuenta con Código de Verificación -->
+            <form id="form-activate" onsubmit="handleActivate(event)" class="hidden space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Correo Institucional (@intur.gob.ni) *</label>
+                    <input type="email" id="act-email" required placeholder="maria.hernandez@intur.gob.ni"
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                </div>
+
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Código de Activación INTUR *</label>
+                    <input type="text" id="act-token" required autocomplete="off" placeholder="INTUR-123456"
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs uppercase font-mono tracking-wider focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                    <p class="text-[10px] text-text-muted mt-1">Ingresa el código proporcionado por el Administrador de TI o recibido en tu correo institucional.</p>
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-primary hover:bg-primary-container active:scale-[0.99] text-white font-bold py-2.5 rounded-xl shadow-md hover:shadow transition-all flex items-center justify-center gap-2 text-xs mt-2">
+                    <span>Verificar y Activar Cuenta</span>
+                    <span class="material-symbols-outlined text-base">check_circle</span>
                 </button>
             </form>
 
@@ -183,25 +211,42 @@
         function switchAuthTab(tab) {
             const loginBtn = document.getElementById('tab-login-btn');
             const regBtn = document.getElementById('tab-register-btn');
+            const actBtn = document.getElementById('tab-activate-btn');
             const loginForm = document.getElementById('form-login');
             const regForm = document.getElementById('form-register');
+            const actForm = document.getElementById('form-activate');
+
+            [loginBtn, regBtn, actBtn].forEach(b => {
+                if (b) b.className = "flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center";
+            });
+            [loginForm, regForm, actForm].forEach(f => {
+                if (f) {
+                    f.classList.add('hidden');
+                    f.classList.remove('tab-pane');
+                }
+            });
 
             if (tab === 'login') {
-                loginBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center font-bold";
-                regBtn.className = "flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center";
-                loginForm.classList.remove('hidden');
-                loginForm.classList.remove('tab-pane');
-                void loginForm.offsetWidth;
-                loginForm.classList.add('tab-pane');
-                regForm.classList.add('hidden');
-            } else {
-                regBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center font-bold";
-                loginBtn.className = "flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center";
-                regForm.classList.remove('hidden');
-                regForm.classList.remove('tab-pane');
-                void regForm.offsetWidth;
-                regForm.classList.add('tab-pane');
-                loginForm.classList.add('hidden');
+                if (loginBtn) loginBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center font-bold";
+                if (loginForm) {
+                    loginForm.classList.remove('hidden');
+                    void loginForm.offsetWidth;
+                    loginForm.classList.add('tab-pane');
+                }
+            } else if (tab === 'register') {
+                if (regBtn) regBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center font-bold";
+                if (regForm) {
+                    regForm.classList.remove('hidden');
+                    void regForm.offsetWidth;
+                    regForm.classList.add('tab-pane');
+                }
+            } else if (tab === 'activate') {
+                if (actBtn) actBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center font-bold";
+                if (actForm) {
+                    actForm.classList.remove('hidden');
+                    void actForm.offsetWidth;
+                    actForm.classList.add('tab-pane');
+                }
             }
         }
 
@@ -252,17 +297,14 @@
             }
 
             if (profile.activo === false) {
-                showToast('Tu cuenta está desactivada. Contacta a INTUR.', 'error');
+                showToast('Tu cuenta está desactivada o pendiente de aprobación por TI.', 'warning');
                 await authService.signOut();
                 return;
             }
 
             if (profile.rol !== 'intur') {
-                // La cuenta existe pero aún no canjeó el código de invitación.
-                showToast('Cuenta sin rol INTUR. Introduce tu código de invitación para activarla.', 'warning');
-                switchAuthTab('register');
-                document.getElementById('reg-email').value = email;
-                document.getElementById('reg-name').value = profile.nombre_completo || '';
+                showToast('Solicitud en revisión. Si recibiste un código en tu correo, ve a "Activar con Código".', 'warning');
+                document.getElementById('act-email').value = email;
                 return;
             }
 
@@ -270,15 +312,10 @@
             setTimeout(() => window.location.replace(DASHBOARD_URL), 700);
         }
 
-        async function canjearCodigo(codigo) {
-            return supabaseClient.rpc('canjear_codigo_intur', { p_codigo: codigo });
-        }
-
         async function handleRegister(e) {
             e.preventDefault();
             const nombre = document.getElementById('reg-name').value.trim();
             const email = document.getElementById('reg-email').value.trim();
-            const token = document.getElementById('reg-token').value.trim();
             const password = document.getElementById('reg-password').value;
 
             if (!email.endsWith(DOMINIO_INTUR)) {
@@ -289,37 +326,15 @@
                 showToast('La contraseña debe tener al menos 8 caracteres.', 'error');
                 return;
             }
-            if (!/^INTUR-[A-Za-z0-9-]{8,}$/.test(token)) {
-                showToast('Código de invitación inválido. Debe tener el formato INTUR-XXXXXXXX.', 'error');
-                return;
-            }
 
-            // Caso A: ya hay una sesión iniciada (cuenta creada, sin rol INTUR).
-            const actual = await authService.getCurrentUser();
-            if (actual.user) {
-                if (actual.profile?.rol === 'intur') {
-                    window.location.replace(DASHBOARD_URL);
-                    return;
-                }
-                showToast('Canjeando código de invitación...', 'info');
-                const { error } = await canjearCodigo(token);
-                if (error) {
-                    showToast('No se pudo activar: ' + (error.message || 'código inválido o expirado'), 'error');
-                    return;
-                }
-                showToast('¡Cuenta INTUR activada! Redirigiendo...', 'success');
-                setTimeout(() => window.location.replace(DASHBOARD_URL), 800);
-                return;
-            }
+            showToast('Registrando solicitud institucional...', 'info');
 
-            // Caso B: cuenta nueva. El rol INTUR solo se obtiene canjeando el código.
-            showToast('Creando cuenta institucional...', 'info');
-
+            // 1. Crear el usuario en auth (el trigger creará el perfil inicial)
             const { data, error } = await authService.signUp({
                 email,
                 password,
                 nombreCompleto: nombre,
-                rol: 'productor', // el trigger solo admite productor/empresa; INTUR se canjea
+                rol: 'productor',
                 telefono: '+505 2222-3800'
             });
 
@@ -329,25 +344,66 @@
                 return;
             }
 
-            // Si Supabase exige confirmación de correo no habrá sesión todavía.
-            const { data: sessionData } = await supabaseClient.auth.getSession();
-            if (!sessionData?.session) {
-                showToast('Cuenta creada. Confirma tu correo y luego inicia sesión para canjear el código.', 'success');
+            // 2. Registrar la solicitud institucional y generar el código visible para TI
+            try {
+                await supabaseClient.rpc('solicitar_registro_intur', {
+                    p_nombre: nombre,
+                    p_email: email
+                });
+            } catch (rpcErr) {
+                console.warn("Aviso en solicitud institucional:", rpcErr);
+            }
+
+            showToast('¡Solicitud registrada! Pendiente de aprobación por TI o verificación por correo.', 'success');
+
+            // Prellenar campos
+            document.getElementById('act-email').value = email;
+            document.getElementById('login-email').value = email;
+
+            setTimeout(() => {
+                switchAuthTab('activate');
+                showToast('Si TI te compartió el código a tu correo @intur.gob.ni, ingrésalo aquí.', 'info');
+            }, 1200);
+        }
+
+        async function handleActivate(e) {
+            e.preventDefault();
+            const email = document.getElementById('act-email').value.trim();
+            const token = document.getElementById('act-token').value.trim();
+
+            if (!email.endsWith(DOMINIO_INTUR)) {
+                showToast('Ingresa tu correo oficial @intur.gob.ni.', 'error');
+                return;
+            }
+            if (!token) {
+                showToast('Ingresa el código de activación.', 'warning');
+                return;
+            }
+
+            showToast('Verificando código institucional...', 'info');
+
+            const { data, error } = await supabaseClient.rpc('canjear_codigo_intur', {
+                p_codigo: token,
+                p_email: email
+            });
+
+            if (error) {
+                showToast('No se pudo verificar: ' + (error.message || 'código inválido o expirado'), 'error');
+                return;
+            }
+
+            showToast('¡Código verificado con éxito! Cuenta institucional activada.', 'success');
+
+            const actual = await authService.getCurrentUser();
+            if (actual.user && actual.user.email?.toLowerCase() === email.toLowerCase()) {
+                setTimeout(() => window.location.replace(DASHBOARD_URL), 900);
+            } else {
                 setTimeout(() => {
                     switchAuthTab('login');
                     document.getElementById('login-email').value = email;
-                }, 1500);
-                return;
+                    showToast('Ingresa con tu contraseña para acceder al Panel.', 'info');
+                }, 1000);
             }
-
-            const { error: redeemError } = await canjearCodigo(token);
-            if (redeemError) {
-                showToast('Cuenta creada, pero el código no se pudo canjear: ' + (redeemError.message || 'inválido o expirado'), 'error');
-                return;
-            }
-
-            showToast('¡Funcionario registrado y autenticado con éxito!', 'success');
-            setTimeout(() => window.location.replace(DASHBOARD_URL), 900);
         }
     </script>
 
