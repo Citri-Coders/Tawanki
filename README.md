@@ -4,7 +4,7 @@ Sitio estático de conexión B2B entre pequeños productores locales de Nicaragu
 
 ## Arquitectura
 
-- **Frontend:** HTML estático + Tailwind CSS (CDN) + JavaScript sin framework. Supabase JS `2.45.4` y Chart.js `4.4.3` se cargan con versión fija e `integrity` (SRI).
+- **Frontend:** HTML estático + Tailwind CSS compilado a `assets/tailwind.css` + JavaScript sin framework. Supabase JS `2.45.4` y Chart.js `4.4.3` se cargan con versión fija e `integrity` (SRI).
 - **Datos y autenticación:** Supabase (Postgres + Auth + Storage + RLS).
 - **Despliegue:** Vercel (sitio estático).
 - **Capa de datos:** `supabase-config.js` centraliza autenticación, consultas, RPC, validaciones y utilidades de escape.
@@ -33,7 +33,7 @@ Sitio estático de conexión B2B entre pequeños productores locales de Nicaragu
 - Los textos de usuarios se insertan con `textContent` o `escapeHtml`; las URLs pasan por `safeImageUrl`.
 - Las imágenes se suben al bucket `avatars` (rutas por usuario) y no se guardan como base64 en Postgres.
 - La clave `sb_publishable_...` es pública por diseño. No debe existir una `service_role` en el frontend.
-- `vercel.json` envía una CSP. Como Tailwind se sirve por CDN en esta iteración, la política permite `'unsafe-inline'` y `'unsafe-eval'`; al compilar Tailwind a CSS local se pueden retirar ambos.
+- `vercel.json` envía una CSP sin `'unsafe-eval'`. Se conserva `'unsafe-inline'` porque las páginas usan scripts inline y atributos `onclick`; retirarlo requiere migrar esos manejadores a archivos JS y usar nonces/hashes.
 
 ## Base de datos
 
@@ -70,7 +70,22 @@ En **Authentication → URL Configuration** de Supabase agrega:
 
 ## Desarrollo local
 
-Al ser archivos estáticos, sirve la carpeta con cualquier servidor HTTP:
+Instala las dependencias y compila Tailwind una vez:
+
+```bash
+npm install
+npm run build:css
+```
+
+Durante el desarrollo puedes dejar Tailwind observando cambios:
+
+```bash
+npm run watch:css
+```
+
+El CSS compilado se guarda en `assets/tailwind.css` y está versionado en el repositorio. Vuelve a ejecutar `npm run build:css` después de añadir clases nuevas en el HTML o en `supabase-config.js`.
+
+Después sirve la carpeta con cualquier servidor HTTP:
 
 ```bash
 npx serve .
@@ -97,7 +112,10 @@ Abre `http://localhost:3000`.
 .
 ├── assets/
 │   ├── favicon.svg
-│   └── mosaico-nic.jpg
+│   ├── mosaico-nic.jpg
+│   └── tailwind.css
+├── src/
+│   └── tailwind.css
 ├── supabase/migrations/
 ├── auth_*.html
 ├── catalogo.html
@@ -106,6 +124,8 @@ Abre `http://localhost:3000`.
 ├── perfil-productor.html
 ├── proveedores.html
 ├── reset-password.html
+├── package.json
+├── tailwind.config.js
 ├── supabase-config.js
 ├── vercel.json
 ├── robots.txt
