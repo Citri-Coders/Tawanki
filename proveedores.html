@@ -4,90 +4,19 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Buscar Proveedores - Turismo Nicaragua Conecta</title>
+    <title>Directorio de Proveedores · Tawanki</title>
+    <meta name="description"
+        content="Directorio B2B de productores y artesanos locales de Nicaragua para empresas turísticas." />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0d631b" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/tailwind.css" />
     <!-- Google Fonts & Material Symbols -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "surface-bright": "#F4EFE2",
-                        "on-error-container": "#7A0E1A",
-                        "inverse-surface": "#3A2E1F",
-                        "inverse-primary": "#7BAF6E",
-                        "on-surface": "#2A2114",
-                        "outline": "#8B7B5C",
-                        "warning-orange": "#D97706",
-                        "on-surface-variant": "#4A3F2A",
-                        "text-main": "#2A2114",
-                        "secondary-fixed-dim": "#6FA85A",
-                        "tertiary-fixed-dim": "#D89A4A",
-                        "tertiary-fixed": "#F0D9A8",
-                        "on-secondary": "#FFFFFF",
-                        "primary-fixed-dim": "#6FA85A",
-                        "inverse-on-surface": "#FBF8F0",
-                        "surface-container": "#EFE7D2",
-                        "surface-container-lowest": "#FFFCF5",
-                        "on-primary": "#FFFFFF",
-                        "surface-container-highest": "#D9CFB4",
-                        "on-background": "#2A2114",
-                        "on-secondary-container": "#0D3A0A",
-                        "secondary": "#1B6E3C",
-                        "primary-container": "#3D7A3D",
-                        "text-muted": "#6B5E47",
-                        "on-tertiary-container": "#3D2810",
-                        "secondary-fixed": "#94C078",
-                        "surface-container-high": "#E2D8BE",
-                        "surface-tint": "#0d631b",
-                        "primary-fixed": "#A3D49A",
-                        "error-red": "#B5391E",
-                        "on-primary-fixed-variant": "#003A0A",
-                        "error-container": "#F5D6CC",
-                        "primary": "#0d631b",
-                        "tertiary-container": "#C9612A",
-                        "on-tertiary-fixed": "#3D2810",
-                        "on-tertiary-fixed-variant": "#7A4012",
-                        "background": "#F4EFE2",
-                        "on-secondary-fixed": "#0A2A06",
-                        "error": "#A33A1A",
-                        "tertiary": "#C9612A",
-                        "on-tertiary": "#FFFFFF",
-                        "outline-variant": "#C9BC9A",
-                        "on-primary-container": "#CBFFC2",
-                        "on-primary-fixed": "#002204",
-                        "on-secondary-fixed-variant": "#0D3A0A",
-                        "green-light-bg": "#E8F0DC",
-                        "surface-variant": "#E2D8BE",
-                        "surface-container-low": "#EFE9D7",
-                        "on-error": "#FFFFFF",
-                        "secondary-container": "#94C078",
-                        "surface": "#F4EFE2",
-                        "surface-dim": "#D9CFB4",
-                        "surface-white": "#FBF8F0"
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.375rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "2xl": "1rem",
-                        "full": "9999px"
-                    },
-                    fontFamily: {
-                        sans: ["Inter", "sans-serif"]
-                    }
-                }
-            }
-        }
-    </script>
 </head>
 
-<body class="bg-surface-bright text-text-main flex flex-col h-screen overflow-hidden font-sans antialiased select-none">
+<body class="bg-surface-bright text-text-main flex flex-col h-screen overflow-hidden font-sans antialiased">
 
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-5 right-5 z-[100] flex flex-col gap-3 pointer-events-none"></div>
@@ -138,7 +67,7 @@
                     <span class="material-symbols-outlined text-xl">storefront</span>
                 </div>
                 <div>
-                    <h1 class="text-sm font-extrabold text-primary leading-tight">Directorio de Proveedores Locales</h1>
+                    <p class="text-sm font-extrabold text-primary leading-tight">Directorio de Proveedores Locales</p>
                     <p id="company-header-tag" class="text-[11px] text-text-muted font-medium">Turismo Nicaragua Conecta · B2B</p>
                 </div>
             </div>
@@ -216,7 +145,7 @@
                         <h1 class="text-2xl font-extrabold text-on-surface">Directorio de Proveedores y Artesanos</h1>
                         <span class="bg-secondary-container text-primary font-bold text-xs px-2.5 py-0.5 rounded-full">B2B Activo</span>
                     </div>
-                    <p class="text-xs text-text-muted">Explora productores agroecológicos, cafetaleros y artesanos certificados por INTUR Conecta.</p>
+                    <p class="text-xs text-text-muted">Explora productores agroecológicos, cafetaleros y artesanos locales. La verificación INTUR se indica en cada ficha cuando corresponde.</p>
                 </div>
                 <div class="flex items-center gap-2 bg-green-light-bg px-4 py-2.5 rounded-xl border border-primary/20">
                     <span class="material-symbols-outlined text-primary text-xl">eco</span>
@@ -238,11 +167,11 @@
 
                 <!-- Filter Chips -->
                 <div class="flex flex-wrap gap-2 pt-1 text-xs">
-                    <button onclick="setFilter('all')" id="chip-all" class="chip active px-3 py-1.5 rounded-full bg-primary text-white font-semibold transition-all">Todos los Rubros</button>
-                    <button onclick="setFilter('Gastronomía')" class="chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all">Gastronomía & Cacao</button>
-                    <button onclick="setFilter('Artesanías')" class="chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all">Textiles & Artesanías</button>
-                    <button onclick="setFilter('Granada')" class="chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main flex items-center gap-1 transition-all"><span class="material-symbols-outlined text-xs">location_on</span> Granada</button>
-                    <button onclick="setFilter('Masaya')" class="chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main flex items-center gap-1 transition-all"><span class="material-symbols-outlined text-xs">location_on</span> Masaya</button>
+                    <button onclick="setFilter('all', this)" id="chip-all" class="chip active px-3 py-1.5 rounded-full bg-primary text-white font-semibold transition-all">Todos los Rubros</button>
+                    <button onclick="setFilter('Gastronomía', this)" class="chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all">Gastronomía & Cacao</button>
+                    <button onclick="setFilter('Artesanías', this)" class="chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all">Textiles & Artesanías</button>
+                    <button onclick="setFilter('Granada', this)" class="chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main flex items-center gap-1 transition-all"><span class="material-symbols-outlined text-xs">location_on</span> Granada</button>
+                    <button onclick="setFilter('Masaya', this)" class="chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main flex items-center gap-1 transition-all"><span class="material-symbols-outlined text-xs">location_on</span> Masaya</button>
                 </div>
             </section>
 
@@ -273,7 +202,7 @@
                 <div class="p-3 bg-surface-bright rounded-xl border border-outline-variant/30 space-y-2.5">
                     <div class="flex items-center gap-4">
                         <img id="edit-company-avatar-preview" class="w-16 h-16 rounded-full object-cover border-2 border-primary/40 shadow-sm shrink-0"
-                            src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=150&auto=format&fit=crop&q=80" />
+                            src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" />
                         <div class="flex-1 space-y-1.5">
                             <label class="block font-bold text-text-main">Logo / Foto de la Empresa</label>
                             <input type="file" id="input-company-file" accept="image/*" onchange="handleLocalCompanyPhotoUpload(event)" class="hidden" />
@@ -314,7 +243,7 @@
                     </div>
                     <div>
                         <label class="block font-bold text-text-main mb-1">Correo Electrónico *</label>
-                        <input type="email" id="input-company-email" required placeholder="compras@plazacolon.com.ni"
+                        <input type="email" id="input-company-email" required readonly title="El correo de acceso no se cambia aquí" placeholder="compras@plazacolon.com.ni"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                     </div>
                 </div>
@@ -345,7 +274,8 @@
     </div>
 
     <!-- Supabase SDK + Config -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"
+        integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
     <script src="supabase-config.js"></script>
 
     <!-- ================= JAVASCRIPT LOGIC ================= -->
@@ -357,28 +287,75 @@
             email: "",
             phone: "",
             dept: "",
+            deptoId: "",
             photo: ""
         };
 
         let providersList = [];
 
-        // 🔒 INICIALIZACIÓN
+        const AVATAR_PLACEHOLDER = 'data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E';
+
+        // 🔒 El directorio B2B exige sesión (modo elegante sin rebote forzado).
         document.addEventListener('DOMContentLoaded', async () => {
             initDropdowns();
 
-            try {
-                const { user, profile } = await authService.getCurrentUser();
-                if (user && profile) {
-                    currentUserProfile = profile;
-                    setupDynamicNavMenu();
-                    await loadCompanyProfileFromSupabase();
-                }
-            } catch (err) {
-                console.warn("Aviso al verificar sesión:", err);
+            const session = await authGuard(['empresa', 'productor', 'intur'], { redirect: false });
+            if (!session) {
+                showB2BAuthGate();
+                return;
             }
 
+            currentUserProfile = session.profile;
+            setupDynamicNavMenu();
+            await loadCompanyProfileFromSupabase();
+            await loadDepartamentos();
             await loadProvidersFromSupabase();
+            setupProviderGridEvents();
         });
+
+        // Pasarela amigable de acceso para visitantes no autenticados (sin parpadeo ni rebote)
+        function showB2BAuthGate() {
+            const grid = document.getElementById('providers-grid');
+            if (grid) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-16 px-6 bg-surface-white rounded-3xl border border-outline-variant/40 text-center flex flex-col items-center justify-center gap-4 shadow-sm max-w-xl mx-auto my-8 animate-in fade-in zoom-in-95 duration-200">
+                        <div class="w-16 h-16 rounded-2xl bg-green-light-bg text-primary flex items-center justify-center border border-primary/20 shadow-xs">
+                            <span class="material-symbols-outlined text-3xl">verified_user</span>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-on-surface">Directorio B2B Exclusivo</h2>
+                            <p class="text-xs text-text-muted mt-2 max-w-md mx-auto leading-relaxed">
+                                Este directorio contiene los datos de contacto directo de cooperativas, artesanos y productores locales verificados por INTUR. Para proteger la privacidad comercial del sector, el acceso requiere iniciar sesión.
+                            </p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-3 w-full max-w-sm mt-2">
+                            <a href="auth_empresa.html" class="flex-1 py-3 px-4 bg-primary hover:bg-surface-tint text-white font-bold rounded-xl text-xs transition-all shadow-xs flex items-center justify-center gap-1.5 text-center">
+                                <span class="material-symbols-outlined text-base">storefront</span>
+                                <span>Soy Empresa</span>
+                            </a>
+                            <a href="auth_productor.html" class="flex-1 py-3 px-4 bg-surface-bright hover:bg-green-light-bg text-text-main hover:text-primary font-bold rounded-xl text-xs transition-all border border-outline-variant/40 flex items-center justify-center gap-1.5 text-center">
+                                <span class="material-symbols-outlined text-base">agriculture</span>
+                                <span>Soy Productor</span>
+                            </a>
+                        </div>
+                        <a href="catalogo.html" class="text-xs text-text-muted hover:text-primary font-semibold flex items-center gap-1 mt-2 transition-colors">
+                            <span class="material-symbols-outlined text-sm">arrow_back</span>
+                            <span>Explorar el Catálogo Público</span>
+                        </a>
+                    </div>
+                `;
+            }
+
+            const profileBtn = document.getElementById('btn-profile-toggle');
+            if (profileBtn) {
+                profileBtn.outerHTML = `
+                    <a href="auth_empresa.html" class="px-3.5 py-1.5 bg-primary text-white text-xs font-bold rounded-xl hover:bg-surface-tint transition-all flex items-center gap-1.5 shadow-2xs">
+                        <span class="material-symbols-outlined text-sm">login</span>
+                        <span>Iniciar Sesión</span>
+                    </a>
+                `;
+            }
+        }
 
         // Configurar menú de navegación según el rol activo
         function setupDynamicNavMenu() {
@@ -406,7 +383,7 @@
                 if (portalBadge) portalBadge.innerHTML = `<span class="material-symbols-outlined text-base">verified_user</span> Portal Institucional INTUR`;
                 if (portalSub) portalSub.innerText = "Monitoreo y Verificación Nacional";
                 roleSpecificLink = `
-                    <a href="dashboard INTUR.html"
+                    <a href="dashboard-intur.html"
                         class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left group">
                         <span class="material-symbols-outlined text-lg text-text-muted group-hover:text-primary">dashboard</span>
                         <span class="font-medium">Panel Administrativo INTUR</span>
@@ -435,15 +412,35 @@
             }
         }
 
+        async function loadDepartamentos() {
+            const select = document.getElementById('input-company-dept');
+            if (!select) return;
+
+            const { data: deptos } = await catalogoBaseService.getDepartamentos();
+            select.replaceChildren();
+
+            const first = document.createElement('option');
+            first.value = '';
+            first.textContent = deptos?.length ? 'Selecciona departamento' : 'Sin departamentos configurados';
+            select.appendChild(first);
+
+            for (const depto of deptos || []) {
+                const option = document.createElement('option');
+                option.value = String(depto.id);
+                option.textContent = depto.nombre;
+                select.appendChild(option);
+            }
+
+            if (companyProfile.deptoId) select.value = String(companyProfile.deptoId);
+        }
+
         async function loadCompanyProfileFromSupabase() {
             if (!currentUserProfile) return;
 
-            companyProfile.name = currentUserProfile.nombre_completo || "Usuario";
-            companyProfile.email = currentUserProfile.email || "";
-            companyProfile.phone = currentUserProfile.telefono || "+505 8888-0000";
-            if (currentUserProfile.avatar_url) {
-                companyProfile.photo = currentUserProfile.avatar_url;
-            }
+            companyProfile.name = currentUserProfile.nombre_completo || 'Usuario';
+            companyProfile.email = currentUserProfile.email || '';
+            companyProfile.phone = currentUserProfile.telefono || '';
+            companyProfile.photo = safeImageUrl(currentUserProfile.avatar_url) || '';
 
             if (currentUserProfile.rol === 'empresa') {
                 const { data: empData } = await empresasService.getEmpresaByProfileId(currentUserProfile.id);
@@ -451,14 +448,20 @@
                     currentEmpresaRecord = empData;
                     if (empData.nombre_comercial) companyProfile.name = empData.nombre_comercial;
                     if (empData.telefono_corporativo) companyProfile.phone = empData.telefono_corporativo;
-                    if (empData.departamentos) companyProfile.dept = empData.departamentos.nombre;
+                    if (empData.departamentos) {
+                        companyProfile.dept = empData.departamentos.nombre;
+                        companyProfile.deptoId = empData.departamento_id ?? empData.departamentos.id;
+                    }
                 }
             } else if (currentUserProfile.rol === 'productor') {
                 const { data: prodData } = await productoresService.getProductorByProfileId(currentUserProfile.id);
                 if (prodData) {
                     if (prodData.nombre_cooperativa_o_taller) companyProfile.name = prodData.nombre_cooperativa_o_taller;
                     if (prodData.telefono_whatsapp) companyProfile.phone = prodData.telefono_whatsapp;
-                    if (prodData.departamentos) companyProfile.dept = prodData.departamentos.nombre;
+                    if (prodData.departamentos) {
+                        companyProfile.dept = prodData.departamentos.nombre;
+                        companyProfile.deptoId = prodData.departamento_id ?? prodData.departamentos.id;
+                    }
                 }
             }
 
@@ -466,46 +469,56 @@
         }
 
         function applyCompanyProfile() {
-            document.getElementById('company-header-tag').innerText = `${companyProfile.name} · ${companyProfile.dept}`;
-            document.getElementById('company-header-avatar').src = companyProfile.photo;
-            document.getElementById('company-display-name-header').innerText = companyProfile.name;
-            document.getElementById('company-dropdown-name').innerText = companyProfile.name;
-            document.getElementById('company-dropdown-email').innerText = companyProfile.email;
-            document.getElementById('company-dropdown-avatar').src = companyProfile.photo;
+            const photo = safeImageUrl(companyProfile.photo) || AVATAR_PLACEHOLDER;
+            const header = `${companyProfile.name}${companyProfile.dept ? ' · ' + companyProfile.dept : ''}`;
 
-            // Form
+            setText('company-header-tag', header);
+            setText('company-display-name-header', companyProfile.name);
+            setText('company-dropdown-name', companyProfile.name);
+            setText('company-dropdown-email', companyProfile.email);
+
+            document.getElementById('company-header-avatar').src = photo;
+            document.getElementById('company-dropdown-avatar').src = photo;
+            document.getElementById('edit-company-avatar-preview').src = photo;
+
             document.getElementById('input-company-name').value = companyProfile.name;
             document.getElementById('input-company-email').value = companyProfile.email;
             document.getElementById('input-company-phone').value = companyProfile.phone;
-            document.getElementById('input-company-dept').value = companyProfile.dept;
-            document.getElementById('input-company-photo').value = companyProfile.photo;
-            document.getElementById('edit-company-avatar-preview').src = companyProfile.photo;
+            document.getElementById('input-company-photo').value = companyProfile.photo || '';
+
+            const deptoSelect = document.getElementById('input-company-dept');
+            if (deptoSelect && companyProfile.deptoId) {
+                deptoSelect.value = String(companyProfile.deptoId);
+            }
         }
 
         function previewCompanyPhotoUrl(url) {
-            if (url && url.startsWith('http')) {
-                document.getElementById('edit-company-avatar-preview').src = url;
+            const safe = safeImageUrl(url);
+            if (safe) {
+                document.getElementById('edit-company-avatar-preview').src = safe;
             }
         }
 
+        let companyAvatarFile = null;
+
         function handleLocalCompanyPhotoUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                if (!file.type.startsWith('image/')) {
-                    showToast('Por favor selecciona una imagen válida', 'error');
-                    return;
-                }
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const base64Image = e.target.result;
-                    document.getElementById('edit-company-avatar-preview').src = base64Image;
-                    companyProfile.photo = base64Image;
-                    const urlInput = document.getElementById('input-company-photo');
-                    if (urlInput) urlInput.value = '';
-                    showToast('Logo/imagen empresarial cargada con éxito', 'info');
-                };
-                reader.readAsDataURL(file);
+            const file = event.target.files?.[0];
+            if (!file) return;
+
+            if (!/^image\/(png|jpe?g|webp|gif)$/i.test(file.type)) {
+                showToast('Formato no permitido. Usa PNG, JPG, WEBP o GIF.', 'error');
+                return;
             }
+            if (file.size > LIMITS.imagenBytes) {
+                showToast('La imagen supera los 2 MB.', 'error');
+                return;
+            }
+
+            companyAvatarFile = file;
+            document.getElementById('edit-company-avatar-preview').src = URL.createObjectURL(file);
+            const urlInput = document.getElementById('input-company-photo');
+            if (urlInput) urlInput.value = '';
+            showToast('Imagen lista. Pulsa Guardar para subirla.', 'info');
         }
 
         function toggleCompanyUrlInput() {
@@ -513,14 +526,18 @@
             const btn = document.getElementById('btn-toggle-company-url');
             if (container.classList.contains('hidden')) {
                 container.classList.remove('hidden');
-                btn.innerText = 'Ocultar URL';
+                btn.textContent = 'Ocultar URL';
             } else {
                 container.classList.add('hidden');
-                btn.innerText = 'Usar URL';
+                btn.textContent = 'Usar URL';
             }
         }
 
         function openEditCompanyModal() {
+            if (!currentUserProfile) {
+                showToast('Inicia sesión para editar tus datos.', 'warning');
+                return;
+            }
             applyCompanyProfile();
             document.getElementById('modal-edit-company').classList.remove('hidden');
         }
@@ -531,32 +548,104 @@
 
         async function saveCompanyProfile(e) {
             e.preventDefault();
-            companyProfile.name = document.getElementById('input-company-name').value.trim();
-            companyProfile.phone = document.getElementById('input-company-phone').value.trim();
-            companyProfile.dept = document.getElementById('input-company-dept').value;
-            const photoUrl = document.getElementById('input-company-photo').value.trim();
-            if (photoUrl) companyProfile.photo = photoUrl;
 
-            showToast('Guardando perfil empresarial en Supabase...', 'info');
+            if (!currentUserProfile) {
+                showToast('Inicia sesión para guardar tu perfil.', 'warning');
+                return;
+            }
 
-            if (currentUserProfile) {
-                await profileService.updateProfile(currentUserProfile.id, {
-                    nombre_completo: companyProfile.name,
-                    telefono: companyProfile.phone,
-                    avatar_url: companyProfile.photo
-                });
+            const nameCheck = validarTexto(document.getElementById('input-company-name').value, LIMITS.nombre, true);
+            if (!nameCheck.ok) {
+                showToast(nameCheck.error, 'error');
+                return;
+            }
 
-                if (currentEmpresaRecord) {
-                    await supabaseClient.from('empresas_turisticas').update({
-                        nombre_comercial: companyProfile.name,
-                        telefono_corporativo: companyProfile.phone
-                    }).eq('id', currentEmpresaRecord.id);
+            const phone = document.getElementById('input-company-phone').value.trim();
+            if (phone && !/^[+0-9()\s-]{7,20}$/.test(phone)) {
+                showToast('Teléfono inválido.', 'error');
+                return;
+            }
+
+            const deptoId = document.getElementById('input-company-dept').value || null;
+
+            showToast('Guardando perfil empresarial...', 'info');
+
+            let avatarUrl = companyProfile.photo;
+
+            if (companyAvatarFile) {
+                const { publicUrl, error: uploadError } = await profileService.uploadAvatar(currentUserProfile.id, companyAvatarFile);
+                if (uploadError) {
+                    showToast('No se pudo subir la imagen: ' + (uploadError.message || 'intenta de nuevo'), 'error');
+                    return;
+                }
+                avatarUrl = publicUrl;
+                companyAvatarFile = null;
+                document.getElementById('input-company-file').value = '';
+            } else {
+                const urlInput = document.getElementById('input-company-photo').value.trim();
+                if (urlInput) {
+                    const safe = safeImageUrl(urlInput);
+                    if (!safe) {
+                        showToast('La URL de la imagen no es válida.', 'error');
+                        return;
+                    }
+                    avatarUrl = safe;
                 }
             }
 
+            const { error: profileError } = await profileService.updateProfile(currentUserProfile.id, {
+                nombre_completo: nameCheck.value,
+                telefono: phone,
+                avatar_url: avatarUrl || ''
+            });
+
+            if (profileError) {
+                showToast('No se pudo actualizar el perfil: ' + (profileError.message || 'intenta de nuevo'), 'error');
+                return;
+            }
+
+            if (currentUserProfile.rol === 'empresa') {
+                const { error: empresaError } = await empresasService.upsertEmpresa({
+                    profile_id: currentUserProfile.id,
+                    nombre_comercial: nameCheck.value,
+                    telefono_corporativo: phone,
+                    departamento_id: deptoId
+                });
+                if (empresaError) {
+                    showToast('Perfil guardado, pero la ficha de empresa falló: ' + (empresaError.message || 'intenta de nuevo'), 'error');
+                    return;
+                }
+            } else if (currentUserProfile.rol === 'productor') {
+                const updates = {
+                    nombre_cooperativa_o_taller: nameCheck.value,
+                    telefono_whatsapp: phone
+                };
+                if (deptoId) updates.departamento_id = deptoId;
+
+                const { error: prodError } = await supabaseClient
+                    .from('productores')
+                    .update(updates)
+                    .eq('profile_id', currentUserProfile.id);
+
+                if (prodError) {
+                    showToast('Perfil guardado, pero la ficha de productor falló: ' + (prodError.message || 'intenta de nuevo'), 'error');
+                    return;
+                }
+            }
+
+            companyProfile.name = nameCheck.value;
+            companyProfile.phone = phone;
+            companyProfile.photo = avatarUrl || '';
+            companyProfile.deptoId = deptoId;
+            companyProfile.dept = document.getElementById('input-company-dept').selectedOptions[0]?.textContent || companyProfile.dept;
+
+            currentUserProfile.nombre_completo = nameCheck.value;
+            currentUserProfile.telefono = phone;
+            currentUserProfile.avatar_url = avatarUrl || '';
+
             applyCompanyProfile();
             closeEditCompanyModal();
-            showToast('Perfil empresarial actualizado correctamente', 'success');
+            showToast('Perfil actualizado correctamente', 'success');
         }
 
         // SEGURIDAD: Cambiar de Perfil / Rol (Cierra sesión obligatoriamente y redirige al login)
@@ -579,32 +668,44 @@
         async function loadProvidersFromSupabase() {
             try {
                 const { data, error } = await productoresService.getProductores();
-                if (data && data.length > 0) {
-                    providersList = data.map(p => ({
+                if (error) {
+                    console.warn('No se pudo leer el directorio:', error);
+                    showToast('No se pudo cargar el directorio. Intenta de nuevo.', 'error');
+                }
+
+                providersList = (data || []).filter(p => p && p.id).map(p => {
+                    const rubro = p.rubros?.nombre || 'General';
+                    const dept = p.departamentos?.nombre || 'Nicaragua';
+                    return {
                         id: p.id,
                         name: p.nombre_cooperativa_o_taller || p.profiles?.nombre_completo || 'Productor Local',
-                        dept: p.departamentos?.nombre || 'Nicaragua',
-                        rubro: p.rubros?.nombre || 'General',
-                        match: 92,
-                        description: p.descripcion || 'Proveedor local verificado por INTUR.',
+                        dept,
+                        rubro,
+                        verificado: p.verificado_intur === true,
+                        description: p.descripcion || 'Productor local de Nicaragua.',
                         photo: p.profiles?.avatar_url || '',
-                        tags: `${(p.rubros?.nombre || '').toLowerCase()} ${(p.departamentos?.nombre || '').toLowerCase()}`
-                    }));
-                } else {
-                    providersList = [];
-                }
+                        phone: p.telefono_whatsapp || '',
+                        tags: normalizeText(`${rubro} ${dept} ${p.municipio || ''} ${p.nombre_cooperativa_o_taller || ''} ${p.descripcion || ''}`)
+                    };
+                });
             } catch (err) {
                 console.error("Error al cargar proveedores:", err);
+                providersList = [];
             }
             renderProviders();
         }
 
         function providerAvatarHTML(photo, altText) {
-            const isValidUrl = photo && typeof photo === 'string' && photo.trim() && photo.trim() !== 'null' && photo.trim() !== 'undefined';
-            if (isValidUrl) {
-                return `<img alt="${altText || 'Proveedor'}" class="w-full h-full object-cover" src="${photo}" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=&quot;material-symbols-outlined text-4xl text-text-muted/40&quot;>person</span>'" />`;
+            const src = safeImageUrl(photo);
+            if (!src) {
+                return `<span class="material-symbols-outlined text-4xl text-text-muted/40">person</span>`;
             }
-            return `<span class="material-symbols-outlined text-4xl text-text-muted/40">person</span>`;
+            return `
+                <img alt="${escapeHtml(altText || 'Proveedor')}" class="w-full h-full object-cover"
+                    width="400" height="300" loading="lazy" decoding="async" src="${escapeHtml(src)}"
+                    onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');" />
+                <span class="material-symbols-outlined text-4xl text-text-muted/40 hidden">person</span>
+            `;
         }
 
         function renderProviders() {
@@ -616,15 +717,30 @@
                     <div class="col-span-full p-12 bg-surface-white rounded-2xl border border-outline-variant/30 text-center flex flex-col items-center justify-center gap-2 shadow-sm">
                         <span class="material-symbols-outlined text-4xl text-primary/40">storefront</span>
                         <p class="font-bold text-sm text-text-main">No hay proveedores registrados aún</p>
-                        <p class="text-xs text-text-muted max-w-sm">Los productores que se registren en la plataforma y se almacenen en Supabase aparecerán listados aquí con su porcentaje de compatibilidad B2B.</p>
+                        <p class="text-xs text-text-muted max-w-sm">Los productores que se registren en la plataforma aparecerán listados aquí.</p>
                     </div>
                 `;
                 return;
             }
 
-            grid.innerHTML = providersList.map(p => `
+            grid.innerHTML = providersList.map(p => {
+                const badge = p.verificado
+                    ? `<span class="px-2.5 py-1 rounded-full bg-primary text-white text-[10px] font-extrabold border border-primary/20">Verificado INTUR</span>`
+                    : `<span class="px-2.5 py-1 rounded-full bg-surface-container text-text-muted text-[10px] font-bold border border-outline-variant/40">Sin verificar</span>`;
+
+                const contactButton = p.phone
+                    ? `<button type="button" data-action="contact" data-id="${escapeHtml(String(p.id))}"
+                            class="py-2 bg-primary hover:bg-surface-tint text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined text-sm">chat</span> Contactar
+                        </button>`
+                    : `<button type="button" disabled title="El productor no registró teléfono"
+                            class="py-2 bg-text-muted/30 text-white text-xs font-bold rounded-xl cursor-not-allowed flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined text-sm">chat</span> Sin teléfono
+                        </button>`;
+
+                return `
                 <article class="provider-card bg-surface-white rounded-2xl shadow-sm hover:shadow-md transition-all p-5 border border-outline-variant/30 flex flex-col justify-between"
-                    data-tags="${p.tags || ''}">
+                    data-tags="${escapeHtml(p.tags || '')}">
                     <div>
                         <div class="flex items-start justify-between gap-3 mb-4">
                             <div class="flex items-center gap-3">
@@ -632,30 +748,54 @@
                                     ${providerAvatarHTML(p.photo, p.name)}
                                 </div>
                                 <div>
-                                    <h3 class="font-bold text-base text-on-surface">${p.name}</h3>
+                                    <h3 class="font-bold text-base text-on-surface">${escapeHtml(p.name)}</h3>
                                     <p class="text-xs text-text-muted flex items-center gap-1 mt-0.5">
-                                        <span class="material-symbols-outlined text-xs text-primary">location_on</span> ${p.dept || 'Nicaragua'} · Nicaragua
+                                        <span class="material-symbols-outlined text-xs text-primary">location_on</span> ${escapeHtml(p.dept)} · Nicaragua
                                     </p>
                                 </div>
                             </div>
-                            <div class="px-2.5 py-1 rounded-full bg-green-light-bg text-primary text-xs font-extrabold border border-primary/20">
-                                ${p.match || 90}% Match
-                            </div>
+                            ${badge}
                         </div>
-                        <p class="text-xs text-text-muted mb-4">${p.description || ''}</p>
+                        <p class="text-xs text-text-muted mb-4">${escapeHtml(p.description)}</p>
                     </div>
                     <div class="grid grid-cols-2 gap-2 pt-2">
-                        <button onclick="showToast('Iniciando contacto con ${p.name}...', 'success')"
-                            class="py-2 bg-primary hover:bg-surface-tint text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1">
-                            <span class="material-symbols-outlined text-sm">chat</span> Contactar
-                        </button>
+                        ${contactButton}
                         <a href="catalogo.html"
                             class="py-2 border border-outline-variant/40 hover:border-primary text-text-main hover:text-primary text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-sm">visibility</span> Catálogo
                         </a>
                     </div>
                 </article>
-            `).join('');
+            `;
+            }).join('');
+        }
+
+        function setupProviderGridEvents() {
+            const grid = document.getElementById('providers-grid');
+            if (!grid) return;
+
+            grid.addEventListener('click', (event) => {
+                const button = event.target.closest('[data-action="contact"]');
+                if (!button) return;
+
+                const provider = providersList.find(p => String(p.id) === String(button.dataset.id));
+                if (!provider || !provider.phone) {
+                    showToast('Este productor no tiene teléfono registrado.', 'warning');
+                    return;
+                }
+
+                let digits = provider.phone.replace(/\D/g, '');
+                if (digits.length < 8) {
+                    showToast('El teléfono registrado no es válido.', 'error');
+                    return;
+                }
+                if (!digits.startsWith('505') && digits.length <= 8) {
+                    digits = '505' + digits;
+                }
+
+                const text = encodeURIComponent(`Hola ${provider.name}, te contacto desde Tawanki para consultar tus productos.`);
+                window.open(`https://wa.me/${digits}?text=${text}`, '_blank', 'noopener');
+            });
         }
 
         function toggleNavAccordion(e) {
@@ -714,16 +854,19 @@
             });
         }
 
-        function setFilter(tag) {
+        function setFilter(tag, btn) {
             document.querySelectorAll('.chip').forEach(c => {
                 c.className = "chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all";
             });
-            event.target.className = "chip active px-3 py-1.5 rounded-full bg-primary text-white font-semibold transition-all";
+            if (btn) {
+                btn.className = "chip active px-3 py-1.5 rounded-full bg-primary text-white font-semibold transition-all";
+            }
 
+            const cleanTag = normalizeText(tag);
             const cards = document.querySelectorAll('.provider-card');
             cards.forEach(card => {
-                const tags = card.getAttribute('data-tags') || '';
-                if (tag === 'all' || tags.includes(tag)) {
+                const tags = normalizeText(card.getAttribute('data-tags') || '');
+                if (cleanTag === 'all' || tags.includes(cleanTag)) {
                     card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
@@ -731,24 +874,6 @@
             });
         }
 
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            let bgClass = "bg-on-surface text-white";
-            let iconName = "info";
-            if (type === 'success') { bgClass = "bg-primary text-white"; iconName = "check_circle"; }
-            if (type === 'warning') { bgClass = "bg-warning-orange text-white"; iconName = "warning"; }
-            if (type === 'error') { bgClass = "bg-error text-white"; iconName = "error"; }
-
-            toast.className = `${bgClass} px-4 py-3 rounded-xl shadow-lg text-xs font-medium flex items-center gap-2.5 pointer-events-auto transition-all transform translate-y-2 opacity-0 duration-200 border border-white/20`;
-            toast.innerHTML = `<span class="material-symbols-outlined text-lg shrink-0">${iconName}</span><span>${message}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
     </script>
 </body>
 

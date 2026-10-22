@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Allow: /catalogo.html
+Allow: /assets/
+Disallow: /auth_intur.html
+Disallow: /auth_productor.html
+Disallow: /auth_empresa.html
+Disallow: /dashboard-intur.html
+Disallow: /perfil-productor.html
+Disallow: /proveedores.html
+Disallow: /reset-password.html
+
+Sitemap: https://tawanki.vercel.app/sitemap.xml

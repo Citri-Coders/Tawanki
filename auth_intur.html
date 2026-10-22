@@ -4,60 +4,31 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>INTUR Conecta - Acceso Institucional</title>
-    <!-- Tailwind CSS with plugins -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <title>Acceso Institucional INTUR · Tawanki</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0d631b" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/tailwind.css" />
+    <!-- Hoja de estilos compilada -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
-
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#0d631b",
-                        "primary-container": "#3D7A3D",
-                        "secondary": "#1B6E3C",
-                        "secondary-container": "#94C078",
-                        "surface-bright": "#F4EFE2",
-                        "background": "#F4EFE2",
-                        "surface": "#F4EFE2",
-                        "surface-white": "#FBF8F0",
-                        "text-main": "#2A2114",
-                        "text-muted": "#6B5E47",
-                        "green-light-bg": "#E8F0DC",
-                        "outline-variant": "#C9BC9A",
-                        "outline": "#8B7B5C",
-                        "error": "#A33A1A",
-                        "error-red": "#B5391E",
-                        "warning-orange": "#D97706",
-                        "tertiary": "#C9612A",
-                        "tertiary-container": "#C9612A",
-                        "on-surface": "#2A2114",
-                        "on-background": "#2A2114"
-                    },
-                    borderRadius: {
-                        "xl": "0.75rem",
-                        "2xl": "1rem"
-                    },
-                    fontFamily: {
-                        sans: ["Inter", "sans-serif"]
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, rgba(13, 99, 27, 0.85) 0%, rgba(46, 125, 50, 0.9) 100%), url('Mosaico NIC.png');
+            background: linear-gradient(135deg, rgba(13, 99, 27, 0.38) 0%, rgba(15, 23, 42, 0.48) 100%), url('assets/mosaico-nic.jpg') center / cover no-repeat fixed;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+        }
+            @keyframes tabFadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .tab-pane {
+            animation: tabFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
     </style>
 </head>
@@ -81,21 +52,19 @@
                 </a>
                 <span
                     class="inline-flex items-center gap-1 bg-green-light-bg text-primary text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-primary/20">
-                    <span class="material-symbols-outlined text-xs">verified_user</span>
-                    Portal Oficial INTUR
+                    <span class="material-symbols-outlined text-xs">admin_panel_settings</span> Administración INTUR
                 </span>
             </div>
 
             <!-- Role Branding -->
             <div class="text-center flex flex-col items-center gap-2">
                 <div
-                    class="w-16 h-16 bg-green-light-bg rounded-2xl flex items-center justify-center shadow-inner border border-primary/20">
-                    <span class="text-3xl">🏛️</span>
+                    class="w-16 h-16 bg-emerald-100/70 text-emerald-800 rounded-2xl flex items-center justify-center shadow-xs border border-emerald-200/60">
+                    <span class="material-symbols-outlined text-3xl">admin_panel_settings</span>
                 </div>
                 <div>
-                    <h1 class="text-2xl font-extrabold text-primary tracking-tight">Instituto de Turismo</h1>
-                    <p class="text-xs text-text-muted mt-0.5">Acceso a delegaciones y panel de administración central
-                    </p>
+                    <h1 class="text-2xl font-extrabold text-primary tracking-tight">Administración</h1>
+                    <p class="text-xs text-text-muted mt-0.5">Acceso institucional a delegaciones y panel central INTUR</p>
                 </div>
             </div>
 
@@ -112,7 +81,7 @@
             </div>
 
             <!-- Form: Iniciar Sesión INTUR -->
-            <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4 text-xs">
+            <form id="form-login" onsubmit="handleLogin(event)" class="tab-pane space-y-4 text-xs">
                 <div>
                     <label class="block font-bold text-text-main mb-1.5">Correo Institucional INTUR *</label>
                     <div class="relative">
@@ -126,14 +95,14 @@
                 <div>
                     <div class="flex justify-between items-center mb-1.5">
                         <label class="font-bold text-text-main">Contraseña *</label>
-                        <a href="#"
-                            onclick="showToast('Se ha enviado enlace de recuperación a su correo institucional', 'info'); return false;"
-                            class="text-[11px] text-primary hover:underline font-semibold">¿Olvidaste tu clave?</a>
+                        <button type="button" onclick="solicitarRecuperacion()"
+                            class="text-[11px] text-primary hover:underline font-semibold">¿Olvidaste tu clave?</button>
                     </div>
                     <div class="relative">
                         <span
                             class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg">lock</span>
-                        <input type="password" id="login-password" required placeholder="••••••••••••"
+                        <input type="password" id="login-password" required minlength="8" autocomplete="current-password"
+                            placeholder="••••••••••••"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl pl-9 pr-3 py-2.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
                     </div>
                 </div>
@@ -166,30 +135,18 @@
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-bold text-text-main mb-1">Delegación *</label>
-                        <select id="reg-depto" required
-                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
-                            <option value="Sede Central Managua">Central Managua</option>
-                            <option value="Granada">Granada</option>
-                            <option value="Masaya">Masaya</option>
-                            <option value="León">León</option>
-                            <option value="Rivas">Rivas</option>
-                            <option value="Matagalpa">Matagalpa</option>
-                            <option value="Estelí">Estelí</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block font-bold text-text-main mb-1">Código Autorización *</label>
-                        <input type="text" id="reg-token" required placeholder="INTUR-2026-X"
-                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                    </div>
+                <div>
+                    <label class="block font-bold text-text-main mb-1">Código de Invitación INTUR *</label>
+                    <input type="text" id="reg-token" required autocomplete="off" placeholder="INTUR-XXXX"
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                    <p class="text-[10px] text-text-muted mt-1">Solicita tu código a la delegación central. La
+                        delegación se asigna después desde el panel administrador.</p>
                 </div>
 
                 <div>
                     <label class="block font-bold text-text-main mb-1">Crear Contraseña *</label>
-                    <input type="password" id="reg-password" required placeholder="Mínimo 8 caracteres"
+                    <input type="password" id="reg-password" required minlength="8" autocomplete="new-password"
+                        placeholder="Mínimo 8 caracteres"
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                 </div>
 
@@ -207,15 +164,19 @@
     </main>
 
     <!-- Supabase SDK + Config -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"
+        integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
     <script src="supabase-config.js"></script>
 
     <script>
-        // Verificar si ya hay sesión activa de INTUR → redirigir directo
+        const DASHBOARD_URL = 'dashboard-intur.html';
+        const DOMINIO_INTUR = '@intur.gob.ni';
+
+        // Si ya hay sesión INTUR válida, entrar directo al panel.
         (async () => {
             const result = await authService.getCurrentUser();
-            if (result.user && result.profile && result.profile.rol === 'intur') {
-                window.location.href = 'dashboard INTUR.html';
+            if (result.user && result.profile && result.profile.rol === 'intur' && result.profile.activo !== false) {
+                window.location.replace(DASHBOARD_URL);
             }
         })();
 
@@ -226,32 +187,42 @@
             const regForm = document.getElementById('form-register');
 
             if (tab === 'login') {
-                loginBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center";
+                loginBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center font-bold";
                 regBtn.className = "flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center";
                 loginForm.classList.remove('hidden');
+                loginForm.classList.remove('tab-pane');
+                void loginForm.offsetWidth;
+                loginForm.classList.add('tab-pane');
                 regForm.classList.add('hidden');
             } else {
-                regBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center";
+                regBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center font-bold";
                 loginBtn.className = "flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center";
                 regForm.classList.remove('hidden');
+                regForm.classList.remove('tab-pane');
+                void regForm.offsetWidth;
+                regForm.classList.add('tab-pane');
                 loginForm.classList.add('hidden');
             }
         }
 
-        async function quickDemoLogin() {
-            showToast('Iniciando sesión de prueba INTUR...', 'info');
-            const demoUser = {
-                id: 'demo-intur-uuid',
-                email: 'admin@intur.gob.ni',
-                nombre_completo: 'Lic. Administrador INTUR',
-                rol: 'intur',
-                telefono: '+505 2222-3800',
-                avatar_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'
-            };
-            localStorage.setItem('tnc_active_user', JSON.stringify(demoUser));
-            setTimeout(() => {
-                window.location.href = 'dashboard INTUR.html';
-            }, 600);
+        async function solicitarRecuperacion() {
+            const email = document.getElementById('login-email').value.trim();
+            if (!email) {
+                showToast('Escribe primero tu correo institucional.', 'warning');
+                document.getElementById('login-email').focus();
+                return;
+            }
+            if (!email.endsWith(DOMINIO_INTUR)) {
+                showToast('Usa tu correo institucional @intur.gob.ni.', 'error');
+                return;
+            }
+
+            const { error } = await authService.resetPassword(email);
+            if (error) {
+                showToast('No se pudo enviar el correo: ' + (error.message || 'intenta de nuevo'), 'error');
+                return;
+            }
+            showToast('Si el correo está registrado, recibirás un enlace de recuperación.', 'success');
         }
 
         async function handleLogin(e) {
@@ -259,118 +230,127 @@
             const email = document.getElementById('login-email').value.trim();
             const password = document.getElementById('login-password').value;
 
-            showToast('Validando credenciales en Supabase...', 'info');
-
-            const { data, error } = await authService.signIn({ email, password });
-            if (error) {
-                console.error("Error en signIn:", error);
-                showToast('Error: ' + (error.message || 'Credenciales inválidas'), 'error');
+            if (!email.endsWith(DOMINIO_INTUR)) {
+                showToast('Acceso restringido a correos @intur.gob.ni.', 'error');
                 return;
             }
 
-            // Verificar que el rol sea INTUR
+            showToast('Validando credenciales...', 'info');
+
+            const { error } = await authService.signIn({ email, password });
+            if (error) {
+                console.error("Error en signIn:", error);
+                showToast('Credenciales inválidas. Verifica tu correo y contraseña.', 'error');
+                return;
+            }
+
             const { profile, error: profileError } = await authService.getCurrentUser();
-            if (profile && profile.rol !== 'intur') {
-                showToast('⛔ Acceso denegado. Esta cuenta no pertenece al rol INTUR.', 'error');
+            if (profileError || !profile) {
+                showToast('Tu cuenta no tiene perfil asociado. Contacta a INTUR.', 'error');
                 await authService.signOut();
                 return;
             }
 
+            if (profile.activo === false) {
+                showToast('Tu cuenta está desactivada. Contacta a INTUR.', 'error');
+                await authService.signOut();
+                return;
+            }
+
+            if (profile.rol !== 'intur') {
+                // La cuenta existe pero aún no canjeó el código de invitación.
+                showToast('Cuenta sin rol INTUR. Introduce tu código de invitación para activarla.', 'warning');
+                switchAuthTab('register');
+                document.getElementById('reg-email').value = email;
+                document.getElementById('reg-name').value = profile.nombre_completo || '';
+                return;
+            }
+
             showToast('¡Acceso concedido! Redirigiendo al panel...', 'success');
-            setTimeout(() => {
-                window.location.href = 'dashboard INTUR.html';
-            }, 800);
+            setTimeout(() => window.location.replace(DASHBOARD_URL), 700);
+        }
+
+        async function canjearCodigo(codigo) {
+            return supabaseClient.rpc('canjear_codigo_intur', { p_codigo: codigo });
         }
 
         async function handleRegister(e) {
             e.preventDefault();
             const nombre = document.getElementById('reg-name').value.trim();
             const email = document.getElementById('reg-email').value.trim();
-            const depto = document.getElementById('reg-depto').value;
             const token = document.getElementById('reg-token').value.trim();
             const password = document.getElementById('reg-password').value;
 
-            // Validar código institucional básico
-            if (!token.startsWith('INTUR-')) {
-                showToast('Código de autorización inválido. Debe iniciar con INTUR-', 'error');
+            if (!email.endsWith(DOMINIO_INTUR)) {
+                showToast('El registro requiere un correo @intur.gob.ni.', 'error');
+                return;
+            }
+            if (password.length < 8) {
+                showToast('La contraseña debe tener al menos 8 caracteres.', 'error');
+                return;
+            }
+            if (!/^INTUR-[A-Za-z0-9-]{8,}$/.test(token)) {
+                showToast('Código de invitación inválido. Debe tener el formato INTUR-XXXXXXXX.', 'error');
                 return;
             }
 
-            showToast('Creando cuenta en Supabase...', 'info');
+            // Caso A: ya hay una sesión iniciada (cuenta creada, sin rol INTUR).
+            const actual = await authService.getCurrentUser();
+            if (actual.user) {
+                if (actual.profile?.rol === 'intur') {
+                    window.location.replace(DASHBOARD_URL);
+                    return;
+                }
+                showToast('Canjeando código de invitación...', 'info');
+                const { error } = await canjearCodigo(token);
+                if (error) {
+                    showToast('No se pudo activar: ' + (error.message || 'código inválido o expirado'), 'error');
+                    return;
+                }
+                showToast('¡Cuenta INTUR activada! Redirigiendo...', 'success');
+                setTimeout(() => window.location.replace(DASHBOARD_URL), 800);
+                return;
+            }
+
+            // Caso B: cuenta nueva. El rol INTUR solo se obtiene canjeando el código.
+            showToast('Creando cuenta institucional...', 'info');
 
             const { data, error } = await authService.signUp({
                 email,
                 password,
                 nombreCompleto: nombre,
-                rol: 'intur',
+                rol: 'productor', // el trigger solo admite productor/empresa; INTUR se canjea
                 telefono: '+505 2222-3800'
             });
 
             if (error) {
                 console.error("Error al registrar en Supabase:", error);
-                showToast('Error al registrar: ' + (error.message || 'Error en Supabase'), 'error');
+                showToast('Error al registrar: ' + (error.message || 'intenta de nuevo'), 'error');
                 return;
             }
 
-            // Si el registro fue exitoso, intentar asociar delegación en intur_admins
-            if (data?.user) {
-                const deptosMap = {
-                    'Sede Central Managua': 8, 'Granada': 1, 'Masaya': 2,
-                    'León': 3, 'Rivas': 4, 'Matagalpa': 5, 'Estelí': 6
-                };
-
-                try {
-                    await supabaseClient.from('intur_admins').insert({
-                        profile_id: data.user.id,
-                        delegacion_depto_id: deptosMap[depto] || 8,
-                        cargo: 'Delegado Turístico',
-                        codigo_funcionario: token
-                    });
-                } catch(err) {
-                    console.warn("Aviso al vincular delegación:", err);
-                }
-            }
-
-            // Auto-iniciar sesión si la confirmación de email no es obligatoria
-            const signInRes = await authService.signIn({ email, password });
-            if (signInRes.data?.session) {
-                showToast('¡Funcionario registrado y autenticado con éxito!', 'success');
-                setTimeout(() => {
-                    window.location.href = 'dashboard INTUR.html';
-                }, 1000);
-            } else {
-                showToast('¡Cuenta creada con éxito! Si tu Supabase requiere confirmación de email, revisa tu bandeja de entrada antes de ingresar.', 'success');
+            // Si Supabase exige confirmación de correo no habrá sesión todavía.
+            const { data: sessionData } = await supabaseClient.auth.getSession();
+            if (!sessionData?.session) {
+                showToast('Cuenta creada. Confirma tu correo y luego inicia sesión para canjear el código.', 'success');
                 setTimeout(() => {
                     switchAuthTab('login');
                     document.getElementById('login-email').value = email;
-                }, 2000);
+                }, 1500);
+                return;
             }
-        }
 
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
+            const { error: redeemError } = await canjearCodigo(token);
+            if (redeemError) {
+                showToast('Cuenta creada, pero el código no se pudo canjear: ' + (redeemError.message || 'inválido o expirado'), 'error');
+                return;
+            }
 
-            let bgClass = "bg-gray-900 text-white";
-            let iconName = "info";
-            if (type === 'success') { bgClass = "bg-primary text-white"; iconName = "check_circle"; }
-            if (type === 'warning') { bgClass = "bg-amber-600 text-white"; iconName = "warning"; }
-            if (type === 'error') { bgClass = "bg-red-600 text-white"; iconName = "error"; }
-
-            toast.className = `${bgClass} px-4 py-3 rounded-xl shadow-lg text-xs font-medium flex items-center gap-2.5 pointer-events-auto transition-all transform translate-y-2 opacity-0 duration-200 border border-white/20`;
-            toast.innerHTML = `
-                <span class="material-symbols-outlined text-lg shrink-0">${iconName}</span>
-                <span>${message}</span>
-            `;
-
-            container.appendChild(toast);
-            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            showToast('¡Funcionario registrado y autenticado con éxito!', 'success');
+            setTimeout(() => window.location.replace(DASHBOARD_URL), 900);
         }
     </script>
+
 </body>
 
 </html>

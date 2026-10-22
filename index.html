@@ -5,78 +5,25 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Turismo Nicaragua Conecta - Selector de Rol</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "primary": "#0d631b",
-                        "primary-container": "#3D7A3D",
-                        "secondary": "#1B6E3C",
-                        "secondary-container": "#94C078",
-                        "surface-bright": "#F4EFE2",
-                        "background": "#F4EFE2",
-                        "surface": "#F4EFE2",
-                        "surface-white": "#FBF8F0",
-                        "text-main": "#2A2114",
-                        "text-muted": "#6B5E47",
-                        "green-light-bg": "#E8F0DC",
-                        "outline-variant": "#C9BC9A",
-                        "outline": "#8B7B5C",
-                        "error": "#A33A1A",
-                        "error-red": "#B5391E",
-                        "warning-orange": "#D97706",
-                        "tertiary": "#C9612A",
-                        "tertiary-container": "#C9612A",
-                        "on-surface": "#2A2114",
-                        "on-background": "#2A2114"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "space-6": "24px",
-                        "space-8": "32px",
-                        "space-3": "12px",
-                        "margin-desktop": "32px",
-                        "space-4": "16px",
-                        "space-1": "4px",
-                        "space-2": "8px",
-                        "margin-mobile": "16px",
-                        "gutter": "16px"
-                    },
-                    "fontFamily": {
-                        "body-md": ["Inter", "sans-serif"],
-                        "headline-h3": ["Inter", "sans-serif"],
-                        "label-sm": ["Inter", "sans-serif"],
-                        "button": ["Inter", "sans-serif"],
-                        "display-stat": ["Inter", "sans-serif"],
-                        "headline-h2": ["Inter", "sans-serif"],
-                        "headline-h1": ["Inter", "sans-serif"]
-                    },
-                    "fontSize": {
-                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
-                        "headline-h3": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
-                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.025em", "fontWeight": "500" }],
-                        "button": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
-                        "display-stat": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
-                        "headline-h2": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
-                        "headline-h1": ["24px", { "lineHeight": "32px", "fontWeight": "700" }]
-                    }
-                }
-            }
-        }
-    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <title>Tawanki | Conectamos el turismo de Nicaragua con productores locales</title>
+    <meta name="description"
+        content="Tawanki conecta a pequeños productores y artesanos de Nicaragua con hoteles, restaurantes y tour operadores. Encuentra proveedores locales verificados por INTUR." />
+    <meta name="theme-color" content="#0d631b" />
+    <link rel="canonical" href="https://tawanki.vercel.app/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Tawanki" />
+    <meta property="og:title" content="Tawanki | Conectamos el turismo de Nicaragua con productores locales" />
+    <meta property="og:description"
+        content="Conectamos pequeños negocios con el turismo de Nicaragua. Catálogo de productores locales y directorio B2B." />
+    <meta property="og:url" content="https://tawanki.vercel.app/" />
+    <meta property="og:image" content="https://tawanki.vercel.app/assets/mosaico-nic.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/tailwind.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
@@ -84,141 +31,198 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #2e7d32 0%, #4CAF50 100%);
             min-height: 100vh;
-            background-image: url(Mosaico\ NIC.png);
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            opacity: 0.8;
+            background:
+                linear-gradient(135deg, rgba(13, 99, 27, 0.38) 0%, rgba(15, 23, 42, 0.48) 100%),
+                url('assets/mosaico-nic.jpg') center / cover no-repeat;
         }
     </style>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Tawanki",
+            "alternateName": "Turismo Nicaragua Conecta",
+            "url": "https://tawanki.vercel.app/",
+            "logo": "https://tawanki.vercel.app/assets/favicon.svg",
+            "description": "Tawanki conecta a pequeños productores y artesanos de Nicaragua con hoteles, restaurantes y tour operadores.",
+            "areaServed": {
+                "@type": "Country",
+                "name": "Nicaragua"
+            }
+        }
+    </script>
 </head>
 
-<body class="flex flex-col items-center justify-center p-margin-mobile md:p-margin-desktop text-on-primary">
-    <main class="flex-grow flex flex-col items-center justify-center w-full max-w-md z-10">
-        <div class="bg-surface-white rounded-xl shadow-lg p-space-8 w-full flex flex-col gap-space-8">
+<body class="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 text-text-main">
+    <main class="w-full max-w-md my-auto">
+        <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-6 sm:p-8 border border-white/40 flex flex-col gap-6 w-full">
             <!-- Header / Logo inside Card -->
-            <div class="text-center flex flex-col items-center gap-space-4">
-                <div
-                    class="w-24 h-24 bg-green-light-bg rounded-full flex items-center justify-center shadow-md transform transition-transform hover:scale-105 duration-300">
-                    <span class="material-symbols-outlined text-primary text-5xl"
-                        style="font-variation-settings: 'FILL' 1;">
+            <div class="text-center flex flex-col items-center gap-2">
+                <div class="w-16 h-16 bg-green-light-bg rounded-2xl flex items-center justify-center shadow-xs border border-primary/20">
+                    <span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">
                         handshake
                     </span>
                 </div>
                 <div>
-                    <h1 class="font-headline-h1 text-headline-h1 text-primary mb-space-2 tracking-tight">
-                        Tawanki
-                    </h1>
-                    <p class="font-body-md text-body-md text-text-muted max-w-xs mx-auto">
-                        Conectando pequeños negocios con el turismo de Nicaragua
-                    </p>
+                    <h1 class="text-2xl font-extrabold text-primary tracking-tight">Tawanki</h1>
+                    <p class="text-xs text-text-muted mt-0.5">Conectando pequeños negocios con el turismo de Nicaragua</p>
                 </div>
             </div>
             <!-- Role Selector Buttons -->
-            <div class="w-full flex flex-col gap-space-3">
+            <div class="w-full flex flex-col gap-3">
                 <a href="auth_intur.html"
-                    class="w-full bg-surface-bright hover:bg-green-light-bg active:scale-95 transition-all duration-200 ease-in-out rounded-xl p-space-4 flex items-center gap-space-4 group border-2 border-transparent hover:border-primary-fixed-dim cursor-pointer text-decoration-none shadow-xs hover:shadow-md">
-                    <div
-                        class="w-12 h-12 rounded-lg bg-surface-white flex items-center justify-center group-hover:bg-primary-container transition-colors duration-200 shadow-sm">
-                        <span class="text-2xl">🏛️</span>
+                    class="w-full bg-surface-bright/80 hover:bg-green-light-bg active:scale-[0.99] transition-all duration-200 rounded-2xl p-3.5 flex items-center gap-3.5 group border border-outline-variant/30 hover:border-primary/40 shadow-xs hover:shadow-md cursor-pointer text-decoration-none">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-100/70 text-emerald-800 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all duration-200 shadow-2xs shrink-0">
+                        <span class="material-symbols-outlined text-2xl">admin_panel_settings</span>
                     </div>
                     <div class="flex-grow text-left">
-                        <span class="font-headline-h3 text-headline-h3 text-primary block font-bold">Soy INTUR</span>
-                        <span class="font-label-sm text-label-sm text-text-muted">Administración y métricas</span>
+                        <span class="text-sm font-bold text-on-surface group-hover:text-primary block transition-colors">Administración</span>
+                        <span class="text-xs text-text-muted">Gestión institucional y métricas INTUR</span>
                     </div>
-                    <span
-                        class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">
-                        arrow_forward
+                    <span class="material-symbols-outlined text-text-muted/60 group-hover:text-primary group-hover:translate-x-0.5 transition-all text-xl">
+                        chevron_right
                     </span>
                 </a>
+
                 <a href="auth_productor.html"
-                    class="w-full bg-surface-bright hover:bg-green-light-bg active:scale-95 transition-all duration-200 ease-in-out rounded-xl p-space-4 flex items-center gap-space-4 group border-2 border-transparent hover:border-primary-fixed-dim cursor-pointer text-decoration-none shadow-xs hover:shadow-md">
-                    <div
-                        class="w-12 h-12 rounded-lg bg-surface-white flex items-center justify-center group-hover:bg-primary-container transition-colors duration-200 shadow-sm">
-                        <span class="text-2xl">🧑‍🌾</span>
+                    class="w-full bg-surface-bright/80 hover:bg-green-light-bg active:scale-[0.99] transition-all duration-200 rounded-2xl p-3.5 flex items-center gap-3.5 group border border-outline-variant/30 hover:border-primary/40 shadow-xs hover:shadow-md cursor-pointer text-decoration-none">
+                    <div class="w-12 h-12 rounded-xl bg-amber-100/80 text-amber-800 flex items-center justify-center group-hover:bg-amber-700 group-hover:text-white transition-all duration-200 shadow-2xs shrink-0">
+                        <span class="material-symbols-outlined text-2xl">agriculture</span>
                     </div>
                     <div class="flex-grow text-left">
-                        <span class="font-headline-h3 text-headline-h3 text-primary block font-bold">Soy Productor
-                            Local</span>
-                        <span class="font-label-sm text-label-sm text-text-muted">Ofrece tus productos o
-                            servicios</span>
+                        <span class="text-sm font-bold text-on-surface group-hover:text-primary block transition-colors">Productor</span>
+                        <span class="text-xs text-text-muted">Catálogo y oferta artesanal local</span>
                     </div>
-                    <span
-                        class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">
-                        arrow_forward
+                    <span class="material-symbols-outlined text-text-muted/60 group-hover:text-primary group-hover:translate-x-0.5 transition-all text-xl">
+                        chevron_right
                     </span>
                 </a>
+
                 <a href="auth_empresa.html"
-                    class="w-full bg-surface-bright hover:bg-green-light-bg active:scale-95 transition-all duration-200 ease-in-out rounded-xl p-space-4 flex items-center gap-space-4 group border-2 border-transparent hover:border-primary-fixed-dim cursor-pointer text-decoration-none shadow-xs hover:shadow-md">
-                    <div
-                        class="w-12 h-12 rounded-lg bg-surface-white flex items-center justify-center group-hover:bg-primary-container transition-colors duration-200 shadow-sm">
-                        <span class="text-2xl">🏨</span>
+                    class="w-full bg-surface-bright/80 hover:bg-green-light-bg active:scale-[0.99] transition-all duration-200 rounded-2xl p-3.5 flex items-center gap-3.5 group border border-outline-variant/30 hover:border-primary/40 shadow-xs hover:shadow-md cursor-pointer text-decoration-none">
+                    <div class="w-12 h-12 rounded-xl bg-blue-100/80 text-blue-800 flex items-center justify-center group-hover:bg-blue-700 group-hover:text-white transition-all duration-200 shadow-2xs shrink-0">
+                        <span class="material-symbols-outlined text-2xl">storefront</span>
                     </div>
                     <div class="flex-grow text-left">
-                        <span class="font-headline-h3 text-headline-h3 text-primary block font-bold">Soy Empresa
-                            Turística</span>
-                        <span class="font-label-sm text-label-sm text-text-muted">Encuentra proveedores locales</span>
+                        <span class="text-sm font-bold text-on-surface group-hover:text-primary block transition-colors">Empresas &amp; Negocios</span>
+                        <span class="text-xs text-text-muted">Búsqueda de proveedores y cotizaciones B2B</span>
                     </div>
-                    <span
-                        class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">
-                        arrow_forward
+                    <span class="material-symbols-outlined text-text-muted/60 group-hover:text-primary group-hover:translate-x-0.5 transition-all text-xl">
+                        chevron_right
                     </span>
+                </a>
+            </div>
+
+            <!-- Acceso público -->
+            <div class="flex items-center justify-center gap-4 pt-1 text-[11px] font-semibold">
+                <a href="catalogo.html" class="text-primary hover:underline flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">inventory_2</span>
+                    Explorar catálogo
+                </a>
+                <span class="text-outline-variant">·</span>
+                <a href="proveedores.html" class="text-primary hover:underline flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">handshake</span>
+                    Directorio de Proveedores
                 </a>
             </div>
 
         </div>
     </main>
+
+    <noscript>
+        <section class="w-full max-w-md bg-surface-white text-on-surface rounded-xl shadow-lg p-5 mt-4 z-10">
+            <h2 class="font-bold text-base text-primary">Tawanki · Turismo Nicaragua Conecta</h2>
+            <p class="text-xs text-text-muted mt-2 leading-relaxed">
+                Conectamos pequeños productores, artesanos y cooperativas de Nicaragua con hoteles,
+                restaurantes y tour operadores. Explora el catálogo público de productos locales y sus precios directos.
+            </p>
+            <div class="flex flex-wrap gap-3 mt-3 text-xs font-semibold">
+                <a href="catalogo.html" class="text-primary underline">Ver catálogo</a>
+                <a href="auth_empresa.html" class="text-primary underline">Registrar empresa</a>
+                <a href="auth_productor.html" class="text-primary underline">Registrar productor</a>
+            </div>
+            <p class="text-[10px] text-text-muted mt-3">
+                Para iniciar sesión y usar el directorio B2B necesitas activar JavaScript.
+            </p>
+        </section>
+    </noscript>
+
     <!-- Footer -->
-    <footer class="w-full text-center mt-space-8 pb-space-4 z-10">
-        <p class="font-label-sm text-label-sm text-green-light-bg opacity-75">
-            Rally Innova 2026
-        </p>
+    <footer class="w-full text-center mt-4 text-[11px] text-white/75 font-medium">
+        <p>Rally Innova 2026 · Turismo Nicaragua Conecta</p>
     </footer>
 
     <!-- Supabase SDK + Config -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"
+        integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
     <script src="supabase-config.js"></script>
     <script>
-        // Si hay sesión activa, ofrecer acceso rápido sin secuestrar la navegación
+        // Si hay sesión activa, mostrar acceso directo sin secuestrar la navegación.
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const { user, profile } = await authService.getCurrentUser();
-                if (user && profile && profile.rol) {
-                    const roleRedirects = {
-                        'intur': { name: 'Funcionario INTUR', url: 'dashboard INTUR.html', icon: '🏛️' },
-                        'productor': { name: 'Productor Local', url: 'perfil-productor.html', icon: '🧑‍🌾' },
-                        'empresa': { name: 'Empresa Turística', url: 'proveedores.html', icon: '🏨' }
-                    };
-                    const info = roleRedirects[profile.rol];
-                    if (info) {
-                        const container = document.querySelector('main .max-w-md');
-                        if (container) {
-                            const banner = document.createElement('div');
-                            banner.className = "mb-4 p-3 bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-primary/30 flex items-center justify-between text-xs animate-in fade-in";
-                            banner.innerHTML = `
-                                <div class="flex items-center gap-2 overflow-hidden text-left">
-                                    <span class="text-lg">${info.icon}</span>
-                                    <div class="truncate">
-                                        <p class="font-bold text-on-surface truncate">${profile.nombre_completo || 'Usuario'}</p>
-                                        <p class="text-[10px] text-primary font-semibold">Sesión activa como ${info.name}</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-1.5 shrink-0">
-                                    <a href="${info.url}" class="px-2.5 py-1.5 bg-primary hover:bg-surface-tint text-white font-bold rounded-lg transition-all text-[11px]">
-                                        Entrar
-                                    </a>
-                                    <button onclick="authService.signOut().then(() => window.location.reload())" title="Cerrar sesión" class="px-2 py-1.5 bg-surface-bright hover:bg-error-container text-text-muted hover:text-error-red font-bold rounded-lg transition-all text-[11px]">
-                                        Salir
-                                    </button>
-                                </div>
-                            `;
-                            container.insertBefore(banner, container.firstChild);
-                        }
-                    }
-                }
-            } catch (e) {}
+                if (!user || !profile || !profile.rol || profile.activo === false) return;
+
+                const roleRedirects = {
+                    intur: { name: 'Administración INTUR', url: 'dashboard-intur.html', icon: 'admin_panel_settings' },
+                    productor: { name: 'Productor Local', url: 'perfil-productor.html', icon: 'agriculture' },
+                    empresa: { name: 'Empresa Turística', url: 'proveedores.html', icon: 'storefront' }
+                };
+                const info = roleRedirects[profile.rol];
+                if (!info) return;
+
+                const container = document.querySelector('main > .bg-surface-white');
+                if (!container) return;
+
+                const banner = document.createElement('div');
+                banner.className = "mb-4 p-3 bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-primary/30 flex items-center justify-between text-xs";
+
+                const left = document.createElement('div');
+                left.className = "flex items-center gap-2 overflow-hidden text-left";
+
+                const icon = document.createElement('span');
+                icon.className = 'material-symbols-outlined text-primary text-xl';
+                icon.textContent = info.icon;
+
+                const textWrap = document.createElement('div');
+                textWrap.className = 'truncate';
+
+                const name = document.createElement('p');
+                name.className = 'font-bold text-on-surface truncate';
+                name.textContent = profile.nombre_completo || 'Usuario';
+
+                const role = document.createElement('p');
+                role.className = 'text-[10px] text-primary font-semibold';
+                role.textContent = `Sesión activa como ${info.name}`;
+
+                textWrap.append(name, role);
+                left.append(icon, textWrap);
+
+                const actions = document.createElement('div');
+                actions.className = 'flex items-center gap-1.5 shrink-0';
+
+                const enter = document.createElement('a');
+                enter.href = info.url;
+                enter.className = 'px-2.5 py-1.5 bg-primary hover:bg-surface-tint text-white font-bold rounded-lg transition-all text-[11px]';
+                enter.textContent = 'Entrar';
+
+                const logout = document.createElement('button');
+                logout.type = 'button';
+                logout.title = 'Cerrar sesión';
+                logout.className = 'px-2 py-1.5 bg-surface-bright hover:bg-error-container text-text-muted hover:text-error-red font-bold rounded-lg transition-all text-[11px]';
+                logout.textContent = 'Salir';
+                logout.addEventListener('click', async () => {
+                    await authService.signOut();
+                    window.location.reload();
+                });
+
+                actions.append(enter, logout);
+                banner.append(left, actions);
+                container.insertBefore(banner, container.firstChild);
+            } catch (error) {
+                console.warn('No se pudo comprobar la sesión:', error);
+            }
         });
     </script>
 </body>
