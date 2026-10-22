@@ -1,7 +1,7 @@
 -- ============================================================================
--- Tawanki · Instalación completa en un proyecto Supabase nuevo
+-- setup_tawanki.sql · Instalación completa del ecosistema Tawanki en Supabase
 -- ============================================================================
--- Archivo generado a partir de supabase/migrations/000–006.
+-- Archivo generado a partir de supabase/migrations/000–007.
 -- Pégalo completo en el SQL Editor y ejecútalo una sola vez.
 -- Si prefieres revisar cada paso, ejecuta los archivos individuales en orden.
 -- ============================================================================
