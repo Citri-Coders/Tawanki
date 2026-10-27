@@ -1284,6 +1284,8 @@ $$;
 revoke all on function public.aprobar_intur_directo(text) from public, anon;
 grant execute on function public.aprobar_intur_directo(text) to service_role;
 
+drop function if exists public.canjear_codigo_intur(text);
+
 create or replace function public.canjear_codigo_intur(
   p_codigo text,
   p_email text default null

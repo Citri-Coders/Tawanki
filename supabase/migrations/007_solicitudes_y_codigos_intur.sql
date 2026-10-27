@@ -147,8 +147,10 @@ grant execute on function public.aprobar_intur_directo(text) to service_role;
 
 -- ----------------------------------------------------------------------------
 -- 4. Opción B: Canjear / Validar código de verificación institucional
--- Valida que el código coincida y que pertenezca ESPECÍFICAMENTE al correo del usuario.
+-- Eliminar la firma antigua de 1 parámetro para evitar conflicto de sobrecarga (HTTP 300) en PostgREST
 -- ----------------------------------------------------------------------------
+drop function if exists public.canjear_codigo_intur(text);
+
 create or replace function public.canjear_codigo_intur(
   p_codigo text,
   p_email text default null
