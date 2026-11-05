@@ -21,7 +21,7 @@ const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ── 1.1 Modo demo ────────────────────────────────────────────
 // Estas cuentas las crea scripts/seed_demo.js. Solo se usan en la rama
-// version-2; no deben existir en producción.
+// tawankiVersion2; no deben existir en producción.
 const DEMO_ACCOUNTS = Object.freeze({
     productor: { email: 'productor@demo.tawanki.ni', password: 'DemoTawanki2026!' },
     empresa: { email: 'empresa@demo.tawanki.ni', password: 'DemoTawanki2026!' },

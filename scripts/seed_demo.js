@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Seed de demo para Tawanki · rama version-2
+ * Seed de demo para Tawanki · rama tawankiVersion2
  *
  * Requisitos:
  *   SUPABASE_SERVICE_ROLE_KEY=...  (NUNCA subir esta clave al frontend)

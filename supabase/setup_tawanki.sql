@@ -1395,9 +1395,9 @@ grant execute on function public.canjear_codigo_intur(text, text) to anon, authe
 
 
 -- ============================================================================
--- 008 · Modo demo + rendimiento para la rama version-2
+-- 009 · Modo demo + rendimiento para la rama tawankiVersion2
 -- ============================================================================
--- Ejecutar DESPUÉS de 000–007. Este archivo:
+-- Ejecutar DESPUÉS de 000–008. Este archivo:
 --   1. Elimina la sobrecarga ambigua de canjear_codigo_intur(text).
 --   2. Permite el registro INTUR con cualquier correo (modo demo).
 --   3. Crea app_config + activar_intur_demo() para entrar sin código.

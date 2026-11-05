@@ -1,11 +1,11 @@
-# Tawanki · Versión demo (`version-2`)
+# Tawanki · Versión demo (`tawankiVersion2`)
 
 Esta rama está pensada para presentar la demo rápido. **No debe desplegarse a producción tal cual**: desactiva la confirmación de correo, permite registrar INTUR con cualquier correo y habilita la auto-promoción a INTUR.
 
 ## 1. Configurar Supabase
 
 1. Aplicar las migraciones. Si la base ya existe, ejecutar solo:
-   `supabase/migrations/008_demo_mode_y_rendimiento.sql`
+   `supabase/migrations/009_demo_mode_y_rendimiento.sql`
    en el SQL Editor de Supabase.
 2. En **Authentication → Providers → Email**, desactivar **Confirm email**.
 3. En **Authentication → URL Configuration**, registrar:
