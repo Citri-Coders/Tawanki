@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Acceso Productor Local · Tawanki</title>
+    <title>Acceso Productor · Tawanki</title>
     <meta name="robots" content="noindex, nofollow" />
     <meta name="theme-color" content="#0d631b" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
@@ -18,33 +18,42 @@
         body {
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, rgba(13, 99, 27, 0.38) 0%, rgba(15, 23, 42, 0.48) 100%), url('assets/mosaico-nic.jpg') center / cover no-repeat fixed;
+            background: linear-gradient(135deg, rgba(13, 99, 27, 0.42) 0%, rgba(15, 23, 42, 0.5) 100%), url('assets/mosaico-nic.jpg') center / cover no-repeat fixed;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
         }
-            @keyframes tabFadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        @keyframes tabFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         .tab-pane {
             animation: tabFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
     </style>
 </head>
 
-<body class="flex flex-col items-center justify-center p-4 sm:p-6 text-text-main min-h-screen">
+<body class="flex flex-col items-center justify-center p-3 sm:p-6 text-text-main min-h-screen">
 
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
-    <main class="w-full max-w-md my-auto">
+    <main id="auth-card-wrapper" class="w-full max-w-md my-auto transition-all duration-300">
         <!-- Auth Card -->
         <div
-            class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-6 sm:p-8 border border-white/40 flex flex-col gap-6">
+            class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-5 sm:p-8 border border-white/40 flex flex-col gap-5">
 
             <!-- Header with Back Button -->
-            <div class="flex items-center justify-between border-b border-outline-variant/30 pb-4">
+            <div class="flex items-center justify-between border-b border-outline-variant/30 pb-3">
                 <a href="index.html"
                     class="flex items-center gap-1.5 text-xs font-semibold text-text-muted hover:text-primary transition-colors">
                     <span class="material-symbols-outlined text-lg">arrow_back</span>
@@ -59,22 +68,22 @@
             <!-- Role Branding -->
             <div class="text-center flex flex-col items-center gap-2">
                 <div
-                    class="w-16 h-16 bg-amber-100/80 text-amber-800 rounded-2xl flex items-center justify-center shadow-xs border border-amber-200/60">
+                    class="w-14 h-14 bg-amber-100/80 text-amber-800 rounded-2xl flex items-center justify-center shadow-xs border border-amber-200/60">
                     <span class="material-symbols-outlined text-3xl">agriculture</span>
                 </div>
                 <div>
-                    <h1 class="text-2xl font-extrabold text-primary tracking-tight">Productor</h1>
-                    <p class="text-xs text-text-muted mt-0.5">Ofrece tus cosechas, artesanías y productos al turismo nacional</p>
+                    <h1 class="text-2xl font-extrabold text-primary tracking-tight">Portal de Productores</h1>
+                    <p class="text-xs text-text-muted mt-0.5">Comercializa formalmente con hoteles, restaurantes y tour operadoras nacionales</p>
                 </div>
             </div>
 
             <!-- Tabs: Iniciar Sesión / Registro -->
             <div class="flex bg-surface-bright p-1 rounded-xl border border-outline-variant/40 text-xs font-bold">
-                <button onclick="switchAuthTab('login')" id="tab-login-btn"
+                <button type="button" onclick="switchAuthTab('login')" id="tab-login-btn"
                     class="flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center">
                     Iniciar Sesión
                 </button>
-                <button onclick="switchAuthTab('register')" id="tab-register-btn"
+                <button type="button" onclick="switchAuthTab('register')" id="tab-register-btn"
                     class="flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center">
                     Crear mi Cuenta
                 </button>
@@ -122,62 +131,291 @@
                 </button>
             </form>
 
-            <!-- Form: Registro de Nuevo Productor -->
-            <form id="form-register" onsubmit="handleRegister(event)" class="tab-pane hidden space-y-3 text-xs">
-                <div>
-                    <label class="block font-bold text-text-main mb-1">Nombre o Nombre de Cooperativa *</label>
-                    <input type="text" id="reg-name" required
-                        placeholder="Ej: Finca San Antonio / Cooperativa Matagalpa"
-                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+            <!-- Form: Registro de Nuevo Productor con Verificación Normativa -->
+            <form id="form-register" onsubmit="handleRegister(event)" class="tab-pane hidden space-y-5 text-xs">
+
+                <!-- Bloque 1: Cuenta y Datos Generales -->
+                <div class="bg-surface-bright/70 rounded-xl p-3.5 border border-outline-variant/40 space-y-3">
+                    <div class="flex items-center gap-1.5 text-primary font-bold text-xs border-b border-outline-variant/30 pb-2">
+                        <span class="material-symbols-outlined text-base">person</span>
+                        <span>1. Datos del Titular y Acceso</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-bold text-text-main mb-1">Nombre Completo del Titular *</label>
+                            <input type="text" id="reg-name" required placeholder="Ej: María Hernández López"
+                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                        </div>
+                        <div>
+                            <label class="block font-bold text-text-main mb-1">Nombre del Taller, Finca o Cooperativa *</label>
+                            <input type="text" id="reg-taller" required placeholder="Ej: Taller Alfarero Hermanos López"
+                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div>
+                            <label class="block font-bold text-text-main mb-1">Correo Electrónico *</label>
+                            <input type="email" id="reg-email" required placeholder="taller@correo.com"
+                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                        </div>
+                        <div>
+                            <label class="block font-bold text-text-main mb-1">Teléfono WhatsApp *</label>
+                            <input type="tel" id="reg-phone" required placeholder="+505 8888-9999"
+                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                        </div>
+                        <div>
+                            <label class="block font-bold text-text-main mb-1">Contraseña (min. 8) *</label>
+                            <input type="password" id="reg-password" required minlength="8" autocomplete="new-password"
+                                placeholder="••••••••"
+                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                        </div>
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-bold text-text-main mb-1">Departamento *</label>
-                        <select id="reg-depto" required
-                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
-                            <option value="">Cargando departamentos…</option>
-                        </select>
+                <!-- Bloque 2: Territorio y Rubro de Ciudad Creativa -->
+                <div class="bg-surface-bright/70 rounded-xl p-3.5 border border-outline-variant/40 space-y-3">
+                    <div class="flex items-center gap-1.5 text-primary font-bold text-xs border-b border-outline-variant/30 pb-2">
+                        <span class="material-symbols-outlined text-base">location_on</span>
+                        <span>2. Ubicación y Rubro de Ciudad Creativa</span>
                     </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div>
+                            <label class="block font-bold text-text-main mb-1">Departamento *</label>
+                            <select id="reg-depto" required
+                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                                <option value="">Cargando departamentos…</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-text-main mb-1">Municipio / Comunidad *</label>
+                            <input type="text" id="reg-municipio" required placeholder="Ej: San Juan de Oriente / Monimbó"
+                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                        </div>
+                        <div>
+                            <label class="block font-bold text-text-main mb-1">Rubro de Ciudad Creativa *</label>
+                            <select id="reg-rubro" required onchange="actualizarRequisitosPorRubro()"
+                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs font-semibold text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                                <option value="">Selecciona tu rubro…</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div>
-                        <label class="block font-bold text-text-main mb-1">Rubro Principal *</label>
-                        <select id="reg-rubro" required
-                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
-                            <option value="">Cargando rubros…</option>
-                        </select>
+                        <label class="block font-bold text-text-main mb-1">Descripción de tus Productos y Métodos Tradicionales</label>
+                        <textarea id="reg-desc" rows="2"
+                            placeholder="Ej: Elaboramos cerámica policromada y piezas tradicionales utilizando técnicas precolombinas transmitidas de generación en generación..."
+                            class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"></textarea>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-bold text-text-main mb-1">Correo Electrónico *</label>
-                        <input type="email" id="reg-email" required placeholder="tu-cooperativa@correo.com"
-                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                <!-- Bloque 3: Base de Formalización Legal y Fiscal (Ley 645 MiPYME y Ley 495 Turismo) -->
+                <div class="bg-surface-bright/70 rounded-xl p-3.5 border border-outline-variant/40 space-y-3">
+                    <div class="flex items-center justify-between border-b border-outline-variant/30 pb-2">
+                        <div class="flex items-center gap-1.5 text-primary font-bold text-xs">
+                            <span class="material-symbols-outlined text-base">verified_user</span>
+                            <span>3. Formalización Base (Leyes N.º 645 y N.º 495)</span>
+                        </div>
+                        <span class="text-[10px] bg-primary/10 text-primary font-semibold px-2 py-0.5 rounded-full">Requisitos Transversales</span>
                     </div>
-                    <div>
-                        <label class="block font-bold text-text-main mb-1">Teléfono WhatsApp *</label>
-                        <input type="tel" id="reg-phone" required placeholder="+505 8888-9999"
-                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                    <p class="text-[11px] text-text-muted leading-relaxed">
+                        Exigidos por la legislación nicaragüense para emitir facturación y encadenarse comercialmente con hoteles y tour operadoras internacionales.
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-bold text-text-main mb-1">Cédula de Identidad o N.º Escritura Mercantil *</label>
+                            <input type="text" id="reg-cedula" required placeholder="001-XXXXXX-XXXXX o N.º Escritura"
+                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                        </div>
+                        <div>
+                            <label class="block font-bold text-text-main mb-1">Matrícula Municipal (Alcaldía) *</label>
+                            <input type="text" id="reg-matricula" required placeholder="N.º de Matrícula Municipal al día"
+                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-bold text-text-main mb-1">Número RUC (DGI) *</label>
+                            <input type="text" id="reg-ruc" required placeholder="Ej: J0310000000000"
+                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                        </div>
+                        <div>
+                            <label class="block font-bold text-text-main mb-1">Régimen Fiscal (DGI) *</label>
+                            <select id="reg-regimen" required
+                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                                <option value="simplificado">Régimen Simplificado / Cuota Fija</option>
+                                <option value="general">Régimen General</option>
+                                <option value="en_tramite">Inscripción en Trámite</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-bold text-text-main mb-1">Certificado MiPYME (MIFIC)</label>
+                            <input type="text" id="reg-mific" placeholder="N.º Certificado o dejar vacío si está en trámite"
+                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                        </div>
+                        <div>
+                            <label class="block font-bold text-text-main mb-1">Licencia de Prestador Turístico INTUR</label>
+                            <input type="text" id="reg-licencia-intur" placeholder="N.º Licencia Turística (si ya posee)"
+                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                        </div>
                     </div>
                 </div>
 
-                <div>
-                    <label class="block font-bold text-text-main mb-1">Crear Contraseña *</label>
-                    <input type="password" id="reg-password" required minlength="8" autocomplete="new-password"
-                        placeholder="Mínimo 8 caracteres"
-                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                <!-- Bloque 4 Dinámico: Requisitos Específicos por Rubro Normativo -->
+                <div id="dynamic-requirements-card" class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-3.5 space-y-3">
+                    <div class="flex items-center justify-between border-b border-amber-200/60 pb-2">
+                        <div class="flex items-center gap-1.5 text-amber-900 font-bold text-xs">
+                            <span class="material-symbols-outlined text-base">rule</span>
+                            <span id="dynamic-req-title">4. Requisitos Específicos de tu Rubro</span>
+                        </div>
+                        <span id="dynamic-req-badge" class="text-[10px] bg-amber-200/60 text-amber-900 font-bold px-2 py-0.5 rounded-full">Normativa Sectorial</span>
+                    </div>
+                    <p id="dynamic-req-subtitle" class="text-[11px] text-amber-800">
+                        Selecciona un rubro arriba para desplegar los requisitos y licencias sanitarias o ambientales correspondientes.
+                    </p>
+
+                    <!-- Sección Dinámica A: Alimentos, Gastronomía, Café & Lácteos -->
+                    <div id="req-group-alimentos" class="hidden space-y-3 pt-1">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Licencia Sanitaria MINSA *</label>
+                                <input type="text" id="reg-minsa" placeholder="N.º Licencia Sanitaria o constancia vigente"
+                                    class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                            </div>
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Inspección de Bomberos (DGB) *</label>
+                                <input type="text" id="reg-bomberos" placeholder="Certificado de prevención de incendios y gas"
+                                    class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Registro Sanitario / Fitosanitario IPSA</label>
+                                <input type="text" id="reg-ipsa" placeholder="Obligatorio para café procesado, dulces o lácteos empacados"
+                                    class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                            </div>
+                            <div class="flex items-center gap-2 pt-5">
+                                <input type="checkbox" id="reg-manipulacion-minsa" checked
+                                    class="rounded text-primary focus:ring-primary h-4 w-4 border-amber-300" />
+                                <label for="reg-manipulacion-minsa" class="text-text-main text-[11px] font-semibold cursor-pointer">
+                                    Personal cuenta con carnet de manipulación de alimentos
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sección Dinámica B: Madera, Muebles & Bambú -->
+                    <div id="req-group-madera" class="hidden space-y-3 pt-1">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Permiso / Constancia INAFOR *</label>
+                                <input type="text" id="reg-inafor" placeholder="Acreditación de origen forestal legal de madera"
+                                    class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                            </div>
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Procedencia de la Madera / Bambú</label>
+                                <input type="text" id="reg-madera-origen" placeholder="Ej: Plantación forestal certificada / Bambuzales locales"
+                                    class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sección Dinámica C: Tabaco & Puros Artesanales -->
+                    <div id="req-group-tabaco" class="hidden space-y-3 pt-1">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Permiso Fiscal de Manufactura de Tabaco (DGI) *</label>
+                                <input type="text" id="reg-tabaco-dgi" placeholder="N.º Registro especial de control fiscal"
+                                    class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                            </div>
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Certificado Fitosanitario IPSA</label>
+                                <input type="text" id="reg-tabaco-ipsa" placeholder="Constancia fitosanitaria de materia prima"
+                                    class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sección Dinámica D: Artesanías, Cerámica, Cuero, Textiles, Fibras & Arte -->
+                    <div id="req-group-artesanias" class="hidden space-y-3 pt-1">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Declaración de Técnicas y Origen Tradicional *</label>
+                                <input type="text" id="reg-origen-artesanal" placeholder="Ej: Cerámica con barro local moldeado a torno de pie"
+                                    class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                            </div>
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Registro de Marca Propia (RPI - MIFIC)</label>
+                                <input type="text" id="reg-rpi" placeholder="N.º Expediente o marca registrada (si posee)"
+                                    class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 pt-1">
+                            <input type="checkbox" id="reg-taller-visitable" checked
+                                class="rounded text-primary focus:ring-primary h-4 w-4 border-amber-300" />
+                            <label for="reg-taller-visitable" class="text-text-main text-[11px] font-semibold cursor-pointer">
+                                Mi taller o taller-cooperativa está acondicionado para recibir visitas guiadas de turistas
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
-                <div>
-                    <label class="block font-bold text-text-main mb-1">Breve descripción de tus productos</label>
-                    <textarea id="reg-desc" rows="2"
-                        placeholder="Ej: Producimos café orgánico tostado y molido artesanalmente..."
-                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"></textarea>
+                <!-- Bloque 5: Condiciones Comerciales para Tour Operadoras & Hoteles -->
+                <div class="bg-surface-bright/70 rounded-xl p-3.5 border border-outline-variant/40 space-y-3">
+                    <div class="flex items-center justify-between border-b border-outline-variant/30 pb-2">
+                        <div class="flex items-center gap-1.5 text-primary font-bold text-xs">
+                            <span class="material-symbols-outlined text-base">handshake</span>
+                            <span>5. Alianzas Comerciales B2B (Hoteles y Tour Operadoras)</span>
+                        </div>
+                        <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">Encadenamiento</span>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="flex items-start gap-2 cursor-pointer">
+                            <input type="checkbox" id="reg-emite-factura" checked
+                                class="rounded text-primary focus:ring-primary h-4 w-4 mt-0.5 border-outline-variant/50" />
+                            <span class="text-text-main text-[11px]">
+                                <strong>Capacidad de facturación fiscal:</strong> Emito factura legal con RUC para respaldar la contabilidad de las agencias.
+                            </span>
+                        </label>
+                        <label class="flex items-start gap-2 cursor-pointer">
+                            <input type="checkbox" id="reg-acepta-mayorista" checked
+                                class="rounded text-primary focus:ring-primary h-4 w-4 mt-0.5 border-outline-variant/50" />
+                            <span class="text-text-main text-[11px]">
+                                <strong>Tarifario y margen mayorista (Net Rate):</strong> Acepto ofrecer margen comercial preferencial a tour operadoras y hoteles.
+                            </span>
+                        </label>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                        <div>
+                            <label class="block font-bold text-text-main mb-1">Margen Comercial Ofrecido</label>
+                            <select id="reg-margen"
+                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                                <option value="15">15% de comisión / descuento mayorista</option>
+                                <option value="10">10% de comisión / descuento mayorista</option>
+                                <option value="20">20% de comisión / descuento mayorista</option>
+                                <option value="0">A convenir según volumen del pedido</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-text-main mb-1">Términos Básicos de Entrega y Reservas</label>
+                            <input type="text" id="reg-reservas" placeholder="Ej: Pedidos con 5 días de anticipación, 50% anticipo"
+                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                        </div>
+                    </div>
                 </div>
 
                 <button type="submit"
-                    class="w-full bg-primary hover:bg-primary-container active:scale-[0.99] text-white font-bold py-2.5 rounded-xl shadow-md hover:shadow transition-all flex items-center justify-center gap-2 text-xs mt-2">
-                    <span>Registrarme como Productor</span>
+                    class="w-full bg-primary hover:bg-primary-container active:scale-[0.99] text-white font-bold py-3 rounded-xl shadow-md hover:shadow transition-all flex items-center justify-center gap-2 text-xs mt-3">
+                    <span>Completar Registro y Enviar a Validación INTUR</span>
                     <span class="material-symbols-outlined text-base">how_to_reg</span>
                 </button>
             </form>
@@ -185,7 +423,7 @@
             <div
                 class="p-3 rounded-xl bg-green-light-bg/70 border border-primary/20 flex items-center gap-2 text-[11px] text-primary">
                 <span class="material-symbols-outlined text-base">verified</span>
-                <span>Al registrarte, tus productos serán promocionados ante hoteles y restaurantes verificados.</span>
+                <span>Al registrarte, tu expediente normativo será evaluado por delegados de INTUR para otorgar el Sello Oficial de Verificación.</span>
             </div>
         </div>
     </main>
@@ -197,6 +435,7 @@
 
     <script>
         const PERFIL_URL = 'perfil-productor.html';
+        let catalogoRubrosCache = [];
 
         // Sesión de productor ya activa → ir directo al perfil.
         (async () => {
@@ -209,12 +448,14 @@
         document.addEventListener('DOMContentLoaded', cargarCatalogos);
 
         function switchAuthTab(tab) {
+            const cardWrapper = document.getElementById('auth-card-wrapper');
             const loginBtn = document.getElementById('tab-login-btn');
             const regBtn = document.getElementById('tab-register-btn');
             const loginForm = document.getElementById('form-login');
             const regForm = document.getElementById('form-register');
 
             if (tab === 'login') {
+                cardWrapper.className = "w-full max-w-md my-auto transition-all duration-300";
                 loginBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center font-bold";
                 regBtn.className = "flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center";
                 loginForm.classList.remove('hidden');
@@ -223,6 +464,7 @@
                 loginForm.classList.add('tab-pane');
                 regForm.classList.add('hidden');
             } else {
+                cardWrapper.className = "w-full max-w-2xl my-auto transition-all duration-300";
                 regBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center font-bold";
                 loginBtn.className = "flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center";
                 regForm.classList.remove('hidden');
@@ -259,14 +501,60 @@
             ]);
 
             const deptos = deptosRes.data || [];
-            const rubros = rubrosRes.data || [];
+            catalogoRubrosCache = rubrosRes.data || [];
 
             llenarSelect(deptoSelect, deptos, deptos.length ? 'Selecciona tu departamento' : 'Sin departamentos configurados');
-            llenarSelect(rubroSelect, rubros, rubros.length ? 'Selecciona tu rubro' : 'Sin rubros configurados');
+            llenarSelect(rubroSelect, catalogoRubrosCache, catalogoRubrosCache.length ? 'Selecciona tu rubro de Ciudad Creativa' : 'Sin rubros configurados');
 
             if (deptosRes.error || rubrosRes.error) {
                 console.error('Error cargando catálogos base:', deptosRes.error || rubrosRes.error);
                 showToast('No se pudieron cargar departamentos/rubros. Recarga la página.', 'error');
+            }
+        }
+
+        function actualizarRequisitosPorRubro() {
+            const rubroSelect = document.getElementById('reg-rubro');
+            const rubroId = rubroSelect.value;
+            const rubroObj = catalogoRubrosCache.find(r => String(r.id) === String(rubroId));
+
+            const title = document.getElementById('dynamic-req-title');
+            const subtitle = document.getElementById('dynamic-req-subtitle');
+            const badge = document.getElementById('dynamic-req-badge');
+
+            const grpAlimentos = document.getElementById('req-group-alimentos');
+            const grpMadera = document.getElementById('req-group-madera');
+            const grpTabaco = document.getElementById('req-group-tabaco');
+            const grpArtesanias = document.getElementById('req-group-artesanias');
+
+            // Reset visibility
+            grpAlimentos.classList.add('hidden');
+            grpMadera.classList.add('hidden');
+            grpTabaco.classList.add('hidden');
+            grpArtesanias.classList.add('hidden');
+
+            if (!rubroObj) {
+                title.textContent = "4. Requisitos Específicos de tu Rubro";
+                subtitle.textContent = "Selecciona un rubro arriba para desplegar los requisitos y licencias sanitarias o ambientales correspondientes.";
+                badge.textContent = "Normativa Sectorial";
+                return;
+            }
+
+            const nombre = (rubroObj.nombre || '').toLowerCase();
+            title.textContent = `4. Requisitos Normativos: ${rubroObj.nombre}`;
+            badge.textContent = rubroObj.icono || 'rule';
+
+            if (nombre.includes('café') || nombre.includes('gastronomía') || nombre.includes('lácteo') || nombre.includes('alimento') || nombre.includes('dulcería') || nombre.includes('frutas')) {
+                grpAlimentos.classList.remove('hidden');
+                subtitle.textContent = "Cumplimiento con Código Sanitario MINSA, Inspección de Bomberos (DGB) y registros de inocuidad IPSA para alimentos y bebidas.";
+            } else if (nombre.includes('madera') || nombre.includes('mueble') || nombre.includes('bambú')) {
+                grpMadera.classList.remove('hidden');
+                subtitle.textContent = "Reglamentación forestal INAFOR para constatar origen legal y aprovechamiento sostenible de maderas finas y bambú.";
+            } else if (nombre.includes('tabaco') || nombre.includes('puro')) {
+                grpTabaco.classList.remove('hidden');
+                subtitle.textContent = "Regulaciones fiscales de la DGI y requisitos fitosanitarios del IPSA para manufactura artesanal de tabaco de exportación.";
+            } else {
+                grpArtesanias.classList.remove('hidden');
+                subtitle.textContent = "Acreditación de técnicas tradicionales de Ciudades Creativas, taller visitable y registro de marca en RPI-MIFIC.";
             }
         }
 
@@ -331,20 +619,47 @@
 
         async function handleRegister(e) {
             e.preventDefault();
+            // Bloque 1
             const nombre = document.getElementById('reg-name').value.trim();
-            const deptoId = document.getElementById('reg-depto').value;
-            const rubroId = document.getElementById('reg-rubro').value;
+            const taller = document.getElementById('reg-taller').value.trim();
             const email = document.getElementById('reg-email').value.trim();
             const telefono = document.getElementById('reg-phone').value.trim();
             const password = document.getElementById('reg-password').value;
+
+            // Bloque 2
+            const deptoId = document.getElementById('reg-depto').value;
+            const municipio = document.getElementById('reg-municipio').value.trim();
+            const rubroId = document.getElementById('reg-rubro').value;
             const descripcion = document.getElementById('reg-desc').value.trim();
 
-            if (nombre.length < 3) {
-                showToast('Escribe el nombre de tu finca, taller o cooperativa.', 'error');
+            // Bloque 3: Base Formalización
+            const cedula = document.getElementById('reg-cedula').value.trim();
+            const matricula = document.getElementById('reg-matricula').value.trim();
+            const ruc = document.getElementById('reg-ruc').value.trim();
+            const regimen = document.getElementById('reg-regimen').value;
+            const mific = document.getElementById('reg-mific').value.trim();
+            const licenciaIntur = document.getElementById('reg-licencia-intur').value.trim();
+
+            // Bloque 4: Requisitos Sectoriales
+            const minsa = document.getElementById('reg-minsa').value.trim();
+            const bomberos = document.getElementById('reg-bomberos').value.trim();
+            const ipsa = document.getElementById('reg-ipsa').value.trim();
+            const inafor = document.getElementById('reg-inafor').value.trim();
+            const origenArtesanal = document.getElementById('reg-origen-artesanal').value.trim();
+            const rpi = document.getElementById('reg-rpi').value.trim();
+
+            // Bloque 5: Comercial
+            const emiteFactura = document.getElementById('reg-emite-factura').checked;
+            const aceptaMayorista = document.getElementById('reg-acepta-mayorista').checked;
+            const margen = parseInt(document.getElementById('reg-margen').value, 10) || 15;
+            const reservas = document.getElementById('reg-reservas').value.trim();
+
+            if (nombre.length < 3 || taller.length < 3) {
+                showToast('Ingresa el nombre del titular y de la cooperativa/taller.', 'error');
                 return;
             }
             if (!deptoId || !rubroId) {
-                showToast('Selecciona departamento y rubro principal.', 'error');
+                showToast('Selecciona tu departamento y rubro de Ciudad Creativa.', 'error');
                 return;
             }
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -359,12 +674,12 @@
                 showToast('La contraseña debe tener al menos 8 caracteres.', 'error');
                 return;
             }
-            if (descripcion.length > 2000) {
-                showToast('La descripción no puede superar los 2000 caracteres.', 'error');
+            if (cedula.length < 5 || matricula.length < 2 || ruc.length < 5) {
+                showToast('Completa los requisitos legales base: Cédula, Matrícula y RUC.', 'error');
                 return;
             }
 
-            showToast('Creando cuenta de productor...', 'info');
+            showToast('Creando cuenta formal de productor...', 'info');
 
             // Evita registrar sobre una sesión existente.
             await supabaseClient.auth.signOut();
@@ -403,26 +718,46 @@
 
             const userId = authData.user.id;
 
-            // El perfil lo crea el trigger de la base de datos. Aquí solo se
-            // registra la ficha de productor (verificado_intur=false por trigger).
+            // Inserta expediente normativo completo en la ficha de productor
             const { error: prodErr } = await productoresService.upsertProductor({
                 profile_id: userId,
-                nombre_cooperativa_o_taller: nombre.slice(0, 120),
+                nombre_cooperativa_o_taller: taller.slice(0, 120),
                 departamento_id: deptoId,
                 rubro_id: rubroId,
-                descripcion,
-                telefono_whatsapp: telefono
+                municipio: municipio.slice(0, 80),
+                descripcion: descripcion.slice(0, 2000),
+                telefono_whatsapp: telefono,
+                // Normativa transversal
+                cedula_o_constitucion: cedula.slice(0, 60),
+                matricula_municipal: matricula.slice(0, 60),
+                ruc: ruc.slice(0, 40),
+                regimen_fiscal: regimen,
+                certificado_mific: mific.slice(0, 60),
+                licencia_intur: licenciaIntur.slice(0, 60),
+                // Requisitos sectoriales dinámicos
+                licencia_minsa: minsa.slice(0, 60),
+                certificacion_bomberos: bomberos.slice(0, 60),
+                registro_ipsa: ipsa.slice(0, 60),
+                permiso_inafor: inafor.slice(0, 60),
+                registro_rpi: rpi.slice(0, 60),
+                certificado_origen: origenArtesanal.slice(0, 200),
+                // Comercial B2B
+                emite_factura: emiteFactura,
+                acepta_tarifa_mayorista: aceptaMayorista,
+                margen_mayorista_porcentaje: margen,
+                politica_reservas: reservas.slice(0, 300),
+                estado_normativo: 'en_revision'
             });
 
             if (prodErr) {
                 console.error("Error insertando en tabla productores:", prodErr);
-                showToast('Cuenta creada, pero no se pudo guardar tu ficha: ' + (prodErr.message || 'completa tu perfil'), 'warning');
+                showToast('Cuenta creada, pero hubo un detalle al guardar los documentos: ' + (prodErr.message || 'completa tu perfil'), 'warning');
                 setTimeout(() => window.location.replace(PERFIL_URL), 1500);
                 return;
             }
 
-            showToast('¡Cuenta de productor creada con éxito!', 'success');
-            setTimeout(() => window.location.replace(PERFIL_URL), 800);
+            showToast('¡Expediente de productor registrado con éxito! Pendiente de validación INTUR.', 'success');
+            setTimeout(() => window.location.replace(PERFIL_URL), 900);
         }
     </script>
 

@@ -597,7 +597,12 @@ const productoresService = {
     },
 
     async upsertProductor(productorData) {
-        const permitidos = ['profile_id', 'nombre_cooperativa_o_taller', 'departamento_id', 'rubro_id', 'descripcion', 'municipio', 'telefono_whatsapp'];
+        const permitidos = [
+            'profile_id', 'nombre_cooperativa_o_taller', 'departamento_id', 'rubro_id', 'descripcion', 'municipio', 'telefono_whatsapp',
+            'cedula_o_constitucion', 'matricula_municipal', 'ruc', 'regimen_fiscal', 'certificado_mific', 'licencia_intur',
+            'licencia_minsa', 'certificacion_bomberos', 'registro_ipsa', 'permiso_inafor', 'registro_rpi', 'certificado_origen',
+            'emite_factura', 'acepta_tarifa_mayorista', 'margen_mayorista_porcentaje', 'politica_reservas', 'estado_normativo'
+        ];
         const safe = {};
         for (const key of permitidos) {
             if (productorData[key] !== undefined) safe[key] = productorData[key];

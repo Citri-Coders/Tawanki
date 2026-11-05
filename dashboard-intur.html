@@ -745,20 +745,35 @@
                 const verified = p.verificado_intur === true;
                 const rubro = p.rubros?.nombre || 'Sin rubro';
                 const depto = p.departamentos?.nombre || 'Sin departamento';
+                const rucBadge = p.ruc ? `<span class="bg-blue-50 text-blue-700 text-[10px] px-1.5 py-0.5 rounded border border-blue-200">RUC: ${escapeHtml(p.ruc)}</span>` : '';
+                const matriculaBadge = p.matricula_municipal ? `<span class="bg-amber-50 text-amber-800 text-[10px] px-1.5 py-0.5 rounded border border-amber-200">Matrícula al día</span>` : '';
+                const minsaBadge = p.licencia_minsa ? `<span class="bg-emerald-50 text-emerald-800 text-[10px] px-1.5 py-0.5 rounded border border-emerald-200">MINSA: ${escapeHtml(p.licencia_minsa)}</span>` : '';
+                const facturaBadge = p.emite_factura ? `<span class="bg-purple-50 text-purple-700 text-[10px] px-1.5 py-0.5 rounded border border-purple-200">Factura B2B</span>` : '';
+                const mayoristaBadge = p.acepta_tarifa_mayorista ? `<span class="bg-teal-50 text-teal-800 text-[10px] px-1.5 py-0.5 rounded border border-teal-200">Mayorista ${escapeHtml(String(p.margen_mayorista_porcentaje || 15))}%</span>` : '';
+
                 return `
-                    <div class="p-3.5 flex items-center justify-between gap-3">
-                        <div class="min-w-0">
-                            <p class="font-bold text-xs truncate">${escapeHtml(p.nombre_cooperativa_o_taller || 'Productor')}</p>
-                            <p class="text-[11px] text-text-muted truncate">${escapeHtml(depto)} · ${escapeHtml(rubro)}</p>
+                    <div class="p-3.5 border-b border-outline-variant/20 hover:bg-surface-bright/50 transition-colors">
+                        <div class="flex items-center justify-between gap-3">
+                            <div class="min-w-0">
+                                <p class="font-bold text-xs truncate">${escapeHtml(p.nombre_cooperativa_o_taller || 'Productor')}</p>
+                                <p class="text-[11px] text-text-muted truncate">${escapeHtml(depto)} · ${escapeHtml(rubro)} ${p.municipio ? '· ' + escapeHtml(p.municipio) : ''}</p>
+                            </div>
+                            <div class="flex items-center gap-2 shrink-0">
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${verified ? 'bg-green-light-bg text-primary border-primary/20' : 'bg-surface-container text-text-muted border-outline-variant/40'}">
+                                    ${verified ? 'Sello INTUR' : 'Pendiente Verificación'}
+                                </span>
+                                <button type="button" data-verify-id="${escapeHtml(String(p.id))}" data-verify-value="${verified ? 'false' : 'true'}"
+                                    class="px-2.5 py-1 rounded-lg text-[10px] font-bold border transition-colors ${verified ? 'bg-surface-bright hover:bg-red-50 hover:text-red-600 border-outline-variant/40 text-text-muted' : 'bg-primary hover:bg-primary-container text-white border-primary'}">
+                                    ${verified ? 'Revocar Sello' : 'Aprobar Verificación'}
+                                </button>
+                            </div>
                         </div>
-                        <div class="flex items-center gap-2 shrink-0">
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${verified ? 'bg-green-light-bg text-primary border-primary/20' : 'bg-surface-container text-text-muted border-outline-variant/40'}">
-                                ${verified ? 'Verificado' : 'Sin verificar'}
-                            </span>
-                            <button type="button" data-verify-id="${escapeHtml(String(p.id))}" data-verify-value="${verified ? 'false' : 'true'}"
-                                class="px-2.5 py-1 rounded-lg text-[10px] font-bold border ${verified ? 'bg-surface-bright hover:bg-error-container border-outline-variant/40 text-text-muted' : 'bg-primary hover:bg-primary-container text-white border-primary'}">
-                                ${verified ? 'Quitar sello' : 'Verificar'}
-                            </button>
+                        <div class="flex flex-wrap items-center gap-1.5 mt-2">
+                            ${rucBadge}
+                            ${matriculaBadge}
+                            ${minsaBadge}
+                            ${facturaBadge}
+                            ${mayoristaBadge}
                         </div>
                     </div>
                 `;
