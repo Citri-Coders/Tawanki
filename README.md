@@ -2,6 +2,8 @@
 
 Plataforma digital para la articulación comercial B2B entre pequeños productores locales de Nicaragua y empresas del sector turístico (hoteles, restaurantes y tour operadores), respaldada por el monitoreo y validación institucional del **INTUR** (Instituto Nicaragüense de Turismo).
 
+> **Rama `version-3` — solo validaciones:** elimina la exigencia de correo `@intur.gob.ni` y las regex de correo en los formularios. La confirmación de correo se desactiva desde Supabase Dashboard. Ver [`VALIDACIONES.md`](VALIDACIONES.md).
+
 ---
 
 ## 🚀 Características Principales

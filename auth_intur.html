@@ -87,11 +87,11 @@
             <!-- Form 1: Iniciar Sesión INTUR -->
             <form id="form-login" onsubmit="handleLogin(event)" class="tab-pane space-y-4 text-xs">
                 <div>
-                    <label class="block font-bold text-text-main mb-1.5">Correo Institucional INTUR *</label>
+                    <label class="block font-bold text-text-main mb-1.5">Correo electrónico *</label>
                     <div class="relative">
                         <span
                             class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg">badge</span>
-                        <input type="email" id="login-email" required placeholder="funcionario@intur.gob.ni"
+                        <input type="email" id="login-email" required placeholder="funcionario@ejemplo.com"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl pl-9 pr-3 py-2.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
                     </div>
                 </div>
@@ -134,8 +134,8 @@
                 </div>
 
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Correo Institucional (@intur.gob.ni) *</label>
-                    <input type="email" id="reg-email" required placeholder="maria.hernandez@intur.gob.ni"
+                    <label class="block font-bold text-text-main mb-1">Correo electrónico *</label>
+                    <input type="email" id="reg-email" required placeholder="maria.hernandez@ejemplo.com"
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                 </div>
 
@@ -149,11 +149,9 @@
                 <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200/60 text-[11px] text-emerald-900 leading-relaxed">
                     <p class="font-bold flex items-center gap-1 mb-1">
                         <span class="material-symbols-outlined text-sm text-primary">verified_user</span>
-                        Validación Institucional Dual:
+                        Registro con cualquier correo:
                     </p>
-                    <p>Al registrarte, tu solicitud y código quedan registrados en Supabase. El Administrador de TI puede:</p>
-                    <p class="mt-1 font-semibold text-primary">• Aprobar tu cuenta directamente en el sistema, o</p>
-                    <p class="font-semibold text-primary">• Enviarte el código de 6 dígitos a tu correo @intur.gob.ni.</p>
+                    <p>Al registrarte, tu solicitud queda registrada en Supabase. El Administrador de TI puede aprobar tu cuenta directamente o enviarte un código de activación.</p>
                 </div>
 
                 <button type="submit"
@@ -166,8 +164,8 @@
             <!-- Form 3: Activar Cuenta con Código de Verificación -->
             <form id="form-activate" onsubmit="handleActivate(event)" class="hidden space-y-3 text-xs">
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Correo Institucional (@intur.gob.ni) *</label>
-                    <input type="email" id="act-email" required placeholder="maria.hernandez@intur.gob.ni"
+                    <label class="block font-bold text-text-main mb-1">Correo electrónico *</label>
+                    <input type="email" id="act-email" required placeholder="maria.hernandez@ejemplo.com"
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                 </div>
 
@@ -175,7 +173,7 @@
                     <label class="block font-bold text-text-main mb-1">Código de Activación INTUR *</label>
                     <input type="text" id="act-token" required autocomplete="off" placeholder="INTUR-123456"
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs uppercase font-mono tracking-wider focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                    <p class="text-[10px] text-text-muted mt-1">Ingresa el código proporcionado por el Administrador de TI o recibido en tu correo institucional.</p>
+                    <p class="text-[10px] text-text-muted mt-1">Ingresa el código proporcionado por el Administrador de TI o recibido en tu correo electrónico.</p>
                 </div>
 
                 <button type="submit"
@@ -198,7 +196,6 @@
 
     <script>
         const DASHBOARD_URL = 'dashboard-intur.html';
-        const DOMINIO_INTUR = '@intur.gob.ni';
 
         // Si ya hay sesión INTUR válida, entrar directo al panel.
         (async () => {
@@ -253,12 +250,8 @@
         async function solicitarRecuperacion() {
             const email = document.getElementById('login-email').value.trim();
             if (!email) {
-                showToast('Escribe primero tu correo institucional.', 'warning');
+                showToast('Escribe primero tu correo electrónico.', 'warning');
                 document.getElementById('login-email').focus();
-                return;
-            }
-            if (!email.endsWith(DOMINIO_INTUR)) {
-                showToast('Usa tu correo institucional @intur.gob.ni.', 'error');
                 return;
             }
 
@@ -274,11 +267,6 @@
             e.preventDefault();
             const email = document.getElementById('login-email').value.trim();
             const password = document.getElementById('login-password').value;
-
-            if (!email.endsWith(DOMINIO_INTUR)) {
-                showToast('Acceso restringido a correos @intur.gob.ni.', 'error');
-                return;
-            }
 
             showToast('Validando credenciales...', 'info');
 
@@ -318,10 +306,6 @@
             const email = document.getElementById('reg-email').value.trim();
             const password = document.getElementById('reg-password').value;
 
-            if (!email.endsWith(DOMINIO_INTUR)) {
-                showToast('El registro requiere un correo @intur.gob.ni.', 'error');
-                return;
-            }
             if (password.length < 8) {
                 showToast('La contraseña debe tener al menos 8 caracteres.', 'error');
                 return;
@@ -362,7 +346,7 @@
 
             setTimeout(() => {
                 switchAuthTab('activate');
-                showToast('Si TI te compartió el código a tu correo @intur.gob.ni, ingrésalo aquí.', 'info');
+                showToast('Si TI te compartió un código de activación, ingrésalo aquí.', 'info');
             }, 1200);
         }
 
@@ -371,10 +355,6 @@
             const email = document.getElementById('act-email').value.trim();
             const token = document.getElementById('act-token').value.trim();
 
-            if (!email.endsWith(DOMINIO_INTUR)) {
-                showToast('Ingresa tu correo oficial @intur.gob.ni.', 'error');
-                return;
-            }
             if (!token) {
                 showToast('Ingresa el código de activación.', 'warning');
                 return;

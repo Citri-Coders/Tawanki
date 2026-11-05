@@ -662,10 +662,6 @@
                 showToast('Selecciona tu departamento y rubro de Ciudad Creativa.', 'error');
                 return;
             }
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                showToast('Correo electrónico inválido.', 'error');
-                return;
-            }
             if (!/^[+0-9()\s-]{7,20}$/.test(telefono)) {
                 showToast('Teléfono inválido. Usa el formato +505 8888-9999.', 'error');
                 return;
