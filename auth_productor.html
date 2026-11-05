@@ -272,10 +272,13 @@
                 <div id="dynamic-requirements-card" class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-3.5 space-y-3">
                     <div class="flex items-center justify-between border-b border-amber-200/60 pb-2">
                         <div class="flex items-center gap-1.5 text-amber-900 font-bold text-xs">
-                            <span class="material-symbols-outlined text-base">rule</span>
+                            <span id="dynamic-req-icon" class="material-symbols-outlined text-base">rule</span>
                             <span id="dynamic-req-title">4. Requisitos Específicos de tu Rubro</span>
                         </div>
-                        <span id="dynamic-req-badge" class="text-[10px] bg-amber-200/60 text-amber-900 font-bold px-2 py-0.5 rounded-full">Normativa Sectorial</span>
+                        <span id="dynamic-req-badge" class="inline-flex items-center gap-1 text-[10px] bg-amber-200/70 text-amber-900 font-bold px-2.5 py-0.5 rounded-full border border-amber-300/60">
+                            <span id="dynamic-req-badge-icon" class="material-symbols-outlined text-xs">rule</span>
+                            <span id="dynamic-req-badge-text">Normativa Sectorial</span>
+                        </span>
                     </div>
                     <p id="dynamic-req-subtitle" class="text-[11px] text-amber-800">
                         Selecciona un rubro arriba para desplegar los requisitos y licencias sanitarias o ambientales correspondientes.
@@ -532,16 +535,24 @@
             grpTabaco.classList.add('hidden');
             grpArtesanias.classList.add('hidden');
 
+            const titleIcon = document.getElementById('dynamic-req-icon');
+            const badgeIcon = document.getElementById('dynamic-req-badge-icon');
+            const badgeText = document.getElementById('dynamic-req-badge-text');
+
             if (!rubroObj) {
+                if (titleIcon) titleIcon.textContent = "rule";
                 title.textContent = "4. Requisitos Específicos de tu Rubro";
                 subtitle.textContent = "Selecciona un rubro arriba para desplegar los requisitos y licencias sanitarias o ambientales correspondientes.";
-                badge.textContent = "Normativa Sectorial";
+                if (badgeIcon) badgeIcon.textContent = "rule";
+                if (badgeText) badgeText.textContent = "Normativa Sectorial";
                 return;
             }
 
-            const nombre = (rubroObj.nombre || '').toLowerCase();
+            const icono = rubroObj.icono || 'category';
+            if (titleIcon) titleIcon.textContent = icono;
             title.textContent = `4. Requisitos Normativos: ${rubroObj.nombre}`;
-            badge.textContent = rubroObj.icono || 'rule';
+            if (badgeIcon) badgeIcon.textContent = icono;
+            if (badgeText) badgeText.textContent = "Ciudad Creativa";
 
             if (nombre.includes('café') || nombre.includes('gastronomía') || nombre.includes('lácteo') || nombre.includes('alimento') || nombre.includes('dulcería') || nombre.includes('frutas')) {
                 grpAlimentos.classList.remove('hidden');
