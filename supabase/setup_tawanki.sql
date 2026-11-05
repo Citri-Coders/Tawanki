@@ -87,6 +87,16 @@ on conflict (nombre) do update
   set region = excluded.region;
 
 insert into public.rubros (nombre, descripcion, icono) values
+  ('Café Especial & Cacao',                 'Café de altura, barismo, cacao criollo y chocolatería artesanal (Matagalpa, Estelí, Granada)', 'coffee'),
+  ('Cerámica, Alfarería & Barro',           'Cerámica de San Juan de Oriente, cerámica negra de Matagalpa y piezas precolombinas',          'palette'),
+  ('Cuero, Calzado & Talabartería',         'Calzado tradicional de Masaya, albardas, botas y marroquinería chontaleña',                    'shopping_bag'),
+  ('Textiles, Hamacas & Bordados',           'Hamacas artesanales, telares indígenas, bordados y confección tradicional',                    'chair'),
+  ('Madera, Muebles & Bambú',               'Mueblería fina, artesanías en bambú de Matagalpa, juguetes y máscaras folclóricas',             'carpenter'),
+  ('Gastronomía Típica & Dulcería',         'Quesillo de Nagarote, vigorón granadino, baho, buñuelos y dulcería caribeña',                  'restaurant'),
+  ('Lácteos & Agroindustria Local',         'Quesos artesanales, cuajadas, crema y rosquillas tradicionales de Chontales',                  'local_dining'),
+  ('Tabaco & Puros Artesanales',            'Puros premium elaborados a mano y manufactura de tabaco de Estelí',                            'smoking_rooms'),
+  ('Artes Plásticas, Piedra & Pintura',     'Escultura en marmolina, pintura primitivista, imaginería sacra y muralismo',                   'brush'),
+  ('Fibras Naturales & Artesanías Variadas', 'Artesanías en tusa de maíz, fibra de palma, conchas y palo de rosa',                         'nature'),
   ('Gastronomía & Café',   'Café especial de altura, cacao criollo, repostería y derivados agrícolas', 'coffee'),
   ('Artesanías & Barro',   'Cerámica de San Juan de Oriente, vasijas precolombinas y souvenirs',       'palette'),
   ('Madera & Muebles',     'Muebles rústicos, teca certificada y artesanías finas en madera',          'carpenter'),
@@ -109,6 +119,27 @@ create table if not exists public.productores (
   departamento_id bigint not null references public.departamentos(id),
   rubro_id bigint not null references public.rubros(id),
   verificado_intur boolean not null default false,
+  -- Requisitos Transversales Base (Ley 645, DGI, Alcaldía, MIFIC, INTUR)
+  cedula_o_constitucion text default '',
+  matricula_municipal text default '',
+  ruc text default '',
+  regimen_fiscal text default 'simplificado',
+  certificado_mific text default '',
+  licencia_intur text default '',
+  -- Requisitos Específicos por Rubro (MINSA, Bomberos, IPSA, INAFOR, RPI)
+  licencia_minsa text default '',
+  certificacion_bomberos text default '',
+  registro_ipsa text default '',
+  permiso_inafor text default '',
+  registro_rpi text default '',
+  certificado_origen text default '',
+  -- Operaciones Comerciales B2B y Tour Operadoras
+  emite_factura boolean not null default false,
+  acepta_tarifa_mayorista boolean not null default false,
+  margen_mayorista_porcentaje int default 15,
+  politica_reservas text default '',
+  -- Estado de Verificación Normativa Institucional
+  estado_normativo text not null default 'en_revision',
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
