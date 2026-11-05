@@ -478,7 +478,38 @@
             }
         }
 
-        function llenarSelect(select, items, placeholder) {
+        const RUBRO_ICONS = {
+            'coffee': '☕',
+            'palette': '🏺',
+            'shopping_bag': '🛍️',
+            'chair': '🪑',
+            'carpenter': '🪵',
+            'restaurant': '🍽️',
+            'local_dining': '🧀',
+            'smoking_rooms': '🚬',
+            'brush': '🎨',
+            'nature': '🌾',
+            'nutrition': '🥑',
+            'category': '✨'
+        };
+
+        function getRubroEmoji(icono, nombre) {
+            if (icono && RUBRO_ICONS[icono]) return RUBRO_ICONS[icono];
+            const n = (nombre || '').toLowerCase();
+            if (n.includes('café') || n.includes('cacao')) return '☕';
+            if (n.includes('cerámica') || n.includes('barro') || n.includes('alfarería')) return '🏺';
+            if (n.includes('cuero') || n.includes('calzado') || n.includes('talabartería')) return '🛍️';
+            if (n.includes('textil') || n.includes('hamaca') || n.includes('bordado')) return '🪑';
+            if (n.includes('madera') || n.includes('mueble') || n.includes('bambú')) return '🪵';
+            if (n.includes('gastronomía') || n.includes('dulcería')) return '🍽️';
+            if (n.includes('lácteo')) return '🧀';
+            if (n.includes('tabaco') || n.includes('puro')) return '🚬';
+            if (n.includes('plástica') || n.includes('pintura') || n.includes('piedra')) return '🎨';
+            if (n.includes('fibra')) return '🌾';
+            return '✨';
+        }
+
+        function llenarSelect(select, items, placeholder, esRubro = false) {
             if (!select) return;
             select.replaceChildren();
             const first = document.createElement('option');
@@ -489,7 +520,12 @@
             for (const item of items) {
                 const option = document.createElement('option');
                 option.value = String(item.id);
-                option.textContent = item.nombre || String(item.id);
+                if (esRubro) {
+                    const emoji = getRubroEmoji(item.icono, item.nombre);
+                    option.textContent = `${emoji} ${item.nombre}`;
+                } else {
+                    option.textContent = item.nombre || String(item.id);
+                }
                 select.appendChild(option);
             }
         }
@@ -507,7 +543,7 @@
             catalogoRubrosCache = rubrosRes.data || [];
 
             llenarSelect(deptoSelect, deptos, deptos.length ? 'Selecciona tu departamento' : 'Sin departamentos configurados');
-            llenarSelect(rubroSelect, catalogoRubrosCache, catalogoRubrosCache.length ? 'Selecciona tu rubro de Ciudad Creativa' : 'Sin rubros configurados');
+            llenarSelect(rubroSelect, catalogoRubrosCache, catalogoRubrosCache.length ? 'Selecciona tu rubro de Ciudad Creativa' : 'Sin rubros configurados', true);
 
             if (deptosRes.error || rubrosRes.error) {
                 console.error('Error cargando catálogos base:', deptosRes.error || rubrosRes.error);
@@ -552,7 +588,8 @@
             if (titleIcon) titleIcon.textContent = icono;
             title.textContent = `4. Requisitos Normativos: ${rubroObj.nombre}`;
             if (badgeIcon) badgeIcon.textContent = icono;
-            if (badgeText) badgeText.textContent = "Ciudad Creativa";
+            const emoji = getRubroEmoji(rubroObj.icono, rubroObj.nombre);
+            if (badgeText) badgeText.textContent = `${emoji} Ciudad Creativa`;
 
             if (nombre.includes('café') || nombre.includes('gastronomía') || nombre.includes('lácteo') || nombre.includes('alimento') || nombre.includes('dulcería') || nombre.includes('frutas')) {
                 grpAlimentos.classList.remove('hidden');

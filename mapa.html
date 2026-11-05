@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Mapa Comercial Interactivo · Ciudades Creativas · Tawanki</title>
+    <meta name="description"
+        content="Mapa interactivo en tiempo real de productores locales, cooperativas y empresas de la Red Nacional de Ciudades Creativas de Nicaragua." />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/tailwind.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+        }
+
+        .leaflet-popup-content-wrapper {
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid rgba(13, 99, 27, 0.15);
+        }
+
+        .leaflet-popup-content {
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .custom-map-pin {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            border: 2px solid white;
+            transition: transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .custom-map-pin:hover {
+            transform: scale(1.18);
+            z-index: 1000 !important;
+        }
+    </style>
+</head>
+
+<body class="bg-surface text-text-main flex flex-col h-screen overflow-hidden">
+
+    <!-- Header Navigation -->
+    <header class="bg-white border-b border-outline-variant/30 z-30 px-4 py-2.5 flex items-center justify-between shadow-xs shrink-0">
+        <div class="flex items-center gap-3">
+            <a href="index.html" class="flex items-center gap-2 text-primary font-extrabold text-base tracking-tight">
+                <span class="w-8 h-8 rounded-lg bg-green-light-bg flex items-center justify-center text-primary text-xl">
+                    <span class="material-symbols-outlined text-lg">travel_explore</span>
+                </span>
+                <span>Tawanki · Mapa Comercial</span>
+            </a>
+            <span class="hidden md:inline-flex items-center gap-1 bg-amber-100/70 text-amber-900 text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-amber-200">
+                <span class="material-symbols-outlined text-xs">storefront</span> Red de Ciudades Creativas
+            </span>
+        </div>
+
+        <!-- Live Quick Stats in Header -->
+        <div class="hidden lg:flex items-center gap-6 text-xs">
+            <div class="flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-text-muted">Tiempo Real:</span>
+                <strong id="stat-total-badge" class="text-primary font-bold">0 Negocios</strong>
+            </div>
+            <div class="flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-base text-primary">verified</span>
+                <span class="text-text-muted">Verificados INTUR:</span>
+                <strong id="stat-verificados-badge" class="text-primary font-bold">0</strong>
+            </div>
+            <div class="flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-base text-purple-600">receipt_long</span>
+                <span class="text-text-muted">Con Factura B2B:</span>
+                <strong id="stat-factura-badge" class="text-purple-700 font-bold">0</strong>
+            </div>
+        </div>
+
+        <!-- Right Quick Actions -->
+        <div class="flex items-center gap-2">
+            <a href="catalogo.html"
+                class="px-3 py-1.5 rounded-xl border border-outline-variant/40 hover:bg-surface-bright text-xs font-semibold text-text-main flex items-center gap-1.5 transition-colors">
+                <span class="material-symbols-outlined text-base text-primary">grid_view</span>
+                <span class="hidden sm:inline">Catálogo</span>
+            </a>
+            <a href="auth_productor.html"
+                class="px-3 py-1.5 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition-all">
+                <span class="material-symbols-outlined text-base">add_business</span>
+                <span>Registrar Negocio</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Workspace: Sidebar + Map Container -->
+    <div class="flex flex-1 relative overflow-hidden">
+
+        <!-- Sidebar / Filter Panel -->
+        <aside id="map-sidebar"
+            class="w-full sm:w-80 md:w-96 bg-white/95 backdrop-blur-md border-r border-outline-variant/30 flex flex-col z-20 shadow-lg transition-transform duration-300 absolute sm:relative h-full shrink-0">
+            
+            <!-- Sidebar Controls -->
+            <div class="p-4 border-b border-outline-variant/20 space-y-3 shrink-0">
+                <div class="flex items-center justify-between">
+                    <h2 class="font-extrabold text-xs text-text-main uppercase tracking-wider flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-primary text-base">filter_alt</span>
+                        <span>Filtros y Búsqueda</span>
+                    </h2>
+                    <button type="button" onclick="limpiarFiltros()"
+                        class="text-[11px] text-primary hover:underline font-semibold">
+                        Limpiar
+                    </button>
+                </div>
+
+                <!-- Text Search -->
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-2 text-text-muted text-base">search</span>
+                    <input type="text" id="filter-search" oninput="aplicarFiltros()"
+                        placeholder="Buscar por taller, producto o municipio..."
+                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl pl-8 pr-3 py-1.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                </div>
+
+                <!-- Filters Grid -->
+                <div class="grid grid-cols-1 gap-2 text-xs">
+                    <div>
+                        <label class="block font-semibold text-text-muted text-[11px] mb-1">Rubro de Ciudad Creativa</label>
+                        <select id="filter-rubro" onchange="aplicarFiltros()"
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-2.5 py-1.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 outline-none">
+                            <option value="">Todos los rubros</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-text-muted text-[11px] mb-1">Departamento / Territorio</label>
+                        <select id="filter-depto" onchange="aplicarFiltros()"
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-2.5 py-1.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 outline-none">
+                            <option value="">Todos los departamentos</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Fast Checkboxes -->
+                <div class="flex flex-col gap-1.5 pt-1 text-[11px]">
+                    <label class="flex items-center gap-2 cursor-pointer font-medium text-text-main">
+                        <input type="checkbox" id="filter-verified" onchange="aplicarFiltros()"
+                            class="rounded text-primary focus:ring-primary h-3.5 w-3.5" />
+                        <span>Solo Verificados por INTUR</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer font-medium text-text-main">
+                        <input type="checkbox" id="filter-b2b" onchange="aplicarFiltros()"
+                            class="rounded text-primary focus:ring-primary h-3.5 w-3.5" />
+                        <span>Con Capacidad de Factura B2B</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Business Directory in Sidebar -->
+            <div class="flex-1 overflow-y-auto divide-y divide-outline-variant/20 p-2" id="business-list">
+                <div class="p-6 text-center text-xs text-text-muted">
+                    <span class="material-symbols-outlined text-3xl text-primary animate-spin">progress_activity</span>
+                    <p class="mt-2">Cargando negocios en el mapa...</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Map Workspace -->
+        <main class="flex-1 relative h-full">
+            <div id="map"></div>
+
+            <!-- Floating Toggle Button for Mobile Sidebar -->
+            <button type="button" onclick="toggleSidebar()"
+                class="sm:hidden absolute top-4 left-4 z-20 bg-white text-text-main p-2 rounded-xl shadow-lg border border-outline-variant/30 flex items-center gap-1 text-xs font-bold">
+                <span class="material-symbols-outlined text-base text-primary">menu</span>
+                <span>Filtros</span>
+            </button>
+
+            <!-- Bottom Floating Commerce Summary Drawer (When a Pin is Selected) -->
+            <div id="business-drawer"
+                class="hidden absolute bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:w-96 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-primary/20 p-4 z-20 animate-fade-in transition-all">
+                <div class="flex items-start justify-between gap-2 border-b border-outline-variant/20 pb-2.5">
+                    <div>
+                        <span id="drawer-rubro-badge" class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-200">
+                            🏺 Rubro
+                        </span>
+                        <h3 id="drawer-name" class="font-extrabold text-sm text-text-main mt-1 leading-tight">Nombre del Taller</h3>
+                        <p id="drawer-location" class="text-[11px] text-text-muted mt-0.5">San Juan de Oriente · Masaya</p>
+                    </div>
+                    <button type="button" onclick="cerrarDrawer()"
+                        class="text-text-muted hover:text-text-main p-1 rounded-lg hover:bg-surface-bright">
+                        <span class="material-symbols-outlined text-base">close</span>
+                    </button>
+                </div>
+
+                <!-- Commercial Stats Grid -->
+                <div class="grid grid-cols-2 gap-2 my-3 text-[11px]">
+                    <div class="bg-surface-bright p-2 rounded-xl border border-outline-variant/30">
+                        <span class="text-text-muted block text-[10px]">Productos Ofertados:</span>
+                        <strong id="drawer-products-count" class="text-primary font-bold text-xs">0 productos</strong>
+                    </div>
+                    <div class="bg-surface-bright p-2 rounded-xl border border-outline-variant/30">
+                        <span class="text-text-muted block text-[10px]">Margen Mayorista:</span>
+                        <strong id="drawer-margen" class="text-teal-700 font-bold text-xs">15% Net Rate</strong>
+                    </div>
+                    <div class="bg-surface-bright p-2 rounded-xl border border-outline-variant/30">
+                        <span class="text-text-muted block text-[10px]">Facturación Fiscal:</span>
+                        <strong id="drawer-factura" class="text-purple-700 font-bold text-xs">Factura con RUC</strong>
+                    </div>
+                    <div class="bg-surface-bright p-2 rounded-xl border border-outline-variant/30">
+                        <span class="text-text-muted block text-[10px]">Sello Institucional:</span>
+                        <strong id="drawer-sello" class="text-emerald-700 font-bold text-xs">Verificado INTUR</strong>
+                    </div>
+                </div>
+
+                <!-- Normative Compliance Badges -->
+                <div id="drawer-normativa" class="flex flex-wrap gap-1 mb-3"></div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-2 pt-1">
+                    <a id="drawer-whatsapp" href="#" target="_blank"
+                        class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl text-center text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors">
+                        <span class="material-symbols-outlined text-sm">chat</span>
+                        <span>Cotizar WhatsApp</span>
+                    </a>
+                    <a id="drawer-catalogo" href="catalogo.html"
+                        class="px-3 py-2 bg-surface-bright hover:bg-surface-container font-bold text-text-main rounded-xl text-xs border border-outline-variant/40 transition-colors">
+                        Ver Catálogo
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Supabase Client & Config -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"
+        integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
+    <script src="supabase-config.js"></script>
+
+    <script>
+        // Coordenadas oficiales de Ciudades Creativas y Departamentos de Nicaragua
+        const GEO_CENTERS = {
+            'San Juan de Oriente': [11.9061, -86.0772],
+            'Monimbó': [11.9680, -86.1020],
+            'Masaya': [11.9744, -86.0942],
+            'Granada': [11.9299, -85.9560],
+            'León': [12.4379, -86.8780],
+            'Estelí': [13.0919, -86.3538],
+            'Matagalpa': [12.9256, -85.9175],
+            'Juigalpa': [12.1063, -85.3645],
+            'Chontales': [12.1063, -85.3645],
+            'Nagarote': [12.2664, -86.6153],
+            'Bluefields': [12.0137, -83.7635],
+            'Managua': [12.1364, -86.2514],
+            'Rivas': [11.4372, -85.8263],
+            'Carazo': [11.8542, -86.2044],
+            'Jinotega': [13.0924, -85.9984],
+            'Nueva Segovia': [13.6321, -86.4752],
+            'Boaco': [12.4722, -85.6586],
+            'Chinandega': [12.6294, -87.1311],
+            'Madriz': [13.4808, -86.5821],
+            'Río San Juan': [11.1236, -84.7780]
+        };
+
+        const RUBRO_COLORS = {
+            'coffee': { bg: '#78350f', emoji: '☕' },
+            'palette': { bg: '#b45309', emoji: '🏺' },
+            'shopping_bag': { bg: '#0369a1', emoji: '🛍️' },
+            'chair': { bg: '#4d7c0f', emoji: '🪑' },
+            'carpenter': { bg: '#854d0e', emoji: '🪵' },
+            'restaurant': { bg: '#c2410c', emoji: '🍽️' },
+            'local_dining': { bg: '#ca8a04', emoji: '🧀' },
+            'smoking_rooms': { bg: '#475569', emoji: '🚬' },
+            'brush': { bg: '#be185d', emoji: '🎨' },
+            'nature': { bg: '#15803d', emoji: '🌾' },
+            'category': { bg: '#0d631b', emoji: '✨' }
+        };
+
+        let mapInstance = null;
+        let markersLayer = null;
+        let allProducers = [];
+        let allProducts = [];
+        let departamentosList = [];
+        let rubrosList = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            inicializarMapa();
+            await cargarDatos();
+        });
+
+        function inicializarMapa() {
+            // Centrado en el corazón geográfico de Nicaragua
+            mapInstance = L.map('map', {
+                center: [12.6, -85.5],
+                zoom: 8,
+                zoomControl: true
+            });
+
+            // Capa de teselas limpias y legibles (OpenStreetMap)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: '© OpenStreetMap contributors · Tawanki INTUR'
+            }).addTo(mapInstance);
+
+            markersLayer = L.layerGroup().addTo(mapInstance);
+        }
+
+        async function cargarDatos() {
+            try {
+                const [prodRes, productsRes, deptosRes, rubrosRes] = await Promise.all([
+                    productoresService.getProductores(),
+                    supabaseClient.from('productos').select('*'),
+                    catalogoBaseService.getDepartamentos(),
+                    catalogoBaseService.getRubros()
+                ]);
+
+                allProducers = prodRes.data || [];
+                allProducts = productsRes.data || [];
+                departamentosList = deptosRes.data || [];
+                rubrosList = rubrosRes.data || [];
+
+                poblarSelects();
+                aplicarFiltros();
+            } catch (err) {
+                console.error("Error cargando datos del mapa:", err);
+            }
+        }
+
+        function poblarSelects() {
+            const rubroSel = document.getElementById('filter-rubro');
+            const deptoSel = document.getElementById('filter-depto');
+
+            rubroSel.replaceChildren(new Option('Todos los rubros de Ciudades Creativas', ''));
+            rubrosList.forEach(r => {
+                const conf = RUBRO_COLORS[r.icono] || { emoji: '✨' };
+                rubroSel.appendChild(new Option(`${conf.emoji} ${r.nombre}`, String(r.id)));
+            });
+
+            deptoSel.replaceChildren(new Option('Todos los departamentos', ''));
+            departamentosList.forEach(d => {
+                deptoSel.appendChild(new Option(d.nombre, String(d.id)));
+            });
+        }
+
+        // Genera una pequeña dispersión determinista para que negocios en la misma ciudad no se tapen
+        function obtenerCoordenadasNegocio(prod) {
+            const mun = prod.municipio ? prod.municipio.trim() : '';
+            const depto = prod.departamentos?.nombre ? prod.departamentos.nombre.trim() : '';
+
+            let base = GEO_CENTERS[mun] || GEO_CENTERS[depto] || GEO_CENTERS['Managua'];
+
+            // Hash determinista a partir del id
+            let hash = 0;
+            const str = prod.id || '';
+            for (let i = 0; i < str.length; i++) {
+                hash = (hash << 5) - hash + str.charCodeAt(i);
+                hash |= 0;
+            }
+
+            const angle = (Math.abs(hash) % 360) * (Math.PI / 180);
+            const radius = ((Math.abs(hash >> 3) % 25) + 5) * 0.0018; // ~200m a 2km
+
+            return [base[0] + radius * Math.cos(angle), base[1] + radius * Math.sin(angle)];
+        }
+
+        function aplicarFiltros() {
+            const query = (document.getElementById('filter-search').value || '').toLowerCase().trim();
+            const rubroId = document.getElementById('filter-rubro').value;
+            const deptoId = document.getElementById('filter-depto').value;
+            const onlyVerified = document.getElementById('filter-verified').checked;
+            const onlyB2B = document.getElementById('filter-b2b').checked;
+
+            const filtrados = allProducers.filter(p => {
+                if (rubroId && String(p.rubro_id) !== String(rubroId)) return false;
+                if (deptoId && String(p.departamento_id) !== String(deptoId)) return false;
+                if (onlyVerified && p.verificado_intur !== true) return false;
+                if (onlyB2B && p.emite_factura !== true) return false;
+
+                if (query) {
+                    const matchText = [
+                        p.nombre_cooperativa_o_taller,
+                        p.municipio,
+                        p.descripcion,
+                        p.departamentos?.nombre,
+                        p.rubros?.nombre
+                    ].filter(Boolean).join(' ').toLowerCase();
+
+                    if (!matchText.includes(query)) return false;
+                }
+                return true;
+            });
+
+            renderizarMapaYLista(filtrados);
+        }
+
+        function renderizarMapaYLista(productores) {
+            markersLayer.clearLayers();
+
+            let verificadosCount = 0;
+            let facturaCount = 0;
+
+            const listContainer = document.getElementById('business-list');
+            listContainer.replaceChildren();
+
+            if (productores.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="p-6 text-center text-xs text-text-muted">
+                        <span class="material-symbols-outlined text-2xl text-text-muted">location_off</span>
+                        <p class="mt-1">No hay negocios que coincidan con los filtros seleccionados.</p>
+                    </div>`;
+            }
+
+            productores.forEach(p => {
+                if (p.verificado_intur) verificadosCount++;
+                if (p.emite_factura) facturaCount++;
+
+                const coords = obtenerCoordenadasNegocio(p);
+                const conf = RUBRO_COLORS[p.rubros?.icono] || { bg: '#0d631b', emoji: '✨' };
+
+                // Crear Marcador Personalizado con icono
+                const customIcon = L.divIcon({
+                    className: '',
+                    html: `
+                        <div class="custom-map-pin" style="background-color: ${conf.bg}; width: 34px; height: 34px; font-size: 16px; color: white;">
+                            <span>${conf.emoji}</span>
+                        </div>`,
+                    iconSize: [34, 34],
+                    iconAnchor: [17, 17],
+                    popupAnchor: [0, -18]
+                });
+
+                const marker = L.marker(coords, { icon: customIcon });
+
+                marker.on('click', () => {
+                    abrirDrawerNegocio(p);
+                });
+
+                markersLayer.addLayer(marker);
+
+                // Tarjeta en lista lateral
+                const item = document.createElement('div');
+                item.className = "p-3 rounded-xl hover:bg-surface-bright transition-colors cursor-pointer border-b border-outline-variant/15";
+                item.onclick = () => {
+                    mapInstance.flyTo(coords, 14, { duration: 1.2 });
+                    abrirDrawerNegocio(p);
+                };
+
+                item.innerHTML = `
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="min-w-0">
+                            <span class="text-[10px] font-bold text-primary flex items-center gap-1">
+                                <span>${conf.emoji}</span>
+                                <span>${escapeHtml(p.rubros?.nombre || 'Rubro')}</span>
+                            </span>
+                            <h4 class="font-bold text-xs text-text-main truncate mt-0.5">${escapeHtml(p.nombre_cooperativa_o_taller)}</h4>
+                            <p class="text-[11px] text-text-muted truncate">${escapeHtml(p.municipio || p.departamentos?.nombre || 'Nicaragua')}</p>
+                        </div>
+                        ${p.verificado_intur ? '<span class="material-symbols-outlined text-primary text-base shrink-0" title="Verificado INTUR">verified</span>' : ''}
+                    </div>
+                `;
+                listContainer.appendChild(item);
+            });
+
+            // Actualizar Badges en Cabecera
+            document.getElementById('stat-total-badge').textContent = `${productores.length} Negocios`;
+            document.getElementById('stat-verificados-badge').textContent = String(verificadosCount);
+            document.getElementById('stat-factura-badge').textContent = String(facturaCount);
+        }
+
+        function abrirDrawerNegocio(p) {
+            const drawer = document.getElementById('business-drawer');
+            const conf = RUBRO_COLORS[p.rubros?.icono] || { emoji: '✨' };
+
+            // Filtrar productos de este productor
+            const productosPropios = allProducts.filter(prod => String(prod.productor_id) === String(p.id));
+
+            document.getElementById('drawer-rubro-badge').innerHTML = `<span>${conf.emoji}</span> <span>${escapeHtml(p.rubros?.nombre || 'Ciudad Creativa')}</span>`;
+            document.getElementById('drawer-name').textContent = p.nombre_cooperativa_o_taller || 'Negocio';
+            document.getElementById('drawer-location').textContent = `${p.municipio ? p.municipio + ' · ' : ''}${p.departamentos?.nombre || 'Nicaragua'}`;
+
+            document.getElementById('drawer-products-count').textContent = `${productosPropios.length} producto${productosPropios.length === 1 ? '' : 's'}`;
+            document.getElementById('drawer-margen').textContent = p.acepta_tarifa_mayorista ? `${p.margen_mayorista_porcentaje || 15}% Net Rate` : 'A convenir';
+            document.getElementById('drawer-factura').textContent = p.emite_factura ? 'Factura con RUC' : 'En proceso fiscal';
+            document.getElementById('drawer-sello').textContent = p.verificado_intur ? 'Sello INTUR Vigente' : 'En revisión';
+
+            // Badges normativos
+            const normContainer = document.getElementById('drawer-normativa');
+            normContainer.replaceChildren();
+
+            if (p.ruc) normContainer.appendChild(crearBadgeNormativo(`RUC: ${p.ruc}`, 'bg-blue-50 text-blue-800 border-blue-200'));
+            if (p.matricula_municipal) normContainer.appendChild(crearBadgeNormativo('Matrícula al día', 'bg-amber-50 text-amber-800 border-amber-200'));
+            if (p.licencia_minsa) normContainer.appendChild(crearBadgeNormativo(`MINSA: ${p.licencia_minsa}`, 'bg-emerald-50 text-emerald-800 border-emerald-200'));
+            if (p.permiso_inafor) normContainer.appendChild(crearBadgeNormativo('INAFOR Legal', 'bg-green-50 text-green-800 border-green-200'));
+
+            // Botón de WhatsApp
+            const telLimpio = (p.telefono_whatsapp || '').replace(/[^0-9]/g, '');
+            const btnWhatsapp = document.getElementById('drawer-whatsapp');
+            if (telLimpio) {
+                btnWhatsapp.href = `https://wa.me/${telLimpio}?text=${encodeURIComponent('Hola, me comunico desde la plataforma Tawanki INTUR. Deseo consultar cotización comercial de sus productos.')}`;
+                btnWhatsapp.classList.remove('hidden');
+            } else {
+                btnWhatsapp.classList.add('hidden');
+            }
+
+            drawer.classList.remove('hidden');
+        }
+
+        function crearBadgeNormativo(texto, clases) {
+            const span = document.createElement('span');
+            span.className = `text-[9px] font-bold px-1.5 py-0.5 rounded border ${clases}`;
+            span.textContent = texto;
+            return span;
+        }
+
+        function cerrarDrawer() {
+            document.getElementById('business-drawer').classList.add('hidden');
+        }
+
+        function toggleSidebar() {
+            const sb = document.getElementById('map-sidebar');
+            sb.classList.toggle('-translate-x-full');
+        }
+
+        function limpiarFiltros() {
+            document.getElementById('filter-search').value = '';
+            document.getElementById('filter-rubro').value = '';
+            document.getElementById('filter-depto').value = '';
+            document.getElementById('filter-verified').checked = false;
+            document.getElementById('filter-b2b').checked = false;
+            aplicarFiltros();
+            cerrarDrawer();
+        }
+    </script>
+</body>
+
+</html>
