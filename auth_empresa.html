@@ -119,6 +119,12 @@
                     <span>Ingresar al Portal de Compras</span>
                     <span class="material-symbols-outlined text-lg">arrow_forward</span>
                 </button>
+
+                <button type="button" onclick="demoLogin('empresa')"
+                    class="w-full bg-emerald-50 hover:bg-emerald-100 text-primary font-bold py-2.5 rounded-xl border border-primary/20 transition-all flex items-center justify-center gap-2 text-xs">
+                    <span class="material-symbols-outlined text-base">rocket_launch</span>
+                    <span>Entrar como empresa demo</span>
+                </button>
             </form>
 
             <!-- Form: Registro de Empresa Turística -->
@@ -328,7 +334,7 @@
             }
 
             showToast('¡Autenticado con éxito! Redirigiendo a proveedores...', 'success');
-            setTimeout(() => window.location.replace(PROVEEDORES_URL), 700);
+            window.location.replace(PROVEEDORES_URL);
         }
 
         async function handleRegister(e) {
@@ -348,10 +354,6 @@
             }
             if (!deptoId) {
                 showToast('Selecciona el departamento de tu empresa.', 'error');
-                return;
-            }
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                showToast('Correo corporativo inválido.', 'error');
                 return;
             }
             if (!/^[+0-9()\s-]{7,20}$/.test(telefono)) {
@@ -390,18 +392,22 @@
                 return;
             }
 
-            const { data: authData } = await supabaseClient.auth.signInWithPassword({ email, password });
+            // Reutiliza la sesión del signUp cuando la confirmación de correo
+            // está desactivada; evita un viaje extra a Supabase.
+            let session = data?.session || null;
+            if (!session) {
+                const { data: authData } = await supabaseClient.auth.signInWithPassword({ email, password });
+                session = authData?.session || null;
+            }
 
-            if (!authData?.session) {
+            if (!session) {
                 showToast('¡Empresa registrada! Confirma tu correo y luego inicia sesión.', 'success');
-                setTimeout(() => {
-                    switchAuthTab('login');
-                    document.getElementById('login-email').value = email;
-                }, 1800);
+                switchAuthTab('login');
+                document.getElementById('login-email').value = email;
                 return;
             }
 
-            const userId = authData.user.id;
+            const userId = session.user.id;
 
             // El perfil lo crea el trigger. Aquí solo la ficha de empresa.
             const { error: empErr } = await empresasService.upsertEmpresa({
@@ -417,12 +423,12 @@
             if (empErr) {
                 console.error("Error insertando en tabla empresas_turisticas:", empErr);
                 showToast('Empresa creada, pero no se pudo guardar la ficha: ' + (empErr.message || 'completa tu perfil'), 'warning');
-                setTimeout(() => window.location.replace(PROVEEDORES_URL), 1500);
+                window.location.replace(PROVEEDORES_URL);
                 return;
             }
 
             showToast('¡Empresa registrada con éxito!', 'success');
-            setTimeout(() => window.location.replace(PROVEEDORES_URL), 800);
+            window.location.replace(PROVEEDORES_URL);
         }
     </script>
 

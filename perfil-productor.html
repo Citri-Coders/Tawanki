@@ -683,10 +683,16 @@
             if (!authResult) return;
 
             currentUserProfile = authResult.profile;
-            await loadProducerDepartamentos();
-            await loadProducerProfileFromSupabase();
-            await loadProducerProductsFromSupabase();
-            await loadProducerRequestsFromSupabase();
+            // Departamentos y perfil no dependen entre sí; productos y
+            // solicitudes sí necesitan el registro del productor.
+            await Promise.all([
+                loadProducerDepartamentos(),
+                loadProducerProfileFromSupabase()
+            ]);
+            await Promise.all([
+                loadProducerProductsFromSupabase(),
+                loadProducerRequestsFromSupabase()
+            ]);
             setupProducerGridEvents();
             subscribeRealtimeUpdates();
         });

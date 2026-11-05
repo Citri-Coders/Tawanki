@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="assets/tailwind.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.js"
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.js"
         integrity="sha384-tgbB5AKnszdcfwcZtTfuhR3Ko1XZdlDfsLtkxiiAZiVkkXCkFmp+FQFh+V/UTo54" crossorigin="anonymous"></script>
     <style>
         body { font-family: 'Inter', sans-serif; }
@@ -433,10 +433,10 @@
 
             await Promise.all([
                 loadAdminProfile(),
-                loadAllData()
+                loadAllData(),
+                loadNotifications()
             ]);
 
-            await loadNotifications();
             renderAll();
         }
 

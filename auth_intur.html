@@ -87,11 +87,11 @@
             <!-- Form 1: Iniciar Sesión INTUR -->
             <form id="form-login" onsubmit="handleLogin(event)" class="tab-pane space-y-4 text-xs">
                 <div>
-                    <label class="block font-bold text-text-main mb-1.5">Correo Institucional INTUR *</label>
+                    <label class="block font-bold text-text-main mb-1.5">Correo electrónico *</label>
                     <div class="relative">
                         <span
                             class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg">badge</span>
-                        <input type="email" id="login-email" required placeholder="funcionario@intur.gob.ni"
+                        <input type="email" id="login-email" required placeholder="funcionario@ejemplo.com"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl pl-9 pr-3 py-2.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
                     </div>
                 </div>
@@ -123,6 +123,12 @@
                     <span>Acceder al Panel INTUR</span>
                     <span class="material-symbols-outlined text-lg">arrow_forward</span>
                 </button>
+
+                <button type="button" onclick="demoLogin('intur')"
+                    class="w-full bg-emerald-50 hover:bg-emerald-100 text-primary font-bold py-2.5 rounded-xl border border-primary/20 transition-all flex items-center justify-center gap-2 text-xs">
+                    <span class="material-symbols-outlined text-base">rocket_launch</span>
+                    <span>Entrar como INTUR demo</span>
+                </button>
             </form>
 
             <!-- Form 2: Solicitar Registro Funcionario (Sin código previo) -->
@@ -134,8 +140,8 @@
                 </div>
 
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Correo Institucional (@intur.gob.ni) *</label>
-                    <input type="email" id="reg-email" required placeholder="maria.hernandez@intur.gob.ni"
+                    <label class="block font-bold text-text-main mb-1">Correo electrónico *</label>
+                    <input type="email" id="reg-email" required placeholder="maria.hernandez@ejemplo.com"
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                 </div>
 
@@ -149,11 +155,9 @@
                 <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200/60 text-[11px] text-emerald-900 leading-relaxed">
                     <p class="font-bold flex items-center gap-1 mb-1">
                         <span class="material-symbols-outlined text-sm text-primary">verified_user</span>
-                        Validación Institucional Dual:
+                        Modo demo:
                     </p>
-                    <p>Al registrarte, tu solicitud y código quedan registrados en Supabase. El Administrador de TI puede:</p>
-                    <p class="mt-1 font-semibold text-primary">• Aprobar tu cuenta directamente en el sistema, o</p>
-                    <p class="font-semibold text-primary">• Enviarte el código de 6 dígitos a tu correo @intur.gob.ni.</p>
+                    <p>Al registrarte en esta versión demo, la cuenta se activa como INTUR automáticamente. No necesitas código ni correo institucional.</p>
                 </div>
 
                 <button type="submit"
@@ -166,8 +170,8 @@
             <!-- Form 3: Activar Cuenta con Código de Verificación -->
             <form id="form-activate" onsubmit="handleActivate(event)" class="hidden space-y-3 text-xs">
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Correo Institucional (@intur.gob.ni) *</label>
-                    <input type="email" id="act-email" required placeholder="maria.hernandez@intur.gob.ni"
+                    <label class="block font-bold text-text-main mb-1">Correo electrónico *</label>
+                    <input type="email" id="act-email" required placeholder="maria.hernandez@ejemplo.com"
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                 </div>
 
@@ -175,7 +179,7 @@
                     <label class="block font-bold text-text-main mb-1">Código de Activación INTUR *</label>
                     <input type="text" id="act-token" required autocomplete="off" placeholder="INTUR-123456"
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs uppercase font-mono tracking-wider focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                    <p class="text-[10px] text-text-muted mt-1">Ingresa el código proporcionado por el Administrador de TI o recibido en tu correo institucional.</p>
+                    <p class="text-[10px] text-text-muted mt-1">En modo demo puedes dejar este paso de lado: el registro activa tu cuenta automáticamente. El código sigue disponible para pruebas.</p>
                 </div>
 
                 <button type="submit"
@@ -198,7 +202,6 @@
 
     <script>
         const DASHBOARD_URL = 'dashboard-intur.html';
-        const DOMINIO_INTUR = '@intur.gob.ni';
 
         // Si ya hay sesión INTUR válida, entrar directo al panel.
         (async () => {
@@ -253,12 +256,8 @@
         async function solicitarRecuperacion() {
             const email = document.getElementById('login-email').value.trim();
             if (!email) {
-                showToast('Escribe primero tu correo institucional.', 'warning');
+                showToast('Escribe primero tu correo electrónico.', 'warning');
                 document.getElementById('login-email').focus();
-                return;
-            }
-            if (!email.endsWith(DOMINIO_INTUR)) {
-                showToast('Usa tu correo institucional @intur.gob.ni.', 'error');
                 return;
             }
 
@@ -275,11 +274,6 @@
             const email = document.getElementById('login-email').value.trim();
             const password = document.getElementById('login-password').value;
 
-            if (!email.endsWith(DOMINIO_INTUR)) {
-                showToast('Acceso restringido a correos @intur.gob.ni.', 'error');
-                return;
-            }
-
             showToast('Validando credenciales...', 'info');
 
             const { error } = await authService.signIn({ email, password });
@@ -291,25 +285,35 @@
 
             const { profile, error: profileError } = await authService.getCurrentUser();
             if (profileError || !profile) {
-                showToast('Tu cuenta no tiene perfil asociado. Contacta a INTUR.', 'error');
+                showToast('Tu cuenta no tiene perfil asociado. Ejecuta el seed de demo.', 'error');
                 await authService.signOut();
                 return;
             }
 
             if (profile.activo === false) {
-                showToast('Tu cuenta está desactivada o pendiente de aprobación por TI.', 'warning');
+                showToast('Tu cuenta está desactivada.', 'warning');
                 await authService.signOut();
                 return;
             }
 
             if (profile.rol !== 'intur') {
-                showToast('Solicitud en revisión. Si recibiste un código en tu correo, ve a "Activar con Código".', 'warning');
+                // En la versión demo, cualquier usuario autenticado puede
+                // activarse como INTUR sin código ni correo institucional.
+                const { error: demoError } = await supabaseClient.rpc('activar_intur_demo');
+                if (!demoError) {
+                    clearSessionCache();
+                    showToast('Acceso INTUR demo activado.', 'success');
+                    window.location.replace(DASHBOARD_URL);
+                    return;
+                }
+
+                showToast('Tu cuenta no tiene rol INTUR. Usa el botón "Entrar como INTUR demo".', 'warning');
                 document.getElementById('act-email').value = email;
                 return;
             }
 
             showToast('¡Acceso concedido! Redirigiendo al panel...', 'success');
-            setTimeout(() => window.location.replace(DASHBOARD_URL), 700);
+            window.location.replace(DASHBOARD_URL);
         }
 
         async function handleRegister(e) {
@@ -318,10 +322,6 @@
             const email = document.getElementById('reg-email').value.trim();
             const password = document.getElementById('reg-password').value;
 
-            if (!email.endsWith(DOMINIO_INTUR)) {
-                showToast('El registro requiere un correo @intur.gob.ni.', 'error');
-                return;
-            }
             if (password.length < 8) {
                 showToast('La contraseña debe tener al menos 8 caracteres.', 'error');
                 return;
@@ -344,7 +344,7 @@
                 return;
             }
 
-            // 2. Registrar la solicitud institucional y generar el código visible para TI
+            // 2. Registrar la solicitud (queda como bitácora de demo).
             try {
                 await supabaseClient.rpc('solicitar_registro_intur', {
                     p_nombre: nombre,
@@ -354,16 +354,24 @@
                 console.warn("Aviso en solicitud institucional:", rpcErr);
             }
 
-            showToast('¡Solicitud registrada! Pendiente de aprobación por TI o verificación por correo.', 'success');
+            // 3. En modo demo, activar el rol INTUR sin código ni correo.
+            const { error: demoError } = await supabaseClient.rpc('activar_intur_demo');
+            if (!demoError) {
+                clearSessionCache();
+                showToast('¡Cuenta INTUR demo activada! Entrando al panel...', 'success');
+                window.location.replace(DASHBOARD_URL);
+                return;
+            }
 
-            // Prellenar campos
+            if (!data?.session) {
+                showToast('Cuenta creada. Desactiva "Confirm email" en Supabase para entrar sin confirmar el correo.', 'warning');
+            } else {
+                showToast('Solicitud registrada. Pide a TI que active tu cuenta o usa el acceso demo.', 'success');
+            }
+
             document.getElementById('act-email').value = email;
             document.getElementById('login-email').value = email;
-
-            setTimeout(() => {
-                switchAuthTab('activate');
-                showToast('Si TI te compartió el código a tu correo @intur.gob.ni, ingrésalo aquí.', 'info');
-            }, 1200);
+            switchAuthTab('activate');
         }
 
         async function handleActivate(e) {
@@ -371,10 +379,6 @@
             const email = document.getElementById('act-email').value.trim();
             const token = document.getElementById('act-token').value.trim();
 
-            if (!email.endsWith(DOMINIO_INTUR)) {
-                showToast('Ingresa tu correo oficial @intur.gob.ni.', 'error');
-                return;
-            }
             if (!token) {
                 showToast('Ingresa el código de activación.', 'warning');
                 return;
@@ -396,13 +400,11 @@
 
             const actual = await authService.getCurrentUser();
             if (actual.user && actual.user.email?.toLowerCase() === email.toLowerCase()) {
-                setTimeout(() => window.location.replace(DASHBOARD_URL), 900);
+                window.location.replace(DASHBOARD_URL);
             } else {
-                setTimeout(() => {
-                    switchAuthTab('login');
-                    document.getElementById('login-email').value = email;
-                    showToast('Ingresa con tu contraseña para acceder al Panel.', 'info');
-                }, 1000);
+                switchAuthTab('login');
+                document.getElementById('login-email').value = email;
+                showToast('Ingresa con tu contraseña para acceder al Panel.', 'info');
             }
         }
     </script>

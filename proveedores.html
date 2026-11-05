@@ -307,9 +307,13 @@
 
             currentUserProfile = session.profile;
             setupDynamicNavMenu();
-            await loadCompanyProfileFromSupabase();
+
+            // Perfil y directorio son independientes: se cargan en paralelo.
+            await Promise.all([
+                loadCompanyProfileFromSupabase(),
+                loadProvidersFromSupabase()
+            ]);
             await loadDepartamentos();
-            await loadProvidersFromSupabase();
             setupProviderGridEvents();
         });
 

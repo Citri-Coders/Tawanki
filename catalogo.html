@@ -420,10 +420,13 @@
             } catch (e) {}
         }
 
-        // Inicialización: el catálogo es público; si hay sesión se muestra el perfil.
+        // Inicialización: el catálogo es público. Los productos se piden de
+        // inmediato y la sesión se valida en paralelo para no bloquear el grid.
         document.addEventListener('DOMContentLoaded', async () => {
             initDropdowns();
             setupCatalogGridEvents();
+
+            const productsPromise = loadCatalogProductsFromSupabase();
 
             try {
                 const { user, profile } = await authService.getCurrentUser();
@@ -439,7 +442,7 @@
                 setupAnonymousNavMenu();
             }
 
-            await loadCatalogProductsFromSupabase();
+            await productsPromise;
             subscribeCatalogRealtime();
         });
 
@@ -719,10 +722,9 @@
 
         async function loadCatalogProductsFromSupabase() {
             try {
-                // Visitantes anónimos leen la RPC pública (sin datos de contacto).
-                const response = currentUserProfile
-                    ? await productosService.getProductos({ limit: 500 })
-                    : await productosService.getCatalogoPublico(500);
+                // El catálogo no muestra datos de contacto: la RPC pública
+                // devuelve lo mismo y evita esperar la validación de sesión.
+                const response = await productosService.getCatalogoPublico(500);
 
                 const { data, error } = response;
 

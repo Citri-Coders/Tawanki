@@ -2,6 +2,8 @@
 
 Plataforma digital para la articulación comercial B2B entre pequeños productores locales de Nicaragua y empresas del sector turístico (hoteles, restaurantes y tour operadores), respaldada por el monitoreo y validación institucional del **INTUR** (Instituto Nicaragüense de Turismo).
 
+> **Rama `version-2` — modo demo:** desactiva la confirmación de correo y la validación de dominio INTUR, agrega acceso rápido con cuentas demo y permite autoactivar el rol INTUR. No usar tal cual en producción. Instrucciones en [`DEMO.md`](DEMO.md).
+
 ---
 
 ## 🚀 Características Principales

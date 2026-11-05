@@ -149,7 +149,49 @@
         .public-links a:hover { text-decoration: underline; }
         .public-links .material-symbols-outlined { font-size: 22px; }
 
-        .landing-card a:focus-visible {
+        .demo-access {
+            width: 100%;
+            padding-top: 18px;
+            border-top: 1px solid rgba(201, 188, 154, 0.45);
+        }
+
+        .demo-access-title {
+            margin: 0 0 10px;
+            color: #6B5E47;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .demo-access-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .demo-access-btn {
+            min-height: 38px;
+            padding: 7px 8px;
+            border: 1px solid rgba(13, 99, 27, 0.18);
+            border-radius: 11px;
+            background: #E8F0DC;
+            color: #0D3A0A;
+            font: inherit;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 160ms ease, border-color 160ms ease;
+        }
+
+        .demo-access-btn:hover {
+            background: #D7E6C5;
+            border-color: #94C078;
+        }
+
+        .landing-card a:focus-visible,
+        .landing-card button:focus-visible {
             outline: 3px solid #0D631B;
             outline-offset: 3px;
         }
@@ -236,6 +278,16 @@
                 </a>
             </nav>
 
+            <!-- Acceso rápido para la demo -->
+            <section class="demo-access" aria-label="Acceso rápido demo">
+                <p class="demo-access-title">Acceso rápido demo</p>
+                <div class="demo-access-grid">
+                    <button type="button" class="demo-access-btn" onclick="demoLogin('productor')">Productor</button>
+                    <button type="button" class="demo-access-btn" onclick="demoLogin('empresa')">Empresa</button>
+                    <button type="button" class="demo-access-btn" onclick="demoLogin('intur')">INTUR</button>
+                </div>
+            </section>
+
         </div>
     </main>
 
@@ -261,6 +313,10 @@
     <footer class="w-full text-center mt-4 text-[11px] text-white/75 font-medium">
         <p>Rally Innova 2026 · Turismo Nicaragua Conecta</p>
     </footer>
+
+    <div id="toast-container"
+        style="position:fixed;top:20px;right:20px;z-index:50;display:flex;flex-direction:column;gap:12px;pointer-events:none;max-width:min(360px,calc(100vw - 40px))">
+    </div>
 
     <!-- Supabase SDK + Config -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"

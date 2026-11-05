@@ -5,7 +5,8 @@
  * ============================================================
  * Cambios de la auditoría:
  *  - El rol se asigna en servidor (trigger + RPC de invitación).
- *  - getCurrentUser valida con getUser() y no fabrica roles.
+ *  - getCurrentUser usa getSession() + mi_contexto() y RLS sigue
+ *    siendo la autoridad real del servidor.
  *  - Helpers de escape para todo dato que venga de la base de datos.
  *  - Escrituras sensibles pasan por RPC con autorización en servidor.
  * ============================================================
@@ -17,6 +18,84 @@ const SUPABASE_ANON_KEY = 'sb_publishable_5PKZs7ahaASbuEpHLarhlQ_bYVLv5hY';
 
 const { createClient } = supabase;
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ── 1.1 Modo demo ────────────────────────────────────────────
+// Estas cuentas las crea scripts/seed_demo.js. Solo se usan en la rama
+// version-2; no deben existir en producción.
+const DEMO_ACCOUNTS = Object.freeze({
+    productor: { email: 'productor@demo.tawanki.ni', password: 'DemoTawanki2026!' },
+    empresa: { email: 'empresa@demo.tawanki.ni', password: 'DemoTawanki2026!' },
+    intur: { email: 'intur@demo.tawanki.ni', password: 'DemoTawanki2026!' }
+});
+
+const DEMO_REDIRECTS = Object.freeze({
+    productor: 'perfil-productor.html',
+    empresa: 'proveedores.html',
+    intur: 'dashboard-intur.html'
+});
+
+const SESSION_CACHE_KEY = 'tawanki:contexto:v1';
+const SESSION_CACHE_TTL = 5 * 60 * 1000;
+const CATALOG_CACHE_KEY = 'tawanki:catalogos:v1';
+
+function readSessionCache(userId) {
+    try {
+        const raw = sessionStorage.getItem(SESSION_CACHE_KEY);
+        if (!raw) return null;
+        const cached = JSON.parse(raw);
+        if (cached.userId !== userId) return null;
+        if (!cached.savedAt || Date.now() - cached.savedAt > SESSION_CACHE_TTL) return null;
+        return cached.contexto || null;
+    } catch {
+        return null;
+    }
+}
+
+function writeSessionCache(userId, contexto) {
+    try {
+        if (!userId || !contexto) return;
+        sessionStorage.setItem(SESSION_CACHE_KEY, JSON.stringify({
+            userId,
+            savedAt: Date.now(),
+            contexto
+        }));
+    } catch {
+        // sessionStorage puede estar bloqueado; seguir sin caché.
+    }
+}
+
+function clearSessionCache() {
+    try {
+        sessionStorage.removeItem(SESSION_CACHE_KEY);
+    } catch {
+        // Ignorar.
+    }
+}
+
+function readCatalogCache() {
+    try {
+        const raw = localStorage.getItem(CATALOG_CACHE_KEY);
+        if (!raw) return null;
+        const cached = JSON.parse(raw);
+        if (!cached.savedAt || Date.now() - cached.savedAt > 6 * 60 * 60 * 1000) return null;
+        return cached;
+    } catch {
+        return null;
+    }
+}
+
+function writeCatalogCache(partial) {
+    try {
+        const current = readCatalogCache() || {};
+        localStorage.setItem(CATALOG_CACHE_KEY, JSON.stringify({
+            ...current,
+            ...partial,
+            savedAt: Date.now()
+        }));
+    } catch {
+        // Ignorar.
+    }
+}
 
 // ── 2. Límites de validación compartidos ─────────────────────
 const LIMITS = Object.freeze({
@@ -98,6 +177,7 @@ const authService = {
      */
     async signUp({ email, password, nombreCompleto, rol, telefono }) {
         try {
+            clearSessionCache();
             const rolSeguro = rol === 'empresa' ? 'empresa' : 'productor';
 
             const { data, error } = await supabaseClient.auth.signUp({
@@ -120,6 +200,7 @@ const authService = {
 
     async signIn({ email, password }) {
         try {
+            clearSessionCache();
             const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
             return { data, error: error || null };
         } catch (err) {
@@ -129,6 +210,7 @@ const authService = {
 
     async signOut() {
         try {
+            clearSessionCache();
             const { error } = await supabaseClient.auth.signOut();
             return { error: error || null };
         } catch (err) {
@@ -137,35 +219,70 @@ const authService = {
     },
 
     /**
-     * Usuario autenticado + perfil real de la base de datos.
-     * Usa getUser() (valida el JWT contra el servidor) y NO infiere el rol
-     * desde user_metadata: si no hay fila en profiles, devuelve profile null.
+     * Contexto de sesión en una sola llamada.
+     *
+     * getSession() lee la sesión local (sin ir a la red). La autorización real
+     * sigue viviendo en RLS; mi_contexto() trae perfil + ficha de productor /
+     * empresa / INTUR en una única petición. Si la migración 008 todavía no
+     * está aplicada, cae al select tradicional de profiles.
      */
-    async getCurrentUser() {
+    async getSessionContext() {
         try {
-            const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
-            if (userError || !user) {
-                return { user: null, profile: null, error: userError || new Error('No hay sesión activa') };
+            const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
+            if (sessionError || !session?.user) {
+                return { user: null, profile: null, contexto: null, error: sessionError || new Error('No hay sesión activa') };
             }
 
+            const cached = readSessionCache(session.user.id);
+            if (cached?.profile) {
+                return { user: session.user, profile: cached.profile, contexto: cached, error: null };
+            }
+
+            const { data, error: rpcError } = await supabaseClient.rpc('mi_contexto');
+            if (!rpcError && data?.profile) {
+                writeSessionCache(session.user.id, data);
+                return { user: session.user, profile: data.profile, contexto: data, error: null };
+            }
+
+            // Compatibilidad con bases donde aún no se ejecutó la migración 008.
             const { data: profile, error: profileError } = await supabaseClient
                 .from('profiles')
                 .select('*')
-                .eq('id', user.id)
+                .eq('id', session.user.id)
                 .maybeSingle();
 
             if (profileError) {
-                return { user, profile: null, error: profileError };
+                return { user: session.user, profile: null, contexto: null, error: profileError };
             }
 
-            return { user, profile: profile || null, error: null };
+            const contexto = profile ? { profile, productor: null, empresa: null, intur: null } : null;
+            if (contexto) writeSessionCache(session.user.id, contexto);
+            return { user: session.user, profile: profile || null, contexto, error: null };
         } catch (err) {
-            return { user: null, profile: null, error: err };
+            return { user: null, profile: null, contexto: null, error: err };
         }
     },
 
+    /**
+     * Usuario autenticado + perfil real de la base de datos.
+     * Mantiene el contrato { user, profile, error } que usan las páginas.
+     */
+    async getCurrentUser() {
+        const result = await authService.getSessionContext();
+        return {
+            user: result.user,
+            profile: result.profile,
+            contexto: result.contexto,
+            error: result.error
+        };
+    },
+
     onAuthStateChange(callback) {
-        return supabaseClient.auth.onAuthStateChange(callback);
+        return supabaseClient.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_OUT') clearSessionCache();
+            if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') clearSessionCache();
+            return callback(event, session);
+        });
     },
 
     async resetPassword(email) {
@@ -182,9 +299,37 @@ const authService = {
     }
 };
 
+/**
+ * Inicio de sesión rápido para la demo.
+ * Solo funciona si scripts/seed_demo.js creó las cuentas demo.
+ */
+async function demoLogin(rol) {
+    const account = DEMO_ACCOUNTS[rol];
+    if (!account) {
+        showToast('Rol demo no válido.', 'error');
+        return { data: null, error: new Error('Rol demo no válido') };
+    }
+
+    const { error } = await authService.signIn(account);
+    if (error) {
+        showToast('No se pudo entrar en modo demo: ' + (error.message || 'verifica que la semilla esté cargada.'), 'error');
+        return { data: null, error };
+    }
+
+    const { profile, error: profileError } = await authService.getCurrentUser();
+    if (profileError || !profile) {
+        showToast('La cuenta demo no tiene perfil. Ejecuta el seed de demo.', 'error');
+        await authService.signOut().catch(() => {});
+        return { data: null, error: profileError || new Error('Perfil demo no encontrado') };
+    }
+
+    const target = DEMO_REDIRECTS[profile.rol] || DEMO_REDIRECTS[rol] || 'index.html';
+    window.location.replace(target);
+    return { data: profile, error: null };
+}
+
 // ── 5. Profile Service ───────────────────────────────────────
 const CAMPOS_PERFIL_PERMITIDOS = ['nombre_completo', 'telefono', 'avatar_url'];
-
 const profileService = {
 
     async getProfile(userId) {
@@ -217,6 +362,7 @@ const profileService = {
             .eq('id', userId)
             .select()
             .maybeSingle();
+        if (!error) clearSessionCache();
         return { data, error };
     },
 
@@ -255,18 +401,32 @@ const profileService = {
 const catalogoBaseService = {
 
     async getDepartamentos() {
+        const cached = readCatalogCache();
+        if (Array.isArray(cached?.departamentos) && cached.departamentos.length) {
+            return { data: cached.departamentos, error: null };
+        }
+
         const { data, error } = await supabaseClient
             .from('departamentos')
             .select('*')
             .order('nombre');
+
+        if (!error && Array.isArray(data)) writeCatalogCache({ departamentos: data });
         return { data: data || [], error };
     },
 
     async getRubros() {
+        const cached = readCatalogCache();
+        if (Array.isArray(cached?.rubros) && cached.rubros.length) {
+            return { data: cached.rubros, error: null };
+        }
+
         const { data, error } = await supabaseClient
             .from('rubros')
             .select('*')
             .order('nombre');
+
+        if (!error && Array.isArray(data)) writeCatalogCache({ rubros: data });
         return { data: data || [], error };
     }
 };
@@ -325,7 +485,7 @@ const productosService = {
             if (rubroId) query = query.eq('rubro_id', rubroId);
             if (soloDisponibles) query = query.eq('disponible', true);
             if (busqueda) query = query.ilike('nombre', `%${busqueda}%`);
-            if (limit) query = query.limit(limit);
+            query = query.limit(limit || 200);
 
             query = query.order('created_at', { ascending: false });
 
@@ -557,7 +717,7 @@ const productoresService = {
             if (rubroId) query = query.eq('rubro_id', rubroId);
             if (soloVerificados) query = query.eq('verificado_intur', true);
 
-            query = query.order('created_at', { ascending: false });
+            query = query.order('created_at', { ascending: false }).limit(200);
             const { data, error } = await query;
 
             if (error) {
@@ -632,7 +792,7 @@ const empresasService = {
         if (tipo) query = query.eq('tipo', tipo);
         if (departamentoId) query = query.eq('departamento_id', departamentoId);
 
-        query = query.order('created_at', { ascending: false });
+        query = query.order('created_at', { ascending: false }).limit(200);
         const { data, error } = await query;
         return { data: data || [], error };
     },
@@ -804,17 +964,11 @@ const matchesService = {
     },
 
     async getMatchesCount() {
-        const { data, error } = await supabaseClient
+        const { count, error } = await supabaseClient
             .from('matches')
-            .select('estado');
+            .select('*', { count: 'exact', head: true });
         if (error) return { total: 0, porEstado: {}, error };
-
-        const porEstado = {};
-        for (const row of data || []) {
-            const estado = row.estado || 'Pendiente';
-            porEstado[estado] = (porEstado[estado] || 0) + 1;
-        }
-        return { total: (data || []).length, porEstado, error: null };
+        return { total: count || 0, porEstado: {}, error: null };
     }
 };
 
@@ -888,7 +1042,7 @@ async function authGuard(rolesPermitidos, options = {}) {
     const redirect = options.redirect !== false;
     const redirectTo = options.redirectTo || 'index.html';
 
-    const { user, profile, error } = await authService.getCurrentUser();
+    const { user, profile, contexto, error } = await authService.getCurrentUser();
 
     if (error || !user || !profile) {
         if (redirect) {
@@ -914,7 +1068,7 @@ async function authGuard(rolesPermitidos, options = {}) {
         return null;
     }
 
-    return { user, profile };
+    return { user, profile, contexto };
 }
 
 // ── 14. Utilidades de formato ────────────────────────────────

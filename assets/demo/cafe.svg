@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Café de altura">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3f2a1d"/>
+      <stop offset="1" stop-color="#c08a5b"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="480" fill="url(#g)"/>
+  <circle cx="320" cy="220" r="96" fill="#f5e6d3" opacity=".95"/>
+  <circle cx="320" cy="220" r="72" fill="#6f4a2f"/>
+  <path d="M320 170c30 0 54 22 54 50s-24 50-54 50-54-22-54-50 24-50 54-50z" fill="#d9a76c"/>
+  <text x="320" y="392" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">Café de altura</text>
+  <text x="320" y="426" font-family="Arial, sans-serif" font-size="20" fill="#f5e6d3" text-anchor="middle">Nicaragua</text>
+</svg>

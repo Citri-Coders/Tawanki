@@ -102,7 +102,7 @@ async function runTests() {
   });
   console.log(`RPC catalogo_publico: ${catRes.status} (Items devueltos: ${(await catRes.json()).length})`);
 
-  // canjear_codigo_intur (debe requerir autenticación)
+  // canjear_codigo_intur (firma de dos argumentos; sin código válido debe fallar)
   const canjRes = await fetch(`${SUPABASE_URL}/rest/v1/rpc/canjear_codigo_intur`, {
     method: 'POST',
     headers: {
@@ -110,9 +110,21 @@ async function runTests() {
       Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ p_codigo: 'INTUR-TEST' })
+    body: JSON.stringify({ p_codigo: 'INTUR-TEST', p_email: 'demo@example.com' })
   });
-  console.log(`RPC canjear_codigo_intur (anon): ${canjRes.status} (${canjRes.status === 401 ? 'CORRECTO: Protegido contra anónimos' : 'Inesperado'})`);
+  console.log(`RPC canjear_codigo_intur (código inválido): ${canjRes.status} (${canjRes.status === 400 ? 'CORRECTO: rechaza el código' : 'Revisar'})`);
+
+  // activar_intur_demo (debe exigir autenticación)
+  const demoRes = await fetch(`${SUPABASE_URL}/rest/v1/rpc/activar_intur_demo`, {
+    method: 'POST',
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({})
+  });
+  console.log(`RPC activar_intur_demo (anon): ${demoRes.status} (${demoRes.status === 401 ? 'CORRECTO: Protegido' : 'Revisar'})`);
 
   // kpis_intur (debe requerir autenticación)
   const kpiRes = await fetch(`${SUPABASE_URL}/rest/v1/rpc/kpis_intur`, {

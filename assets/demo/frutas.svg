@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Frutas y hortalizas">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#14532d"/>
+      <stop offset="1" stop-color="#facc15"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="480" fill="url(#g)"/>
+  <circle cx="280" cy="230" r="58" fill="#fb923c"/>
+  <circle cx="390" cy="250" r="46" fill="#ef4444"/>
+  <path d="M280 172c-8-30 8-52 28-62" fill="none" stroke="#166534" stroke-width="12" stroke-linecap="round"/>
+  <path d="M296 172c22-22 48-20 64-8" fill="none" stroke="#166534" stroke-width="10" stroke-linecap="round"/>
+  <text x="320" y="392" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">Frutas de temporada</text>
+  <text x="320" y="426" font-family="Arial, sans-serif" font-size="20" fill="#ecfccb" text-anchor="middle">Rivas</text>
+</svg>
