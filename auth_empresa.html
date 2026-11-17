@@ -6,123 +6,120 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Acceso Empresa Turística · Tawanki</title>
     <meta name="robots" content="noindex, nofollow" />
-    <meta name="theme-color" content="#0d631b" />
+    <meta name="theme-color" content="#FBF9F4" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="assets/tailwind.css" />
-    <!-- Hoja de estilos compilada -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            background: linear-gradient(135deg, rgba(13, 99, 27, 0.38) 0%, rgba(15, 23, 42, 0.48) 100%), url('assets/banner_city.png') center / cover no-repeat fixed;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-            @keyframes tabFadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .tab-pane {
-            animation: tabFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-    </style>
 </head>
 
-<body class="flex flex-col items-center justify-center p-4 sm:p-6 text-text-main min-h-screen">
+<body class="auth-page company-auth" data-auth-tab="login">
 
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
-    <main class="w-full max-w-md my-auto">
-        <!-- Auth Card -->
-        <div
-            class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-6 sm:p-8 border border-white/40 flex flex-col gap-6">
+    <header class="auth-site-header">
+        <div class="auth-shell auth-site-header-inner">
+            <a href="index.html" aria-label="Tawanki, volver al inicio">
+                <img src="assets/img/tawanki-logo.png" width="820" height="208" alt="Tawanki" />
+            </a>
+            <a class="auth-header-link" href="catalogo.html">Explorar catálogo <span class="material-symbols-outlined" aria-hidden="true">arrow_outward</span></a>
+        </div>
+    </header>
 
+    <main class="auth-shell auth-layout">
+        <aside class="auth-story" aria-label="Sobre Tawanki">
+            <div class="auth-story-content">
+                <p class="auth-story-kicker">Tawanki para empresas</p>
+                <h2>Lo local también puede ser parte de tu negocio.</h2>
+                <p>Encuentra productos y proveedores para tu hotel, restaurante o emprendimiento turístico.</p>
+            </div>
+            <div class="auth-story-photo">
+                <img src="assets/img/artesano-ceramica-720.webp" width="720" height="900"
+                    alt="Manos trabajando una pieza de cerámica en un torno" />
+                <span>Productos con una historia detrás</span>
+            </div>
+        </aside>
+
+        <section class="auth-card" aria-labelledby="auth-title">
+        <!-- Auth Card -->
             <!-- Header with Back Button -->
-            <div class="flex items-center justify-between border-b border-outline-variant/30 pb-4">
-                <a href="index.html"
-                    class="flex items-center gap-1.5 text-xs font-semibold text-text-muted hover:text-primary transition-colors">
-                    <span class="material-symbols-outlined text-lg">arrow_back</span>
-                    <span>Volver a Roles</span>
+            <div class="auth-card-top">
+                <a href="index.html" class="auth-back">
+                    <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+                    <span>Volver al inicio</span>
                 </a>
-                <span
-                    class="inline-flex items-center gap-1 bg-blue-light-bg text-primary text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-primary/20">
-                    <span class="material-symbols-outlined text-xs">storefront</span> Portal Empresas & Negocios
-                </span>
+                <span class="auth-role-tag">Portal de empresas</span>
             </div>
 
             <!-- Role Branding -->
-            <div class="text-center flex flex-col items-center gap-2">
-                <div
-                    class="w-16 h-16 bg-blue-100/80 text-blue-800 rounded-2xl flex items-center justify-center shadow-xs border border-blue-200/60">
-                    <span class="material-symbols-outlined text-3xl">storefront</span>
-                </div>
-                <div>
-                    <h1 class="text-2xl font-extrabold text-primary tracking-tight">Empresas & Negocios</h1>
-                    <p class="text-xs text-text-muted mt-0.5">Encuentra proveedores locales directos para tu hotel o restaurante</p>
-                </div>
+            <div class="auth-intro">
+                <h1 id="auth-title">Bienvenido de vuelta</h1>
+                <p id="auth-intro-copy">Entra para descubrir proveedores y gestionar tus solicitudes.</p>
             </div>
 
             <!-- Tabs: Iniciar Sesión / Registro -->
-            <div class="flex bg-surface-bright p-1 rounded-xl border border-outline-variant/40 text-xs font-bold">
-                <button onclick="switchAuthTab('login')" id="tab-login-btn"
-                    class="flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center">
-                    Iniciar Sesión
+            <div class="auth-tabs" role="tablist" aria-label="Acceso para empresas">
+                <button type="button" onclick="switchAuthTab('login')" id="tab-login-btn"
+                    class="auth-tab" role="tab" aria-selected="true" aria-controls="form-login" tabindex="0">
+                    Iniciar sesión
                 </button>
-                <button onclick="switchAuthTab('register')" id="tab-register-btn"
-                    class="flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center">
-                    Registrar Empresa
+                <button type="button" onclick="switchAuthTab('register')" id="tab-register-btn"
+                    class="auth-tab" role="tab" aria-selected="false" aria-controls="form-register" tabindex="-1">
+                    Crear cuenta
                 </button>
             </div>
 
             <!-- Form: Iniciar Sesión Empresa -->
-            <form id="form-login" onsubmit="handleLogin(event)" class="tab-pane space-y-4 text-xs">
+            <form id="form-login" onsubmit="handleLogin(event)" class="tab-pane auth-login-form space-y-4" role="tabpanel" aria-labelledby="tab-login-btn">
                 <div>
-                    <label class="block font-bold text-text-main mb-1.5">Correo Corporativo *</label>
-                    <div class="relative">
+                    <label for="login-email" class="block font-bold text-text-main mb-1.5">Correo corporativo</label>
+                    <div class="relative auth-login-field">
                         <span
-                            class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg">mail</span>
-                        <input type="email" id="login-email" required placeholder="compras@hotelgranada.com"
+                            class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg" aria-hidden="true">mail</span>
+                        <input type="email" id="login-email" required autocomplete="email" placeholder="compras@hotelgranada.com"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl pl-9 pr-3 py-2.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
                     </div>
                 </div>
 
                 <div>
                     <div class="flex justify-between items-center mb-1.5">
-                        <label class="font-bold text-text-main">Contraseña *</label>
+                        <label for="login-password" class="font-bold text-text-main">Contraseña</label>
                         <button type="button" onclick="solicitarRecuperacion()"
-                            class="text-[11px] text-primary hover:underline font-semibold">¿Olvidaste tu clave?</button>
+                            class="auth-recovery text-primary hover:underline font-semibold">¿Olvidaste tu clave?</button>
                     </div>
-                    <div class="relative">
+                    <div class="relative auth-login-field">
                         <span
-                            class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg">lock</span>
+                            class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg" aria-hidden="true">lock</span>
                         <input type="password" id="login-password" required minlength="8" autocomplete="current-password"
                             placeholder="••••••••••••"
-                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl pl-9 pr-3 py-2.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl pl-9 pr-11 py-2.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                        <button class="auth-password-toggle" type="button" aria-label="Mostrar contraseña"
+                            aria-pressed="false" aria-controls="login-password" onclick="togglePasswordVisibility(this)">
+                            <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
+                        </button>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-2 pt-1">
                     <input type="checkbox" id="remember-me" checked
                         class="rounded text-primary focus:ring-primary h-4 w-4 border-outline-variant/50" />
-                    <label for="remember-me" class="text-text-muted text-[11px] cursor-pointer">Recordar datos de
-                        acceso</label>
+                    <label for="remember-me" class="text-text-muted cursor-pointer">Mantener mi sesión activa</label>
                 </div>
 
                 <button type="submit"
-                    class="w-full bg-primary hover:bg-primary-container active:scale-[0.99] text-white font-bold py-3 rounded-xl shadow-md hover:shadow transition-all flex items-center justify-center gap-2 text-sm mt-2">
-                    <span>Ingresar al Portal de Compras</span>
-                    <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                    class="auth-submit w-full bg-primary hover:bg-primary-container active:scale-[0.99] text-white font-bold py-3 rounded-xl shadow-md hover:shadow transition-all flex items-center justify-center gap-2 text-sm mt-2">
+                    <span>Entrar al directorio</span>
+                    <span class="material-symbols-outlined text-lg" aria-hidden="true">arrow_forward</span>
                 </button>
             </form>
 
             <!-- Form: Registro de Empresa Turística -->
-            <form id="form-register" onsubmit="handleRegister(event)" class="tab-pane hidden space-y-3 text-xs">
+            <form id="form-register" onsubmit="handleRegister(event)" class="tab-pane hidden auth-register-form auth-company-register space-y-4" role="tabpanel" aria-labelledby="tab-register-btn">
+                <p class="auth-step-label">Cuéntanos sobre tu negocio</p>
                 <div>
                     <label class="block font-bold text-text-main mb-1">Nombre Comercial de la Empresa *</label>
                     <input type="text" id="reg-name" required
@@ -185,19 +182,14 @@
                 </div>
 
                 <button type="submit"
-                    class="w-full bg-primary hover:bg-primary-container active:scale-[0.99] text-white font-bold py-2.5 rounded-xl shadow-md hover:shadow transition-all flex items-center justify-center gap-2 text-xs mt-2">
-                    <span>Registrar mi Empresa Turística</span>
-                    <span class="material-symbols-outlined text-base">how_to_reg</span>
+                    class="auth-submit w-full bg-primary hover:bg-primary-container active:scale-[0.99] text-white font-bold py-2.5 rounded-xl shadow-md hover:shadow transition-all flex items-center justify-center gap-2 text-sm mt-2">
+                    <span>Crear cuenta de empresa</span>
+                    <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span>
                 </button>
             </form>
 
-            <div
-                class="p-3 rounded-xl bg-blue-light-bg/70 border border-primary/20 flex items-center gap-2 text-[11px] text-primary">
-                <span class="material-symbols-outlined text-base">handshake</span>
-                <span>Conecta directamente con productores locales sin intermediarios y con trazabilidad
-                    garantizada.</span>
-            </div>
-        </div>
+            <p class="auth-card-footnote">Una conexión más cercana con el trabajo local.</p>
+        </section>
     </main>
 
     <!-- Supabase SDK + Config -->
@@ -216,31 +208,52 @@
             }
         })();
 
-        document.addEventListener('DOMContentLoaded', cargarDepartamentos);
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarDepartamentos();
+            document.querySelectorAll('#form-register label:not([for])').forEach(label => {
+                const control = label.parentElement.querySelector(':scope > input, :scope > select, :scope > textarea');
+                if (control?.id) label.htmlFor = control.id;
+            });
+        });
 
         function switchAuthTab(tab) {
+            const isRegister = tab === 'register';
             const loginBtn = document.getElementById('tab-login-btn');
             const regBtn = document.getElementById('tab-register-btn');
             const loginForm = document.getElementById('form-login');
             const regForm = document.getElementById('form-register');
 
-            if (tab === 'login') {
-                loginBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center font-bold";
-                regBtn.className = "flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center";
-                loginForm.classList.remove('hidden');
-                loginForm.classList.remove('tab-pane');
-                void loginForm.offsetWidth;
-                loginForm.classList.add('tab-pane');
-                regForm.classList.add('hidden');
-            } else {
-                regBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center font-bold";
-                loginBtn.className = "flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center";
-                regForm.classList.remove('hidden');
-                regForm.classList.remove('tab-pane');
-                void regForm.offsetWidth;
-                regForm.classList.add('tab-pane');
-                loginForm.classList.add('hidden');
-            }
+            document.body.dataset.authTab = isRegister ? 'register' : 'login';
+            document.getElementById('auth-title').textContent = isRegister ? 'Crea tu cuenta de empresa' : 'Bienvenido de vuelta';
+            document.getElementById('auth-intro-copy').textContent = isRegister
+                ? 'Presenta tu negocio y encuentra oferta local para tus compras.'
+                : 'Entra para descubrir proveedores y gestionar tus solicitudes.';
+            loginBtn.setAttribute('aria-selected', String(!isRegister));
+            regBtn.setAttribute('aria-selected', String(isRegister));
+            loginBtn.tabIndex = isRegister ? -1 : 0;
+            regBtn.tabIndex = isRegister ? 0 : -1;
+            loginForm.hidden = isRegister;
+            regForm.hidden = !isRegister;
+            loginForm.classList.toggle('hidden', isRegister);
+            regForm.classList.toggle('hidden', !isRegister);
+        }
+
+        document.querySelector('.auth-tabs').addEventListener('keydown', event => {
+            if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+            event.preventDefault();
+            const current = document.getElementById('tab-register-btn').getAttribute('aria-selected') === 'true';
+            const next = event.key === 'Home' ? 'login' : event.key === 'End' ? 'register' : current ? 'login' : 'register';
+            switchAuthTab(next);
+            document.getElementById(`tab-${next === 'register' ? 'register' : 'login'}-btn`).focus();
+        });
+
+        function togglePasswordVisibility(button) {
+            const field = document.getElementById(button.getAttribute('aria-controls'));
+            const visible = field.type === 'password';
+            field.type = visible ? 'text' : 'password';
+            button.setAttribute('aria-pressed', String(visible));
+            button.setAttribute('aria-label', visible ? 'Ocultar contraseña' : 'Mostrar contraseña');
+            button.querySelector('.material-symbols-outlined').textContent = visible ? 'visibility_off' : 'visibility';
         }
 
         async function cargarDepartamentos() {
