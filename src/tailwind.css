@@ -34,6 +34,7 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  html:has(.landing-page) { scroll-behavior: smooth; }
   .landing-page * { box-sizing: border-box; }
   .landing-page a { text-decoration: none; }
   .landing-page button { cursor: pointer; }
@@ -92,7 +93,10 @@
     gap: clamp(48px, 7vw, 112px);
     padding-block: 66px 84px;
   }
-  .landing-hero-copy { padding-block: 16px; }
+  .landing-hero-copy {
+    padding-block: 16px;
+    animation: landing-arrive 650ms var(--ease-out) both;
+  }
   .landing-hero-intro {
     display: inline-flex;
     align-items: center;
@@ -162,7 +166,15 @@
   .landing-proof li { display: inline-flex; align-items: center; gap: 8px; }
   .landing-proof .material-symbols-outlined { color: var(--brand-leaf); font-size: 17px; }
 
-  .landing-hero-visual { position: relative; margin: 0; }
+  .landing-hero-visual {
+    position: relative;
+    margin: 0;
+    animation: landing-arrive 700ms var(--ease-out) 110ms both;
+  }
+  @keyframes landing-arrive {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
   .landing-hero-visual::before {
     content: '';
     position: absolute;
@@ -474,10 +486,12 @@
     .landing-action { width: 100%; }
   }
   @media (prefers-reduced-motion: reduce) {
+    html:has(.landing-page) { scroll-behavior: auto; }
     .landing-page *, .landing-page *::before, .landing-page *::after {
       scroll-behavior: auto !important;
       transition-duration: .01ms !important;
       animation-duration: .01ms !important;
+      animation-delay: 0ms !important;
     }
   }
 }
