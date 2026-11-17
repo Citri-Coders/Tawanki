@@ -8,6 +8,14 @@ module.exports = {
     theme: {
         extend: {
             colors: {
+                'brand-deep': '#0B4A14',
+                'brand-leaf': '#0D631B',
+                'brand-soft': '#E8F0DC',
+                'clay': '#B5572B',
+                'ink': '#221C12',
+                'ink-soft': '#574E41',
+                'bone': '#FBF9F4',
+                'sand': '#F1EEDD',
                 primary: '#0d631b',
                 'primary-container': '#3D7A3D',
                 secondary: '#1B6E3C',
@@ -81,6 +89,7 @@ module.exports = {
                 gutter: '16px'
             },
             fontFamily: {
+                display: ['Fraunces', 'Georgia', 'serif'],
                 sans: ['Inter', 'sans-serif'],
                 'body-md': ['Inter', 'sans-serif'],
                 'headline-h3': ['Inter', 'sans-serif'],
