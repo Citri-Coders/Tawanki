@@ -165,8 +165,6 @@
     border-radius: var(--radius-md);
     background: var(--sand);
   }
-  .auth-tabs-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .auth-tabs-three .auth-tab { font-size: 12px; }
   .auth-tab {
     min-height: 43px;
     padding: 8px 12px;
@@ -295,24 +293,6 @@
   .auth-company-register label { display: block; margin-bottom: 6px; }
   .auth-company-register input:not([type="checkbox"]), .auth-company-register select { width: 100%; }
   .auth-company-register .auth-submit { margin-top: 20px; }
-  .auth-intur-form label { display: block; margin-bottom: 7px; }
-  .auth-intur-form input { width: 100%; }
-  .auth-intur-form .auth-submit { margin-top: 20px; }
-  .auth-intur-note {
-    display: flex;
-    gap: 11px;
-    padding: 15px;
-    border: 1px solid #c7d8bc;
-    border-radius: var(--radius-sm);
-    background: var(--brand-soft);
-    color: var(--brand-deep);
-    font-size: 13px;
-    line-height: 1.55;
-  }
-  .auth-intur-note .material-symbols-outlined { flex: none; font-size: 20px; }
-  .auth-intur-note p { margin: 0; }
-  .auth-field-help { margin: 7px 0 0; color: var(--ink-soft); font-size: 12px; line-height: 1.5; }
-  .auth-project-credit { display: inline-block; margin-top: 6px; font-size: 11px; }
   .auth-register-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 21px; }
   .auth-step-back {
     display: inline-flex;
@@ -352,8 +332,6 @@
     .auth-register-step > div:not(.auth-review-note) { padding: 15px; }
     .auth-register-step .grid { grid-template-columns: 1fr; }
     .auth-company-register .grid { grid-template-columns: 1fr; }
-    .auth-tabs-three { gap: 2px; }
-    .auth-tabs-three .auth-tab { padding-inline: 4px; font-size: 11px; }
     .auth-progress { gap: 5px; }
     .auth-progress li { gap: 5px; font-size: 10px; }
     .auth-progress li span { width: 24px; height: 24px; font-size: 11px; }
