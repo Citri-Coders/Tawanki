@@ -6,29 +6,33 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Mi Panel de Productor · Tawanki</title>
     <meta name="robots" content="noindex, nofollow" />
-    <meta name="theme-color" content="#0d631b" />
+    <meta name="theme-color" content="#FBF9F4" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="assets/tailwind.css" />
-    <!-- Google Fonts & Material Symbols -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
 </head>
 
-<body class="bg-background text-on-background font-sans h-screen flex flex-col overflow-hidden antialiased">
+<body class="catalog-page producer-dashboard flex flex-col h-screen overflow-hidden">
 
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-5 right-5 z-[100] flex flex-col gap-3 pointer-events-none"></div>
 
     <!-- ================= TOP APP BAR (HEADER SUPERIOR) ================= -->
-    <header class="bg-surface-white w-full z-40 flex justify-between items-center px-4 md:px-8 py-3 border-b border-outline-variant/30 shadow-xs shrink-0 relative">
+    <header class="catalog-header w-full z-40 flex justify-between items-center shrink-0 relative">
         
         <!-- ESQUINA SUPERIOR IZQUIERDA: ACORDEÓN / MENÚ DEL PRODUCTOR -->
-        <div class="flex items-center gap-3">
+        <div class="catalog-header-start flex items-center gap-3">
+            <a class="catalog-brand" href="index.html" aria-label="Tawanki, volver al inicio">
+                <img src="assets/img/tawanki-logo.png" width="820" height="208" alt="Tawanki" />
+            </a>
             <div class="relative">
                 <button id="btn-menu-toggle" onclick="toggleNavAccordion(event)"
-                    class="flex items-center gap-2 px-3 py-2 rounded-xl bg-surface-bright hover:bg-green-light-bg text-primary border border-outline-variant/40 hover:border-primary transition-all active:scale-95 shadow-2xs cursor-pointer">
-                    <span class="material-symbols-outlined text-2xl">menu</span>
-                    <span class="text-xs font-bold hidden sm:inline">Menú Productor</span>
+                    class="catalog-header-button flex items-center gap-2 cursor-pointer" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="nav-accordion-dropdown">
+                    <span class="producer-menu-icon" aria-hidden="true">☰</span>
+                    <span class="text-xs font-bold hidden sm:inline">Menú</span>
                     <span class="material-symbols-outlined text-sm text-text-muted transition-transform" id="menu-arrow">expand_more</span>
                 </button>
 
@@ -62,7 +66,7 @@
                             <span class="font-medium">Directorio de Proveedores</span>
                         </a>
 
-                        <button onclick="openModalAddProduct(); toggleNavAccordion();"
+                        <button onclick="toggleNavAccordion(); openModalAddProduct();"
                             class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left group">
                             <span class="material-symbols-outlined text-lg text-text-muted group-hover:text-primary">add_box</span>
                             <span class="font-medium">Publicar Nuevo Producto</span>
@@ -71,35 +75,26 @@
                 </div>
             </div>
 
-            <!-- Título / Logo -->
-            <div class="flex items-center gap-2.5">
-                <div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm">
-                    <span class="material-symbols-outlined text-xl">agriculture</span>
-                </div>
-                <div>
-                    <p class="text-sm font-extrabold text-primary leading-tight">Portal del Productor Local</p>
-                    <p id="header-producer-name" class="text-[11px] text-text-muted font-medium">Cargando…</p>
-                </div>
-            </div>
+            <span class="catalog-header-label">Panel de productor</span>
         </div>
 
         <!-- ESQUINA SUPERIOR DERECHA: NOTIFICACIONES + PERFIL + CAMBIO DE PERFIL SEGURO + CERRAR SESIÓN -->
-        <div class="flex items-center gap-3">
+        <div class="catalog-header-end flex items-center gap-3">
             
             <button onclick="showToast('No hay notificaciones nuevas en este momento', 'info')"
-                class="text-text-muted hover:text-primary hover:bg-surface-container p-2 rounded-full transition-colors relative flex items-center justify-center">
-                <span class="material-symbols-outlined text-2xl">notifications</span>
+                class="catalog-icon-button text-text-muted relative flex items-center justify-center" aria-label="Notificaciones">
+                <span class="material-symbols-outlined text-2xl" aria-hidden="true">notifications</span>
             </button>
 
             <!-- Menú Desplegable de Perfil Seguro -->
             <div class="relative">
                 <button id="btn-profile-toggle" onclick="toggleProfileDropdown(event)"
-                    class="flex items-center gap-2.5 p-1.5 pr-2.5 rounded-xl hover:bg-surface-bright border border-transparent hover:border-outline-variant/40 transition-all cursor-pointer">
+                    class="catalog-profile-button flex items-center gap-2.5 cursor-pointer" aria-label="Abrir menú de perfil" aria-expanded="false" aria-controls="profile-dropdown">
                     <img id="producer-header-avatar" alt="Foto Productor" class="w-8 h-8 rounded-full object-cover border border-primary/40 shadow-xs bg-surface-container"
                         src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" />
                     <div class="hidden sm:block text-left">
                         <p id="producer-display-name-header" class="text-xs font-bold text-on-surface leading-tight">Cargando…</p>
-                        <p class="text-[10px] text-primary font-semibold">Productor Local</p>
+                        <p id="header-producer-name" class="text-[10px] text-primary font-semibold">Productor local</p>
                     </div>
                     <span class="material-symbols-outlined text-sm text-text-muted">arrow_drop_down</span>
                 </button>
@@ -118,7 +113,7 @@
                     </div>
 
                     <div class="space-y-1 text-xs">
-                        <button onclick="openEditProducerModal(); toggleProfileDropdown();"
+                        <button onclick="toggleProfileDropdown(); openEditProducerModal();"
                             class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-text-main hover:bg-green-light-bg hover:text-primary transition-all text-left">
                             <span class="material-symbols-outlined text-base text-primary">manage_accounts</span>
                             <span>Editar Mis Datos / Foto</span>
@@ -145,159 +140,115 @@
     </header>
 
     <!-- ================= CONTENIDO PRINCIPAL FULL-WIDTH ================= -->
-    <main class="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar pb-20 w-full">
-        <div class="max-w-[1600px] mx-auto space-y-6">
+    <main id="producer-main" class="catalog-main flex-1 overflow-y-auto custom-scrollbar w-full">
+        <div class="catalog-shell producer-shell">
 
             <!-- Profile Header Card Full Width -->
-            <div class="bg-surface-white rounded-2xl shadow-sm p-6 md:p-8 border border-outline-variant/30 flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6 relative overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
-                    <div class="w-24 h-24 shrink-0 rounded-2xl shadow-md border-2 border-primary/20 overflow-hidden bg-surface-container">
+            <section class="producer-hero" aria-labelledby="producer-title-name">
+                <div class="producer-hero-identity">
+                    <div class="producer-hero-avatar">
                         <img id="producer-main-avatar" class="w-full h-full object-cover"
                             src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2096%2096%22%3E%3Crect%20width%3D%2296%22%20height%3D%2296%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M48%2040a14%2014%200%201%200%200-28%2014%2014%200%200%200%200%2028zm0%2012c-12%200-24%208-24%2016v8h48v-8c0-8-12-16-24-16z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" />
                     </div>
-                    <div class="flex flex-col justify-center">
-                        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1">
-                            <h1 id="producer-title-name" class="text-2xl md:text-3xl font-extrabold text-on-surface">Cargando…</h1>
-                            <span id="producer-verified-badge" class="hidden inline-flex items-center gap-1 bg-green-light-bg text-primary text-xs font-bold px-2.5 py-0.5 rounded-full border border-primary/20">
-                                <span class="material-symbols-outlined text-xs">verified</span> Productor Conectado
+                    <div class="producer-hero-copy">
+                        <p class="catalog-context">Tu espacio de trabajo</p>
+                        <div class="producer-hero-title">
+                            <h1 id="producer-title-name">Cargando…</h1>
+                            <span id="producer-verified-badge" class="hidden producer-verified-badge">
+                                <span class="material-symbols-outlined" aria-hidden="true">verified</span> Verificado por INTUR
                             </span>
                         </div>
-                        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-4 text-text-muted text-xs mb-2">
-                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-primary">location_on</span> <span id="producer-location">—</span></span>
-                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-primary">phone</span> <span id="producer-phone">—</span></span>
-                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">cloud_done</span> <span id="producer-sync-status">Sincronizando…</span></span>
+                        <div class="producer-hero-meta">
+                            <span><span class="material-symbols-outlined" aria-hidden="true">location_on</span> <span id="producer-location">—</span></span>
+                            <span><span class="material-symbols-outlined" aria-hidden="true">phone</span> <span id="producer-phone">—</span></span>
+                            <span><span class="material-symbols-outlined" aria-hidden="true">sync</span> <span id="producer-sync-status">Sincronizando…</span></span>
                         </div>
-                        <p id="producer-bio" class="text-xs text-text-muted max-w-2xl">—</p>
+                        <p id="producer-bio">—</p>
                     </div>
                 </div>
 
-                <div class="flex flex-wrap gap-2.5 shrink-0">
+                <div class="producer-hero-actions">
                     <button onclick="openEditProducerModal()"
-                        class="bg-primary hover:bg-surface-tint text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm transition-all flex items-center gap-1.5">
-                        <span class="material-symbols-outlined text-sm">edit</span>
-                        <span>Editar Perfil / Foto</span>
+                        class="producer-primary-action">
+                        <span class="material-symbols-outlined" aria-hidden="true">edit</span>
+                        <span>Editar perfil</span>
                     </button>
-                    <a href="catalogo.html"
-                        class="bg-surface-bright hover:bg-green-light-bg border border-outline-variant/40 hover:border-primary text-primary text-xs font-bold px-4 py-2.5 rounded-xl transition-all flex items-center gap-1.5">
-                        <span class="material-symbols-outlined text-sm">inventory_2</span>
-                        <span>Ver en Catálogo</span>
+                    <a href="catalogo.html" class="producer-secondary-action">
+                        Ver catálogo
                     </a>
                 </div>
-            </div>
+            </section>
 
             <!-- Stats Grid Full Width -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                <div class="bg-surface-white rounded-2xl shadow-sm p-5 border border-outline-variant/30 flex flex-col justify-between">
-                    <span class="text-xs text-text-muted font-bold uppercase tracking-wider mb-2">Productos en Catálogo</span>
-                    <div class="flex items-end justify-between">
-                        <span id="stat-producer-products" class="text-3xl md:text-4xl font-extrabold text-primary">0</span>
-                        <span class="text-xs font-bold text-primary bg-green-light-bg px-2.5 py-1 rounded-full flex items-center gap-1">
-                            <span class="material-symbols-outlined text-xs">inventory</span> Activos
-                        </span>
-                    </div>
-                </div>
-
-                <div class="bg-surface-white rounded-2xl shadow-sm p-5 border border-outline-variant/30 flex flex-col justify-between">
-                    <span class="text-xs text-text-muted font-bold uppercase tracking-wider mb-2">Solicitudes Recibidas</span>
-                    <div class="flex items-end justify-between">
-                        <span id="stat-producer-requests" class="text-3xl md:text-4xl font-extrabold text-tertiary">0</span>
-                        <span class="text-xs font-bold text-tertiary bg-tertiary-fixed/40 px-2.5 py-1 rounded-full flex items-center gap-1">
-                            <span class="material-symbols-outlined text-xs">pending_actions</span> En espera
-                        </span>
-                    </div>
-                </div>
-
-                <div class="bg-surface-white rounded-2xl shadow-sm p-5 border border-outline-variant/30 flex flex-col justify-between">
-                    <span class="text-xs text-text-muted font-bold uppercase tracking-wider mb-2">Alianzas Comerciales</span>
-                    <div class="flex items-end justify-between">
-                        <span id="stat-producer-matches" class="text-3xl md:text-4xl font-extrabold text-secondary">0</span>
-                        <span class="text-xs font-bold text-secondary bg-secondary-container/40 px-2.5 py-1 rounded-full flex items-center gap-1">
-                            <span class="material-symbols-outlined text-xs">handshake</span> Concretadas
-                        </span>
-                    </div>
-                </div>
-            </div>
+            <section class="producer-stats" aria-label="Resumen de actividad">
+                <div><span>Productos publicados</span><strong id="stat-producer-products">0</strong><small>En tu catálogo</small></div>
+                <div><span>Solicitudes pendientes</span><strong id="stat-producer-requests">0</strong><small>Por revisar</small></div>
+                <div><span>Solicitudes aprobadas</span><strong id="stat-producer-matches">0</strong><small>Aprobadas o finalizadas</small></div>
+            </section>
 
             <!-- Main Columns: Products & Requests (Full Panoramic Width) -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="producer-content">
                 
                 <!-- Left 2 Cols: Mis Productos y Solicitudes -->
-                <div class="lg:col-span-2 space-y-6">
+                <div class="producer-workspace">
                     
                     <!-- Mis Productos -->
-                    <section class="bg-surface-white p-6 rounded-2xl shadow-sm border border-outline-variant/30">
-                        <div class="flex justify-between items-center mb-4">
+                    <section class="producer-panel">
+                        <div class="producer-panel-heading">
                             <div>
-                                <h2 class="text-lg font-bold text-on-surface">Mis Productos Publicados</h2>
-                                <p class="text-xs text-text-muted">Insumos visibles para hoteles y restaurantes en el catálogo nacional</p>
+                                <h2>Mis productos</h2>
+                                <p>Administra lo que publicaste en el catálogo.</p>
                             </div>
                             <button onclick="openModalAddProduct()"
-                                class="flex items-center gap-1 text-primary text-xs font-bold hover:bg-green-light-bg px-3 py-1.5 rounded-lg border border-primary/30 transition-colors">
-                                <span class="material-symbols-outlined text-sm">add</span> Agregar Producto
+                                class="producer-add-button">
+                                <span class="material-symbols-outlined" aria-hidden="true">add</span> Publicar producto
                             </button>
                         </div>
 
-                        <div id="producer-products-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <!-- Populated dynamically or shows Empty State -->
+                        <div id="producer-products-grid" class="producer-products-grid">
+                            <p class="producer-loading" role="status">Cargando tus productos…</p>
                         </div>
                     </section>
 
                     <!-- Solicitudes Recibidas Table -->
-                    <section class="bg-surface-white rounded-2xl shadow-sm border border-outline-variant/30 overflow-hidden">
-                        <div class="p-5 border-b border-outline-variant/30 flex justify-between items-center">
+                    <section class="producer-panel producer-requests-panel">
+                        <div class="producer-panel-heading">
                             <div>
-                                <h2 class="text-lg font-bold text-on-surface">Solicitudes de Suministro Recibidas</h2>
-                                <p class="text-xs text-text-muted">Peticiones comerciales de hoteles y empresas turísticas</p>
+                                <h2>Solicitudes recibidas</h2>
+                                <p>Responde a las empresas interesadas en tus productos.</p>
                             </div>
-                            <span id="pending-requests-count" class="text-xs text-primary font-semibold">0 pendientes</span>
+                            <span id="pending-requests-count" class="producer-pending-count">0 pendientes</span>
                         </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left border-collapse min-w-[550px] text-xs">
+                        <div class="producer-table-wrap">
+                            <table class="producer-requests-table">
+                                <caption class="sr-only">Solicitudes de empresas para productos publicados</caption>
                                 <thead>
-                                    <tr class="bg-surface-bright border-b border-outline-variant/30 text-text-muted uppercase font-bold tracking-wider">
-                                        <th class="p-3.5">Empresa Turística</th>
-                                        <th class="p-3.5">Insumo Solicitado</th>
-                                        <th class="p-3.5">Volumen Estimado</th>
-                                        <th class="p-3.5">Estado</th>
-                                        <th class="p-3.5 text-right">Acción</th>
+                                    <tr>
+                                        <th scope="col">Empresa</th>
+                                        <th scope="col">Solicitud</th>
+                                        <th scope="col">Monto estimado</th>
+                                        <th scope="col">Estado</th>
+                                        <th scope="col" class="text-right">Acción</th>
                                     </tr>
                                 </thead>
-                                <tbody id="producer-requests-table-body" class="divide-y divide-outline-variant/20">
-                                    <!-- Populated dynamically or shows Empty State -->
+                                <tbody id="producer-requests-table-body">
+                                    <tr><td colspan="5" class="producer-loading">Cargando solicitudes…</td></tr>
                                 </tbody>
                             </table>
                         </div>
                     </section>
                 </div>
 
-                <!-- Right Col: Oportunidades Directas B2B -->
-                <div class="lg:col-span-1 space-y-4">
-                    <div class="bg-surface-white p-6 rounded-2xl shadow-sm border border-outline-variant/30">
-                        <h2 class="text-lg font-bold text-on-surface mb-1 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-warning-orange text-xl">lightbulb</span>
-                            Estado de tu cuenta
-                        </h2>
-                        <p class="text-xs text-text-muted mb-4">Resumen real de tu perfil y actividad en la plataforma.</p>
-
-                        <div class="p-4 rounded-xl bg-surface-bright border border-outline-variant/30 space-y-2.5 text-xs">
-                            <div class="flex items-center justify-between">
-                                <span class="text-text-muted">Verificación INTUR:</span>
-                                <span id="producer-verification-status" class="font-bold text-text-muted">Sin verificar</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-text-muted">Productos publicados:</span>
-                                <span id="stat-producer-products-side" class="font-bold text-primary">0</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-text-muted">Solicitudes pendientes:</span>
-                                <span id="stat-producer-requests-side" class="font-bold text-tertiary">0</span>
-                            </div>
-                            <button onclick="openEditProducerModal()" class="w-full mt-2 py-2 rounded-xl bg-primary hover:bg-surface-tint text-white font-bold text-xs transition-colors">
-                                Actualizar Datos del Negocio
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <aside class="producer-account-panel" aria-labelledby="producer-account-title">
+                    <h2 id="producer-account-title">Estado de tu cuenta</h2>
+                    <p>Tu perfil y actividad en Tawanki.</p>
+                    <dl>
+                        <div><dt>Verificación INTUR</dt><dd id="producer-verification-status">Sin verificar</dd></div>
+                        <div><dt>Productos publicados</dt><dd id="stat-producer-products-side">0</dd></div>
+                        <div><dt>Solicitudes pendientes</dt><dd id="stat-producer-requests-side">0</dd></div>
+                    </dl>
+                    <button onclick="openEditProducerModal()" class="producer-secondary-action">Actualizar datos del negocio</button>
+                </aside>
 
             </div>
 
@@ -305,16 +256,16 @@
     </main>
 
     <!-- ================= MODAL: EDITAR DATOS DEL PRODUCTOR / FOTO ================= -->
-    <div id="modal-edit-producer" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-surface-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-outline-variant/40 animate-in fade-in zoom-in-95 duration-200">
+    <div id="modal-edit-producer" class="catalog-modal fixed inset-0 z-50 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="edit-producer-title">
+        <div class="catalog-modal-panel max-w-md w-full p-6">
             <div class="flex justify-between items-center pb-3 border-b border-outline-variant/30 mb-4">
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-green-light-bg text-primary flex items-center justify-center font-bold">
                         <span class="material-symbols-outlined text-lg">store</span>
                     </div>
-                    <h3 class="font-bold text-base text-on-surface">Editar Perfil de Productor</h3>
+                    <h2 id="edit-producer-title" class="font-bold text-base text-on-surface">Editar perfil de productor</h2>
                 </div>
-                <button onclick="closeEditProducerModal()" class="text-text-muted hover:text-on-surface p-1 rounded-lg">
+                <button type="button" onclick="closeEditProducerModal()" class="catalog-modal-close text-text-muted" aria-label="Cerrar edición de perfil">
                     <span class="material-symbols-outlined text-xl">close</span>
                 </button>
             </div>
@@ -326,7 +277,7 @@
                         <img id="edit-producer-avatar-preview" class="w-16 h-16 rounded-full object-cover border-2 border-primary/40 shadow-sm shrink-0 bg-surface-container"
                             src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M32%2024a10%2010%200%201%200%200-20%2010%2010%200%200%200%200%2020zm0%208c-8%200-16%206-16%2012v4h32v-4c0-6-8-12-16-12z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" />
                         <div class="flex-1 space-y-1.5">
-                            <label class="block font-bold text-text-main">Foto de Perfil / Logo del Negocio</label>
+                            <label for="input-producer-file" class="block font-bold text-text-main">Foto de perfil o logo</label>
                             <input type="file" id="input-producer-file" accept="image/*" onchange="handleLocalProducerPhotoUpload(event)" class="hidden" />
                             <div class="flex flex-wrap gap-2">
                                 <button type="button" onclick="document.getElementById('input-producer-file').click()"
@@ -344,7 +295,7 @@
 
                     <!-- Input opcional para URL -->
                     <div id="container-producer-photo-url" class="hidden pt-2 border-t border-outline-variant/20">
-                        <label class="block font-semibold text-text-muted text-[11px] mb-1">O escribe la URL directa de la imagen:</label>
+                        <label for="input-producer-photo" class="block font-semibold text-text-muted text-[11px] mb-1">O escribe la URL directa de la imagen:</label>
                         <input type="url" id="input-producer-photo" oninput="previewProducerPhotoUrl(this.value)"
                             placeholder="https://ejemplo.com/mifoto.jpg"
                             class="w-full bg-surface-white border border-outline-variant/40 rounded-lg px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-primary outline-none" />
@@ -352,33 +303,33 @@
                 </div>
 
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Nombre Comercial / Finca *</label>
+                    <label for="input-producer-name" class="block font-bold text-text-main mb-1">Nombre comercial / finca *</label>
                     <input type="text" id="input-producer-name" required placeholder="Ej: Cafetal Las Nubes"
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-bold text-text-main mb-1">Teléfono / WhatsApp *</label>
+                        <label for="input-producer-phone" class="block font-bold text-text-main mb-1">Teléfono / WhatsApp *</label>
                         <input type="tel" id="input-producer-phone" required placeholder="+505 0000-0000"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                     </div>
                     <div>
-                        <label class="block font-bold text-text-main mb-1">Correo Electrónico *</label>
+                        <label for="input-producer-email" class="block font-bold text-text-main mb-1">Correo electrónico *</label>
                         <input type="email" id="input-producer-email" required readonly title="El correo de acceso no se cambia aquí" placeholder="contacto@xalteva.com.ni"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                     </div>
                 </div>
 
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Departamento</label>
+                    <label for="input-producer-dept" class="block font-bold text-text-main mb-1">Departamento</label>
                     <select id="input-producer-dept" class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
                         <option value="">Cargando departamentos…</option>
                     </select>
                 </div>
 
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Descripción de la Producción / Negocio</label>
+                    <label for="input-producer-bio" class="block font-bold text-text-main mb-1">Descripción de la producción / negocio</label>
                     <textarea id="input-producer-bio" rows="2" placeholder="Describe tus insumos, capacidad de entrega y origen..."
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"></textarea>
                 </div>
@@ -396,46 +347,46 @@
     </div>
 
     <!-- ================= MODAL: AGREGAR NUEVO PRODUCTO ================= -->
-    <div id="modal-add-product" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-surface-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-outline-variant/40 animate-in fade-in zoom-in-95 duration-200">
+    <div id="modal-add-product" class="catalog-modal fixed inset-0 z-50 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="add-product-title">
+        <div class="catalog-modal-panel max-w-md w-full p-6">
             <div class="flex justify-between items-center pb-3 border-b border-outline-variant/30 mb-4">
                 <div class="flex items-center gap-2">
                     <span class="material-symbols-outlined text-primary text-xl">add_box</span>
-                    <h3 class="font-bold text-base text-on-surface">Publicar Nuevo Producto</h3>
+                    <h2 id="add-product-title" class="font-bold text-base text-on-surface">Publicar nuevo producto</h2>
                 </div>
-                <button onclick="closeModalAddProduct()" class="text-text-muted hover:text-on-surface p-1 rounded-lg">
+                <button type="button" onclick="closeModalAddProduct()" class="catalog-modal-close text-text-muted" aria-label="Cerrar publicación de producto">
                     <span class="material-symbols-outlined text-xl">close</span>
                 </button>
             </div>
 
             <form id="form-add-product" onsubmit="submitNewProduct(event)" class="space-y-3.5 text-xs">
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Nombre del Producto / Insumo *</label>
+                    <label for="input-prod-title" class="block font-bold text-text-main mb-1">Nombre del producto / insumo *</label>
                     <input type="text" id="input-prod-title" required placeholder="Ej: Cacao Orgánico en Grano"
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-bold text-text-main mb-1">Precio Unitario (C$) *</label>
+                        <label for="input-prod-price" class="block font-bold text-text-main mb-1">Precio unitario (C$) *</label>
                         <input type="number" id="input-prod-price" required placeholder="Ej: 85" min="1"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                     </div>
                     <div>
-                        <label class="block font-bold text-text-main mb-1">Unidad de Medida *</label>
+                        <label for="input-prod-unit" class="block font-bold text-text-main mb-1">Unidad de medida *</label>
                         <input type="text" id="input-prod-unit" required placeholder="kg, barra, docena"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                     </div>
                 </div>
 
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Capacidad de Entrega Mensual</label>
+                    <label for="input-prod-capacity" class="block font-bold text-text-main mb-1">Capacidad de entrega mensual</label>
                     <input type="text" id="input-prod-capacity" placeholder="Ej: 150 kg / mes"
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                 </div>
 
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Foto del Producto</label>
+                    <label for="input-prod-file" class="block font-bold text-text-main mb-1">Foto del producto</label>
                     <input type="file" id="input-prod-file" accept="image/*" onchange="handleLocalProductImageUpload(event)" class="hidden" />
                     <div class="flex items-center gap-3 p-2.5 bg-surface-bright rounded-xl border border-outline-variant/30">
                         <div id="new-prod-preview-container" class="w-12 h-12 rounded-lg bg-surface-container shrink-0 border flex items-center justify-center">
@@ -448,7 +399,7 @@
                                 <span class="material-symbols-outlined text-xs">upload_file</span>
                                 <span>Cargar Imagen Local</span>
                             </button>
-                            <input type="url" id="input-prod-image" placeholder="O pega URL de imagen" oninput="updateNewProdPreview(this.value)"
+                            <input type="url" id="input-prod-image" aria-label="URL de la foto del producto" placeholder="O pega URL de imagen" oninput="updateNewProdPreview(this.value)"
                                 class="w-full bg-surface-white border border-outline-variant/40 rounded-lg px-2 py-1 text-[11px] outline-none" />
                         </div>
                     </div>
@@ -467,14 +418,14 @@
     </div>
 
     <!-- ================= MODAL: EDITAR PRODUCTO EXISTENTE ================= -->
-    <div id="modal-edit-product" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-surface-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-outline-variant/40 animate-in fade-in zoom-in-95 duration-200">
+    <div id="modal-edit-product" class="catalog-modal fixed inset-0 z-50 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="edit-product-title">
+        <div class="catalog-modal-panel max-w-md w-full p-6">
             <div class="flex justify-between items-center pb-3 border-b border-outline-variant/30 mb-4">
                 <div class="flex items-center gap-2">
                     <span class="material-symbols-outlined text-primary text-xl">edit</span>
-                    <h3 class="font-bold text-base text-on-surface">Editar Producto</h3>
+                    <h2 id="edit-product-title" class="font-bold text-base text-on-surface">Editar producto</h2>
                 </div>
-                <button onclick="closeModalEditProduct()" class="text-text-muted hover:text-on-surface p-1 rounded-lg">
+                <button type="button" onclick="closeModalEditProduct()" class="catalog-modal-close text-text-muted" aria-label="Cerrar edición de producto">
                     <span class="material-symbols-outlined text-xl">close</span>
                 </button>
             </div>
@@ -482,38 +433,38 @@
             <form id="form-edit-product" onsubmit="submitEditProduct(event)" class="space-y-3.5 text-xs">
                 <input type="hidden" id="edit-prod-id" />
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Nombre del Producto / Insumo *</label>
+                    <label for="edit-prod-title" class="block font-bold text-text-main mb-1">Nombre del producto / insumo *</label>
                     <input type="text" id="edit-prod-title" required
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-bold text-text-main mb-1">Precio Unitario (C$) *</label>
+                        <label for="edit-prod-price" class="block font-bold text-text-main mb-1">Precio unitario (C$) *</label>
                         <input type="number" id="edit-prod-price" required min="0" step="0.01"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                     </div>
                     <div>
-                        <label class="block font-bold text-text-main mb-1">Unidad de Medida *</label>
+                        <label for="edit-prod-unit" class="block font-bold text-text-main mb-1">Unidad de medida *</label>
                         <input type="text" id="edit-prod-unit" required
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                     </div>
                 </div>
 
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Capacidad de Entrega Mensual</label>
+                    <label for="edit-prod-capacity" class="block font-bold text-text-main mb-1">Capacidad de entrega mensual</label>
                     <input type="text" id="edit-prod-capacity"
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                 </div>
 
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Descripción</label>
+                    <label for="edit-prod-description" class="block font-bold text-text-main mb-1">Descripción</label>
                     <textarea id="edit-prod-description" rows="2"
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none resize-none"></textarea>
                 </div>
 
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Disponibilidad</label>
+                    <label for="edit-prod-disponible" class="block font-bold text-text-main mb-1">Disponibilidad</label>
                     <select id="edit-prod-disponible"
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
                         <option value="true">Disponible</option>
@@ -522,7 +473,7 @@
                 </div>
 
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Imagen del Producto</label>
+                    <label for="edit-prod-file" class="block font-bold text-text-main mb-1">Imagen del producto</label>
                     <div class="flex items-center gap-3 p-2.5 bg-surface-bright rounded-xl border border-outline-variant/30">
                         <div id="edit-prod-preview-container" class="w-12 h-12 rounded-lg bg-surface-container shrink-0 border flex items-center justify-center overflow-hidden">
                             <span class="material-symbols-outlined text-xl text-text-muted/60">image</span>
@@ -534,7 +485,7 @@
                                 <span>Cargar Nueva</span>
                             </button>
                             <input type="file" id="edit-prod-file" accept="image/*" class="hidden" onchange="handleEditProdImageUpload(event)" />
-                            <input type="url" id="edit-prod-image" placeholder="O pega URL de imagen" oninput="updateEditProdPreview(this.value)"
+                            <input type="url" id="edit-prod-image" aria-label="URL de la imagen del producto" placeholder="O pega URL de imagen" oninput="updateEditProdPreview(this.value)"
                                 class="w-full bg-surface-white border border-outline-variant/40 rounded-lg px-2 py-1 text-[11px] outline-none" />
                         </div>
                     </div>
@@ -553,13 +504,13 @@
     </div>
 
     <!-- ================= MODAL: CONFIRMAR ELIMINACIÓN ================= -->
-    <div id="modal-confirm-delete" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-surface-white rounded-2xl shadow-2xl max-w-sm w-full p-6 border border-outline-variant/40 animate-in fade-in zoom-in-95 duration-200">
+    <div id="modal-confirm-delete" class="catalog-modal fixed inset-0 z-50 hidden flex items-center justify-center p-4" role="alertdialog" aria-modal="true" aria-labelledby="delete-product-title" aria-describedby="delete-product-description">
+        <div class="catalog-modal-panel max-w-sm w-full p-6">
             <div class="flex items-center gap-2 mb-3">
                 <span class="material-symbols-outlined text-error-red text-2xl">delete_forever</span>
-                <h3 class="font-bold text-base text-on-surface">Eliminar Producto</h3>
+                <h2 id="delete-product-title" class="font-bold text-base text-on-surface">Eliminar producto</h2>
             </div>
-            <p class="text-xs text-text-muted mb-4">
+            <p id="delete-product-description" class="text-xs text-text-muted mb-4">
                 ¿Estás seguro de eliminar <strong id="delete-prod-name" class="text-on-surface">este producto</strong>?
                 Esta acción no se puede deshacer y se removerá del catálogo para los compradores.
             </p>
@@ -606,6 +557,28 @@
         let tempProductImage = "";
         let producerProducts = [];
         let producerRequests = [];
+        let producerModalReturnFocus = null;
+
+        function openProducerModal(id, trigger = document.activeElement) {
+            producerModalReturnFocus = trigger?.closest('#nav-accordion-dropdown')
+                ? document.getElementById('btn-menu-toggle')
+                : trigger?.closest('#profile-dropdown')
+                    ? document.getElementById('btn-profile-toggle')
+                    : trigger;
+            const modal = document.getElementById(id);
+            modal.classList.remove('hidden');
+            document.getElementById('producer-main').inert = true;
+            document.querySelector('.catalog-header').inert = true;
+            (modal.querySelector('.catalog-modal-close') || modal.querySelector('button'))?.focus();
+        }
+
+        function closeProducerModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.getElementById('producer-main').inert = false;
+            document.querySelector('.catalog-header').inert = false;
+            if (producerModalReturnFocus?.isConnected) producerModalReturnFocus.focus();
+            producerModalReturnFocus = null;
+        }
 
         // Placeholders SVG inline (no se cargan URLs externas).
         const PROD_IMAGE_PLACEHOLDER_HTML = '<span class="material-symbols-outlined text-2xl text-text-muted/50">image</span>';
@@ -863,7 +836,7 @@
             const bio = producerProfile.bio?.trim() || '—';
             const photo = safeImageUrl(producerProfile.photo);
 
-            document.getElementById('header-producer-name').textContent = dept ? `${name} · ${dept}` : name;
+            document.getElementById('header-producer-name').textContent = dept || 'Productor local';
             document.getElementById('producer-header-avatar').src = photo || 'data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E';
             document.getElementById('producer-display-name-header').textContent = name;
             document.getElementById('producer-dropdown-name').textContent = name;
@@ -910,11 +883,11 @@
                 return;
             }
             applyProducerProfile();
-            document.getElementById('modal-edit-producer').classList.remove('hidden');
+            openProducerModal('modal-edit-producer');
         }
 
         function closeEditProducerModal() {
-            document.getElementById('modal-edit-producer').classList.add('hidden');
+            closeProducerModal('modal-edit-producer');
         }
 
         async function saveProducerProfile(e) {
@@ -1078,12 +1051,12 @@
 
             if (producerProducts.length === 0) {
                 container.innerHTML = `
-                    <div class="col-span-2 p-8 bg-surface-bright rounded-xl border border-outline-variant/30 text-center flex flex-col items-center justify-center gap-2">
-                        <span class="material-symbols-outlined text-3xl text-primary/40">inventory_2</span>
-                        <p class="font-bold text-xs text-text-main">No tienes productos publicados aún</p>
-                        <p class="text-[11px] text-text-muted max-w-xs">Agrega tu primer producto para que aparezca en el catálogo y los hoteles puedan solicitar cotizaciones.</p>
-                        <button onclick="openModalAddProduct()" class="mt-2 px-3 py-1.5 rounded-lg bg-primary text-white text-xs font-bold hover:bg-surface-tint">
-                            + Publicar Producto
+                    <div class="catalog-empty producer-products-empty">
+                        <span class="material-symbols-outlined" aria-hidden="true">inventory_2</span>
+                        <h3>Tu catálogo comienza aquí</h3>
+                        <p>Publica tu primer producto para que las empresas puedan conocerlo y solicitar una cotización.</p>
+                        <button type="button" onclick="openModalAddProduct()">
+                            Publicar primer producto
                         </button>
                     </div>
                 `;
@@ -1093,35 +1066,33 @@
             container.innerHTML = producerProducts.map((p) => {
                 const isAvailable = p.disponible !== false;
                 const statusBadge = isAvailable
-                    ? '<span class="text-[9px] bg-green-light-bg text-primary font-bold px-1.5 py-0.5 rounded border border-primary/20">Disponible</span>'
-                    : '<span class="text-[9px] bg-error-container text-on-error-container font-bold px-1.5 py-0.5 rounded border border-error-red/20">No disponible</span>';
+                    ? '<span class="producer-product-badge">Disponible</span>'
+                    : '<span class="producer-product-badge is-unavailable">No disponible</span>';
                 return `
-                <div class="p-3 rounded-xl bg-surface-bright border border-outline-variant/30 hover:border-primary transition-all relative group">
-                    <div class="flex gap-3">
-                        <div class="w-14 h-14 shrink-0 rounded-lg bg-surface-container overflow-hidden flex items-center justify-center">
+                <article class="producer-product">
+                    <div class="producer-product-main">
+                        <div class="producer-product-image">
                             ${productImageHTML(p.image, p.title, 'sm')}
                         </div>
-                        <div class="flex flex-col flex-1 min-w-0">
-                            <div class="flex items-start justify-between gap-2 mb-0.5">
-                                <h3 class="font-bold text-xs text-on-surface truncate">${escapeHtml(p.title || '—')}</h3>
-                                ${statusBadge}
-                            </div>
-                            <p class="text-[10px] text-text-muted truncate">${escapeHtml(p.capacity || '')}</p>
-                            <p class="text-xs font-extrabold text-primary mt-0.5">${formatCordobas(p.price)} <span class="text-text-muted font-normal text-[9px]">/ ${escapeHtml(p.unit || 'unidad')}</span></p>
+                        <div class="producer-product-info">
+                            ${statusBadge}
+                            <h3>${escapeHtml(p.title || '—')}</h3>
+                            <p>${escapeHtml(p.capacity || 'Capacidad no indicada')}</p>
+                            <strong>${formatCordobas(p.price)} <small>/ ${escapeHtml(p.unit || 'unidad')}</small></strong>
                         </div>
                     </div>
-                    <div class="flex gap-1.5 mt-2.5 pt-2.5 border-t border-outline-variant/20">
+                    <div class="producer-product-actions">
                         <button type="button" data-product-action="edit" data-id="${escapeHtml(String(p.id))}" title="Editar producto"
-                            class="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg bg-surface-white hover:bg-green-light-bg border border-outline-variant/40 hover:border-primary text-text-main hover:text-primary text-[10px] font-bold transition-colors">
-                            <span class="material-symbols-outlined text-xs">edit</span>
+                            class="producer-product-edit">
+                            <span class="material-symbols-outlined" aria-hidden="true">edit</span>
                             Editar
                         </button>
                         <button type="button" data-product-action="delete" data-id="${escapeHtml(String(p.id))}" title="Eliminar producto"
-                            class="flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg bg-surface-white hover:bg-error-container/40 border border-outline-variant/40 hover:border-error-red text-text-muted hover:text-error-red text-[10px] font-bold transition-colors">
-                            <span class="material-symbols-outlined text-xs">delete</span>
+                            class="producer-product-delete" aria-label="Eliminar ${escapeHtml(p.title || 'producto')}">
+                            <span class="material-symbols-outlined" aria-hidden="true">delete</span>
                         </button>
                     </div>
-                </div>`;
+                </article>`;
             }).join('');
         }
 
@@ -1140,17 +1111,18 @@
             if (!tbody) return;
             const pendientes = producerRequests.filter(r => r.estado === 'Pendiente');
             document.getElementById('stat-producer-requests').textContent = pendientes.length;
-            document.getElementById('pending-requests-count').textContent = `${pendientes.length} pendientes`;
-            document.getElementById('stat-producer-matches').textContent = producerRequests.length;
+            document.getElementById('pending-requests-count').textContent = `${pendientes.length} ${pendientes.length === 1 ? 'pendiente' : 'pendientes'}`;
+            document.getElementById('stat-producer-matches').textContent = producerRequests.filter(r => ['Aprobado', 'Finalizado'].includes(r.estado)).length;
             const sideRequests = document.getElementById('stat-producer-requests-side');
             if (sideRequests) sideRequests.textContent = pendientes.length;
 
             if (producerRequests.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="5" class="py-8 text-center text-text-muted">
-                            <span class="material-symbols-outlined text-3xl block text-text-muted/40 mb-1">inbox</span>
-                            No hay solicitudes pendientes de hoteles en este momento.
+                        <td colspan="5" class="producer-requests-empty">
+                            <span class="material-symbols-outlined" aria-hidden="true">inbox</span>
+                            <strong>Aún no tienes solicitudes</strong>
+                            <span>Cuando una empresa pregunte por tus productos, podrás responder desde aquí.</span>
                         </td>
                     </tr>
                 `;
@@ -1171,7 +1143,7 @@
                 const descripcion = r.descripcion_acuerdo || '—';
                 const canAct = estado === 'Pendiente' || estado === 'En_Negociacion';
                 return `
-                    <tr class="hover:bg-surface-bright transition-colors">
+                    <tr>
                         <td class="py-3 pr-3 font-semibold text-on-surface text-xs">${escapeHtml(empresa)}</td>
                         <td class="py-3 pr-3 text-text-muted text-xs">${escapeHtml(descripcion)}</td>
                         <td class="py-3 pr-3 font-bold text-primary text-xs">${escapeHtml(monto)}</td>
@@ -1182,12 +1154,14 @@
                             <div class="flex gap-1.5 justify-end">
                                 ${canAct ? `
                                     <button type="button" data-request-action="approve" data-id="${escapeHtml(String(r.id))}"
-                                        title="Aprobar y marcar el producto solicitado como no disponible"
+                                         title="Aprobar y marcar el producto solicitado como no disponible"
+                                         aria-label="Aprobar solicitud de ${escapeHtml(empresa)}"
                                         class="px-2 py-1 rounded-lg bg-primary hover:bg-surface-tint text-white text-[10px] font-bold flex items-center gap-1">
                                         <span class="material-symbols-outlined text-xs">check</span> Aprobar
                                     </button>
                                     <button type="button" data-request-action="reject" data-id="${escapeHtml(String(r.id))}"
-                                        title="Rechazar solicitud"
+                                         title="Rechazar solicitud"
+                                         aria-label="Rechazar solicitud de ${escapeHtml(empresa)}"
                                         class="px-2 py-1 rounded-lg bg-surface-bright hover:bg-error-container border border-outline-variant/40 hover:border-error-red text-text-muted hover:text-error-red text-[10px] font-bold flex items-center gap-1">
                                         <span class="material-symbols-outlined text-xs">close</span>
                                     </button>
@@ -1245,14 +1219,14 @@
             tempProductImage = '';
             const fileInput = document.getElementById('input-prod-file');
             if (fileInput) fileInput.value = '';
-            document.getElementById('modal-add-product').classList.remove('hidden');
+            openProducerModal('modal-add-product');
             updateNewProdPreview('');
             const urlInput = document.getElementById('input-prod-image');
             if (urlInput) urlInput.value = '';
         }
 
         function closeModalAddProduct() {
-            document.getElementById('modal-add-product').classList.add('hidden');
+            closeProducerModal('modal-add-product');
             tempProductFile = null;
             tempProductImage = '';
             const fileInput = document.getElementById('input-prod-file');
@@ -1365,6 +1339,7 @@
         let editProdImage = '';
 
         function openModalEditProduct(prodId) {
+            const trigger = document.activeElement;
             const prod = producerProducts.find(p => String(p.id) === String(prodId));
             if (!prod) {
                 showToast('No se encontró el producto en memoria. Recarga la página.', 'error');
@@ -1394,12 +1369,12 @@
                 const fileInput = document.getElementById('edit-prod-file');
                 if (fileInput) fileInput.value = '';
                 updateEditProdPreview(data.imagen_url || '');
-                document.getElementById('modal-edit-product').classList.remove('hidden');
+                openProducerModal('modal-edit-product', trigger);
             });
         }
 
         function closeModalEditProduct() {
-            document.getElementById('modal-edit-product').classList.add('hidden');
+            closeProducerModal('modal-edit-product');
             editProdImage = '';
             editProdFile = null;
             const fileInput = document.getElementById('edit-prod-file');
@@ -1529,11 +1504,11 @@
                 nameEl.textContent = 'este producto';
             }
             document.getElementById('delete-prod-id').value = prodId || '';
-            document.getElementById('modal-confirm-delete').classList.remove('hidden');
+            openProducerModal('modal-confirm-delete');
         }
 
         function closeConfirmDelete() {
-            document.getElementById('modal-confirm-delete').classList.add('hidden');
+            closeProducerModal('modal-confirm-delete');
             document.getElementById('delete-prod-id').value = '';
         }
 
@@ -1568,6 +1543,7 @@
             const arrow = document.getElementById('menu-arrow');
             if (!dropdown) return;
             document.getElementById('profile-dropdown')?.classList.add('hidden');
+            document.getElementById('btn-profile-toggle')?.setAttribute('aria-expanded', 'false');
             const isHidden = dropdown.classList.contains('hidden');
             if (isHidden) {
                 dropdown.classList.remove('hidden');
@@ -1576,6 +1552,7 @@
                 dropdown.classList.add('hidden');
                 arrow?.classList.remove('rotate-180');
             }
+            document.getElementById('btn-menu-toggle').setAttribute('aria-expanded', String(isHidden));
         }
 
         function toggleProfileDropdown(e) {
@@ -1584,7 +1561,9 @@
             if (!dropdown) return;
             document.getElementById('nav-accordion-dropdown')?.classList.add('hidden');
             document.getElementById('menu-arrow')?.classList.remove('rotate-180');
+            document.getElementById('btn-menu-toggle')?.setAttribute('aria-expanded', 'false');
             dropdown.classList.toggle('hidden');
+            document.getElementById('btn-profile-toggle').setAttribute('aria-expanded', String(!dropdown.classList.contains('hidden')));
         }
 
         function initDropdowns() {
@@ -1597,9 +1576,44 @@
                 if (navDropdown && !navDropdown.contains(e.target) && !navBtn.contains(e.target)) {
                     navDropdown.classList.add('hidden');
                     document.getElementById('menu-arrow')?.classList.remove('rotate-180');
+                    navBtn.setAttribute('aria-expanded', 'false');
                 }
                 if (profileDropdown && !profileDropdown.contains(e.target) && !profileBtn.contains(e.target)) {
                     profileDropdown.classList.add('hidden');
+                    profileBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+            document.addEventListener('keydown', (event) => {
+                const modal = document.querySelector('.producer-dashboard .catalog-modal:not(.hidden)');
+                if (event.key === 'Escape') {
+                    if (modal) {
+                        event.preventDefault();
+                        if (modal.id === 'modal-edit-producer') closeEditProducerModal();
+                        else if (modal.id === 'modal-add-product') closeModalAddProduct();
+                        else if (modal.id === 'modal-edit-product') closeModalEditProduct();
+                        else closeConfirmDelete();
+                    } else {
+                        const navWasOpen = !navDropdown.classList.contains('hidden');
+                        const profileWasOpen = !profileDropdown.classList.contains('hidden');
+                        navDropdown.classList.add('hidden');
+                        profileDropdown.classList.add('hidden');
+                        document.getElementById('menu-arrow')?.classList.remove('rotate-180');
+                        navBtn.setAttribute('aria-expanded', 'false');
+                        profileBtn.setAttribute('aria-expanded', 'false');
+                        if (navWasOpen) navBtn.focus();
+                        else if (profileWasOpen) profileBtn.focus();
+                    }
+                }
+                if (!modal || event.key !== 'Tab') return;
+                const focusable = [...modal.querySelectorAll('button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), a[href]')]
+                    .filter(el => el.getClientRects().length);
+                if (!focusable.length) return;
+                if (event.shiftKey && (document.activeElement === focusable[0] || !modal.contains(document.activeElement))) {
+                    event.preventDefault();
+                    focusable.at(-1).focus();
+                } else if (!event.shiftKey && (document.activeElement === focusable.at(-1) || !modal.contains(document.activeElement))) {
+                    event.preventDefault();
+                    focusable[0].focus();
                 }
             });
         }
