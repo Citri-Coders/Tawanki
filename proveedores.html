@@ -8,29 +8,33 @@
     <meta name="description"
         content="Directorio B2B de productores y artesanos locales de Nicaragua para empresas turísticas." />
     <meta name="robots" content="noindex, nofollow" />
-    <meta name="theme-color" content="#0d631b" />
+    <meta name="theme-color" content="#FBF9F4" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="assets/tailwind.css" />
-    <!-- Google Fonts & Material Symbols -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
 </head>
 
-<body class="bg-surface-bright text-text-main flex flex-col h-screen overflow-hidden font-sans antialiased">
+<body class="catalog-page providers-page flex flex-col h-screen overflow-hidden">
 
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-5 right-5 z-[100] flex flex-col gap-3 pointer-events-none"></div>
 
     <!-- ================= TOP APP BAR (HEADER SUPERIOR) ================= -->
-    <header class="bg-surface-white w-full z-40 flex justify-between items-center px-4 md:px-8 py-3 border-b border-outline-variant/30 shadow-xs shrink-0 relative">
+    <header class="catalog-header w-full z-40 flex justify-between items-center shrink-0 relative">
         
         <!-- ESQUINA SUPERIOR IZQUIERDA: ACORDEÓN / MENÚ NAVEGACIÓN -->
-        <div class="flex items-center gap-3">
+        <div class="catalog-header-start flex items-center gap-3">
+            <a class="catalog-brand" href="index.html" aria-label="Tawanki, volver al inicio">
+                <img src="assets/img/tawanki-logo.png" width="820" height="208" alt="Tawanki" />
+            </a>
             <div class="relative">
                 <button id="btn-menu-toggle" onclick="toggleNavAccordion(event)"
-                    class="flex items-center gap-2 px-3 py-2 rounded-xl bg-surface-bright hover:bg-green-light-bg text-primary border border-outline-variant/40 hover:border-primary transition-all active:scale-95 shadow-2xs cursor-pointer">
-                    <span class="material-symbols-outlined text-2xl">menu</span>
-                    <span class="text-xs font-bold hidden sm:inline" id="nav-menu-title">Menú Navegación</span>
+                    class="catalog-header-button flex items-center gap-2 cursor-pointer" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="nav-accordion-dropdown">
+                    <span class="material-symbols-outlined text-2xl" aria-hidden="true">menu</span>
+                    <span class="text-xs font-bold hidden sm:inline" id="nav-menu-title">Menú</span>
                     <span class="material-symbols-outlined text-sm text-text-muted transition-transform" id="menu-arrow">expand_more</span>
                 </button>
 
@@ -61,35 +65,26 @@
                 </div>
             </div>
 
-            <!-- Título / Logo -->
-            <div class="flex items-center gap-2.5">
-                <div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm">
-                    <span class="material-symbols-outlined text-xl">storefront</span>
-                </div>
-                <div>
-                    <p class="text-sm font-extrabold text-primary leading-tight">Directorio de Proveedores Locales</p>
-                    <p id="company-header-tag" class="text-[11px] text-text-muted font-medium">Turismo Nicaragua Conecta · B2B</p>
-                </div>
-            </div>
+            <span class="catalog-header-label">Directorio de proveedores</span>
         </div>
 
         <!-- ESQUINA SUPERIOR DERECHA: NOTIFICACIONES + PERFIL + CAMBIO DE PERFIL SEGURO + CERRAR SESIÓN -->
-        <div class="flex items-center gap-3">
+        <div class="catalog-header-end flex items-center gap-3">
             
             <button onclick="showToast('No hay notificaciones pendientes', 'info')"
-                class="text-text-muted hover:text-primary hover:bg-surface-container p-2 rounded-full transition-colors relative flex items-center justify-center">
-                <span class="material-symbols-outlined text-2xl">notifications</span>
+                class="catalog-icon-button text-text-muted relative flex items-center justify-center" aria-label="Notificaciones">
+                <span class="material-symbols-outlined text-2xl" aria-hidden="true">notifications</span>
             </button>
 
             <!-- Menú Desplegable de Perfil Seguro -->
             <div class="relative">
                 <button id="btn-profile-toggle" onclick="toggleProfileDropdown(event)"
-                    class="flex items-center gap-2.5 p-1.5 pr-2.5 rounded-xl hover:bg-surface-bright border border-transparent hover:border-outline-variant/40 transition-all cursor-pointer">
+                    class="catalog-profile-button flex items-center gap-2.5 cursor-pointer" aria-label="Abrir menú de perfil" aria-expanded="false" aria-controls="profile-dropdown">
                     <img id="company-header-avatar" alt="Foto Empresa" class="w-8 h-8 rounded-full object-cover border border-primary/40 shadow-xs bg-surface-container"
                         src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" />
                     <div class="hidden sm:block text-left">
                         <p id="company-display-name-header" class="text-xs font-bold text-on-surface leading-tight">Cargando...</p>
-                        <p class="text-[10px] text-primary font-semibold">Empresa Turística</p>
+                        <p id="company-header-tag" class="text-[10px] text-primary font-semibold">Empresa turística</p>
                     </div>
                     <span class="material-symbols-outlined text-sm text-text-muted">arrow_drop_down</span>
                 </button>
@@ -135,64 +130,67 @@
     </header>
 
     <!-- ================= MAIN CONTENT FULL-WIDTH ================= -->
-    <main class="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar pb-20 w-full">
-        <div class="max-w-[1600px] mx-auto space-y-6">
+    <main id="providers-main" class="catalog-main flex-1 overflow-y-auto custom-scrollbar w-full">
+        <div class="catalog-shell">
 
             <!-- Context Banner Full Width -->
-            <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface-white p-6 rounded-2xl shadow-sm border border-outline-variant/30">
+            <section class="catalog-intro" aria-labelledby="providers-title">
                 <div>
-                    <div class="flex items-center gap-2 mb-1">
-                        <h1 class="text-2xl font-extrabold text-on-surface">Directorio de Proveedores y Artesanos</h1>
-                        <span class="bg-secondary-container text-primary font-bold text-xs px-2.5 py-0.5 rounded-full">B2B Activo</span>
-                    </div>
-                    <p class="text-xs text-text-muted">Explora productores agroecológicos, cafetaleros y artesanos locales. La verificación INTUR se indica en cada ficha cuando corresponde.</p>
+                    <p class="catalog-context">Personas y talleres de Nicaragua</p>
+                    <h1 id="providers-title">Conoce a quienes hacen posible lo local.</h1>
+                    <p>Encuentra productores y talleres, conoce su oficio y conecta directamente con ellos.</p>
                 </div>
-                <div class="flex items-center gap-2 bg-green-light-bg px-4 py-2.5 rounded-xl border border-primary/20">
-                    <span class="material-symbols-outlined text-primary text-xl">eco</span>
-                    <span class="text-xs text-primary font-bold">Conexión directa con Supabase</span>
-                </div>
+                <p class="catalog-count" id="providers-count" aria-live="polite">Cargando productores…</p>
             </section>
 
             <!-- Search & Filters Bar Full Width -->
-            <section class="bg-surface-white p-5 rounded-2xl shadow-sm border border-outline-variant/30 space-y-4">
-                <div class="relative w-full">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <span class="material-symbols-outlined text-text-muted text-xl">search</span>
+            <section id="providers-filters" class="catalog-filters" aria-label="Buscar y filtrar proveedores">
+                <div class="catalog-search-wrap">
+                    <label for="search-input">Encuentra un productor</label>
+                    <div class="catalog-search-field">
+                        <span class="material-symbols-outlined" aria-hidden="true">search</span>
+                        <input id="search-input" oninput="filterCards()"
+                            placeholder="Busca un taller, oficio o lugar…" type="search" autocomplete="off" />
                     </div>
-                    <input
-                        id="search-input" oninput="filterCards()"
-                        class="w-full pl-11 pr-4 py-3 rounded-xl border border-outline-variant/40 bg-surface-bright text-text-main text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
-                        placeholder="Buscar por producto (cacao, café, hamacas, miel), cooperativa o departamento..." type="text" />
                 </div>
 
-                <!-- Filter Chips -->
-                <div class="flex flex-wrap gap-2 pt-1 text-xs">
-                    <button onclick="setFilter('all', this)" id="chip-all" class="chip active px-3 py-1.5 rounded-full bg-primary text-white font-semibold transition-all">Todos los Rubros</button>
-                    <button onclick="setFilter('Gastronomía', this)" class="chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all">Gastronomía & Cacao</button>
-                    <button onclick="setFilter('Artesanías', this)" class="chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all">Textiles & Artesanías</button>
-                    <button onclick="setFilter('Granada', this)" class="chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main flex items-center gap-1 transition-all"><span class="material-symbols-outlined text-xs">location_on</span> Granada</button>
-                    <button onclick="setFilter('Masaya', this)" class="chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main flex items-center gap-1 transition-all"><span class="material-symbols-outlined text-xs">location_on</span> Masaya</button>
+                <div class="catalog-filter-row">
+                    <span class="catalog-filter-label">Oficio</span>
+                    <div id="providers-rubros" class="catalog-pills" role="group" aria-label="Rubros">
+                        <button type="button" onclick="setFilter('all', this)" id="chip-all" class="chip cat-pill active" aria-pressed="true">Todos</button>
+                    </div>
+                </div>
+                <div class="catalog-filter-row">
+                    <span class="catalog-filter-label">Departamento</span>
+                    <div id="providers-deptos" class="catalog-pills" role="group" aria-label="Departamentos">
+                        <button type="button" onclick="setDepartmentFilter('all', this)" id="dept-all" class="dept-chip cat-pill active" aria-pressed="true">Todos</button>
+                    </div>
                 </div>
             </section>
 
-            <!-- Providers Grid (Panoramic Full Width with Empty State) -->
-            <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5" id="providers-grid">
-                <!-- Populated dynamically or shows Empty State ready for Supabase -->
+            <section class="providers-grid" id="providers-grid" aria-label="Productores y talleres">
+                <p class="providers-loading" role="status">Cargando directorio…</p>
             </section>
+            <div id="providers-filter-empty" class="catalog-empty hidden" role="status">
+                <span class="material-symbols-outlined" aria-hidden="true">search_off</span>
+                <h2>No encontramos productores con esos filtros</h2>
+                <p>Prueba otra búsqueda o vuelve a ver todo el directorio.</p>
+                <button type="button" onclick="clearProviderFilters()">Ver todos los productores</button>
+            </div>
         </div>
     </main>
 
     <!-- ================= MODAL: EDITAR DATOS DE LA EMPRESA / LOGO ================= -->
-    <div id="modal-edit-company" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-surface-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-outline-variant/40 animate-in fade-in zoom-in-95 duration-200">
+    <div id="modal-edit-company" class="catalog-modal fixed inset-0 z-50 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="edit-company-title">
+        <div class="catalog-modal-panel max-w-md w-full p-6">
             <div class="flex justify-between items-center pb-3 border-b border-outline-variant/30 mb-4">
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold">
                         <span class="material-symbols-outlined text-lg">hotel</span>
                     </div>
-                    <h3 class="font-bold text-base text-on-surface">Editar Perfil Empresarial</h3>
+                    <h2 id="edit-company-title" class="font-bold text-base text-on-surface">Editar mis datos</h2>
                 </div>
-                <button onclick="closeEditCompanyModal()" class="text-text-muted hover:text-on-surface p-1 rounded-lg">
+                <button type="button" onclick="closeEditCompanyModal()" class="catalog-modal-close text-text-muted" aria-label="Cerrar edición de perfil">
                     <span class="material-symbols-outlined text-xl">close</span>
                 </button>
             </div>
@@ -204,7 +202,7 @@
                         <img id="edit-company-avatar-preview" class="w-16 h-16 rounded-full object-cover border-2 border-primary/40 shadow-sm shrink-0"
                             src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" />
                         <div class="flex-1 space-y-1.5">
-                            <label class="block font-bold text-text-main">Logo / Foto de la Empresa</label>
+                            <label for="input-company-file" class="block font-bold text-text-main">Logo o foto de perfil</label>
                             <input type="file" id="input-company-file" accept="image/*" onchange="handleLocalCompanyPhotoUpload(event)" class="hidden" />
                             <div class="flex flex-wrap gap-2">
                                 <button type="button" onclick="document.getElementById('input-company-file').click()"
@@ -222,7 +220,7 @@
 
                     <!-- Input opcional para URL -->
                     <div id="container-company-photo-url" class="hidden pt-2 border-t border-outline-variant/20">
-                        <label class="block font-semibold text-text-muted text-[11px] mb-1">O escribe la URL directa de la imagen:</label>
+                        <label for="input-company-photo" class="block font-semibold text-text-muted text-[11px] mb-1">O escribe la URL directa de la imagen:</label>
                         <input type="url" id="input-company-photo" oninput="previewCompanyPhotoUrl(this.value)"
                             placeholder="https://ejemplo.com/milogo.jpg"
                             class="w-full bg-surface-white border border-outline-variant/40 rounded-lg px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-primary outline-none" />
@@ -230,26 +228,26 @@
                 </div>
 
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Nombre de la Empresa / Hotel *</label>
+                    <label for="input-company-name" class="block font-bold text-text-main mb-1">Nombre de la empresa / hotel *</label>
                     <input type="text" id="input-company-name" required placeholder="Hotel Plaza Colón"
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-bold text-text-main mb-1">Teléfono / WhatsApp *</label>
+                        <label for="input-company-phone" class="block font-bold text-text-main mb-1">Teléfono / WhatsApp *</label>
                         <input type="tel" id="input-company-phone" required placeholder="+505 2552-0000"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                     </div>
                     <div>
-                        <label class="block font-bold text-text-main mb-1">Correo Electrónico *</label>
+                        <label for="input-company-email" class="block font-bold text-text-main mb-1">Correo electrónico *</label>
                         <input type="email" id="input-company-email" required readonly title="El correo de acceso no se cambia aquí" placeholder="compras@plazacolon.com.ni"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                     </div>
                 </div>
 
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Departamento</label>
+                    <label for="input-company-dept" class="block font-bold text-text-main mb-1">Departamento</label>
                     <select id="input-company-dept" class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
                         <option value="Granada">Granada</option>
                         <option value="Masaya">Masaya</option>
@@ -292,6 +290,9 @@
         };
 
         let providersList = [];
+        let activeRubro = 'all';
+        let activeDepartment = 'all';
+        let modalReturnFocus = null;
 
         const AVATAR_PLACEHOLDER = 'data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E';
 
@@ -315,33 +316,24 @@
 
         // Pasarela amigable de acceso para visitantes no autenticados (sin parpadeo ni rebote)
         function showB2BAuthGate() {
+            document.getElementById('providers-filters').hidden = true;
+            document.getElementById('providers-count').hidden = true;
             const grid = document.getElementById('providers-grid');
             if (grid) {
                 grid.innerHTML = `
-                    <div class="col-span-full py-16 px-6 bg-surface-white rounded-3xl border border-outline-variant/40 text-center flex flex-col items-center justify-center gap-4 shadow-sm max-w-xl mx-auto my-8 animate-in fade-in zoom-in-95 duration-200">
-                        <div class="w-16 h-16 rounded-2xl bg-green-light-bg text-primary flex items-center justify-center border border-primary/20 shadow-xs">
-                            <span class="material-symbols-outlined text-3xl">verified_user</span>
-                        </div>
-                        <div>
-                            <h2 class="text-xl font-bold text-on-surface">Directorio B2B Exclusivo</h2>
-                            <p class="text-xs text-text-muted mt-2 max-w-md mx-auto leading-relaxed">
-                                Este directorio contiene los datos de contacto directo de cooperativas, artesanos y productores locales verificados por INTUR. Para proteger la privacidad comercial del sector, el acceso requiere iniciar sesión.
-                            </p>
-                        </div>
-                        <div class="flex flex-col sm:flex-row gap-3 w-full max-w-sm mt-2">
-                            <a href="auth_empresa.html" class="flex-1 py-3 px-4 bg-primary hover:bg-surface-tint text-white font-bold rounded-xl text-xs transition-all shadow-xs flex items-center justify-center gap-1.5 text-center">
-                                <span class="material-symbols-outlined text-base">storefront</span>
-                                <span>Soy Empresa</span>
+                    <div class="providers-gate">
+                        <span class="material-symbols-outlined providers-gate-icon" aria-hidden="true">lock_person</span>
+                        <h2>Conecta con quienes producen</h2>
+                        <p>Inicia sesión para conocer los talleres y acceder a sus datos de contacto. La verificación de INTUR aparece en cada ficha cuando corresponde.</p>
+                        <div class="providers-gate-actions">
+                            <a href="auth_empresa.html">
+                                Iniciar como empresa
                             </a>
-                            <a href="auth_productor.html" class="flex-1 py-3 px-4 bg-surface-bright hover:bg-green-light-bg text-text-main hover:text-primary font-bold rounded-xl text-xs transition-all border border-outline-variant/40 flex items-center justify-center gap-1.5 text-center">
-                                <span class="material-symbols-outlined text-base">agriculture</span>
-                                <span>Soy Productor</span>
+                            <a href="auth_productor.html">
+                                Iniciar como productor
                             </a>
                         </div>
-                        <a href="catalogo.html" class="text-xs text-text-muted hover:text-primary font-semibold flex items-center gap-1 mt-2 transition-colors">
-                            <span class="material-symbols-outlined text-sm">arrow_back</span>
-                            <span>Explorar el Catálogo Público</span>
-                        </a>
+                        <a class="providers-gate-catalog" href="catalogo.html">Explorar el catálogo público <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a>
                     </div>
                 `;
             }
@@ -349,9 +341,10 @@
             const profileBtn = document.getElementById('btn-profile-toggle');
             if (profileBtn) {
                 profileBtn.outerHTML = `
-                    <a href="auth_empresa.html" class="px-3.5 py-1.5 bg-primary text-white text-xs font-bold rounded-xl hover:bg-surface-tint transition-all flex items-center gap-1.5 shadow-2xs">
+                    <a href="auth_empresa.html" class="providers-header-login">
                         <span class="material-symbols-outlined text-sm">login</span>
-                        <span>Iniciar Sesión</span>
+                        <span class="providers-login-long">Iniciar sesión</span>
+                        <span class="providers-login-short">Entrar</span>
                     </a>
                 `;
             }
@@ -470,7 +463,7 @@
 
         function applyCompanyProfile() {
             const photo = safeImageUrl(companyProfile.photo) || AVATAR_PLACEHOLDER;
-            const header = `${companyProfile.name}${companyProfile.dept ? ' · ' + companyProfile.dept : ''}`;
+            const header = currentUserProfile?.rol === 'productor' ? 'Productor' : currentUserProfile?.rol === 'intur' ? 'INTUR' : 'Empresa turística';
 
             setText('company-header-tag', header);
             setText('company-display-name-header', companyProfile.name);
@@ -539,11 +532,15 @@
                 return;
             }
             applyCompanyProfile();
+            modalReturnFocus = document.getElementById('btn-profile-toggle') || document.activeElement;
             document.getElementById('modal-edit-company').classList.remove('hidden');
+            document.querySelector('#modal-edit-company .catalog-modal-close').focus();
         }
 
         function closeEditCompanyModal() {
             document.getElementById('modal-edit-company').classList.add('hidden');
+            if (modalReturnFocus?.isConnected) modalReturnFocus.focus();
+            modalReturnFocus = null;
         }
 
         async function saveCompanyProfile(e) {
@@ -697,27 +694,31 @@
 
         function providerAvatarHTML(photo, altText) {
             const src = safeImageUrl(photo);
+            const initials = escapeHtml((altText || 'Productor').trim().split(/\s+/).slice(0, 2).map(word => word[0]).join('').toLocaleUpperCase('es'));
             if (!src) {
-                return `<span class="material-symbols-outlined text-4xl text-text-muted/40">person</span>`;
+                return `<span class="providers-avatar-initials" aria-hidden="true">${initials}</span>`;
             }
             return `
-                <img alt="${escapeHtml(altText || 'Proveedor')}" class="w-full h-full object-cover"
-                    width="400" height="300" loading="lazy" decoding="async" src="${escapeHtml(src)}"
+                <img alt="" class="w-full h-full object-cover"
+                    width="160" height="160" loading="lazy" decoding="async" src="${escapeHtml(src)}"
                     onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');" />
-                <span class="material-symbols-outlined text-4xl text-text-muted/40 hidden">person</span>
+                <span class="providers-avatar-initials hidden" aria-hidden="true">${initials}</span>
             `;
         }
 
         function renderProviders() {
             const grid = document.getElementById('providers-grid');
             if (!grid) return;
+            renderProviderFilters();
 
             if (providersList.length === 0) {
+                document.getElementById('providers-count').textContent = '0 productores en el directorio';
+                document.getElementById('providers-filter-empty').classList.add('hidden');
                 grid.innerHTML = `
-                    <div class="col-span-full p-12 bg-surface-white rounded-2xl border border-outline-variant/30 text-center flex flex-col items-center justify-center gap-2 shadow-sm">
-                        <span class="material-symbols-outlined text-4xl text-primary/40">storefront</span>
-                        <p class="font-bold text-sm text-text-main">No hay proveedores registrados aún</p>
-                        <p class="text-xs text-text-muted max-w-sm">Los productores que se registren en la plataforma aparecerán listados aquí.</p>
+                    <div class="catalog-empty providers-database-empty">
+                        <span class="material-symbols-outlined" aria-hidden="true">handshake</span>
+                        <h2>El directorio está en camino</h2>
+                        <p>Los talleres y productores que se registren aparecerán aquí para que puedas conocerlos.</p>
                     </div>
                 `;
                 return;
@@ -725,49 +726,42 @@
 
             grid.innerHTML = providersList.map(p => {
                 const badge = p.verificado
-                    ? `<span class="px-2.5 py-1 rounded-full bg-primary text-white text-[10px] font-extrabold border border-primary/20">Verificado INTUR</span>`
-                    : `<span class="px-2.5 py-1 rounded-full bg-surface-container text-text-muted text-[10px] font-bold border border-outline-variant/40">Sin verificar</span>`;
+                    ? `<span class="providers-verification is-verified"><span class="material-symbols-outlined" aria-hidden="true">verified</span> Verificado INTUR</span>`
+                    : `<span class="providers-verification">Sin sello INTUR</span>`;
 
                 const contactButton = p.phone
                     ? `<button type="button" data-action="contact" data-id="${escapeHtml(String(p.id))}"
-                            class="py-2 bg-primary hover:bg-surface-tint text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1">
-                            <span class="material-symbols-outlined text-sm">chat</span> Contactar
+                            class="providers-contact-button">
+                            <span class="material-symbols-outlined" aria-hidden="true">chat</span> Contactar
                         </button>`
                     : `<button type="button" disabled title="El productor no registró teléfono"
-                            class="py-2 bg-text-muted/30 text-white text-xs font-bold rounded-xl cursor-not-allowed flex items-center justify-center gap-1">
-                            <span class="material-symbols-outlined text-sm">chat</span> Sin teléfono
+                            class="providers-contact-button" aria-label="Sin teléfono registrado">
+                            <span class="material-symbols-outlined" aria-hidden="true">chat</span> Sin teléfono
                         </button>`;
 
                 return `
-                <article class="provider-card bg-surface-white rounded-2xl shadow-sm hover:shadow-md transition-all p-5 border border-outline-variant/30 flex flex-col justify-between"
+                <article class="provider-card" data-rubro="${escapeHtml(p.rubro)}" data-dept="${escapeHtml(p.dept)}"
                     data-tags="${escapeHtml(p.tags || '')}">
-                    <div>
-                        <div class="flex items-start justify-between gap-3 mb-4">
-                            <div class="flex items-center gap-3">
-                                <div class="w-14 h-14 rounded-2xl bg-surface-container overflow-hidden shrink-0 border border-outline-variant/30 shadow-xs flex items-center justify-center">
-                                    ${providerAvatarHTML(p.photo, p.name)}
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-base text-on-surface">${escapeHtml(p.name)}</h3>
-                                    <p class="text-xs text-text-muted flex items-center gap-1 mt-0.5">
-                                        <span class="material-symbols-outlined text-xs text-primary">location_on</span> ${escapeHtml(p.dept)} · Nicaragua
-                                    </p>
-                                </div>
-                            </div>
-                            ${badge}
+                    <div class="providers-card-top">
+                        <div class="providers-avatar">${providerAvatarHTML(p.photo, p.name)}</div>
+                        <div class="providers-card-heading">
+                            <p class="providers-card-rubro">${escapeHtml(p.rubro)}</p>
+                            <h2>${escapeHtml(p.name)}</h2>
+                            <p class="providers-card-location"><span class="material-symbols-outlined" aria-hidden="true">location_on</span>${escapeHtml(p.dept)}</p>
                         </div>
-                        <p class="text-xs text-text-muted mb-4">${escapeHtml(p.description)}</p>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 pt-2">
+                    ${badge}
+                    <p class="providers-description">${escapeHtml(p.description)}</p>
+                    <div class="providers-actions">
                         ${contactButton}
-                        <a href="catalogo.html"
-                            class="py-2 border border-outline-variant/40 hover:border-primary text-text-main hover:text-primary text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1">
-                            <span class="material-symbols-outlined text-sm">visibility</span> Catálogo
+                        <a href="catalogo.html" class="providers-catalog-link">
+                            Explorar catálogo
                         </a>
                     </div>
                 </article>
             `;
             }).join('');
+            applyProviderFilters();
         }
 
         function setupProviderGridEvents() {
@@ -804,6 +798,7 @@
             const arrow = document.getElementById('menu-arrow');
             if (!dropdown) return;
             document.getElementById('profile-dropdown')?.classList.add('hidden');
+            document.getElementById('btn-profile-toggle')?.setAttribute('aria-expanded', 'false');
             const isHidden = dropdown.classList.contains('hidden');
             if (isHidden) {
                 dropdown.classList.remove('hidden');
@@ -812,6 +807,7 @@
                 dropdown.classList.add('hidden');
                 arrow?.classList.remove('rotate-180');
             }
+            document.getElementById('btn-menu-toggle').setAttribute('aria-expanded', String(isHidden));
         }
 
         function toggleProfileDropdown(e) {
@@ -820,7 +816,9 @@
             if (!dropdown) return;
             document.getElementById('nav-accordion-dropdown')?.classList.add('hidden');
             document.getElementById('menu-arrow')?.classList.remove('rotate-180');
+            document.getElementById('btn-menu-toggle')?.setAttribute('aria-expanded', 'false');
             dropdown.classList.toggle('hidden');
+            document.getElementById('btn-profile-toggle')?.setAttribute('aria-expanded', String(!dropdown.classList.contains('hidden')));
         }
 
         function initDropdowns() {
@@ -833,45 +831,117 @@
                 if (navDropdown && !navDropdown.contains(e.target) && !navBtn.contains(e.target)) {
                     navDropdown.classList.add('hidden');
                     document.getElementById('menu-arrow')?.classList.remove('rotate-180');
+                    navBtn.setAttribute('aria-expanded', 'false');
                 }
                 if (profileDropdown && !profileDropdown.contains(e.target) && !profileBtn.contains(e.target)) {
                     profileDropdown.classList.add('hidden');
+                    profileBtn?.setAttribute('aria-expanded', 'false');
                 }
             });
+            document.addEventListener('keydown', (event) => {
+                const modal = document.getElementById('modal-edit-company');
+                if (event.key === 'Escape') {
+                    if (!modal.classList.contains('hidden')) {
+                        event.preventDefault();
+                        closeEditCompanyModal();
+                    } else {
+                        const navWasOpen = !navDropdown.classList.contains('hidden');
+                        const profileWasOpen = !profileDropdown.classList.contains('hidden');
+                        navDropdown.classList.add('hidden');
+                        profileDropdown.classList.add('hidden');
+                        document.getElementById('menu-arrow')?.classList.remove('rotate-180');
+                        navBtn.setAttribute('aria-expanded', 'false');
+                        profileBtn?.setAttribute('aria-expanded', 'false');
+                        if (navWasOpen) navBtn.focus();
+                        else if (profileWasOpen) profileBtn?.focus();
+                    }
+                }
+                if (modal.classList.contains('hidden') || event.key !== 'Tab') return;
+                const focusable = [...modal.querySelectorAll('button:not([disabled]), input:not([disabled]):not([type="hidden"]), select, a[href]')]
+                    .filter(el => el.getClientRects().length);
+                if (!focusable.length) return;
+                if (event.shiftKey && document.activeElement === focusable[0]) {
+                    event.preventDefault();
+                    focusable.at(-1).focus();
+                } else if (!event.shiftKey && document.activeElement === focusable.at(-1)) {
+                    event.preventDefault();
+                    focusable[0].focus();
+                }
+            });
+        }
+
+        function renderProviderFilters() {
+            const createButtons = (selector, values, selected, onSelect) => {
+                const group = document.querySelector(selector);
+                group.querySelectorAll('.cat-pill:not(:first-child)').forEach(button => button.remove());
+                for (const value of values) {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'cat-pill';
+                    button.textContent = value;
+                    button.addEventListener('click', () => onSelect(value, button));
+                    group.appendChild(button);
+                }
+                group.querySelectorAll('.cat-pill').forEach(button => {
+                    const active = selected === 'all' ? button === group.firstElementChild : button.textContent === selected;
+                    button.classList.toggle('active', active);
+                    button.setAttribute('aria-pressed', String(active));
+                });
+            };
+            const rubros = [...new Set(providersList.map(p => p.rubro).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es'));
+            const departments = [...new Set(providersList.map(p => p.dept).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es'));
+            if (activeRubro !== 'all' && !rubros.includes(activeRubro)) activeRubro = 'all';
+            if (activeDepartment !== 'all' && !departments.includes(activeDepartment)) activeDepartment = 'all';
+            createButtons('#providers-rubros', rubros, activeRubro, setFilter);
+            createButtons('#providers-deptos', departments, activeDepartment, setDepartmentFilter);
+        }
+
+        function applyProviderFilters() {
+            const query = normalizeText(document.getElementById('search-input').value.trim());
+            let visible = 0;
+            document.querySelectorAll('.provider-card').forEach(card => {
+                const matchesRubro = activeRubro === 'all' || card.dataset.rubro === activeRubro;
+                const matchesDepartment = activeDepartment === 'all' || card.dataset.dept === activeDepartment;
+                const matchesQuery = !query || normalizeText(card.dataset.tags + ' ' + card.textContent).includes(query);
+                card.hidden = !(matchesRubro && matchesDepartment && matchesQuery);
+                if (!card.hidden) visible++;
+            });
+            document.getElementById('providers-count').textContent = query || activeRubro !== 'all' || activeDepartment !== 'all'
+                ? `${visible} ${visible === 1 ? 'resultado' : 'resultados'}`
+                : `${visible} ${visible === 1 ? 'productor' : 'productores'} en el directorio`;
+            document.getElementById('providers-filter-empty').classList.toggle('hidden', visible !== 0 || providersList.length === 0);
         }
 
         function filterCards() {
-            const query = document.getElementById('search-input').value.toLowerCase();
-            const cards = document.querySelectorAll('.provider-card');
-            cards.forEach(card => {
-                const tags = card.getAttribute('data-tags')?.toLowerCase() || '';
-                const text = card.innerText.toLowerCase();
-                if (tags.includes(query) || text.includes(query)) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+            applyProviderFilters();
         }
 
         function setFilter(tag, btn) {
-            document.querySelectorAll('.chip').forEach(c => {
-                c.className = "chip px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all";
+            activeRubro = tag;
+            document.querySelectorAll('#providers-rubros .cat-pill').forEach(button => {
+                const selected = button === btn;
+                button.classList.toggle('active', selected);
+                button.setAttribute('aria-pressed', String(selected));
             });
-            if (btn) {
-                btn.className = "chip active px-3 py-1.5 rounded-full bg-primary text-white font-semibold transition-all";
-            }
+            applyProviderFilters();
+        }
 
-            const cleanTag = normalizeText(tag);
-            const cards = document.querySelectorAll('.provider-card');
-            cards.forEach(card => {
-                const tags = normalizeText(card.getAttribute('data-tags') || '');
-                if (cleanTag === 'all' || tags.includes(cleanTag)) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
+        function setDepartmentFilter(department, btn) {
+            activeDepartment = department;
+            document.querySelectorAll('#providers-deptos .cat-pill').forEach(button => {
+                const selected = button === btn;
+                button.classList.toggle('active', selected);
+                button.setAttribute('aria-pressed', String(selected));
             });
+            applyProviderFilters();
+        }
+
+        function clearProviderFilters() {
+            document.getElementById('search-input').value = '';
+            activeRubro = 'all';
+            setDepartmentFilter('all', document.getElementById('dept-all'));
+            setFilter('all', document.getElementById('chip-all'));
+            document.getElementById('search-input').focus();
         }
 
     </script>
