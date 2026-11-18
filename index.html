@@ -49,7 +49,7 @@
             <nav class="landing-nav" aria-label="Navegación principal">
                 <a href="catalogo.html">Catálogo</a>
                 <a href="proveedores.html">Proveedores</a>
-                <a class="landing-nav-signin" href="#accesos">Iniciar sesión</a>
+                <a class="landing-nav-signin" href="acceso.html">Iniciar sesión</a>
             </nav>
             <button id="landing-menu-button" class="landing-menu-button" type="button" aria-label="Abrir menú" aria-controls="landing-mobile-nav" aria-expanded="false">
                 <span class="material-symbols-outlined" aria-hidden="true">menu</span>
@@ -68,7 +68,7 @@
         <a href="index.html">Inicio</a>
         <a href="catalogo.html">Explorar catálogo</a>
         <a href="proveedores.html">Buscar proveedores</a>
-        <a href="#accesos">Iniciar sesión</a>
+        <a href="acceso.html">Iniciar sesión</a>
     </nav>
 
     <main>
@@ -137,32 +137,6 @@
             </div>
         </section>
 
-        <section id="accesos" class="landing-access" aria-labelledby="landing-access-title">
-            <div class="landing-shell">
-                <div id="landing-session" class="landing-session" hidden></div>
-                <div class="landing-access-header">
-                    <h2 id="landing-access-title">Tu espacio en Tawanki</h2>
-                    <p>Elige cómo quieres participar. Puedes iniciar sesión o crear tu cuenta desde cada portal.</p>
-                </div>
-                <nav class="landing-role-grid" aria-label="Acceso por perfil">
-                    <a class="landing-role" href="auth_productor.html">
-                        <span class="landing-role-icon"><span class="material-symbols-outlined" aria-hidden="true">agriculture</span></span>
-                        <span class="landing-role-info"><span class="landing-role-title">Soy productor</span><span class="landing-role-description">Publica tus productos y gestiona tus solicitudes.</span></span>
-                        <span class="material-symbols-outlined landing-role-arrow" aria-hidden="true">arrow_outward</span>
-                    </a>
-                    <a class="landing-role" href="auth_empresa.html">
-                        <span class="landing-role-icon"><span class="material-symbols-outlined" aria-hidden="true">storefront</span></span>
-                        <span class="landing-role-info"><span class="landing-role-title">Soy empresa</span><span class="landing-role-description">Encuentra oferta local para tu hotel, restaurante o negocio.</span></span>
-                        <span class="material-symbols-outlined landing-role-arrow" aria-hidden="true">arrow_outward</span>
-                    </a>
-                    <a class="landing-role" href="auth_intur.html">
-                        <span class="landing-role-icon"><span class="material-symbols-outlined" aria-hidden="true">admin_panel_settings</span></span>
-                        <span class="landing-role-info"><span class="landing-role-title">Administración INTUR</span><span class="landing-role-description">Accede a la gestión institucional de la plataforma.</span></span>
-                        <span class="material-symbols-outlined landing-role-arrow" aria-hidden="true">arrow_outward</span>
-                    </a>
-                </nav>
-            </div>
-        </section>
     </main>
 
     <footer class="landing-footer">
@@ -185,15 +159,8 @@
                 <a href="auth_intur.html">Administración INTUR</a>
             </nav>
         </div>
-        <div class="landing-shell landing-footer-bottom">
-            <span>Tawanki · Turismo Nicaragua Conecta</span>
-            <span>Proyecto Rally Innova 2026</span>
-        </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"
-        integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-    <script src="supabase-config.js"></script>
     <script>
         const menuButton = document.getElementById('landing-menu-button');
         const mobileNav = document.getElementById('landing-mobile-nav');
@@ -210,7 +177,9 @@
             document.body.style.overflow = open ? 'hidden' : '';
             if (open) {
                 restoreFocus = document.activeElement;
-                closeButton.focus();
+                requestAnimationFrame(() => {
+                    if (mobileNav.classList.contains('is-open')) closeButton.focus();
+                });
             } else if (restoreFocus) {
                 restoreFocus.focus();
                 restoreFocus = null;
@@ -240,45 +209,6 @@
             if (event.matches && mobileNav.classList.contains('is-open')) setMenuOpen(false);
         });
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const { user, profile } = await authService.getCurrentUser();
-                if (!user || !profile || !profile.rol || profile.activo === false) return;
-                const routes = {
-                    intur: { name: 'Administración INTUR', url: 'dashboard-intur.html' },
-                    productor: { name: 'Productor Local', url: 'perfil-productor.html' },
-                    empresa: { name: 'Empresa Turística', url: 'proveedores.html' }
-                };
-                const route = routes[profile.rol];
-                if (!route) return;
-                const session = document.getElementById('landing-session');
-                const identity = document.createElement('div');
-                const name = document.createElement('p');
-                name.className = 'landing-session-name';
-                name.textContent = profile.nombre_completo || 'Usuario';
-                const role = document.createElement('p');
-                role.className = 'landing-session-role';
-                role.textContent = `Sesión activa como ${route.name}`;
-                identity.append(name, role);
-                const actions = document.createElement('div');
-                actions.className = 'landing-session-actions';
-                const enter = document.createElement('a');
-                enter.href = route.url;
-                enter.textContent = 'Ir a mi espacio';
-                const logout = document.createElement('button');
-                logout.type = 'button';
-                logout.textContent = 'Cerrar sesión';
-                logout.addEventListener('click', async () => {
-                    await authService.signOut();
-                    window.location.reload();
-                });
-                actions.append(enter, logout);
-                session.append(identity, actions);
-                session.hidden = false;
-            } catch (error) {
-                console.warn('No se pudo comprobar la sesión:', error);
-            }
-        });
     </script>
 </body>
 </html>
