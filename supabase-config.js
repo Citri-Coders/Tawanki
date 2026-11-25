@@ -158,7 +158,7 @@ const DEMO_PRODUCTOS_CATALOG = [
         precio_unitario: 850,
         unidad_medida: 'pieza',
         badge_distintivo: 'Tradición y Cultura',
-        imagen_url: 'assets/demo/barro.svg',
+        imagen_url: 'assets/demo/jarron-ceramica.jpg',
         disponible: true,
         rubros: { id: 2, nombre: 'Artesanías & Barro', icono: 'palette' },
         productores: DEMO_PRODUCTORES_CATALOG[0]
@@ -172,7 +172,7 @@ const DEMO_PRODUCTOS_CATALOG = [
         precio_unitario: 650,
         unidad_medida: 'juego',
         badge_distintivo: 'Uso Hostelería',
-        imagen_url: 'assets/demo/barro.svg',
+        imagen_url: 'assets/demo/juego-tazas-barro.jpg',
         disponible: true,
         rubros: { id: 2, nombre: 'Artesanías & Barro', icono: 'palette' },
         productores: DEMO_PRODUCTORES_CATALOG[0]
@@ -186,7 +186,7 @@ const DEMO_PRODUCTOS_CATALOG = [
         precio_unitario: 280,
         unidad_medida: 'libra',
         badge_distintivo: 'Taza de Excelencia',
-        imagen_url: 'assets/demo/cafe.svg',
+        imagen_url: 'assets/demo/cafe-altura.jpg',
         disponible: true,
         rubros: { id: 1, nombre: 'Gastronomía & Café', icono: 'coffee' },
         productores: DEMO_PRODUCTORES_CATALOG[1]
@@ -200,7 +200,7 @@ const DEMO_PRODUCTOS_CATALOG = [
         precio_unitario: 190,
         unidad_medida: 'libra',
         badge_distintivo: 'Orgánico Certificado',
-        imagen_url: 'assets/demo/cafe.svg',
+        imagen_url: 'assets/demo/nibs-cacao.jpg',
         disponible: true,
         rubros: { id: 1, nombre: 'Gastronomía & Café', icono: 'coffee' },
         productores: DEMO_PRODUCTORES_CATALOG[1]
@@ -214,7 +214,7 @@ const DEMO_PRODUCTOS_CATALOG = [
         precio_unitario: 620,
         unidad_medida: 'unidad',
         badge_distintivo: 'Forestal Sostenible',
-        imagen_url: 'assets/demo/madera.svg',
+        imagen_url: 'assets/demo/bandeja-teca.jpg',
         disponible: true,
         rubros: { id: 3, nombre: 'Madera & Muebles', icono: 'carpenter' },
         productores: DEMO_PRODUCTORES_CATALOG[2]
@@ -228,7 +228,7 @@ const DEMO_PRODUCTOS_CATALOG = [
         precio_unitario: 1450,
         unidad_medida: 'unidad',
         badge_distintivo: 'Diseño Tradicional',
-        imagen_url: 'assets/demo/textil.svg',
+        imagen_url: 'assets/demo/hamaca-masaya.jpg',
         disponible: true,
         rubros: { id: 4, nombre: 'Textiles & Hamacas', icono: 'chair' },
         productores: DEMO_PRODUCTORES_CATALOG[3]
@@ -242,7 +242,7 @@ const DEMO_PRODUCTOS_CATALOG = [
         precio_unitario: 460,
         unidad_medida: 'canasta 15kg',
         badge_distintivo: 'Del Campo a la Mesa',
-        imagen_url: 'assets/demo/frutas.svg',
+        imagen_url: 'assets/demo/canasta-frutas.jpg',
         disponible: true,
         rubros: { id: 5, nombre: 'Frutas & Hortalizas', icono: 'nutrition' },
         productores: DEMO_PRODUCTORES_CATALOG[4]
@@ -256,7 +256,7 @@ const DEMO_PRODUCTOS_CATALOG = [
         precio_unitario: 1200,
         unidad_medida: 'caja x 10',
         badge_distintivo: 'Calidad Exportación',
-        imagen_url: 'assets/demo/tabaco.svg',
+        imagen_url: 'assets/demo/cofre-puros.jpg',
         disponible: true,
         rubros: { id: 19, nombre: 'Tabaco & Puros Artesanales', icono: 'smoking_rooms' },
         productores: DEMO_PRODUCTORES_CATALOG[5]
