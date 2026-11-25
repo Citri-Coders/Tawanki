@@ -335,24 +335,14 @@
                 zoomControl: true
             });
 
-            // Capa de teselas limpias y legibles (OpenStreetMap) con fallback automático a CartoDB
-            const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 18,
-                attribution: '© OpenStreetMap contributors · Tawanki INTUR'
+            // Capa de teselas limpias y legibles (CARTO Voyager — no bloquea file:// ni apps locales)
+            const cartoLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                maxZoom: 19,
+                subdomains: 'abcd',
+                attribution: '© OpenStreetMap · © CARTO · Tawanki INTUR'
             });
 
-            let fallbackLoaded = false;
-            osmLayer.on('tileerror', () => {
-                if (fallbackLoaded) return;
-                fallbackLoaded = true;
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-                    maxZoom: 19,
-                    subdomains: 'abcd',
-                    attribution: '© OpenStreetMap · © CARTO · Tawanki INTUR'
-                }).addTo(mapInstance);
-            });
-
-            osmLayer.addTo(mapInstance);
+            cartoLayer.addTo(mapInstance);
             markersLayer = L.layerGroup().addTo(mapInstance);
         }
 
