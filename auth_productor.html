@@ -6,96 +6,80 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Acceso Productor · Tawanki</title>
     <meta name="robots" content="noindex, nofollow" />
-    <meta name="theme-color" content="#0d631b" />
+    <meta name="theme-color" content="#FBF9F4" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="assets/tailwind.css" />
-    <!-- Hoja de estilos compilada -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            background: linear-gradient(135deg, rgba(13, 99, 27, 0.42) 0%, rgba(15, 23, 42, 0.5) 100%), url('assets/mosaico-nic.jpg') center / cover no-repeat fixed;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
-        @keyframes tabFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(6px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .tab-pane {
-            animation: tabFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-    </style>
 </head>
 
-<body class="flex flex-col items-center justify-center p-3 sm:p-6 text-text-main min-h-screen">
+<body class="auth-page producer-auth" data-auth-tab="login">
 
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
-    <main id="auth-card-wrapper" class="w-full max-w-md my-auto transition-all duration-300">
-        <!-- Auth Card -->
-        <div
-            class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-5 sm:p-8 border border-white/40 flex flex-col gap-5">
+    <header class="auth-site-header">
+        <div class="auth-shell auth-site-header-inner">
+            <a href="index.html" aria-label="Tawanki, volver al inicio">
+                <img src="assets/img/tawanki-logo.png" width="820" height="208" alt="Tawanki" />
+            </a>
+            <a class="auth-header-link" href="catalogo.html">Explorar catálogo <span class="material-symbols-outlined" aria-hidden="true">arrow_outward</span></a>
+        </div>
+    </header>
 
+    <main class="auth-shell auth-layout">
+        <aside class="auth-story" aria-label="Sobre Tawanki">
+            <div class="auth-story-content">
+                <p class="auth-story-kicker">Tawanki para productores</p>
+                <h2>Tu trabajo merece llegar más lejos.</h2>
+                <p>Abre tu catálogo a hoteles, restaurantes y otros negocios turísticos que buscan productos locales.</p>
+            </div>
+            <div class="auth-story-photo">
+                <img src="assets/img/artesano-ceramica-720.webp" width="720" height="900"
+                    alt="Manos trabajando una pieza de cerámica en un torno" />
+                <span>El oficio detrás de cada producto</span>
+            </div>
+        </aside>
+
+        <section id="auth-card-wrapper" class="auth-card" aria-labelledby="auth-title">
+        <!-- Auth Card -->
             <!-- Header with Back Button -->
-            <div class="flex items-center justify-between border-b border-outline-variant/30 pb-3">
-                <a href="index.html"
-                    class="flex items-center gap-1.5 text-xs font-semibold text-text-muted hover:text-primary transition-colors">
-                    <span class="material-symbols-outlined text-lg">arrow_back</span>
-                    <span>Volver a Roles</span>
+            <div class="auth-card-top">
+                <a href="index.html" class="auth-back">
+                    <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+                    <span>Volver al inicio</span>
                 </a>
-                <span
-                    class="inline-flex items-center gap-1 bg-green-light-bg text-primary text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-primary/20">
-                    <span class="material-symbols-outlined text-xs">agriculture</span> Portal de Productores
-                </span>
+                <span class="auth-role-tag">Portal de productores</span>
             </div>
 
             <!-- Role Branding -->
-            <div class="text-center flex flex-col items-center gap-2">
-                <div
-                    class="w-14 h-14 bg-amber-100/80 text-amber-800 rounded-2xl flex items-center justify-center shadow-xs border border-amber-200/60">
-                    <span class="material-symbols-outlined text-3xl">agriculture</span>
-                </div>
-                <div>
-                    <h1 class="text-2xl font-extrabold text-primary tracking-tight">Portal de Productores</h1>
-                    <p class="text-xs text-text-muted mt-0.5">Comercializa formalmente con hoteles, restaurantes y tour operadoras nacionales</p>
-                </div>
+            <div class="auth-intro">
+                <h1 id="auth-title">Bienvenido de vuelta</h1>
+                <p id="auth-intro-copy">Entra para gestionar tus productos y solicitudes.</p>
             </div>
 
             <!-- Tabs: Iniciar Sesión / Registro -->
-            <div class="flex bg-surface-bright p-1 rounded-xl border border-outline-variant/40 text-xs font-bold">
+            <div class="auth-tabs" role="tablist" aria-label="Acceso para productores">
                 <button type="button" onclick="switchAuthTab('login')" id="tab-login-btn"
-                    class="flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center">
-                    Iniciar Sesión
+                    class="auth-tab" role="tab" aria-selected="true" aria-controls="form-login" tabindex="0">
+                    Iniciar sesión
                 </button>
                 <button type="button" onclick="switchAuthTab('register')" id="tab-register-btn"
-                    class="flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center">
-                    Crear mi Cuenta
+                    class="auth-tab" role="tab" aria-selected="false" aria-controls="form-register" tabindex="-1">
+                    Crear cuenta
                 </button>
             </div>
 
             <!-- Form: Iniciar Sesión Productor -->
-            <form id="form-login" onsubmit="handleLogin(event)" class="tab-pane space-y-4 text-xs">
+            <form id="form-login" onsubmit="handleLogin(event)" class="tab-pane auth-login-form space-y-4" role="tabpanel" aria-labelledby="tab-login-btn">
                 <div>
-                    <label class="block font-bold text-text-main mb-1.5">Correo Electrónico *</label>
-                    <div class="relative">
+                    <label for="login-email" class="block font-bold text-text-main mb-1.5">Correo electrónico</label>
+                    <div class="relative auth-login-field">
                         <span
-                            class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg">mail</span>
+                            class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg" aria-hidden="true">mail</span>
                         <input type="email" id="login-email" required autocomplete="email"
                             placeholder="correo@ejemplo.com"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl pl-9 pr-3 py-2.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
@@ -104,41 +88,51 @@
 
                 <div>
                     <div class="flex justify-between items-center mb-1.5">
-                        <label class="font-bold text-text-main">Contraseña *</label>
+                        <label for="login-password" class="font-bold text-text-main">Contraseña</label>
                         <button type="button" onclick="solicitarRecuperacion()"
-                            class="text-[11px] text-primary hover:underline font-semibold">¿Olvidaste tu clave?</button>
+                            class="auth-recovery text-primary hover:underline font-semibold">¿Olvidaste tu clave?</button>
                     </div>
-                    <div class="relative">
+                    <div class="relative auth-login-field">
                         <span
-                            class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg">lock</span>
+                            class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg" aria-hidden="true">lock</span>
                         <input type="password" id="login-password" required minlength="8" autocomplete="current-password"
                             placeholder="••••••••••••"
-                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl pl-9 pr-3 py-2.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl pl-9 pr-11 py-2.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                        <button class="auth-password-toggle" type="button" aria-label="Mostrar contraseña"
+                            aria-pressed="false" aria-controls="login-password" onclick="togglePasswordVisibility(this)">
+                            <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
+                        </button>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-2 pt-1">
                     <input type="checkbox" id="remember-me" checked
                         class="rounded text-primary focus:ring-primary h-4 w-4 border-outline-variant/50" />
-                    <label for="remember-me" class="text-text-muted text-[11px] cursor-pointer">Mantener mi sesión
-                        activa</label>
+                    <label for="remember-me" class="text-text-muted cursor-pointer">Mantener mi sesión activa</label>
                 </div>
 
                 <button type="submit"
-                    class="w-full bg-primary hover:bg-primary-container active:scale-[0.99] text-white font-bold py-3 rounded-xl shadow-md hover:shadow transition-all flex items-center justify-center gap-2 text-sm mt-2">
+                    class="auth-submit w-full bg-primary hover:bg-primary-container active:scale-[0.99] text-white font-bold py-3 rounded-xl shadow-md hover:shadow transition-all flex items-center justify-center gap-2 text-sm mt-2">
                     <span>Ingresar a mi Catálogo</span>
-                    <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                    <span class="material-symbols-outlined text-lg" aria-hidden="true">arrow_forward</span>
                 </button>
             </form>
 
             <!-- Form: Registro de Nuevo Productor con Verificación Normativa -->
-            <form id="form-register" onsubmit="handleRegister(event)" class="tab-pane hidden space-y-5 text-xs">
+            <form id="form-register" onsubmit="handleRegister(event)" class="tab-pane hidden auth-register-form space-y-5" role="tabpanel" aria-labelledby="tab-register-btn" novalidate>
+                <ol class="auth-progress" aria-label="Progreso del registro">
+                    <li data-progress-step="1" aria-current="step"><span>1</span> Tus datos</li>
+                    <li data-progress-step="2"><span>2</span> Formalización</li>
+                    <li data-progress-step="3"><span>3</span> Condiciones</li>
+                </ol>
+                <p id="register-step-title" class="auth-step-label" aria-live="polite" tabindex="-1">Paso 1 de 3 · Cuéntanos sobre tu negocio</p>
+                <div class="auth-register-step" data-register-step="1">
 
                 <!-- Bloque 1: Cuenta y Datos Generales -->
                 <div class="bg-surface-bright/70 rounded-xl p-3.5 border border-outline-variant/40 space-y-3">
                     <div class="flex items-center gap-1.5 text-primary font-bold text-xs border-b border-outline-variant/30 pb-2">
                         <span class="material-symbols-outlined text-base">person</span>
-                        <span>1. Datos del Titular y Acceso</span>
+                        <span>Datos del titular y acceso</span>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -178,7 +172,7 @@
                 <div class="bg-surface-bright/70 rounded-xl p-3.5 border border-outline-variant/40 space-y-3">
                     <div class="flex items-center gap-1.5 text-primary font-bold text-xs border-b border-outline-variant/30 pb-2">
                         <span class="material-symbols-outlined text-base">location_on</span>
-                        <span>2. Ubicación y Rubro de Ciudad Creativa</span>
+                        <span>Ubicación y rubro</span>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -211,12 +205,14 @@
                     </div>
                 </div>
 
+                </div>
+                <div class="auth-register-step" data-register-step="2" hidden>
                 <!-- Bloque 3: Base de Formalización Legal y Fiscal (Ley 645 MiPYME y Ley 495 Turismo) -->
                 <div class="bg-surface-bright/70 rounded-xl p-3.5 border border-outline-variant/40 space-y-3">
                     <div class="flex items-center justify-between border-b border-outline-variant/30 pb-2">
                         <div class="flex items-center gap-1.5 text-primary font-bold text-xs">
                             <span class="material-symbols-outlined text-base">verified_user</span>
-                            <span>3. Formalización Base (Leyes N.º 645 y N.º 495)</span>
+                            <span>Formalización base (Leyes N.º 645 y N.º 495)</span>
                         </div>
                         <span class="text-[10px] bg-primary/10 text-primary font-semibold px-2 py-0.5 rounded-full">Requisitos Transversales</span>
                     </div>
@@ -273,7 +269,7 @@
                     <div class="flex items-center justify-between border-b border-amber-200/60 pb-2">
                         <div class="flex items-center gap-1.5 text-amber-900 font-bold text-xs">
                             <span id="dynamic-req-icon" class="material-symbols-outlined text-base">rule</span>
-                            <span id="dynamic-req-title">4. Requisitos Específicos de tu Rubro</span>
+                            <span id="dynamic-req-title">Requisitos específicos de tu rubro</span>
                         </div>
                         <span id="dynamic-req-badge" class="inline-flex items-center gap-1 text-[10px] bg-amber-200/70 text-amber-900 font-bold px-2.5 py-0.5 rounded-full border border-amber-300/60">
                             <span id="dynamic-req-badge-icon" class="material-symbols-outlined text-xs">rule</span>
@@ -370,12 +366,14 @@
                     </div>
                 </div>
 
+                </div>
+                <div class="auth-register-step" data-register-step="3" hidden>
                 <!-- Bloque 5: Condiciones Comerciales para Tour Operadoras & Hoteles -->
                 <div class="bg-surface-bright/70 rounded-xl p-3.5 border border-outline-variant/40 space-y-3">
                     <div class="flex items-center justify-between border-b border-outline-variant/30 pb-2">
                         <div class="flex items-center gap-1.5 text-primary font-bold text-xs">
                             <span class="material-symbols-outlined text-base">handshake</span>
-                            <span>5. Alianzas Comerciales B2B (Hoteles y Tour Operadoras)</span>
+                            <span>Condiciones comerciales con hoteles y tour operadoras</span>
                         </div>
                         <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">Encadenamiento</span>
                     </div>
@@ -416,19 +414,27 @@
                     </div>
                 </div>
 
-                <button type="submit"
-                    class="w-full bg-primary hover:bg-primary-container active:scale-[0.99] text-white font-bold py-3 rounded-xl shadow-md hover:shadow transition-all flex items-center justify-center gap-2 text-xs mt-3">
-                    <span>Completar Registro y Enviar a Validación INTUR</span>
-                    <span class="material-symbols-outlined text-base">how_to_reg</span>
-                </button>
+                <div class="auth-review-note">
+                    <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                    <span>Tu solicitud se enviará a revisión de INTUR. Si recibes un correo de confirmación, sigue el enlace para activar tu acceso.</span>
+                </div>
+                </div>
+                <div class="auth-register-actions">
+                    <button id="register-back" class="auth-step-back" type="button" onclick="changeRegisterStep(-1)" hidden>
+                        <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span> Anterior
+                    </button>
+                    <button id="register-next" class="auth-step-next" type="button" onclick="changeRegisterStep(1)">
+                        Continuar <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+                    </button>
+                    <button id="register-submit" type="submit" class="auth-submit" hidden>
+                    <span>Enviar solicitud de registro</span>
+                        <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+                    </button>
+                </div>
             </form>
 
-            <div
-                class="p-3 rounded-xl bg-green-light-bg/70 border border-primary/20 flex items-center gap-2 text-[11px] text-primary">
-                <span class="material-symbols-outlined text-base">verified</span>
-                <span>Al registrarte, tu expediente normativo será evaluado por delegados de INTUR para otorgar el Sello Oficial de Verificación.</span>
-            </div>
-        </div>
+            <p class="auth-card-footnote">Una conexión más cercana con el turismo de Nicaragua.</p>
+        </section>
     </main>
 
     <!-- Supabase SDK + Config -->
@@ -448,34 +454,109 @@
             }
         })();
 
-        document.addEventListener('DOMContentLoaded', cargarCatalogos);
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarCatalogos();
+            document.querySelectorAll('#form-register label:not([for])').forEach(label => {
+                if (label.querySelector('input')) return;
+                const control = label.parentElement.querySelector(':scope > input, :scope > select, :scope > textarea');
+                if (control?.id) label.htmlFor = control.id;
+            });
+        });
+
+        let registerStep = 1;
+        const registerStepTitles = [
+            'Paso 1 de 3 · Cuéntanos sobre tu negocio',
+            'Paso 2 de 3 · Datos de formalización',
+            'Paso 3 de 3 · Cómo quieres trabajar con empresas'
+        ];
 
         function switchAuthTab(tab) {
-            const cardWrapper = document.getElementById('auth-card-wrapper');
+            const isRegister = tab === 'register';
             const loginBtn = document.getElementById('tab-login-btn');
             const regBtn = document.getElementById('tab-register-btn');
             const loginForm = document.getElementById('form-login');
             const regForm = document.getElementById('form-register');
 
-            if (tab === 'login') {
-                cardWrapper.className = "w-full max-w-md my-auto transition-all duration-300";
-                loginBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center font-bold";
-                regBtn.className = "flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center";
-                loginForm.classList.remove('hidden');
-                loginForm.classList.remove('tab-pane');
-                void loginForm.offsetWidth;
-                loginForm.classList.add('tab-pane');
-                regForm.classList.add('hidden');
-            } else {
-                cardWrapper.className = "w-full max-w-2xl my-auto transition-all duration-300";
-                regBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center font-bold";
-                loginBtn.className = "flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center";
-                regForm.classList.remove('hidden');
-                regForm.classList.remove('tab-pane');
-                void regForm.offsetWidth;
-                regForm.classList.add('tab-pane');
-                loginForm.classList.add('hidden');
+            document.body.dataset.authTab = isRegister ? 'register' : 'login';
+            document.getElementById('auth-title').textContent = isRegister ? 'Crea tu cuenta de productor' : 'Bienvenido de vuelta';
+            document.getElementById('auth-intro-copy').textContent = isRegister
+                ? 'Completa tus datos en tres pasos para presentar tu oferta local.'
+                : 'Entra para gestionar tus productos y solicitudes.';
+            loginBtn.setAttribute('aria-selected', String(!isRegister));
+            regBtn.setAttribute('aria-selected', String(isRegister));
+            loginBtn.tabIndex = isRegister ? -1 : 0;
+            regBtn.tabIndex = isRegister ? 0 : -1;
+            loginForm.hidden = isRegister;
+            regForm.hidden = !isRegister;
+            loginForm.classList.toggle('hidden', isRegister);
+            regForm.classList.toggle('hidden', !isRegister);
+        }
+
+        document.querySelector('.auth-tabs').addEventListener('keydown', event => {
+            if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+            event.preventDefault();
+            const current = document.getElementById('tab-register-btn').getAttribute('aria-selected') === 'true';
+            const next = event.key === 'Home' ? 'login' : event.key === 'End' ? 'register' : current ? 'login' : 'register';
+            switchAuthTab(next);
+            document.getElementById(`tab-${next === 'register' ? 'register' : 'login'}-btn`).focus();
+        });
+
+        function togglePasswordVisibility(button) {
+            const field = document.getElementById(button.getAttribute('aria-controls'));
+            const visible = field.type === 'password';
+            field.type = visible ? 'text' : 'password';
+            button.setAttribute('aria-pressed', String(visible));
+            button.setAttribute('aria-label', visible ? 'Ocultar contraseña' : 'Mostrar contraseña');
+            button.querySelector('.material-symbols-outlined').textContent = visible ? 'visibility_off' : 'visibility';
+        }
+
+        function showRegisterStep(step, focusTitle = true) {
+            registerStep = step;
+            document.querySelectorAll('[data-register-step]').forEach(panel => {
+                panel.hidden = Number(panel.dataset.registerStep) !== step;
+            });
+            document.querySelectorAll('[data-progress-step]').forEach(item => {
+                const number = Number(item.dataset.progressStep);
+                item.classList.toggle('is-complete', number < step);
+                if (number === step) item.setAttribute('aria-current', 'step');
+                else item.removeAttribute('aria-current');
+            });
+            document.getElementById('register-back').hidden = step === 1;
+            document.getElementById('register-next').hidden = step === 3;
+            document.getElementById('register-submit').hidden = step !== 3;
+            const title = document.getElementById('register-step-title');
+            title.textContent = registerStepTitles[step - 1];
+            if (focusTitle) {
+                title.focus({ preventScroll: true });
+                title.scrollIntoView({
+                    block: 'start',
+                    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+                });
             }
+        }
+
+        function validateRegisterStep(step) {
+            const panel = document.querySelector(`[data-register-step="${step}"]`);
+            const invalid = [...panel.querySelectorAll('input[required], select[required], textarea[required]')]
+                .find(control => !control.checkValidity());
+            if (!invalid) return true;
+            showRegisterStep(step, false);
+            invalid.focus();
+            invalid.reportValidity();
+            return false;
+        }
+
+        function changeRegisterStep(direction) {
+            if (direction > 0 && !validateRegisterStep(registerStep)) return;
+            showRegisterStep(Math.min(3, Math.max(1, registerStep + direction)));
+        }
+
+        function validateRegistrationSteps() {
+            for (let step = 1; step <= 3; step++) {
+                if (!validateRegisterStep(step)) return false;
+            }
+            showRegisterStep(3, false);
+            return true;
         }
 
         const RUBRO_ICONS = {
@@ -577,16 +658,17 @@
 
             if (!rubroObj) {
                 if (titleIcon) titleIcon.textContent = "rule";
-                title.textContent = "4. Requisitos Específicos de tu Rubro";
+                title.textContent = "Requisitos específicos de tu rubro";
                 subtitle.textContent = "Selecciona un rubro arriba para desplegar los requisitos y licencias sanitarias o ambientales correspondientes.";
                 if (badgeIcon) badgeIcon.textContent = "rule";
                 if (badgeText) badgeText.textContent = "Normativa Sectorial";
                 return;
             }
 
+            const nombre = (rubroObj.nombre || '').toLowerCase();
             const icono = rubroObj.icono || 'category';
             if (titleIcon) titleIcon.textContent = icono;
-            title.textContent = `4. Requisitos Normativos: ${rubroObj.nombre}`;
+            title.textContent = `Requisitos normativos: ${rubroObj.nombre}`;
             if (badgeIcon) badgeIcon.textContent = icono;
             const emoji = getRubroEmoji(rubroObj.icono, rubroObj.nombre);
             if (badgeText) badgeText.textContent = `${emoji} Ciudad Creativa`;
@@ -667,6 +749,7 @@
 
         async function handleRegister(e) {
             e.preventDefault();
+            if (!validateRegistrationSteps()) return;
             // Bloque 1
             const nombre = document.getElementById('reg-name').value.trim();
             const taller = document.getElementById('reg-taller').value.trim();

@@ -6,189 +6,105 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Acceso Institucional INTUR · Tawanki</title>
     <meta name="robots" content="noindex, nofollow" />
-    <meta name="theme-color" content="#0d631b" />
+    <meta name="theme-color" content="#FBF9F4" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="assets/tailwind.css" />
-    <!-- Hoja de estilos compilada -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            background: linear-gradient(135deg, rgba(13, 99, 27, 0.38) 0%, rgba(15, 23, 42, 0.48) 100%), url('assets/mosaico-nic.jpg') center / cover no-repeat fixed;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-            @keyframes tabFadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .tab-pane {
-            animation: tabFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-    </style>
 </head>
 
-<body class="flex flex-col items-center justify-center p-4 sm:p-6 text-text-main min-h-screen">
+<body class="auth-page intur-auth">
 
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
-    <main class="w-full max-w-md my-auto">
-        <!-- Auth Card -->
-        <div
-            class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-6 sm:p-8 border border-white/40 flex flex-col gap-6">
+    <header class="auth-site-header">
+        <div class="auth-shell auth-site-header-inner">
+            <a href="index.html" aria-label="Tawanki, volver al inicio">
+                <img src="assets/img/tawanki-logo.png" width="820" height="208" alt="Tawanki" />
+            </a>
+            <a class="auth-header-link" href="catalogo.html">Explorar catálogo <span class="material-symbols-outlined" aria-hidden="true">arrow_outward</span></a>
+        </div>
+    </header>
 
-            <!-- Header with Back Button -->
-            <div class="flex items-center justify-between border-b border-outline-variant/30 pb-4">
-                <a href="index.html"
-                    class="flex items-center gap-1.5 text-xs font-semibold text-text-muted hover:text-primary transition-colors">
-                    <span class="material-symbols-outlined text-lg">arrow_back</span>
-                    <span>Volver a Roles</span>
+    <main class="auth-shell auth-layout">
+        <aside class="auth-story" aria-label="Sobre Tawanki">
+            <div class="auth-story-content">
+                <p class="auth-story-kicker">Tawanki para INTUR</p>
+                <h2>Una red local, una mirada nacional.</h2>
+                <p>Da seguimiento a productores y empresas turísticas desde un espacio de gestión institucional.</p>
+            </div>
+            <div class="auth-story-photo">
+                <img src="assets/img/artesano-ceramica-720.webp" width="720" height="900"
+                    alt="Manos trabajando una pieza de cerámica en un torno" />
+                <span>El trabajo local en el centro</span>
+            </div>
+        </aside>
+
+        <section class="auth-card" aria-labelledby="auth-title">
+            <div class="auth-card-top">
+                <a href="index.html" class="auth-back">
+                    <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+                    <span>Volver al inicio</span>
                 </a>
-                <span
-                    class="inline-flex items-center gap-1 bg-green-light-bg text-primary text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-primary/20">
-                    <span class="material-symbols-outlined text-xs">admin_panel_settings</span> Administración INTUR
-                </span>
+                <span class="auth-role-tag">Acceso institucional INTUR</span>
             </div>
 
-            <!-- Role Branding -->
-            <div class="text-center flex flex-col items-center gap-2">
-                <div
-                    class="w-16 h-16 bg-emerald-100/70 text-emerald-800 rounded-2xl flex items-center justify-center shadow-xs border border-emerald-200/60">
-                    <span class="material-symbols-outlined text-3xl">admin_panel_settings</span>
-                </div>
+            <div class="auth-intro">
+                <h1 id="auth-title">Accede a tu panel</h1>
+                <p id="auth-intro-copy">Ingresa con tu cuenta institucional para continuar.</p>
+            </div>
+
+            <form id="form-login" onsubmit="handleLogin(event)" class="auth-login-form space-y-4">
                 <div>
-                    <h1 class="text-2xl font-extrabold text-primary tracking-tight">Administración</h1>
-                    <p class="text-xs text-text-muted mt-0.5">Acceso institucional a delegaciones y panel central INTUR</p>
-                </div>
-            </div>
-
-            <!-- Tabs: Iniciar Sesión / Solicitar Registro / Activar con Código -->
-            <div class="flex bg-surface-bright p-1 rounded-xl border border-outline-variant/40 text-[11px] font-bold gap-1">
-                <button type="button" onclick="switchAuthTab('login')" id="tab-login-btn"
-                    class="flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center">
-                    Iniciar Sesión
-                </button>
-                <button type="button" onclick="switchAuthTab('register')" id="tab-register-btn"
-                    class="flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center">
-                    Solicitar Registro
-                </button>
-                <button type="button" onclick="switchAuthTab('activate')" id="tab-activate-btn"
-                    class="flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center">
-                    Activar con Código
-                </button>
-            </div>
-
-            <!-- Form 1: Iniciar Sesión INTUR -->
-            <form id="form-login" onsubmit="handleLogin(event)" class="tab-pane space-y-4 text-xs">
-                <div>
-                    <label class="block font-bold text-text-main mb-1.5">Correo Institucional INTUR *</label>
-                    <div class="relative">
+                    <label for="login-email" class="block font-bold text-text-main mb-1.5">Correo institucional</label>
+                    <div class="relative auth-login-field">
                         <span
-                            class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg">badge</span>
-                        <input type="email" id="login-email" required placeholder="funcionario@intur.gob.ni"
+                            class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg" aria-hidden="true">badge</span>
+                        <input type="email" id="login-email" required autocomplete="email" placeholder="funcionario@intur.gob.ni"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl pl-9 pr-3 py-2.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
                     </div>
                 </div>
 
                 <div>
                     <div class="flex justify-between items-center mb-1.5">
-                        <label class="font-bold text-text-main">Contraseña *</label>
+                        <label for="login-password" class="font-bold text-text-main">Contraseña</label>
                         <button type="button" onclick="solicitarRecuperacion()"
-                            class="text-[11px] text-primary hover:underline font-semibold">¿Olvidaste tu clave?</button>
+                            class="auth-recovery text-primary hover:underline font-semibold">¿Olvidaste tu clave?</button>
                     </div>
-                    <div class="relative">
+                    <div class="relative auth-login-field">
                         <span
-                            class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg">lock</span>
+                            class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg" aria-hidden="true">lock</span>
                         <input type="password" id="login-password" required minlength="8" autocomplete="current-password"
                             placeholder="••••••••••••"
-                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl pl-9 pr-3 py-2.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                            class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl pl-9 pr-11 py-2.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                        <button class="auth-password-toggle" type="button" aria-label="Mostrar contraseña"
+                            aria-pressed="false" aria-controls="login-password" onclick="togglePasswordVisibility(this)">
+                            <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
+                        </button>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-2 pt-1">
                     <input type="checkbox" id="remember-me" checked
                         class="rounded text-primary focus:ring-primary h-4 w-4 border-outline-variant/50" />
-                    <label for="remember-me" class="text-text-muted text-[11px] cursor-pointer">Recordar sesión en este
-                        equipo</label>
+                    <label for="remember-me" class="text-text-muted cursor-pointer">Mantener mi sesión activa</label>
                 </div>
 
                 <button type="submit"
-                    class="w-full bg-primary hover:bg-primary-container active:scale-[0.99] text-white font-bold py-3 rounded-xl shadow-md hover:shadow transition-all flex items-center justify-center gap-2 text-sm mt-2">
-                    <span>Acceder al Panel INTUR</span>
-                    <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                    class="auth-submit w-full bg-primary hover:bg-primary-container active:scale-[0.99] text-white font-bold py-3 rounded-xl shadow-md hover:shadow transition-all flex items-center justify-center gap-2 text-sm mt-2">
+                    <span>Entrar al panel INTUR</span>
+                    <span class="material-symbols-outlined text-lg" aria-hidden="true">arrow_forward</span>
                 </button>
             </form>
 
-            <!-- Form 2: Solicitar Registro Funcionario (Sin código previo) -->
-            <form id="form-register" onsubmit="handleRegister(event)" class="hidden space-y-3 text-xs">
-                <div>
-                    <label class="block font-bold text-text-main mb-1">Nombre Completo *</label>
-                    <input type="text" id="reg-name" required placeholder="Lic. María Hernández"
-                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                </div>
-
-                <div>
-                    <label class="block font-bold text-text-main mb-1">Correo Institucional (@intur.gob.ni) *</label>
-                    <input type="email" id="reg-email" required placeholder="maria.hernandez@intur.gob.ni"
-                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                </div>
-
-                <div>
-                    <label class="block font-bold text-text-main mb-1">Crear Contraseña *</label>
-                    <input type="password" id="reg-password" required minlength="8" autocomplete="new-password"
-                        placeholder="Mínimo 8 caracteres"
-                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                </div>
-
-                <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200/60 text-[11px] text-emerald-900 leading-relaxed">
-                    <p class="font-bold flex items-center gap-1 mb-1">
-                        <span class="material-symbols-outlined text-sm text-primary">verified_user</span>
-                        Validación Institucional Dual:
-                    </p>
-                    <p>Al registrarte, tu solicitud y código quedan registrados en Supabase. El Administrador de TI puede:</p>
-                    <p class="mt-1 font-semibold text-primary">• Aprobar tu cuenta directamente en el sistema, o</p>
-                    <p class="font-semibold text-primary">• Enviarte el código de 6 dígitos a tu correo @intur.gob.ni.</p>
-                </div>
-
-                <button type="submit"
-                    class="w-full bg-primary hover:bg-primary-container active:scale-[0.99] text-white font-bold py-2.5 rounded-xl shadow-md hover:shadow transition-all flex items-center justify-center gap-2 text-xs mt-2">
-                    <span>Enviar Solicitud Institucional</span>
-                    <span class="material-symbols-outlined text-base">how_to_reg</span>
-                </button>
-            </form>
-
-            <!-- Form 3: Activar Cuenta con Código de Verificación -->
-            <form id="form-activate" onsubmit="handleActivate(event)" class="hidden space-y-3 text-xs">
-                <div>
-                    <label class="block font-bold text-text-main mb-1">Correo Institucional (@intur.gob.ni) *</label>
-                    <input type="email" id="act-email" required placeholder="maria.hernandez@intur.gob.ni"
-                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                </div>
-
-                <div>
-                    <label class="block font-bold text-text-main mb-1">Código de Activación INTUR *</label>
-                    <input type="text" id="act-token" required autocomplete="off" placeholder="INTUR-123456"
-                        class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs uppercase font-mono tracking-wider focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                    <p class="text-[10px] text-text-muted mt-1">Ingresa el código proporcionado por el Administrador de TI o recibido en tu correo institucional.</p>
-                </div>
-
-                <button type="submit"
-                    class="w-full bg-primary hover:bg-primary-container active:scale-[0.99] text-white font-bold py-2.5 rounded-xl shadow-md hover:shadow transition-all flex items-center justify-center gap-2 text-xs mt-2">
-                    <span>Verificar y Activar Cuenta</span>
-                    <span class="material-symbols-outlined text-base">check_circle</span>
-                </button>
-            </form>
-
-            <p class="text-[11px] text-center text-text-muted">
-                Plataforma oficial respaldada por INTUR · Rally Innovación 2026
+            <p class="auth-card-footnote">Acceso reservado al personal institucional de INTUR.<br />
+                Si necesitas una cuenta, solicítala al área de TI de INTUR.
             </p>
-        </div>
+        </section>
     </main>
 
     <!-- Supabase SDK + Config -->
@@ -208,46 +124,13 @@
             }
         })();
 
-        function switchAuthTab(tab) {
-            const loginBtn = document.getElementById('tab-login-btn');
-            const regBtn = document.getElementById('tab-register-btn');
-            const actBtn = document.getElementById('tab-activate-btn');
-            const loginForm = document.getElementById('form-login');
-            const regForm = document.getElementById('form-register');
-            const actForm = document.getElementById('form-activate');
-
-            [loginBtn, regBtn, actBtn].forEach(b => {
-                if (b) b.className = "flex-1 py-2 rounded-lg text-text-muted hover:text-text-main transition-all text-center";
-            });
-            [loginForm, regForm, actForm].forEach(f => {
-                if (f) {
-                    f.classList.add('hidden');
-                    f.classList.remove('tab-pane');
-                }
-            });
-
-            if (tab === 'login') {
-                if (loginBtn) loginBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center font-bold";
-                if (loginForm) {
-                    loginForm.classList.remove('hidden');
-                    void loginForm.offsetWidth;
-                    loginForm.classList.add('tab-pane');
-                }
-            } else if (tab === 'register') {
-                if (regBtn) regBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center font-bold";
-                if (regForm) {
-                    regForm.classList.remove('hidden');
-                    void regForm.offsetWidth;
-                    regForm.classList.add('tab-pane');
-                }
-            } else if (tab === 'activate') {
-                if (actBtn) actBtn.className = "flex-1 py-2 rounded-lg bg-white text-primary shadow-sm transition-all text-center font-bold";
-                if (actForm) {
-                    actForm.classList.remove('hidden');
-                    void actForm.offsetWidth;
-                    actForm.classList.add('tab-pane');
-                }
-            }
+        function togglePasswordVisibility(button) {
+            const field = document.getElementById(button.getAttribute('aria-controls'));
+            const visible = field.type === 'password';
+            field.type = visible ? 'text' : 'password';
+            button.setAttribute('aria-pressed', String(visible));
+            button.setAttribute('aria-label', visible ? 'Ocultar contraseña' : 'Mostrar contraseña');
+            button.querySelector('.material-symbols-outlined').textContent = visible ? 'visibility_off' : 'visibility';
         }
 
         async function solicitarRecuperacion() {
@@ -303,107 +186,13 @@
             }
 
             if (profile.rol !== 'intur') {
-                showToast('Solicitud en revisión. Si recibiste un código en tu correo, ve a "Activar con Código".', 'warning');
-                document.getElementById('act-email').value = email;
+                showToast('Esta cuenta no tiene acceso institucional. Solicítalo al área de TI de INTUR.', 'warning');
+                await authService.signOut();
                 return;
             }
 
             showToast('¡Acceso concedido! Redirigiendo al panel...', 'success');
             setTimeout(() => window.location.replace(DASHBOARD_URL), 700);
-        }
-
-        async function handleRegister(e) {
-            e.preventDefault();
-            const nombre = document.getElementById('reg-name').value.trim();
-            const email = document.getElementById('reg-email').value.trim();
-            const password = document.getElementById('reg-password').value;
-
-            if (!email.endsWith(DOMINIO_INTUR)) {
-                showToast('El registro requiere un correo @intur.gob.ni.', 'error');
-                return;
-            }
-            if (password.length < 8) {
-                showToast('La contraseña debe tener al menos 8 caracteres.', 'error');
-                return;
-            }
-
-            showToast('Registrando solicitud institucional...', 'info');
-
-            // 1. Crear el usuario en auth (el trigger creará el perfil inicial)
-            const { data, error } = await authService.signUp({
-                email,
-                password,
-                nombreCompleto: nombre,
-                rol: 'productor',
-                telefono: '+505 2222-3800'
-            });
-
-            if (error) {
-                console.error("Error al registrar en Supabase:", error);
-                showToast('Error al registrar: ' + (error.message || 'intenta de nuevo'), 'error');
-                return;
-            }
-
-            // 2. Registrar la solicitud institucional y generar el código visible para TI
-            try {
-                await supabaseClient.rpc('solicitar_registro_intur', {
-                    p_nombre: nombre,
-                    p_email: email
-                });
-            } catch (rpcErr) {
-                console.warn("Aviso en solicitud institucional:", rpcErr);
-            }
-
-            showToast('¡Solicitud registrada! Pendiente de aprobación por TI o verificación por correo.', 'success');
-
-            // Prellenar campos
-            document.getElementById('act-email').value = email;
-            document.getElementById('login-email').value = email;
-
-            setTimeout(() => {
-                switchAuthTab('activate');
-                showToast('Si TI te compartió el código a tu correo @intur.gob.ni, ingrésalo aquí.', 'info');
-            }, 1200);
-        }
-
-        async function handleActivate(e) {
-            e.preventDefault();
-            const email = document.getElementById('act-email').value.trim();
-            const token = document.getElementById('act-token').value.trim();
-
-            if (!email.endsWith(DOMINIO_INTUR)) {
-                showToast('Ingresa tu correo oficial @intur.gob.ni.', 'error');
-                return;
-            }
-            if (!token) {
-                showToast('Ingresa el código de activación.', 'warning');
-                return;
-            }
-
-            showToast('Verificando código institucional...', 'info');
-
-            const { data, error } = await supabaseClient.rpc('canjear_codigo_intur', {
-                p_codigo: token,
-                p_email: email
-            });
-
-            if (error) {
-                showToast('No se pudo verificar: ' + (error.message || 'código inválido o expirado'), 'error');
-                return;
-            }
-
-            showToast('¡Código verificado con éxito! Cuenta institucional activada.', 'success');
-
-            const actual = await authService.getCurrentUser();
-            if (actual.user && actual.user.email?.toLowerCase() === email.toLowerCase()) {
-                setTimeout(() => window.location.replace(DASHBOARD_URL), 900);
-            } else {
-                setTimeout(() => {
-                    switchAuthTab('login');
-                    document.getElementById('login-email').value = email;
-                    showToast('Ingresa con tu contraseña para acceder al Panel.', 'info');
-                }, 1000);
-            }
         }
     </script>
 

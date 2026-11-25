@@ -7,7 +7,7 @@
     <title>Catálogo de insumos y productos locales de Nicaragua | Tawanki</title>
     <meta name="description"
         content="Catálogo B2B de café, artesanías, textiles y alimentos de pequeños productores de Nicaragua. Consulta precios directos y solicita cotizaciones." />
-    <meta name="theme-color" content="#0d631b" />
+    <meta name="theme-color" content="#FBF9F4" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
@@ -21,8 +21,7 @@
     <meta property="og:image" content="https://tawanki.vercel.app/assets/mosaico-nic.jpg" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="assets/tailwind.css" />
-    <!-- Google Fonts & Material Symbols -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json">
@@ -47,7 +46,7 @@
     </script>
 </head>
 
-<body class="bg-surface-bright text-text-main flex flex-col h-screen overflow-hidden font-sans antialiased">
+<body class="catalog-page flex flex-col h-screen overflow-hidden">
 
     <noscript>
         <div class="p-4 bg-green-light-bg border-b border-primary/20 text-xs text-primary">
@@ -61,15 +60,18 @@
     <div id="toast-container" class="fixed top-5 right-5 z-[100] flex flex-col gap-3 pointer-events-none"></div>
 
     <!-- ================= TOP APP BAR (HEADER SUPERIOR) ================= -->
-    <header class="bg-surface-white w-full z-40 flex justify-between items-center px-4 md:px-8 py-3 border-b border-outline-variant/30 shadow-xs shrink-0 relative">
+    <header class="catalog-header w-full z-40 flex justify-between items-center shrink-0 relative">
         
         <!-- ESQUINA SUPERIOR IZQUIERDA: ACORDEÓN / MENÚ DE MÓDULOS -->
-        <div class="flex items-center gap-3">
+        <div class="catalog-header-start flex items-center gap-3">
+            <a class="catalog-brand" href="index.html" aria-label="Tawanki, volver al inicio">
+                <img src="assets/img/tawanki-logo.png" width="820" height="208" alt="Tawanki" />
+            </a>
             <div class="relative">
                 <button id="btn-menu-toggle" onclick="toggleNavAccordion(event)"
-                    class="flex items-center gap-2 px-3 py-2 rounded-xl bg-surface-bright hover:bg-green-light-bg text-primary border border-outline-variant/40 hover:border-primary transition-all active:scale-95 shadow-2xs cursor-pointer">
-                    <span class="material-symbols-outlined text-2xl">menu</span>
-                    <span class="text-xs font-bold hidden sm:inline">Menú Catálogo</span>
+                    class="catalog-header-button flex items-center gap-2 cursor-pointer" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="nav-accordion-dropdown">
+                    <span class="material-symbols-outlined text-2xl" aria-hidden="true">menu</span>
+                    <span class="text-xs font-bold hidden sm:inline">Menú</span>
                     <span class="material-symbols-outlined text-sm text-text-muted transition-transform" id="menu-arrow">expand_more</span>
                 </button>
 
@@ -107,19 +109,11 @@
             </div>
 
             <!-- Título / Logo -->
-            <div class="flex items-center gap-2.5">
-                <div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm">
-                    <span class="material-symbols-outlined text-xl">inventory_2</span>
-                </div>
-                <div>
-                    <p class="text-sm font-extrabold text-primary leading-tight">Catálogo de Insumos y Productos</p>
-                    <p class="text-[11px] text-text-muted font-medium">Turismo Nicaragua Conecta · B2B</p>
-                </div>
-            </div>
+            <span class="catalog-header-label">Catálogo de productos</span>
         </div>
 
         <!-- ESQUINA SUPERIOR DERECHA: NOTIFICACIONES + PERFIL + CAMBIO DE PERFIL SEGURO + CERRAR SESIÓN -->
-        <div class="flex items-center gap-3">
+        <div class="catalog-header-end flex items-center gap-3">
             <a href="mapa.html"
                 class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-green-light-bg text-primary text-xs font-bold border border-primary/20 hover:shadow-xs transition-all">
                 <span class="material-symbols-outlined text-base">travel_explore</span>
@@ -127,19 +121,19 @@
             </a>
             
             <button onclick="showToast('No hay notificaciones pendientes', 'info')"
-                class="text-text-muted hover:text-primary hover:bg-surface-container p-2 rounded-full transition-colors relative flex items-center justify-center">
-                <span class="material-symbols-outlined text-2xl">notifications</span>
+                class="catalog-icon-button text-text-muted relative flex items-center justify-center" aria-label="Notificaciones">
+                <span class="material-symbols-outlined text-2xl" aria-hidden="true">notifications</span>
             </button>
 
             <!-- Menú Desplegable de Perfil Seguro -->
             <div class="relative">
                 <button id="btn-profile-toggle" onclick="toggleProfileDropdown(event)"
-                    class="flex items-center gap-2.5 p-1.5 pr-2.5 rounded-xl hover:bg-surface-bright border border-transparent hover:border-outline-variant/40 transition-all cursor-pointer">
+                    class="catalog-profile-button flex items-center gap-2.5 cursor-pointer" aria-label="Abrir menú de perfil" aria-expanded="false" aria-controls="profile-dropdown">
                     <img id="user-cat-avatar" alt="Foto Perfil" class="w-8 h-8 rounded-full object-cover border border-primary/40 shadow-xs bg-surface-container"
                         src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" />
                     <div class="hidden sm:block text-left">
                         <p id="user-cat-name-header" class="text-xs font-bold text-on-surface leading-tight">Cargando…</p>
-                        <p class="text-[10px] text-primary font-semibold">Turismo Conecta</p>
+                        <p class="text-[10px] text-primary font-semibold">Mi cuenta</p>
                     </div>
                     <span class="material-symbols-outlined text-sm text-text-muted">arrow_drop_down</span>
                 </button>
@@ -185,60 +179,61 @@
     </header>
 
     <!-- ================= MAIN CANVAS FULL-WIDTH ================= -->
-    <main class="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar pb-20 w-full">
-        <div class="max-w-[1600px] mx-auto space-y-6">
+    <main id="catalog-main" class="catalog-main flex-1 overflow-y-auto custom-scrollbar w-full">
+        <div class="catalog-shell">
 
             <!-- Context Banner Full Width -->
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface-white p-6 rounded-2xl shadow-sm border border-outline-variant/30">
+            <section class="catalog-intro" aria-labelledby="catalog-title">
                 <div>
-                    <h1 class="text-2xl font-extrabold text-on-surface mb-1">Catálogo Nacional de Insumos</h1>
-                    <p class="text-xs text-text-muted">Productos de pequeños productores locales con precios directos. La verificación INTUR se muestra en cada ficha.</p>
+                    <p class="catalog-context">Productos de Nicaragua</p>
+                    <h1 id="catalog-title">Del taller y la tierra, a tu negocio.</h1>
+                    <p>Explora la oferta local, conoce a quienes la producen y solicita una cotización directamente.</p>
                 </div>
-                <div class="flex gap-2">
-                    <span class="px-3.5 py-2 bg-green-light-bg text-primary text-xs font-bold rounded-xl border border-primary/20 flex items-center gap-1.5">
-                        <span class="material-symbols-outlined text-base">cloud_done</span> Base de Datos Supabase
-                    </span>
-                </div>
-            </div>
+                <p class="catalog-count" id="catalog-count" aria-live="polite">Cargando productos…</p>
+            </section>
 
             <!-- Filter Chips & Search Bar Full Width -->
-            <div class="bg-surface-white p-5 rounded-2xl shadow-sm border border-outline-variant/30 space-y-3">
-                <div class="flex flex-col md:flex-row items-center justify-between gap-3">
-                    <div class="relative w-full md:w-96">
-                        <span class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg">search</span>
+            <section class="catalog-filters" aria-label="Buscar y filtrar productos">
+                <div class="catalog-search-wrap">
+                    <label for="cat-search">Encuentra lo que necesitas</label>
+                    <div class="catalog-search-field">
+                        <span class="material-symbols-outlined" aria-hidden="true">search</span>
                         <input id="cat-search" oninput="filterCatalog()"
-                            class="w-full pl-9 pr-3 py-2 bg-surface-bright border border-outline-variant/40 rounded-xl text-xs text-text-main focus:ring-1 focus:ring-primary outline-none"
-                            placeholder="Buscar café, hamacas, cacao, miel..." type="text" />
-                    </div>
-
-                    <!-- Category Pills -->
-                    <div class="flex flex-wrap items-center gap-2 text-xs w-full md:w-auto">
-                        <button onclick="setCatFilter('all', this)" id="cat-pill-all" class="cat-pill active px-3 py-1.5 rounded-full bg-primary text-white font-semibold transition-all">Todos</button>
-                        <button onclick="setCatFilter('Gastronomía', this)" class="cat-pill px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all">Gastronomía & Café</button>
-                        <button onclick="setCatFilter('Artesanías', this)" class="cat-pill px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all">Artesanías & Barro</button>
-                        <button onclick="setCatFilter('Textiles', this)" class="cat-pill px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all">Textiles & Hamacas</button>
+                            placeholder="Busca café, hamacas, cacao…" type="search" autocomplete="off" />
                     </div>
                 </div>
-            </div>
+                <div class="catalog-filter-row">
+                    <span class="catalog-filter-label">Filtrar por rubro</span>
+                    <div class="catalog-pills" role="group" aria-label="Rubros">
+                        <button type="button" onclick="setCatFilter('all', this)" id="cat-pill-all" class="cat-pill active" aria-pressed="true">Todos</button>
+                    </div>
+                </div>
+            </section>
 
             <!-- Products Grid (Full Panoramic Width with Empty State) -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="catalog-grid">
+            <div class="catalog-grid" id="catalog-grid" aria-live="polite">
                 <!-- Populated dynamically or shows Empty State ready for Supabase -->
+            </div>
+            <div id="catalog-filter-empty" class="catalog-empty hidden" role="status">
+                <span class="material-symbols-outlined" aria-hidden="true">search_off</span>
+                <h2>No encontramos productos con esos filtros</h2>
+                <p>Prueba con otro término o vuelve a ver todos los productos.</p>
+                <button type="button" onclick="clearCatalogFilters()">Ver todos los productos</button>
             </div>
         </div>
     </main>
 
     <!-- ================= MODAL: EDITAR DATOS DE USUARIO / FOTO ================= -->
-    <div id="modal-edit-user" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-surface-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-outline-variant/40 animate-in fade-in zoom-in-95 duration-200">
+    <div id="modal-edit-user" class="catalog-modal fixed inset-0 z-50 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="edit-user-title">
+        <div class="catalog-modal-panel max-w-md w-full p-6">
             <div class="flex justify-between items-center pb-3 border-b border-outline-variant/30 mb-4">
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-green-light-bg text-primary flex items-center justify-center font-bold">
                         <span class="material-symbols-outlined text-lg">person_edit</span>
                     </div>
-                    <h3 class="font-bold text-base text-on-surface">Editar Mis Datos de Usuario</h3>
+                    <h2 id="edit-user-title" class="font-bold text-base text-on-surface">Editar mis datos</h2>
                 </div>
-                <button onclick="closeEditCatUserModal()" class="text-text-muted hover:text-on-surface p-1 rounded-lg">
+                <button type="button" onclick="closeEditCatUserModal()" class="catalog-modal-close text-text-muted" aria-label="Cerrar edición de perfil">
                     <span class="material-symbols-outlined text-xl">close</span>
                 </button>
             </div>
@@ -250,7 +245,7 @@
                         <img id="edit-user-avatar-preview" class="w-16 h-16 rounded-full object-cover border-2 border-primary/40 shadow-sm shrink-0 bg-surface-container"
                             src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M32%2024a10%2010%200%201%200%200-20%2010%2010%200%200%200%200%2020zm0%208c-8%200-16%206-16%2012v4h32v-4c0-6-8-12-16-12z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" />
                         <div class="flex-1 space-y-1.5">
-                            <label class="block font-bold text-text-main">Foto / Avatar de Perfil</label>
+                        <label for="input-cat-user-file" class="block font-bold text-text-main">Foto de perfil</label>
                             <input type="file" id="input-cat-user-file" accept="image/*" onchange="handleLocalCatUserPhotoUpload(event)" class="hidden" />
                             <div class="flex flex-wrap gap-2">
                                 <button type="button" onclick="document.getElementById('input-cat-user-file').click()"
@@ -268,7 +263,7 @@
 
                     <!-- Input opcional para URL -->
                     <div id="container-cat-user-photo-url" class="hidden pt-2 border-t border-outline-variant/20">
-                        <label class="block font-semibold text-text-muted text-[11px] mb-1">O escribe la URL directa de la imagen:</label>
+                        <label for="input-user-photo" class="block font-semibold text-text-muted text-[11px] mb-1">O escribe la URL directa de la imagen:</label>
                         <input type="url" id="input-user-photo" oninput="previewUserPhotoUrl(this.value)"
                             placeholder="https://ejemplo.com/mifoto.jpg"
                             class="w-full bg-surface-white border border-outline-variant/40 rounded-lg px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-primary outline-none" />
@@ -276,19 +271,19 @@
                 </div>
 
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Nombre Completo *</label>
+                    <label for="input-user-name" class="block font-bold text-text-main mb-1">Nombre completo *</label>
                     <input type="text" id="input-user-name" required placeholder="Nombre Completo"
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-bold text-text-main mb-1">Teléfono / WhatsApp *</label>
+                        <label for="input-user-phone" class="block font-bold text-text-main mb-1">Teléfono / WhatsApp *</label>
                         <input type="tel" id="input-user-phone" required placeholder="+505 0000-0000"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                     </div>
                     <div>
-                        <label class="block font-bold text-text-main mb-1">Correo Electrónico *</label>
+                        <label for="input-user-email" class="block font-bold text-text-main mb-1">Correo electrónico *</label>
                         <input type="email" id="input-user-email" required placeholder="tu@correo.com"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                     </div>
@@ -307,14 +302,14 @@
     </div>
 
     <!-- ================= MODAL: SOLICITAR COTIZACIÓN ================= -->
-    <div id="modal-solicitar" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-surface-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-outline-variant/40 animate-in fade-in zoom-in-95 duration-200">
+    <div id="modal-solicitar" class="catalog-modal fixed inset-0 z-50 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="quote-title">
+        <div class="catalog-modal-panel max-w-md w-full p-6">
             <div class="flex justify-between items-center pb-3 border-b border-outline-variant/30 mb-4">
                 <div class="flex items-center gap-2">
                     <span class="material-symbols-outlined text-primary text-xl">request_quote</span>
-                    <h3 class="font-bold text-base text-on-surface">Solicitar Cotización</h3>
+                    <h2 id="quote-title" class="font-bold text-base text-on-surface">Solicitar cotización</h2>
                 </div>
-                <button onclick="closeSolicitarModal()" class="text-text-muted hover:text-on-surface p-1 rounded-lg">
+                <button type="button" onclick="closeSolicitarModal()" class="catalog-modal-close text-text-muted" aria-label="Cerrar solicitud de cotización">
                     <span class="material-symbols-outlined text-xl">close</span>
                 </button>
             </div>
@@ -331,19 +326,19 @@
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-bold text-text-main mb-1">Cantidad *</label>
+                        <label for="solicitar-cantidad" class="block font-bold text-text-main mb-1">Cantidad *</label>
                         <input type="number" id="solicitar-cantidad" required min="1" value="1"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                     </div>
                     <div>
-                        <label class="block font-bold text-text-main mb-1">Unidad</label>
+                        <label for="solicitar-unidad" class="block font-bold text-text-main mb-1">Unidad</label>
                         <input type="text" id="solicitar-unidad" readonly
                             class="w-full bg-surface-container border border-outline-variant/40 rounded-xl px-3 py-2 text-xs text-text-muted cursor-not-allowed" />
                     </div>
                 </div>
 
                 <div>
-                    <label class="block font-bold text-text-main mb-1">Mensaje para el productor (opcional)</label>
+                    <label for="solicitar-mensaje" class="block font-bold text-text-main mb-1">Mensaje para el productor (opcional)</label>
                     <textarea id="solicitar-mensaje" rows="2" placeholder="Ej: Necesitamos el lote para el 15 de diciembre, 2 veces por semana."
                         class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none resize-none"></textarea>
                 </div>
@@ -364,6 +359,31 @@
         </div>
     </div>
 
+    <!-- ================= MODAL: DETALLE DE PRODUCTO ================= -->
+    <div id="modal-product-detail" class="catalog-modal fixed inset-0 z-50 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+        <div class="catalog-modal-panel catalog-detail-panel max-w-md w-full">
+            <div class="catalog-detail-photo" id="detail-photo" aria-hidden="true"></div>
+            <div class="catalog-detail-body">
+                <div class="flex justify-between items-start gap-3">
+                    <div>
+                        <p id="detail-category" class="catalog-item-category"></p>
+                        <h2 id="detail-title" class="catalog-item-title"></h2>
+                    </div>
+                    <button type="button" class="catalog-modal-close shrink-0" onclick="closeCatalogModal('modal-product-detail')" aria-label="Cerrar detalle del producto">
+                        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+                    </button>
+                </div>
+                <p id="detail-producer" class="catalog-item-producer"></p>
+                <div class="catalog-item-facts">
+                    <div><span>Precio directo</span><strong id="detail-price"></strong></div>
+                    <div><span>Capacidad</span><strong id="detail-capacity"></strong></div>
+                </div>
+                <p id="detail-availability" class="catalog-detail-availability"></p>
+                <button id="detail-quote" type="button" class="catalog-detail-quote" onclick="quoteFromDetail()">Solicitar cotización</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Supabase SDK + Config -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"
         integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
@@ -380,6 +400,7 @@
         };
 
         let catalogProducts = [];
+        let activeCategory = 'all';
 
         /**
          * Imagen de producto segura: solo http(s) o data:image, con placeholder
@@ -494,7 +515,7 @@
                 if (action === 'quote') {
                     solicitarCotizacion(id);
                 } else if (action === 'detail') {
-                    showToast(`Ficha de ${button.dataset.title || 'producto'} disponible al cotizar.`, 'info');
+                    openProductDetail(id);
                 } else if (action === 'refresh') {
                     loadCatalogProductsFromSupabase();
                 }
@@ -638,11 +659,11 @@
                 return;
             }
             applyCatUserProfile();
-            document.getElementById('modal-edit-user').classList.remove('hidden');
+            openCatalogModal('modal-edit-user');
         }
 
         function closeEditCatUserModal() {
-            document.getElementById('modal-edit-user').classList.add('hidden');
+            closeCatalogModal('modal-edit-user');
         }
 
         async function saveCatUserProfile(e) {
@@ -774,14 +795,17 @@
         function renderCatalog() {
             const grid = document.getElementById('catalog-grid');
             if (!grid) return;
+            renderCategoryFilters();
 
             if (catalogProducts.length === 0) {
+                document.getElementById('catalog-count').textContent = '0 productos en el catálogo';
+                document.getElementById('catalog-filter-empty').classList.add('hidden');
                 grid.innerHTML = `
-                    <div class="col-span-full p-12 bg-surface-white rounded-2xl border border-outline-variant/30 text-center flex flex-col items-center justify-center gap-3 shadow-sm">
-                        <span class="material-symbols-outlined text-4xl text-primary/40">inventory_2</span>
-                        <p class="font-bold text-sm text-text-main">No hay productos en el catálogo aún</p>
-                        <p class="text-xs text-text-muted max-w-sm">Los productos que publiquen los productores locales aparecerán aquí para cotización.</p>
-                        <button type="button" data-action="refresh" class="px-4 py-2 bg-primary hover:bg-primary-container text-white text-xs font-bold rounded-xl transition-all shadow-sm">
+                    <div class="catalog-empty catalog-database-empty">
+                        <span class="material-symbols-outlined" aria-hidden="true">inventory_2</span>
+                        <h2>La oferta local está en camino</h2>
+                        <p>Cuando los productores publiquen sus productos, podrás verlos y solicitar cotizaciones aquí.</p>
+                        <button type="button" data-action="refresh">
                             Actualizar catálogo
                         </button>
                     </div>
@@ -809,43 +833,45 @@
                 const capacity = escapeHtml(p.capacity);
 
                 return `
-                <div class="catalog-item bg-surface-white rounded-2xl shadow-sm hover:shadow-md transition-all border border-outline-variant/30 flex flex-col overflow-hidden group ${!isAvail ? 'opacity-70' : ''}"
+                <article class="catalog-item ${!isAvail ? 'is-unavailable' : ''}"
                     data-category="${escapeHtml(p.category || '')}">
-                    <div class="h-48 w-full relative bg-surface-container overflow-hidden flex items-center justify-center">
+                    <div class="catalog-item-image">
                         ${productImageHTML(p.image, p.title, 'lg')}
-                        <span class="absolute top-3 left-3 px-2 py-0.5 rounded-full text-[10px] font-bold border ${badgeClass}">${badgeText}</span>
+                        <span class="catalog-item-badge ${badgeClass}">${badgeText}</span>
                     </div>
-                    <div class="p-5 flex flex-col flex-1 justify-between">
+                    <div class="catalog-item-content">
                         <div>
-                            <h3 class="font-bold text-sm text-on-surface">${title}</h3>
-                            <p class="text-xs text-text-muted mt-1 flex items-center gap-1">
-                                <span class="material-symbols-outlined text-xs text-primary">location_on</span> ${producer}${dept ? ' · ' + dept : ''}
+                            <p class="catalog-item-category">${escapeHtml(p.category || 'Producto local')}</p>
+                            <h2 class="catalog-item-title">${title}</h2>
+                            <p class="catalog-item-producer">
+                                <span class="material-symbols-outlined" aria-hidden="true">location_on</span> ${producer}${dept ? ' · ' + dept : ''}
                             </p>
-                            <div class="grid grid-cols-2 gap-2 mt-3 bg-surface-bright p-2.5 rounded-xl text-xs">
+                            <div class="catalog-item-facts">
                                 <div>
-                                    <span class="text-text-muted text-[10px] block">Precio B2B</span>
-                                    <span class="font-extrabold text-primary text-sm">${formatCordobas(p.price)} <span class="text-[10px] font-normal text-text-muted">/ ${unit}</span></span>
+                                    <span>Precio directo</span>
+                                    <strong>${formatCordobas(p.price)} <small>/ ${unit}</small></strong>
                                 </div>
                                 <div>
-                                    <span class="text-text-muted text-[10px] block">Capacidad</span>
-                                    <span class="font-bold text-text-main text-xs">${capacity || '—'}</span>
+                                    <span>Capacidad</span>
+                                    <strong>${capacity || '—'}</strong>
                                 </div>
                             </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-2 pt-4">
+                        <div class="catalog-item-actions">
                             <button type="button" data-action="quote" data-id="${escapeHtml(String(p.id))}" ${!isAvail ? 'disabled' : ''}
-                                class="py-2 bg-primary hover:bg-surface-tint disabled:bg-text-muted/40 disabled:cursor-not-allowed text-white text-xs font-bold rounded-xl transition-colors">
+                                class="catalog-quote-button">
                                 ${!isAvail ? 'Agotado' : 'Cotizar'}
                             </button>
                             <button type="button" data-action="detail" data-id="${escapeHtml(String(p.id))}" data-title="${title}"
-                                class="py-2 border border-outline-variant/40 hover:border-primary text-text-main hover:text-primary text-xs font-bold rounded-xl transition-colors">
-                                Detalle
+                                class="catalog-detail-button">
+                                Ver detalle
                             </button>
                         </div>
                     </div>
-                </div>
+                </article>
             `;
             }).join('');
+            applyCatalogFilters();
         }
 
         // ============== SOLICITAR COTIZACIÓN (crear match pendiente) ==============
@@ -882,11 +908,11 @@
             document.getElementById('solicitar-unidad').value = prod.unit || 'unidad';
             document.getElementById('solicitar-cantidad').value = 1;
             document.getElementById('solicitar-mensaje').value = '';
-            document.getElementById('modal-solicitar').classList.remove('hidden');
+            openCatalogModal('modal-solicitar');
         }
 
         function closeSolicitarModal() {
-            document.getElementById('modal-solicitar').classList.add('hidden');
+            closeCatalogModal('modal-solicitar');
         }
 
         async function submitSolicitud(e) {
@@ -941,6 +967,7 @@
             if (!dropdown) return;
             // Cerrar el de perfil si está abierto
             document.getElementById('profile-dropdown')?.classList.add('hidden');
+            document.getElementById('btn-profile-toggle')?.setAttribute('aria-expanded', 'false');
             const isHidden = dropdown.classList.contains('hidden');
             if (isHidden) {
                 dropdown.classList.remove('hidden');
@@ -949,6 +976,7 @@
                 dropdown.classList.add('hidden');
                 arrow?.classList.remove('rotate-180');
             }
+            document.getElementById('btn-menu-toggle').setAttribute('aria-expanded', String(isHidden));
         }
 
         function toggleProfileDropdown(e) {
@@ -958,7 +986,63 @@
             // Cerrar el de nav si está abierto
             document.getElementById('nav-accordion-dropdown')?.classList.add('hidden');
             document.getElementById('menu-arrow')?.classList.remove('rotate-180');
+            document.getElementById('btn-menu-toggle')?.setAttribute('aria-expanded', 'false');
             dropdown.classList.toggle('hidden');
+            document.getElementById('btn-profile-toggle').setAttribute('aria-expanded', String(!dropdown.classList.contains('hidden')));
+        }
+
+        let modalReturnFocus = null;
+        function openCatalogModal(id) {
+            modalReturnFocus = document.activeElement;
+            const modal = document.getElementById(id);
+            modal.classList.remove('hidden');
+            modal.querySelector('.catalog-modal-close').focus();
+        }
+
+        function closeCatalogModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            if (modalReturnFocus?.isConnected) modalReturnFocus.focus();
+            modalReturnFocus = null;
+        }
+
+        let detailProductId = null;
+        function openProductDetail(id) {
+            const product = catalogProducts.find(p => String(p.id) === String(id));
+            if (!product) return;
+            detailProductId = id;
+            const photo = document.getElementById('detail-photo');
+            photo.replaceChildren();
+            const src = safeImageUrl(product.image);
+            if (src) {
+                const image = document.createElement('img');
+                image.src = src;
+                image.alt = '';
+                image.onerror = () => image.replaceWith(createDetailPlaceholder());
+                photo.appendChild(image);
+            } else {
+                photo.appendChild(createDetailPlaceholder());
+            }
+            document.getElementById('detail-category').textContent = product.category || 'Producto local';
+            document.getElementById('detail-title').textContent = product.title;
+            document.getElementById('detail-producer').textContent = `${product.producer}${product.dept ? ' · ' + product.dept : ''}`;
+            document.getElementById('detail-price').textContent = `${formatCordobas(product.price)} / ${product.unit}`;
+            document.getElementById('detail-capacity').textContent = product.capacity || '—';
+            document.getElementById('detail-availability').textContent = product.disponible ? (product.verificado ? 'Productor verificado por INTUR' : 'Disponible para cotizar') : 'No disponible en este momento';
+            document.getElementById('detail-quote').disabled = !product.disponible;
+            openCatalogModal('modal-product-detail');
+        }
+
+        function createDetailPlaceholder() {
+            const icon = document.createElement('span');
+            icon.className = 'material-symbols-outlined';
+            icon.textContent = 'image';
+            return icon;
+        }
+
+        function quoteFromDetail() {
+            const id = detailProductId;
+            closeCatalogModal('modal-product-detail');
+            solicitarCotizacion(id);
         }
 
         function initDropdowns() {
@@ -971,9 +1055,43 @@
                 if (navDropdown && !navDropdown.contains(e.target) && !navBtn.contains(e.target)) {
                     navDropdown.classList.add('hidden');
                     document.getElementById('menu-arrow')?.classList.remove('rotate-180');
+                    navBtn.setAttribute('aria-expanded', 'false');
                 }
                 if (profileDropdown && !profileDropdown.contains(e.target) && !profileBtn.contains(e.target)) {
                     profileDropdown.classList.add('hidden');
+                    profileBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+            document.addEventListener('keydown', (event) => {
+                const modal = document.querySelector('.catalog-modal:not(.hidden)');
+                if (event.key === 'Escape') {
+                    if (modal) {
+                        event.preventDefault();
+                        if (modal.id === 'modal-solicitar') closeSolicitarModal();
+                        else if (modal.id === 'modal-edit-user') closeEditCatUserModal();
+                        else closeCatalogModal('modal-product-detail');
+                    } else {
+                        const navWasOpen = !navDropdown.classList.contains('hidden');
+                        const profileWasOpen = !profileDropdown.classList.contains('hidden');
+                        navDropdown.classList.add('hidden');
+                        profileDropdown.classList.add('hidden');
+                        document.getElementById('menu-arrow')?.classList.remove('rotate-180');
+                        navBtn.setAttribute('aria-expanded', 'false');
+                        profileBtn.setAttribute('aria-expanded', 'false');
+                        if (navWasOpen) navBtn.focus();
+                        else if (profileWasOpen) profileBtn.focus();
+                    }
+                }
+                if (!modal || event.key !== 'Tab') return;
+                const focusable = [...modal.querySelectorAll('button:not([disabled]), input:not([disabled]):not([type="hidden"]), textarea, select, a[href]')]
+                    .filter(el => el.getClientRects().length);
+                if (!focusable.length) return;
+                if (event.shiftKey && document.activeElement === focusable[0]) {
+                    event.preventDefault();
+                    focusable.at(-1).focus();
+                } else if (!event.shiftKey && document.activeElement === focusable.at(-1)) {
+                    event.preventDefault();
+                    focusable[0].focus();
                 }
             });
         }
@@ -982,38 +1100,60 @@
             return (str || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         }
 
-        function filterCatalog() {
-            const query = normalizeText(document.getElementById('cat-search').value);
-            const items = document.querySelectorAll('.catalog-item');
-            items.forEach(item => {
-                const text = normalizeText(item.innerText);
-                const cat = normalizeText(item.getAttribute('data-category'));
-                if (text.includes(query) || cat.includes(query)) {
-                    item.style.display = 'flex';
-                } else {
-                    item.style.display = 'none';
-                }
+        function renderCategoryFilters() {
+            const container = document.querySelector('.catalog-pills');
+            container.querySelectorAll('.cat-pill:not(#cat-pill-all)').forEach(button => button.remove());
+            const categories = [...new Set(catalogProducts.map(p => p.category).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es'));
+            if (activeCategory !== 'all' && !categories.includes(activeCategory)) activeCategory = 'all';
+            for (const category of categories) {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'cat-pill';
+                button.textContent = category;
+                button.addEventListener('click', () => setCatFilter(category, button));
+                container.appendChild(button);
+            }
+            container.querySelectorAll('.cat-pill').forEach(button => {
+                const selected = activeCategory === 'all' ? button.id === 'cat-pill-all' : button.textContent === activeCategory;
+                button.classList.toggle('active', selected);
+                button.setAttribute('aria-pressed', String(selected));
             });
         }
 
-        function setCatFilter(cat, btn) {
-            document.querySelectorAll('.cat-pill').forEach(p => {
-                p.className = "cat-pill px-3 py-1.5 rounded-full bg-surface-bright hover:bg-green-light-bg text-text-main transition-all";
+        function applyCatalogFilters() {
+            const query = normalizeText(document.getElementById('cat-search').value.trim());
+            let visible = 0;
+            document.querySelectorAll('.catalog-item').forEach(item => {
+                const category = normalizeText(item.dataset.category);
+                const matchesCategory = activeCategory === 'all' || category.includes(normalizeText(activeCategory));
+                const matchesQuery = !query || normalizeText(item.textContent).includes(query);
+                item.hidden = !(matchesCategory && matchesQuery);
+                if (!item.hidden) visible++;
             });
-            if (btn) {
-                btn.className = "cat-pill active px-3 py-1.5 rounded-full bg-primary text-white font-semibold transition-all";
-            }
+            document.getElementById('catalog-count').textContent = query || activeCategory !== 'all'
+                ? `${visible} ${visible === 1 ? 'resultado' : 'resultados'}`
+                : `${visible} ${visible === 1 ? 'producto' : 'productos'} en el catálogo`;
+            document.getElementById('catalog-filter-empty').classList.toggle('hidden', visible !== 0 || catalogProducts.length === 0);
+        }
 
-            const cleanCat = normalizeText(cat);
-            const items = document.querySelectorAll('.catalog-item');
-            items.forEach(item => {
-                const itemCat = normalizeText(item.getAttribute('data-category'));
-                if (cleanCat === 'all' || itemCat.includes(cleanCat) || cleanCat.includes(itemCat)) {
-                    item.style.display = 'flex';
-                } else {
-                    item.style.display = 'none';
-                }
+        function filterCatalog() {
+            applyCatalogFilters();
+        }
+
+        function setCatFilter(cat, btn) {
+            activeCategory = cat;
+            document.querySelectorAll('.cat-pill').forEach(p => {
+                const selected = p === btn;
+                p.classList.toggle('active', selected);
+                p.setAttribute('aria-pressed', String(selected));
             });
+            applyCatalogFilters();
+        }
+
+        function clearCatalogFilters() {
+            document.getElementById('cat-search').value = '';
+            setCatFilter('all', document.getElementById('cat-pill-all'));
+            document.getElementById('cat-search').focus();
         }
 
     </script>

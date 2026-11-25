@@ -7,60 +7,47 @@
     <title>Panel INTUR · Tawanki</title>
     <meta name="description" content="Panel de monitoreo y verificación del programa Tawanki para funcionarios de INTUR." />
     <meta name="robots" content="noindex, nofollow" />
-    <meta name="theme-color" content="#0d631b" />
+    <meta name="theme-color" content="#FBF9F4" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="assets/tailwind.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.js"
         integrity="sha384-tgbB5AKnszdcfwcZtTfuhR3Ko1XZdlDfsLtkxiiAZiVkkXCkFmp+FQFh+V/UTo54" crossorigin="anonymous"></script>
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
-        .tab-btn.active { background-color: #E8F0DC; color: #0d631b; font-weight: 700; }
-        .status-pill-btn.active { background: #fff; color: #0d631b; box-shadow: 0 1px 2px rgba(0, 0, 0, .08); }
-    </style>
 </head>
 
-<body class="bg-surface-bright text-text-main min-h-screen antialiased">
+<body class="catalog-page intur-dashboard">
 
     <div id="toast-container" class="fixed top-5 right-5 z-[100] flex flex-col gap-3 pointer-events-none"></div>
 
-    <!-- Barra superior -->
-    <header class="bg-surface-white border-b border-outline-variant/40 sticky top-0 z-40">
-        <div class="max-w-[1600px] mx-auto px-4 md:px-6 h-16 flex items-center justify-between gap-4">
-            <div class="flex items-center gap-2.5 min-w-0">
-                <div class="w-9 h-9 rounded-xl bg-primary text-white flex items-center justify-center shadow-sm shrink-0">
-                    <span class="material-symbols-outlined text-xl">travel_explore</span>
-                </div>
-                <div class="min-w-0">
-                    <p class="font-extrabold text-sm text-primary leading-tight truncate">Tawanki · INTUR</p>
-                    <p class="text-[10px] text-text-muted truncate">Panel institucional</p>
-                </div>
+    <!-- ================= CABECERA INSTITUCIONAL ================= -->
+    <header class="catalog-header intur-header">
+        <div class="intur-header-inner">
+            <div class="catalog-header-start">
+                <a class="catalog-brand" href="index.html" aria-label="Tawanki, volver al inicio">
+                    <img src="assets/img/tawanki-logo.png" width="820" height="208" alt="Tawanki" />
+                </a>
+                <span class="catalog-header-label">Panel INTUR</span>
             </div>
 
-            <nav class="hidden lg:flex items-center gap-1 bg-surface-bright rounded-xl p-1 border border-outline-variant/30">
-                <button type="button" data-tab="dashboard" onclick="switchTab('dashboard')" class="tab-btn active px-3 py-1.5 rounded-lg text-xs transition-all">Dashboard</button>
-                <button type="button" data-tab="conexiones" onclick="switchTab('conexiones')" class="tab-btn px-3 py-1.5 rounded-lg text-xs text-text-muted hover:text-text-main transition-all">Conexiones</button>
-                <button type="button" data-tab="reportes" onclick="switchTab('reportes')" class="tab-btn px-3 py-1.5 rounded-lg text-xs text-text-muted hover:text-text-main transition-all">Verificación y reportes</button>
-            </nav>
+            <div class="catalog-header-end">
+                <span class="intur-header-context">Monitoreo institucional</span>
 
-            <div class="flex items-center gap-2">
                 <div class="relative">
-                    <button id="btn-notif-toggle" type="button" onclick="toggleNotifications(event)" aria-label="Notificaciones"
-                        class="relative w-9 h-9 rounded-xl hover:bg-surface-bright flex items-center justify-center text-text-muted transition-colors">
-                        <span class="material-symbols-outlined text-xl">notifications</span>
-                        <span id="notif-count" class="hidden absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-error-red text-white text-[9px] font-bold items-center justify-center">0</span>
+                    <button id="btn-notif-toggle" type="button" onclick="toggleNotifications(event)" aria-label="Notificaciones" aria-expanded="false" aria-controls="notif-dropdown"
+                        class="catalog-icon-button intur-icon-button">
+                        <span class="material-symbols-outlined text-xl" aria-hidden="true">notifications</span>
+                        <span id="notif-count" class="hidden intur-notif-count">0</span>
                     </button>
-                    <div id="notif-dropdown" class="hidden absolute right-0 mt-2 w-80 bg-surface-white rounded-2xl shadow-2xl border border-outline-variant/40 z-50 overflow-hidden">
-                        <div class="p-3 border-b border-outline-variant/30 flex items-center justify-between">
-                            <p class="text-xs font-bold">Notificaciones</p>
-                            <button type="button" onclick="clearNotifications()" class="text-[11px] text-primary hover:underline font-semibold">Marcar leídas</button>
+                    <div id="notif-dropdown" class="hidden intur-dropdown intur-notif-menu">
+                        <div class="intur-dropdown-head">
+                            <p>Notificaciones</p>
+                            <button type="button" onclick="clearNotifications()" class="intur-text-link">Marcar leídas</button>
                         </div>
-                        <div id="notif-list" class="max-h-80 overflow-y-auto custom-scrollbar p-2 space-y-1">
-                            <p class="text-xs text-text-muted p-3 text-center">Sin notificaciones.</p>
+                        <div id="notif-list" class="intur-notif-list">
+                            <p class="intur-dropdown-empty">Sin notificaciones.</p>
                         </div>
                     </div>
                 </div>
@@ -72,275 +59,316 @@
                 </a>
 
                 <div class="relative">
-                    <button id="btn-profile-toggle" type="button" onclick="toggleProfileDropdown(event)"
-                        class="flex items-center gap-2 pl-1 pr-2 py-1 rounded-xl hover:bg-surface-bright transition-colors">
-                        <img id="admin-avatar" class="w-8 h-8 rounded-full object-cover border border-primary/20 bg-surface-container"
-                            src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" alt="Avatar" />
-                        <div class="hidden md:block text-left">
-                            <p id="admin-name" class="text-xs font-bold leading-tight max-w-[140px] truncate">Cargando…</p>
-                            <p class="text-[10px] text-text-muted">Funcionario INTUR</p>
-                        </div>
-                        <span class="material-symbols-outlined text-text-muted text-base">expand_more</span>
+                    <button id="btn-profile-toggle" type="button" onclick="toggleProfileDropdown(event)" aria-expanded="false" aria-controls="profile-dropdown"
+                        class="intur-profile-button">
+                        <img id="admin-avatar" class="intur-avatar"
+                            src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M20%2017a6%206%200%201%200%200-12%206%206%200%200%200%200%2012zm0%205c-5%200-10%203-10%206v2h20v-2c0-3-5-6-10-6z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E"
+                            alt="Avatar" />
+                        <span class="intur-profile-copy">
+                            <span id="admin-name" class="intur-profile-name">Cargando…</span>
+                            <span class="intur-profile-role">Funcionario INTUR</span>
+                        </span>
+                        <span class="material-symbols-outlined intur-profile-arrow" aria-hidden="true">expand_more</span>
                     </button>
-                    <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-surface-white rounded-2xl shadow-2xl border border-outline-variant/40 p-2 z-50">
-                        <div class="p-2 border-b border-outline-variant/30 mb-1">
-                            <p id="dropdown-admin-name" class="text-xs font-bold truncate">—</p>
-                            <p id="dropdown-admin-email" class="text-[10px] text-text-muted truncate">—</p>
-                            <span id="dropdown-admin-dept" class="text-[10px] text-primary font-semibold">INTUR</span>
+
+                    <div id="profile-dropdown" class="hidden intur-dropdown intur-profile-menu">
+                        <div class="intur-dropdown-head intur-profile-head">
+                            <p id="dropdown-admin-name" class="intur-profile-menu-name">—</p>
+                            <p id="dropdown-admin-email" class="intur-profile-menu-email">—</p>
+                            <span id="dropdown-admin-dept" class="intur-profile-menu-dept">INTUR</span>
                         </div>
-                        <button type="button" onclick="openEditProfileModal(); toggleProfileDropdown();" class="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs hover:bg-green-light-bg text-left">
-                            <span class="material-symbols-outlined text-base text-primary">manage_accounts</span> Editar mis datos
+                        <button type="button" onclick="openEditProfileModal(); toggleProfileDropdown();" class="intur-dropdown-item">
+                            <span class="material-symbols-outlined" aria-hidden="true">manage_accounts</span> Editar mis datos
                         </button>
-                        <button type="button" onclick="cerrarSesionSegura()" class="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs hover:bg-error-container/40 text-error-red text-left font-semibold">
-                            <span class="material-symbols-outlined text-base">logout</span> Cerrar sesión
+                        <button type="button" onclick="cerrarSesionSegura()" class="intur-dropdown-item is-danger">
+                            <span class="material-symbols-outlined" aria-hidden="true">logout</span> Cerrar sesión
                         </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <nav class="lg:hidden flex items-center gap-1 px-3 pb-2 overflow-x-auto">
-            <button type="button" data-tab="dashboard" onclick="switchTab('dashboard')" class="tab-btn active px-3 py-1.5 rounded-lg text-xs whitespace-nowrap">Dashboard</button>
-            <button type="button" data-tab="conexiones" onclick="switchTab('conexiones')" class="tab-btn px-3 py-1.5 rounded-lg text-xs text-text-muted whitespace-nowrap">Conexiones</button>
-            <button type="button" data-tab="reportes" onclick="switchTab('reportes')" class="tab-btn px-3 py-1.5 rounded-lg text-xs text-text-muted whitespace-nowrap">Verificación y reportes</button>
+        <nav class="intur-tabs" aria-label="Secciones del panel" role="tablist">
+            <button type="button" role="tab" id="tab-btn-dashboard" aria-selected="true" aria-controls="tab-content-dashboard"
+                data-tab="dashboard" onclick="switchTab('dashboard')" class="intur-tab active">
+                <span class="material-symbols-outlined" aria-hidden="true">monitoring</span> Monitoreo
+            </button>
+            <button type="button" role="tab" id="tab-btn-conexiones" aria-selected="false" aria-controls="tab-content-conexiones" tabindex="-1"
+                data-tab="conexiones" onclick="switchTab('conexiones')" class="intur-tab">
+                <span class="material-symbols-outlined" aria-hidden="true">handshake</span> Conexiones
+            </button>
+            <button type="button" role="tab" id="tab-btn-reportes" aria-selected="false" aria-controls="tab-content-reportes" tabindex="-1"
+                data-tab="reportes" onclick="switchTab('reportes')" class="intur-tab">
+                <span class="material-symbols-outlined" aria-hidden="true">verified_user</span> Verificación
+            </button>
         </nav>
     </header>
 
-    <main class="max-w-[1600px] mx-auto px-4 md:px-6 py-6">
+    <main class="catalog-shell intur-shell">
 
-        <!-- ================= DASHBOARD ================= -->
-        <section id="tab-content-dashboard" class="space-y-6">
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-3">
+        <!-- ================= MONITOREO ================= -->
+        <section id="tab-content-dashboard" class="intur-view" role="tabpanel" aria-labelledby="tab-btn-dashboard">
+            <div class="intur-page-head">
                 <div>
-                    <h1 class="text-2xl font-extrabold text-text-main">Monitoreo nacional</h1>
-                    <p class="text-xs text-text-muted mt-1">Datos reales de la red Tawanki. Solo lectura y verificación institucional.</p>
+                    <p class="catalog-context">Monitoreo institucional</p>
+                    <h1>Monitoreo nacional</h1>
+                    <p>Datos reales de la red Tawanki. Solo lectura y verificación institucional.</p>
                 </div>
-                <div class="flex items-center gap-2">
-                    <button type="button" onclick="exportDataToCSV()" class="px-3 py-2 rounded-xl bg-surface-white border border-outline-variant/40 hover:border-primary text-xs font-semibold flex items-center gap-1.5">
-                        <span class="material-symbols-outlined text-base">download</span> Exportar CSV
+                <div class="intur-page-actions">
+                    <button type="button" onclick="exportDataToCSV()" class="intur-button is-secondary">
+                        <span class="material-symbols-outlined" aria-hidden="true">download</span> Exportar CSV
                     </button>
-                    <button type="button" onclick="openModalNuevaOferta()" class="px-3 py-2 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold flex items-center gap-1.5 shadow-sm">
-                        <span class="material-symbols-outlined text-base">add_link</span> Nueva vinculación
+                    <button type="button" onclick="openModalNuevaOferta()" class="intur-button is-primary">
+                        <span class="material-symbols-outlined" aria-hidden="true">add_link</span> Nueva vinculación
                     </button>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-                <div class="bg-surface-white p-5 rounded-2xl border border-outline-variant/30 shadow-sm">
-                    <div class="flex items-center justify-between">
-                        <span class="text-[11px] font-bold text-text-muted uppercase tracking-wide">Productores</span>
-                        <span class="material-symbols-outlined text-primary">agriculture</span>
+            <div class="intur-stats">
+                <article class="intur-stat">
+                    <div class="intur-stat-top">
+                        <span>Productores</span>
+                        <span class="material-symbols-outlined intur-stat-icon" aria-hidden="true">agriculture</span>
                     </div>
-                    <p id="stat-productores" class="text-3xl font-extrabold text-primary mt-2">0</p>
-                    <p class="text-[11px] text-text-muted mt-1">Registrados en la red</p>
-                </div>
-                <div class="bg-surface-white p-5 rounded-2xl border border-outline-variant/30 shadow-sm">
-                    <div class="flex items-center justify-between">
-                        <span class="text-[11px] font-bold text-text-muted uppercase tracking-wide">Empresas</span>
-                        <span class="material-symbols-outlined text-tertiary">hotel</span>
+                    <p id="stat-productores" class="intur-stat-value">0</p>
+                    <p class="intur-stat-note">Registrados en la red</p>
+                </article>
+                <article class="intur-stat">
+                    <div class="intur-stat-top">
+                        <span>Empresas</span>
+                        <span class="material-symbols-outlined intur-stat-icon is-clay" aria-hidden="true">hotel</span>
                     </div>
-                    <p id="stat-empresas" class="text-3xl font-extrabold text-tertiary mt-2">0</p>
-                    <p class="text-[11px] text-text-muted mt-1">Empresas turísticas</p>
-                </div>
-                <div class="bg-surface-white p-5 rounded-2xl border border-outline-variant/30 shadow-sm">
-                    <div class="flex items-center justify-between">
-                        <span class="text-[11px] font-bold text-text-muted uppercase tracking-wide">Conexiones</span>
-                        <span class="material-symbols-outlined text-secondary">handshake</span>
+                    <p id="stat-empresas" class="intur-stat-value">0</p>
+                    <p class="intur-stat-note">Empresas turísticas</p>
+                </article>
+                <article class="intur-stat">
+                    <div class="intur-stat-top">
+                        <span>Conexiones</span>
+                        <span class="material-symbols-outlined intur-stat-icon is-olive" aria-hidden="true">handshake</span>
                     </div>
-                    <p id="stat-matches" class="text-3xl font-extrabold text-secondary mt-2">0</p>
-                    <p class="text-[11px] text-text-muted mt-1">Solicitudes y vínculos</p>
-                </div>
-                <div class="bg-surface-white p-5 rounded-2xl border border-outline-variant/30 shadow-sm">
-                    <div class="flex items-center justify-between">
-                        <span class="text-[11px] font-bold text-text-muted uppercase tracking-wide">Volumen aprobado</span>
-                        <span class="material-symbols-outlined text-text-main">payments</span>
+                    <p id="stat-matches" class="intur-stat-value">0</p>
+                    <p class="intur-stat-note">Solicitudes y vínculos</p>
+                </article>
+                <article class="intur-stat">
+                    <div class="intur-stat-top">
+                        <span>Volumen</span>
+                        <span class="material-symbols-outlined intur-stat-icon is-sand" aria-hidden="true">payments</span>
                     </div>
-                    <p id="stat-volumen" class="text-2xl md:text-3xl font-extrabold text-text-main mt-2">C$ 0.00</p>
-                    <p class="text-[11px] text-text-muted mt-1">Acuerdos aprobados/finalizados</p>
-                </div>
+                    <p id="stat-volumen" class="intur-stat-value is-amount">C$ 0.00</p>
+                    <p class="intur-stat-note">Acuerdos aprobados y finalizados</p>
+                </article>
             </div>
 
-            <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
-                <div class="xl:col-span-2 bg-surface-white p-5 rounded-2xl border border-outline-variant/30 shadow-sm">
-                    <div class="flex items-center justify-between mb-3">
-                        <h2 class="text-sm font-bold">Conexiones por mes</h2>
-                        <span class="text-[10px] text-text-muted">Últimos 6 meses</span>
+            <div class="intur-split">
+                <section class="intur-panel intur-chart-panel">
+                    <div class="intur-panel-head">
+                        <div>
+                            <h2>Conexiones por mes</h2>
+                            <p>Ritmo de la red en los últimos 6 meses</p>
+                        </div>
                     </div>
-                    <div class="h-64"><canvas id="trendChart"></canvas></div>
-                </div>
-                <div class="bg-surface-white p-5 rounded-2xl border border-outline-variant/30 shadow-sm">
-                    <div class="flex items-center justify-between mb-3">
-                        <h2 class="text-sm font-bold">Conexiones por rubro</h2>
-                        <span class="text-[10px] text-text-muted">Distribución</span>
+                    <div class="intur-chart"><canvas id="trendChart"></canvas></div>
+                </section>
+                <section class="intur-panel intur-chart-panel">
+                    <div class="intur-panel-head">
+                        <div>
+                            <h2>Conexiones por rubro</h2>
+                            <p>Distribución de la demanda</p>
+                        </div>
                     </div>
-                    <div class="h-64"><canvas id="sectorsChart"></canvas></div>
-                </div>
+                    <div class="intur-chart"><canvas id="sectorsChart"></canvas></div>
+                </section>
             </div>
 
-            <div class="bg-surface-white rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden">
-                <div class="p-4 border-b border-outline-variant/30 flex items-center justify-between">
-                    <h2 class="text-sm font-bold">Conexiones recientes</h2>
-                    <button type="button" onclick="switchTab('conexiones')" class="text-xs text-primary font-semibold hover:underline">Ver todas</button>
+            <section class="intur-panel intur-table-panel">
+                <div class="intur-panel-head">
+                    <div>
+                        <h2>Conexiones recientes</h2>
+                        <p>Últimos movimientos registrados</p>
+                    </div>
+                    <button type="button" onclick="switchTab('conexiones')" class="intur-text-link">
+                        Ver todas <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+                    </button>
                 </div>
-                <div class="overflow-x-auto custom-scrollbar">
-                    <table class="w-full text-xs">
-                        <thead class="bg-surface-bright text-text-muted">
+                <div class="intur-table-scroll">
+                    <table class="intur-table">
+                        <thead>
                             <tr>
-                                <th class="text-left font-semibold px-4 py-2.5">Empresa</th>
-                                <th class="text-left font-semibold px-4 py-2.5">Productor</th>
-                                <th class="text-left font-semibold px-4 py-2.5">Producto</th>
-                                <th class="text-left font-semibold px-4 py-2.5">Monto</th>
-                                <th class="text-left font-semibold px-4 py-2.5">Estado</th>
-                                <th class="text-left font-semibold px-4 py-2.5">Fecha</th>
+                                <th scope="col">Empresa</th>
+                                <th scope="col">Productor</th>
+                                <th scope="col">Producto</th>
+                                <th scope="col">Monto</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Fecha</th>
                             </tr>
                         </thead>
                         <tbody id="recent-matches-body">
-                            <tr><td colspan="6" class="p-6 text-center text-text-muted">Cargando…</td></tr>
+                            <tr><td colspan="6" class="intur-empty">Cargando…</td></tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </section>
         </section>
 
         <!-- ================= CONEXIONES ================= -->
-        <section id="tab-content-conexiones" class="hidden space-y-5">
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-3">
+        <section id="tab-content-conexiones" class="intur-view hidden" role="tabpanel" aria-labelledby="tab-btn-conexiones">
+            <div class="intur-page-head">
                 <div>
-                    <h2 class="text-2xl font-extrabold">Conexiones B2B</h2>
-                    <p class="text-xs text-text-muted mt-1">Seguimiento de solicitudes, acuerdos y bloqueos de producto.</p>
+                    <p class="catalog-context">Seguimiento B2B</p>
+                    <h2>Conexiones B2B</h2>
+                    <p>Seguimiento de solicitudes, acuerdos y bloqueos de producto.</p>
                 </div>
-                <div class="flex items-center gap-2">
-                    <button type="button" onclick="exportDataToCSV()" class="px-3 py-2 rounded-xl bg-surface-white border border-outline-variant/40 hover:border-primary text-xs font-semibold flex items-center gap-1.5">
-                        <span class="material-symbols-outlined text-base">download</span> Exportar CSV
+                <div class="intur-page-actions">
+                    <button type="button" onclick="exportDataToCSV()" class="intur-button is-secondary">
+                        <span class="material-symbols-outlined" aria-hidden="true">download</span> Exportar CSV
                     </button>
-                    <button type="button" onclick="openModalNuevaOferta()" class="px-3 py-2 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold flex items-center gap-1.5">
-                        <span class="material-symbols-outlined text-base">add_link</span> Nueva vinculación
+                    <button type="button" onclick="openModalNuevaOferta()" class="intur-button is-primary">
+                        <span class="material-symbols-outlined" aria-hidden="true">add_link</span> Nueva vinculación
                     </button>
                 </div>
             </div>
 
-            <div class="bg-surface-white p-4 rounded-2xl border border-outline-variant/30 shadow-sm space-y-3">
-                <div class="flex flex-wrap items-center gap-2">
-                    <span class="text-[11px] font-bold text-text-muted">Estado:</span>
-                    <button type="button" data-status="todos" onclick="setStatusFilter('todos')" class="status-pill-btn active px-2.5 py-1 rounded-lg text-xs font-semibold">Todos</button>
-                    <button type="button" data-status="Pendiente" onclick="setStatusFilter('Pendiente')" class="status-pill-btn px-2.5 py-1 rounded-lg text-xs text-text-muted hover:text-text-main">Pendientes</button>
-                    <button type="button" data-status="En_Negociacion" onclick="setStatusFilter('En_Negociacion')" class="status-pill-btn px-2.5 py-1 rounded-lg text-xs text-text-muted hover:text-text-main">En negociación</button>
-                    <button type="button" data-status="Aprobado" onclick="setStatusFilter('Aprobado')" class="status-pill-btn px-2.5 py-1 rounded-lg text-xs text-text-muted hover:text-text-main">Aprobados</button>
-                    <button type="button" data-status="Rechazado" onclick="setStatusFilter('Rechazado')" class="status-pill-btn px-2.5 py-1 rounded-lg text-xs text-text-muted hover:text-text-main">Rechazados</button>
-                    <button type="button" onclick="resetFilters()" class="ml-auto text-[11px] text-primary font-semibold hover:underline">Restablecer filtros</button>
+            <div class="intur-panel intur-filters">
+                <div class="intur-filter-row">
+                    <span class="intur-filter-label">Estado</span>
+                    <button type="button" data-status="todos" onclick="setStatusFilter('todos')" class="intur-pill status-pill-btn active">Todos</button>
+                    <button type="button" data-status="Pendiente" onclick="setStatusFilter('Pendiente')" class="intur-pill status-pill-btn">Pendientes</button>
+                    <button type="button" data-status="En_Negociacion" onclick="setStatusFilter('En_Negociacion')" class="intur-pill status-pill-btn">En negociación</button>
+                    <button type="button" data-status="Aprobado" onclick="setStatusFilter('Aprobado')" class="intur-pill status-pill-btn">Aprobados</button>
+                    <button type="button" data-status="Rechazado" onclick="setStatusFilter('Rechazado')" class="intur-pill status-pill-btn">Rechazados</button>
+                    <button type="button" onclick="resetFilters()" class="intur-reset">Restablecer filtros</button>
                 </div>
-                <div id="dept-filters" class="flex flex-wrap items-center gap-1.5 hidden"></div>
-                <p id="active-filter-label" class="text-[11px] text-text-muted hidden"></p>
+                <div id="dept-filters" class="intur-filter-row intur-dept-filters hidden"></div>
+                <p id="active-filter-label" class="intur-filter-note hidden"></p>
             </div>
 
-            <div class="bg-surface-white rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden">
-                <div class="overflow-x-auto custom-scrollbar">
-                    <table class="w-full text-xs">
-                        <thead class="bg-surface-bright text-text-muted">
+            <section class="intur-panel intur-table-panel">
+                <div class="intur-panel-head">
+                    <div>
+                        <h2>Registro de conexiones</h2>
+                        <p>Solicitudes y acuerdos entre productores y empresas</p>
+                    </div>
+                </div>
+                <div class="intur-table-scroll">
+                    <table class="intur-table">
+                        <thead>
                             <tr>
-                                <th class="text-left font-semibold px-4 py-3">Empresa</th>
-                                <th class="text-left font-semibold px-4 py-3">Productor / Departamento</th>
-                                <th class="text-left font-semibold px-4 py-3">Producto</th>
-                                <th class="text-left font-semibold px-4 py-3">Cantidad</th>
-                                <th class="text-left font-semibold px-4 py-3">Monto</th>
-                                <th class="text-left font-semibold px-4 py-3">Estado</th>
-                                <th class="text-right font-semibold px-4 py-3">Acciones</th>
+                                <th scope="col">Empresa</th>
+                                <th scope="col">Productor / Departamento</th>
+                                <th scope="col">Producto</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Monto</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col" class="is-right">Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="matches-body">
-                            <tr><td colspan="7" class="p-8 text-center text-text-muted">Cargando conexiones…</td></tr>
+                            <tr><td colspan="7" class="intur-empty">Cargando conexiones…</td></tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </section>
         </section>
 
-        <!-- ================= REPORTES / VERIFICACIÓN ================= -->
-        <section id="tab-content-reportes" class="hidden space-y-5">
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-3">
+        <!-- ================= VERIFICACIÓN Y REPORTES ================= -->
+        <section id="tab-content-reportes" class="intur-view hidden" role="tabpanel" aria-labelledby="tab-btn-reportes">
+            <div class="intur-page-head">
                 <div>
-                    <h2 class="text-2xl font-extrabold">Verificación y reportes</h2>
-                    <p class="text-xs text-text-muted mt-1">Verifica productores y consulta la distribución territorial de las conexiones.</p>
+                    <p class="catalog-context">Sello institucional</p>
+                    <h2>Verificación y reportes</h2>
+                    <p>Verifica productores y consulta la distribución territorial de las conexiones.</p>
                 </div>
-                <button type="button" onclick="exportDataToCSV()" class="px-3 py-2 rounded-xl bg-surface-white border border-outline-variant/40 hover:border-primary text-xs font-semibold flex items-center gap-1.5">
-                    <span class="material-symbols-outlined text-base">download</span> Exportar CSV
-                </button>
+                <div class="intur-page-actions">
+                    <button type="button" onclick="exportDataToCSV()" class="intur-button is-secondary">
+                        <span class="material-symbols-outlined" aria-hidden="true">download</span> Exportar CSV
+                    </button>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
-                <div class="xl:col-span-2 bg-surface-white rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden">
-                    <div class="p-4 border-b border-outline-variant/30">
-                        <h2 class="text-sm font-bold">Productores de la red</h2>
-                        <p class="text-[11px] text-text-muted mt-0.5">La verificación INTUR es un sello institucional; no cambia los datos del productor.</p>
+            <div class="intur-split intur-report-grid">
+                <section class="intur-panel intur-verify-panel">
+                    <div class="intur-panel-head">
+                        <div>
+                            <h2>Productores de la red</h2>
+                            <p>La verificación INTUR es un sello institucional; no cambia los datos del productor.</p>
+                        </div>
                     </div>
-                    <div id="verificacion-list" class="divide-y divide-outline-variant/20 max-h-[560px] overflow-y-auto custom-scrollbar">
-                        <p class="p-6 text-center text-xs text-text-muted">Cargando productores…</p>
+                    <div id="verificacion-list" class="intur-verify-list">
+                        <p class="intur-empty">Cargando productores…</p>
                     </div>
-                </div>
+                </section>
 
-                <div class="bg-surface-white rounded-2xl border border-outline-variant/30 shadow-sm p-4">
-                    <h2 class="text-sm font-bold mb-1">Conexiones por departamento</h2>
-                    <p class="text-[11px] text-text-muted mb-3">Total histórico de vínculos registrados.</p>
-                    <div id="dept-summary" class="space-y-2 text-xs">
-                        <p class="text-text-muted">Cargando…</p>
+                <section class="intur-panel intur-dept-panel">
+                    <div class="intur-panel-head">
+                        <div>
+                            <h2>Conexiones por departamento</h2>
+                            <p>Total histórico de vínculos registrados.</p>
+                        </div>
                     </div>
-                </div>
+                    <div id="dept-summary" class="intur-dept-list">
+                        <p class="intur-empty">Cargando…</p>
+                    </div>
+                </section>
             </div>
         </section>
     </main>
 
     <!-- Modal detalle de conexión -->
-    <div id="modal-match-detail" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-        <div class="bg-surface-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto custom-scrollbar">
-            <div class="flex items-center justify-between p-4 border-b border-outline-variant/30">
-                <h2 class="font-extrabold text-base">Detalle de la conexión</h2>
-                <button type="button" onclick="closeMatchDetailModal()" aria-label="Cerrar" class="text-text-muted hover:text-text-main p-1 rounded-lg">
-                    <span class="material-symbols-outlined">close</span>
+    <div id="modal-match-detail" class="intur-modal hidden">
+        <div class="intur-modal-card" role="dialog" aria-modal="true" aria-labelledby="match-detail-title">
+            <div class="intur-modal-head">
+                <div>
+                    <p class="intur-modal-context">Seguimiento</p>
+                    <h2 id="match-detail-title">Detalle de la conexión</h2>
+                </div>
+                <button type="button" onclick="closeMatchDetailModal()" aria-label="Cerrar" class="intur-modal-close">
+                    <span class="material-symbols-outlined" aria-hidden="true">close</span>
                 </button>
             </div>
-            <div id="match-detail-body" class="p-5 space-y-3 text-xs"></div>
+            <div id="match-detail-body" class="intur-modal-body"></div>
         </div>
     </div>
 
     <!-- Modal nueva vinculación -->
-    <div id="modal-nueva-oferta" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-        <div class="bg-surface-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto custom-scrollbar">
-            <div class="flex items-center justify-between p-4 border-b border-outline-variant/30">
+    <div id="modal-nueva-oferta" class="intur-modal hidden">
+        <div class="intur-modal-card" role="dialog" aria-modal="true" aria-labelledby="nueva-oferta-title">
+            <div class="intur-modal-head">
                 <div>
-                    <h2 class="font-extrabold text-base">Nueva vinculación</h2>
-                    <p class="text-[11px] text-text-muted">Registra un vínculo entre un productor y una empresa.</p>
+                    <p class="intur-modal-context">Registro manual</p>
+                    <h2 id="nueva-oferta-title">Nueva vinculación</h2>
+                    <p>Registra un vínculo entre un productor y una empresa.</p>
                 </div>
-                <button type="button" onclick="closeModalNuevaOferta()" aria-label="Cerrar" class="text-text-muted hover:text-text-main p-1 rounded-lg">
-                    <span class="material-symbols-outlined">close</span>
+                <button type="button" onclick="closeModalNuevaOferta()" aria-label="Cerrar" class="intur-modal-close">
+                    <span class="material-symbols-outlined" aria-hidden="true">close</span>
                 </button>
             </div>
-            <form id="form-nueva-oferta" onsubmit="submitNuevaOferta(event)" class="p-4 space-y-3 text-xs">
-                <div>
-                    <label class="block font-bold mb-1" for="nv-productor">Productor *</label>
-                    <select id="nv-productor" required class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none">
+            <form id="form-nueva-oferta" onsubmit="submitNuevaOferta(event)" class="intur-form">
+                <div class="intur-field">
+                    <label for="nv-productor">Productor *</label>
+                    <select id="nv-productor" required>
                         <option value="">Selecciona productor</option>
                     </select>
                 </div>
-                <div>
-                    <label class="block font-bold mb-1" for="nv-empresa">Empresa turística *</label>
-                    <select id="nv-empresa" required class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none">
+                <div class="intur-field">
+                    <label for="nv-empresa">Empresa turística *</label>
+                    <select id="nv-empresa" required>
                         <option value="">Selecciona empresa</option>
                     </select>
                 </div>
-                <div>
-                    <label class="block font-bold mb-1" for="nv-producto">Producto (opcional)</label>
-                    <select id="nv-producto" class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none">
+                <div class="intur-field">
+                    <label for="nv-producto">Producto (opcional)</label>
+                    <select id="nv-producto">
                         <option value="">Sin producto específico</option>
                     </select>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-bold mb-1" for="nv-cantidad">Cantidad</label>
-                        <input type="number" id="nv-cantidad" min="1" max="100000" value="1" class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs outline-none" />
+                <div class="intur-form-row">
+                    <div class="intur-field">
+                        <label for="nv-cantidad">Cantidad</label>
+                        <input type="number" id="nv-cantidad" min="1" max="100000" value="1" />
                     </div>
-                    <div>
-                        <label class="block font-bold mb-1" for="nv-estado">Estado inicial</label>
-                        <select id="nv-estado" class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs outline-none">
+                    <div class="intur-field">
+                        <label for="nv-estado">Estado inicial</label>
+                        <select id="nv-estado">
                             <option value="Pendiente">Pendiente</option>
                             <option value="En_Negociacion">En negociación</option>
                             <option value="Aprobado">Aprobado</option>
@@ -348,62 +376,65 @@
                         </select>
                     </div>
                 </div>
-                <div>
-                    <label class="block font-bold mb-1" for="nv-notas">Notas</label>
-                    <textarea id="nv-notas" rows="3" maxlength="1000" placeholder="Detalle de la vinculación (opcional)" class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs outline-none"></textarea>
+                <div class="intur-field">
+                    <label for="nv-notas">Notas</label>
+                    <textarea id="nv-notas" rows="3" maxlength="1000" placeholder="Detalle de la vinculación (opcional)"></textarea>
                 </div>
-                <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="closeModalNuevaOferta()" class="px-4 py-2 rounded-xl bg-surface-bright hover:bg-surface-container font-semibold text-text-muted">Cancelar</button>
-                    <button type="submit" id="btn-crear-vinculo" class="px-4 py-2 rounded-xl bg-primary hover:bg-primary-container text-white font-bold">Crear vinculación</button>
+                <div class="intur-modal-actions">
+                    <button type="button" onclick="closeModalNuevaOferta()" class="intur-button is-ghost">Cancelar</button>
+                    <button type="submit" id="btn-crear-vinculo" class="intur-button is-primary">Crear vinculación</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- Modal editar perfil -->
-    <div id="modal-edit-profile" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-        <div class="bg-surface-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto custom-scrollbar">
-            <div class="flex items-center justify-between p-4 border-b border-outline-variant/30">
-                <h2 class="font-extrabold text-base">Mis datos</h2>
-                <button type="button" onclick="closeEditProfileModal()" aria-label="Cerrar" class="text-text-muted hover:text-text-main p-1 rounded-lg">
-                    <span class="material-symbols-outlined">close</span>
+    <div id="modal-edit-profile" class="intur-modal hidden">
+        <div class="intur-modal-card is-narrow" role="dialog" aria-modal="true" aria-labelledby="edit-profile-title">
+            <div class="intur-modal-head">
+                <div>
+                    <p class="intur-modal-context">Cuenta institucional</p>
+                    <h2 id="edit-profile-title">Mis datos</h2>
+                </div>
+                <button type="button" onclick="closeEditProfileModal()" aria-label="Cerrar" class="intur-modal-close">
+                    <span class="material-symbols-outlined" aria-hidden="true">close</span>
                 </button>
             </div>
-            <form onsubmit="saveUserProfile(event)" class="p-4 space-y-3 text-xs">
-                <div class="flex items-center gap-3">
-                    <img id="profile-avatar-preview" class="w-16 h-16 rounded-full object-cover border border-outline-variant/40 bg-surface-container"
+            <form onsubmit="saveUserProfile(event)" class="intur-form">
+                <div class="intur-avatar-row">
+                    <img id="profile-avatar-preview" class="intur-avatar-preview"
                         src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23e6e8eb%22%2F%3E%3Cpath%20d%3D%22M32%2024a10%2010%200%201%200%200-20%2010%2010%200%200%200%200%2020zm0%208c-8%200-16%206-16%2012v4h32v-4c0-6-8-12-16-12z%22%20fill%3D%22%23707a6c%22%2F%3E%3C%2Fsvg%3E" alt="Avatar" />
-                    <div class="space-y-1.5">
+                    <div class="intur-avatar-actions">
                         <input type="file" id="input-profile-file" accept="image/*" class="hidden" onchange="handleLocalPhotoUpload(event)" />
-                        <button type="button" onclick="document.getElementById('input-profile-file').click()" class="px-3 py-1.5 rounded-lg bg-surface-bright border border-outline-variant/40 font-semibold">Subir foto</button>
-                        <p class="text-[10px] text-text-muted">PNG/JPG/WEBP · máx. 2 MB</p>
+                        <button type="button" onclick="document.getElementById('input-profile-file').click()" class="intur-button is-secondary is-small">Subir foto</button>
+                        <p>PNG, JPG o WEBP · máx. 2 MB</p>
                     </div>
                 </div>
-                <div>
-                    <label for="input-profile-name" class="block font-bold mb-1">Nombre completo *</label>
-                    <input id="input-profile-name" type="text" required maxlength="120" class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs outline-none" />
+                <div class="intur-field">
+                    <label for="input-profile-name">Nombre completo *</label>
+                    <input id="input-profile-name" type="text" required maxlength="120" />
                 </div>
-                <div>
-                    <label for="input-profile-email" class="block font-bold mb-1">Correo institucional</label>
-                    <input id="input-profile-email" type="email" readonly title="El correo de acceso no se cambia aquí" class="w-full bg-surface-container/60 border border-outline-variant/40 rounded-xl px-3 py-2 text-xs text-text-muted outline-none" />
+                <div class="intur-field">
+                    <label for="input-profile-email">Correo institucional</label>
+                    <input id="input-profile-email" type="email" readonly title="El correo de acceso no se cambia aquí" />
                 </div>
-                <div>
-                    <label for="input-profile-phone" class="block font-bold mb-1">Teléfono</label>
-                    <input id="input-profile-phone" type="tel" maxlength="20" placeholder="+505 2222-3800" class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs outline-none" />
+                <div class="intur-field">
+                    <label for="input-profile-phone">Teléfono</label>
+                    <input id="input-profile-phone" type="tel" maxlength="20" placeholder="+505 2222-3800" />
                 </div>
-                <div>
-                    <label for="input-profile-url" class="block font-bold mb-1">URL de foto (opcional)</label>
-                    <input id="input-profile-url" type="url" oninput="previewPhotoUrl(this.value)" placeholder="https://…" class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl px-3 py-2 text-xs outline-none" />
+                <div class="intur-field">
+                    <label for="input-profile-url">URL de foto (opcional)</label>
+                    <input id="input-profile-url" type="url" oninput="previewPhotoUrl(this.value)" placeholder="https://…" />
                 </div>
-                <div class="flex justify-end gap-2 pt-1">
-                    <button type="button" onclick="closeEditProfileModal()" class="px-4 py-2 rounded-xl bg-surface-bright hover:bg-surface-container font-semibold text-text-muted">Cancelar</button>
-                    <button type="submit" class="px-4 py-2 rounded-xl bg-primary hover:bg-primary-container text-white font-bold">Guardar</button>
+                <div class="intur-modal-actions">
+                    <button type="button" onclick="closeEditProfileModal()" class="intur-button is-ghost">Cancelar</button>
+                    <button type="submit" class="intur-button is-primary">Guardar</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"
         integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
     <script src="supabase-config.js"></script>
     <script>
@@ -525,12 +556,16 @@
         }
 
         function estadoBadge(estado) {
-            const base = 'inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border';
-            if (estado === 'Aprobado') return `${base} bg-green-light-bg text-primary border-primary/20`;
-            if (estado === 'Rechazado') return `${base} bg-error-container text-on-error-container border-error-red/20`;
-            if (estado === 'En_Negociacion') return `${base} bg-amber-50 text-warning-orange border-warning-orange/20`;
-            if (estado === 'Finalizado') return `${base} bg-surface-container text-text-main border-outline-variant/40`;
-            return `${base} bg-surface-container text-text-muted border-outline-variant/40`;
+            if (estado === 'Aprobado') return 'intur-badge is-approved';
+            if (estado === 'Rechazado') return 'intur-badge is-rejected';
+            if (estado === 'En_Negociacion') return 'intur-badge is-negotiation';
+            if (estado === 'Finalizado') return 'intur-badge is-done';
+            return 'intur-badge is-pending';
+        }
+
+        function estadoLabel(estado) {
+            if (estado === 'En_Negociacion') return 'En negociación';
+            return estado || 'Pendiente';
         }
 
         function renderKPIs() {
@@ -552,18 +587,18 @@
 
             const recientes = [...matchesData].slice(0, 6);
             if (recientes.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="p-6 text-center text-text-muted">Aún no hay conexiones registradas.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" class="intur-empty">Aún no hay conexiones registradas.</td></tr>';
                 return;
             }
 
             tbody.innerHTML = recientes.map(m => `
-                <tr class="hover:bg-surface-bright transition-colors">
-                    <td class="px-4 py-3 font-semibold">${escapeHtml(getEmpresaName(m))}</td>
-                    <td class="px-4 py-3 text-text-muted">${escapeHtml(getProductorName(m))}</td>
-                    <td class="px-4 py-3">${escapeHtml(getProductoName(m))}</td>
-                    <td class="px-4 py-3 font-bold text-primary">${escapeHtml(formatCordobas(m.monto_estimado_cordobas || 0))}</td>
-                    <td class="px-4 py-3"><span class="${estadoBadge(m.estado)}">${escapeHtml(m.estado || 'Pendiente')}</span></td>
-                    <td class="px-4 py-3 text-text-muted">${escapeHtml(formatFecha(m.created_at))}</td>
+                <tr>
+                    <td class="intur-cell-strong">${escapeHtml(getEmpresaName(m))}</td>
+                    <td class="intur-cell-muted">${escapeHtml(getProductorName(m))}</td>
+                    <td>${escapeHtml(getProductoName(m))}</td>
+                    <td class="intur-cell-amount">${escapeHtml(formatCordobas(m.monto_estimado_cordobas || 0))}</td>
+                    <td><span class="${estadoBadge(m.estado)}">${escapeHtml(estadoLabel(m.estado))}</span></td>
+                    <td class="intur-cell-muted">${escapeHtml(formatFecha(m.created_at))}</td>
                 </tr>
             `).join('');
         }
@@ -582,28 +617,28 @@
 
             const filtered = matchesFiltrados();
             if (filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" class="p-8 text-center text-text-muted">No hay conexiones que coincidan con los filtros.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" class="intur-empty">No hay conexiones que coincidan con los filtros.</td></tr>';
                 return;
             }
 
             tbody.innerHTML = filtered.map(m => {
                 const canAct = m.estado === 'Pendiente' || m.estado === 'En_Negociacion';
                 const actions = canAct
-                    ? `<div class="flex items-center justify-end gap-1">
-                        <button type="button" data-action="approve" data-id="${escapeHtml(String(m.id))}" title="Aprobar" class="px-2 py-1 rounded-lg bg-primary hover:bg-primary-container text-white text-[10px] font-bold">Aprobar</button>
-                        <button type="button" data-action="reject" data-id="${escapeHtml(String(m.id))}" title="Rechazar" class="px-2 py-1 rounded-lg bg-surface-bright hover:bg-error-container border border-outline-variant/40 text-text-muted hover:text-error-red text-[10px] font-bold">Rechazar</button>
+                    ? `<div class="intur-row-actions">
+                        <button type="button" data-action="approve" data-id="${escapeHtml(String(m.id))}" title="Aprobar" class="intur-row-button is-approve">Aprobar</button>
+                        <button type="button" data-action="reject" data-id="${escapeHtml(String(m.id))}" title="Rechazar" class="intur-row-button is-reject">Rechazar</button>
                     </div>`
-                    : `<button type="button" data-action="detail" data-id="${escapeHtml(String(m.id))}" class="text-primary hover:underline text-[10px] font-bold">Ver detalle</button>`;
+                    : `<button type="button" data-action="detail" data-id="${escapeHtml(String(m.id))}" class="intur-row-link">Ver detalle</button>`;
 
                 return `
-                    <tr class="hover:bg-surface-bright transition-colors">
-                        <td class="px-4 py-3 font-semibold">${escapeHtml(getEmpresaName(m))}</td>
-                        <td class="px-4 py-3 text-text-muted">${escapeHtml(getProductorName(m))} · ${escapeHtml(getDeptoName(m))}</td>
-                        <td class="px-4 py-3">${escapeHtml(getProductoName(m))}</td>
-                        <td class="px-4 py-3">${escapeHtml(String(m.cantidad ?? 1))}</td>
-                        <td class="px-4 py-3 font-bold text-primary">${escapeHtml(formatCordobas(m.monto_estimado_cordobas || 0))}</td>
-                        <td class="px-4 py-3"><span class="${estadoBadge(m.estado)}">${escapeHtml(m.estado || 'Pendiente')}</span></td>
-                        <td class="px-4 py-3 text-right">${actions}</td>
+                    <tr>
+                        <td class="intur-cell-strong">${escapeHtml(getEmpresaName(m))}</td>
+                        <td class="intur-cell-muted">${escapeHtml(getProductorName(m))} · ${escapeHtml(getDeptoName(m))}</td>
+                        <td>${escapeHtml(getProductoName(m))}</td>
+                        <td>${escapeHtml(String(m.cantidad ?? 1))}</td>
+                        <td class="intur-cell-amount">${escapeHtml(formatCordobas(m.monto_estimado_cordobas || 0))}</td>
+                        <td><span class="${estadoBadge(m.estado)}">${escapeHtml(estadoLabel(m.estado))}</span></td>
+                        <td class="is-right">${actions}</td>
                     </tr>
                 `;
             }).join('');
@@ -645,9 +680,7 @@
             const all = document.createElement('button');
             all.type = 'button';
             all.textContent = 'Todos los departamentos';
-            all.className = currentDept === ''
-                ? 'px-2.5 py-1 rounded-lg text-[10px] font-bold bg-primary text-white'
-                : 'px-2.5 py-1 rounded-lg text-[10px] font-semibold bg-surface-bright hover:bg-green-light-bg text-text-main';
+            all.className = currentDept === '' ? 'intur-pill is-dept active' : 'intur-pill is-dept';
             all.addEventListener('click', () => filterByDept(''));
             container.appendChild(all);
 
@@ -655,9 +688,7 @@
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 btn.textContent = depto;
-                btn.className = currentDept === depto
-                    ? 'px-2.5 py-1 rounded-lg text-[10px] font-bold bg-primary text-white'
-                    : 'px-2.5 py-1 rounded-lg text-[10px] font-semibold bg-surface-bright hover:bg-green-light-bg text-text-main';
+                btn.className = currentDept === depto ? 'intur-pill is-dept active' : 'intur-pill is-dept';
                 btn.addEventListener('click', () => filterByDept(depto));
                 container.appendChild(btn);
             }
@@ -706,24 +737,24 @@
             const canAct = match.estado === 'Pendiente' || match.estado === 'En_Negociacion';
 
             body.innerHTML = `
-                <div class="grid grid-cols-2 gap-3">
-                    <div><p class="text-[10px] text-text-muted uppercase font-bold">Empresa</p><p class="font-semibold mt-0.5">${escapeHtml(getEmpresaName(match))}</p></div>
-                    <div><p class="text-[10px] text-text-muted uppercase font-bold">Productor</p><p class="font-semibold mt-0.5">${escapeHtml(getProductorName(match))}</p></div>
-                    <div><p class="text-[10px] text-text-muted uppercase font-bold">Departamento</p><p class="mt-0.5">${escapeHtml(getDeptoName(match))}</p></div>
-                    <div><p class="text-[10px] text-text-muted uppercase font-bold">Estado</p><p class="mt-0.5"><span class="${estadoBadge(match.estado)}">${escapeHtml(match.estado || 'Pendiente')}</span></p></div>
-                    <div><p class="text-[10px] text-text-muted uppercase font-bold">Producto</p><p class="mt-0.5">${escapeHtml(producto?.nombre || getProductoName(match))}</p></div>
-                    <div><p class="text-[10px] text-text-muted uppercase font-bold">Cantidad</p><p class="mt-0.5">${escapeHtml(String(match.cantidad ?? 1))} ${escapeHtml(producto?.unidad_medida || '')}</p></div>
-                    <div><p class="text-[10px] text-text-muted uppercase font-bold">Monto estimado</p><p class="mt-0.5 font-bold text-primary">${escapeHtml(formatCordobas(match.monto_estimado_cordobas || 0))}</p></div>
-                    <div><p class="text-[10px] text-text-muted uppercase font-bold">Fecha</p><p class="mt-0.5">${escapeHtml(formatFecha(match.created_at))}</p></div>
+                <div class="intur-detail-grid">
+                    <div class="intur-detail-item"><p class="intur-detail-label">Empresa</p><p class="intur-detail-value">${escapeHtml(getEmpresaName(match))}</p></div>
+                    <div class="intur-detail-item"><p class="intur-detail-label">Productor</p><p class="intur-detail-value">${escapeHtml(getProductorName(match))}</p></div>
+                    <div class="intur-detail-item"><p class="intur-detail-label">Departamento</p><p class="intur-detail-value is-soft">${escapeHtml(getDeptoName(match))}</p></div>
+                    <div class="intur-detail-item"><p class="intur-detail-label">Estado</p><p class="intur-detail-value"><span class="${estadoBadge(match.estado)}">${escapeHtml(estadoLabel(match.estado))}</span></p></div>
+                    <div class="intur-detail-item"><p class="intur-detail-label">Producto</p><p class="intur-detail-value">${escapeHtml(producto?.nombre || getProductoName(match))}</p></div>
+                    <div class="intur-detail-item"><p class="intur-detail-label">Cantidad</p><p class="intur-detail-value is-soft">${escapeHtml(String(match.cantidad ?? 1))} ${escapeHtml(producto?.unidad_medida || '')}</p></div>
+                    <div class="intur-detail-item"><p class="intur-detail-label">Monto estimado</p><p class="intur-detail-value is-amount">${escapeHtml(formatCordobas(match.monto_estimado_cordobas || 0))}</p></div>
+                    <div class="intur-detail-item"><p class="intur-detail-label">Fecha</p><p class="intur-detail-value is-soft">${escapeHtml(formatFecha(match.created_at))}</p></div>
                 </div>
-                <div>
-                    <p class="text-[10px] text-text-muted uppercase font-bold">Notas / acuerdo</p>
-                    <p class="mt-1 bg-surface-bright p-3 rounded-xl border border-outline-variant/30 whitespace-pre-wrap">${escapeHtml(match.descripcion_acuerdo || 'Sin notas registradas.')}</p>
+                <div class="intur-detail-notes">
+                    <p class="intur-detail-label">Notas / acuerdo</p>
+                    <p class="intur-note-box">${escapeHtml(match.descripcion_acuerdo || 'Sin notas registradas.')}</p>
                 </div>
                 ${canAct ? `
-                    <div class="flex justify-end gap-2 pt-2">
-                        <button type="button" onclick="updateMatchStatus('${escapeHtml(String(match.id))}', 'Rechazado'); closeMatchDetailModal();" class="px-3 py-2 rounded-xl bg-surface-bright hover:bg-error-container text-error-red font-bold">Rechazar</button>
-                        <button type="button" onclick="updateMatchStatus('${escapeHtml(String(match.id))}', 'Aprobado'); closeMatchDetailModal();" class="px-3 py-2 rounded-xl bg-primary hover:bg-primary-container text-white font-bold">Aprobar</button>
+                    <div class="intur-modal-actions">
+                        <button type="button" onclick="updateMatchStatus('${escapeHtml(String(match.id))}', 'Rechazado'); closeMatchDetailModal();" class="intur-button is-danger">Rechazar</button>
+                        <button type="button" onclick="updateMatchStatus('${escapeHtml(String(match.id))}', 'Aprobado'); closeMatchDetailModal();" class="intur-button is-primary">Aprobar</button>
                     </div>
                 ` : ''}
             `;
@@ -743,7 +774,7 @@
             if (!container) return;
 
             if (productoresData.length === 0) {
-                container.innerHTML = '<p class="p-6 text-center text-xs text-text-muted">No hay productores registrados todavía.</p>';
+                container.innerHTML = '<p class="intur-empty">No hay productores registrados todavía.</p>';
                 return;
             }
 
@@ -751,37 +782,37 @@
                 const verified = p.verificado_intur === true;
                 const rubro = p.rubros?.nombre || 'Sin rubro';
                 const depto = p.departamentos?.nombre || 'Sin departamento';
-                const rucBadge = p.ruc ? `<span class="bg-blue-50 text-blue-700 text-[10px] px-1.5 py-0.5 rounded border border-blue-200">RUC: ${escapeHtml(p.ruc)}</span>` : '';
-                const matriculaBadge = p.matricula_municipal ? `<span class="bg-amber-50 text-amber-800 text-[10px] px-1.5 py-0.5 rounded border border-amber-200">Matrícula al día</span>` : '';
-                const minsaBadge = p.licencia_minsa ? `<span class="bg-emerald-50 text-emerald-800 text-[10px] px-1.5 py-0.5 rounded border border-emerald-200">MINSA: ${escapeHtml(p.licencia_minsa)}</span>` : '';
-                const facturaBadge = p.emite_factura ? `<span class="bg-purple-50 text-purple-700 text-[10px] px-1.5 py-0.5 rounded border border-purple-200">Factura B2B</span>` : '';
-                const mayoristaBadge = p.acepta_tarifa_mayorista ? `<span class="bg-teal-50 text-teal-800 text-[10px] px-1.5 py-0.5 rounded border border-teal-200">Mayorista ${escapeHtml(String(p.margen_mayorista_porcentaje || 15))}%</span>` : '';
+                const rucTag = p.ruc ? `<span class="intur-tag"><b>RUC</b> ${escapeHtml(p.ruc)}</span>` : '';
+                const matriculaTag = p.matricula_municipal ? '<span class="intur-tag">Matrícula al día</span>' : '';
+                const minsaTag = p.licencia_minsa ? `<span class="intur-tag"><b>MINSA</b> ${escapeHtml(p.licencia_minsa)}</span>` : '';
+                const facturaTag = p.emite_factura ? '<span class="intur-tag">Factura B2B</span>' : '';
+                const mayoristaTag = p.acepta_tarifa_mayorista ? `<span class="intur-tag">Mayorista ${escapeHtml(String(p.margen_mayorista_porcentaje || 15))}%</span>` : '';
 
                 return `
-                    <div class="p-3.5 border-b border-outline-variant/20 hover:bg-surface-bright/50 transition-colors">
-                        <div class="flex items-center justify-between gap-3">
-                            <div class="min-w-0">
-                                <p class="font-bold text-xs truncate">${escapeHtml(p.nombre_cooperativa_o_taller || 'Productor')}</p>
-                                <p class="text-[11px] text-text-muted truncate">${escapeHtml(depto)} · ${escapeHtml(rubro)} ${p.municipio ? '· ' + escapeHtml(p.municipio) : ''}</p>
+                    <article class="intur-verify-item">
+                        <div class="intur-verify-main">
+                            <div class="intur-verify-copy">
+                                <p class="intur-verify-name">${escapeHtml(p.nombre_cooperativa_o_taller || 'Productor')}</p>
+                                <p class="intur-verify-meta">${escapeHtml(depto)} · ${escapeHtml(rubro)}${p.municipio ? ' · ' + escapeHtml(p.municipio) : ''}</p>
                             </div>
-                            <div class="flex items-center gap-2 shrink-0">
-                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${verified ? 'bg-green-light-bg text-primary border-primary/20' : 'bg-surface-container text-text-muted border-outline-variant/40'}">
-                                    ${verified ? 'Sello INTUR' : 'Pendiente Verificación'}
+                            <div class="intur-verify-actions">
+                                <span class="intur-badge ${verified ? 'is-approved' : 'is-pending'}">
+                                    ${verified ? 'Sello INTUR' : 'Pendiente de verificación'}
                                 </span>
                                 <button type="button" data-verify-id="${escapeHtml(String(p.id))}" data-verify-value="${verified ? 'false' : 'true'}"
-                                    class="px-2.5 py-1 rounded-lg text-[10px] font-bold border transition-colors ${verified ? 'bg-surface-bright hover:bg-red-50 hover:text-red-600 border-outline-variant/40 text-text-muted' : 'bg-primary hover:bg-primary-container text-white border-primary'}">
-                                    ${verified ? 'Revocar Sello' : 'Aprobar Verificación'}
+                                    class="intur-verify-button ${verified ? 'is-revoke' : ''}">
+                                    ${verified ? 'Revocar sello' : 'Aprobar verificación'}
                                 </button>
                             </div>
                         </div>
-                        <div class="flex flex-wrap items-center gap-1.5 mt-2">
-                            ${rucBadge}
-                            ${matriculaBadge}
-                            ${minsaBadge}
-                            ${facturaBadge}
-                            ${mayoristaBadge}
+                        <div class="intur-tags">
+                            ${rucTag}
+                            ${matriculaTag}
+                            ${minsaTag}
+                            ${facturaTag}
+                            ${mayoristaTag}
                         </div>
-                    </div>
+                    </article>
                 `;
             }).join('');
         }
@@ -798,25 +829,29 @@
 
             const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
             if (entries.length === 0) {
-                container.innerHTML = '<p class="text-text-muted">Sin datos de conexiones.</p>';
+                container.innerHTML = '<p class="intur-empty">Sin datos de conexiones.</p>';
                 return;
             }
 
             const max = entries[0][1] || 1;
             container.innerHTML = entries.map(([depto, total]) => `
-                <div>
-                    <div class="flex items-center justify-between mb-1">
-                        <span class="font-semibold">${escapeHtml(depto)}</span>
-                        <span class="font-bold text-primary">${escapeHtml(String(total))}</span>
+                <div class="intur-dept">
+                    <div class="intur-dept-head">
+                        <span>${escapeHtml(depto)}</span>
+                        <strong>${escapeHtml(String(total))}</strong>
                     </div>
-                    <div class="h-1.5 bg-surface-bright rounded-full overflow-hidden">
-                        <div class="h-full bg-primary rounded-full" style="width:${Math.max(6, Math.round((total / max) * 100))}%"></div>
+                    <div class="intur-dept-track">
+                        <span style="width:${Math.max(6, Math.round((total / max) * 100))}%"></span>
                     </div>
                 </div>
             `).join('');
         }
 
         function renderCharts() {
+            if (typeof Chart !== 'undefined') {
+                Chart.defaults.font.family = 'Inter, sans-serif';
+                Chart.defaults.color = '#574e41';
+            }
             renderTrendChart();
             renderSectorsChart();
         }
@@ -847,12 +882,16 @@
                     datasets: [{
                         label: 'Conexiones',
                         data: counts,
-                        borderColor: '#0d631b',
-                        backgroundColor: 'rgba(13, 99, 27, 0.12)',
+                        borderColor: '#0b4a14',
+                        backgroundColor: 'rgba(11, 74, 20, 0.10)',
+                        borderWidth: 2,
                         fill: true,
                         tension: 0.35,
                         pointRadius: 3,
-                        pointBackgroundColor: '#0d631b'
+                        pointHoverRadius: 5,
+                        pointBackgroundColor: '#b5572b',
+                        pointBorderColor: '#fffdf9',
+                        pointBorderWidth: 2
                     }]
                 },
                 options: {
@@ -860,8 +899,17 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: 'rgba(0,0,0,0.05)' } },
-                        x: { grid: { display: false } }
+                        y: {
+                            beginAtZero: true,
+                            ticks: { precision: 0, color: '#574e41', font: { size: 11 } },
+                            grid: { color: 'rgba(87, 78, 65, 0.13)' },
+                            border: { display: false }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#574e41', font: { size: 11 } },
+                            border: { display: false }
+                        }
                     }
                 }
             });
@@ -892,16 +940,27 @@
                     labels: entries.map(([name]) => name),
                     datasets: [{
                         data: entries.map(([, total]) => total),
-                        backgroundColor: ['#0d631b', '#3D7A3D', '#94C078', '#C9612A', '#D97706', '#6B5E47', '#A3D49A'],
-                        borderWidth: 0
+                        backgroundColor: ['#0b4a14', '#3f6b40', '#94c078', '#b5572b', '#d9a441', '#8a7a5c', '#c9d8b4'],
+                        borderColor: '#fffdf9',
+                        borderWidth: 2
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    cutout: '62%',
+                    cutout: '64%',
                     plugins: {
-                        legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 8,
+                                boxHeight: 8,
+                                usePointStyle: true,
+                                pointStyle: 'circle',
+                                padding: 14,
+                                font: { size: 11 }
+                            }
+                        }
                     }
                 }
             });
@@ -1057,15 +1116,15 @@
             }
 
             if (notificationsData.length === 0) {
-                list.innerHTML = '<p class="text-xs text-text-muted p-3 text-center">Sin notificaciones.</p>';
+                list.innerHTML = '<p class="intur-dropdown-empty">Sin notificaciones.</p>';
                 return;
             }
 
             list.innerHTML = notificationsData.map(n => `
-                <div class="p-2.5 rounded-xl ${n.leido ? 'bg-surface-white' : 'bg-green-light-bg/60'} border border-outline-variant/20">
-                    <p class="text-xs font-semibold">${escapeHtml(n.titulo || 'Notificación')}</p>
-                    <p class="text-[11px] text-text-muted mt-0.5">${escapeHtml(n.mensaje || '')}</p>
-                    <p class="text-[9px] text-text-muted mt-1">${escapeHtml(formatFecha(n.created_at))}</p>
+                <div class="intur-notification ${n.leido ? '' : 'is-unread'}">
+                    <p class="intur-notification-title">${escapeHtml(n.titulo || 'Notificación')}</p>
+                    <p class="intur-notification-body">${escapeHtml(n.mensaje || '')}</p>
+                    <p class="intur-notification-date">${escapeHtml(formatFecha(n.created_at))}</p>
                 </div>
             `).join('');
         }
@@ -1091,13 +1150,23 @@
         function toggleNotifications(e) {
             if (e) e.stopPropagation();
             document.getElementById('profile-dropdown')?.classList.add('hidden');
-            document.getElementById('notif-dropdown')?.classList.toggle('hidden');
+            document.getElementById('btn-profile-toggle')?.setAttribute('aria-expanded', 'false');
+            const dropdown = document.getElementById('notif-dropdown');
+            if (!dropdown) return;
+            const willOpen = dropdown.classList.contains('hidden');
+            dropdown.classList.toggle('hidden');
+            document.getElementById('btn-notif-toggle')?.setAttribute('aria-expanded', String(willOpen));
         }
 
         function toggleProfileDropdown(e) {
             if (e) e.stopPropagation();
             document.getElementById('notif-dropdown')?.classList.add('hidden');
-            document.getElementById('profile-dropdown')?.classList.toggle('hidden');
+            document.getElementById('btn-notif-toggle')?.setAttribute('aria-expanded', 'false');
+            const dropdown = document.getElementById('profile-dropdown');
+            if (!dropdown) return;
+            const willOpen = dropdown.classList.contains('hidden');
+            dropdown.classList.toggle('hidden');
+            document.getElementById('btn-profile-toggle')?.setAttribute('aria-expanded', String(willOpen));
         }
 
         function initDropdowns() {
@@ -1109,10 +1178,19 @@
 
                 if (notif && notifBtn && !notif.contains(e.target) && !notifBtn.contains(e.target)) {
                     notif.classList.add('hidden');
+                    notifBtn.setAttribute('aria-expanded', 'false');
                 }
                 if (profile && profileBtn && !profile.contains(e.target) && !profileBtn.contains(e.target)) {
                     profile.classList.add('hidden');
+                    profileBtn.setAttribute('aria-expanded', 'false');
                 }
+            });
+            document.addEventListener('keydown', (event) => {
+                if (event.key !== 'Escape') return;
+                document.getElementById('notif-dropdown')?.classList.add('hidden');
+                document.getElementById('profile-dropdown')?.classList.add('hidden');
+                document.getElementById('btn-notif-toggle')?.setAttribute('aria-expanded', 'false');
+                document.getElementById('btn-profile-toggle')?.setAttribute('aria-expanded', 'false');
             });
         }
 
@@ -1123,8 +1201,10 @@
                 if (section) section.classList.toggle('hidden', name !== tab);
             }
             document.querySelectorAll('[data-tab]').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.tab === tab);
-                btn.classList.toggle('text-text-muted', btn.dataset.tab !== tab);
+                const selected = btn.dataset.tab === tab;
+                btn.classList.toggle('active', selected);
+                btn.setAttribute('aria-selected', String(selected));
+                btn.tabIndex = selected ? 0 : -1;
             });
             if (tab === 'conexiones') renderMatchesTable();
             if (tab === 'reportes') {
@@ -1132,6 +1212,17 @@
                 renderDeptSummary();
             }
         }
+
+        document.querySelector('.intur-tabs')?.addEventListener('keydown', event => {
+            if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+            event.preventDefault();
+            const tabs = ['dashboard', 'conexiones', 'reportes'];
+            const current = tabs.indexOf(currentTab);
+            const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1
+                : (current + (event.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length;
+            switchTab(tabs[next]);
+            document.getElementById(`tab-btn-${tabs[next]}`)?.focus();
+        });
 
         function openEditProfileModal() {
             if (!currentUserProfile) return;
