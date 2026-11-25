@@ -14,11 +14,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
 
-    <!-- Leaflet CSS & JS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- Leaflet CSS & JS (jsDelivr + fallback a unpkg/cdnjs) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""
+        onerror="this.onerror=null;this.href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""
+        onerror="this.onerror=null;this.src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';"></script>
 
     <style>
         body {
@@ -311,9 +313,21 @@
         document.addEventListener('DOMContentLoaded', async () => {
             inicializarMapa();
             await cargarDatos();
+            if (mapInstance) {
+                setTimeout(() => mapInstance.invalidateSize(), 250);
+            }
         });
 
         function inicializarMapa() {
+            if (typeof L === 'undefined') {
+                console.error('Leaflet no pudo cargarse.');
+                const mapEl = document.getElementById('map');
+                if (mapEl) {
+                    mapEl.innerHTML = '<div class="flex items-center justify-center h-full text-xs text-text-muted p-6 text-center">No se pudo cargar el mapa interactivo. Verifica tu conexión o desactiva bloqueadores de scripts.</div>';
+                }
+                return;
+            }
+
             // Centrado en el corazón geográfico de Nicaragua
             mapInstance = L.map('map', {
                 center: [12.6, -85.5],
@@ -321,12 +335,24 @@
                 zoomControl: true
             });
 
-            // Capa de teselas limpias y legibles (OpenStreetMap)
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            // Capa de teselas limpias y legibles (OpenStreetMap) con fallback automático a CartoDB
+            const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 18,
                 attribution: '© OpenStreetMap contributors · Tawanki INTUR'
-            }).addTo(mapInstance);
+            });
 
+            let fallbackLoaded = false;
+            osmLayer.on('tileerror', () => {
+                if (fallbackLoaded) return;
+                fallbackLoaded = true;
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    maxZoom: 19,
+                    subdomains: 'abcd',
+                    attribution: '© OpenStreetMap · © CARTO · Tawanki INTUR'
+                }).addTo(mapInstance);
+            });
+
+            osmLayer.addTo(mapInstance);
             markersLayer = L.layerGroup().addTo(mapInstance);
         }
 
@@ -422,7 +448,7 @@
         }
 
         function renderizarMapaYLista(productores) {
-            markersLayer.clearLayers();
+            if (markersLayer) markersLayer.clearLayers();
 
             let verificadosCount = 0;
             let facturaCount = 0;
