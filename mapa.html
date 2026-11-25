@@ -115,9 +115,9 @@
     <!-- Main Workspace: Sidebar + Map Container -->
     <div class="flex flex-1 relative overflow-hidden">
 
-        <!-- Sidebar / Filter Panel -->
+        <!-- Sidebar / Filter Panel (oculto por defecto en móvil para mostrar el mapa) -->
         <aside id="map-sidebar"
-            class="w-full sm:w-80 md:w-96 bg-white/95 backdrop-blur-md border-r border-outline-variant/30 flex flex-col z-20 shadow-lg transition-transform duration-300 absolute sm:relative h-full shrink-0">
+            class="-translate-x-full sm:translate-x-0 w-full sm:w-80 md:w-96 bg-white/95 backdrop-blur-md border-r border-outline-variant/30 flex flex-col z-30 shadow-lg transition-transform duration-300 absolute sm:relative h-full shrink-0">
             
             <!-- Sidebar Controls -->
             <div class="p-4 border-b border-outline-variant/20 space-y-3 shrink-0">
@@ -126,10 +126,17 @@
                         <span class="material-symbols-outlined text-primary text-base">filter_alt</span>
                         <span>Filtros y Búsqueda</span>
                     </h2>
-                    <button type="button" onclick="limpiarFiltros()"
-                        class="text-[11px] text-primary hover:underline font-semibold">
-                        Limpiar
-                    </button>
+                    <div class="flex items-center gap-3">
+                        <button type="button" onclick="limpiarFiltros()"
+                            class="text-[11px] text-primary hover:underline font-semibold">
+                            Limpiar
+                        </button>
+                        <button type="button" onclick="toggleSidebar()"
+                            class="sm:hidden inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-primary text-white text-[11px] font-bold">
+                            <span class="material-symbols-outlined text-sm">map</span>
+                            <span>Ver Mapa</span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Text Search -->
@@ -482,7 +489,10 @@
                 const item = document.createElement('div');
                 item.className = "p-3 rounded-xl hover:bg-surface-bright transition-colors cursor-pointer border-b border-outline-variant/15";
                 item.onclick = () => {
-                    mapInstance.flyTo(coords, 14, { duration: 1.2 });
+                    if (window.innerWidth < 640) {
+                        document.getElementById('map-sidebar').classList.add('-translate-x-full');
+                    }
+                    if (mapInstance) mapInstance.flyTo(coords, 14, { duration: 1.2 });
                     abrirDrawerNegocio(p);
                 };
 
@@ -588,6 +598,9 @@
         function toggleSidebar() {
             const sb = document.getElementById('map-sidebar');
             sb.classList.toggle('-translate-x-full');
+            if (mapInstance) {
+                setTimeout(() => mapInstance.invalidateSize(), 310);
+            }
         }
 
         function limpiarFiltros() {
