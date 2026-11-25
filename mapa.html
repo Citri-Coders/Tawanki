@@ -219,7 +219,7 @@
                     </div>
                     <div class="bg-surface-bright p-2 rounded-xl border border-outline-variant/30">
                         <span class="text-text-muted block text-[10px]">Margen Mayorista:</span>
-                        <strong id="drawer-margen" class="text-teal-700 font-bold text-xs">15% Net Rate</strong>
+                        <strong id="drawer-margen" class="text-teal-700 font-bold text-xs">15% Tarifa Neta</strong>
                     </div>
                     <div class="bg-surface-bright p-2 rounded-xl border border-outline-variant/30">
                         <span class="text-text-muted block text-[10px]">Facturación Fiscal:</span>
@@ -520,7 +520,7 @@
             document.getElementById('drawer-location').textContent = `${p.municipio ? p.municipio + ' · ' : ''}${p.departamentos?.nombre || 'Nicaragua'}`;
 
             document.getElementById('drawer-products-count').textContent = `${productosPropios.length} producto${productosPropios.length === 1 ? '' : 's'}`;
-            document.getElementById('drawer-margen').textContent = p.acepta_tarifa_mayorista ? `${p.margen_mayorista_porcentaje || 15}% Net Rate` : 'A convenir';
+            document.getElementById('drawer-margen').textContent = p.acepta_tarifa_mayorista ? `${p.margen_mayorista_porcentaje || 15}% Tarifa Neta` : 'A convenir';
             document.getElementById('drawer-factura').textContent = p.emite_factura ? 'Factura con RUC' : 'En proceso fiscal';
             document.getElementById('drawer-sello').textContent = p.verificado_intur ? 'Sello INTUR Vigente' : 'En revisión';
 
