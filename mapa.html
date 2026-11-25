@@ -59,6 +59,12 @@
             transform: scale(1.18);
             z-index: 1000 !important;
         }
+
+        @media (min-width: 640px) {
+            #map-sidebar {
+                transform: translateX(0) !important;
+            }
+        }
     </style>
 </head>
 
@@ -337,7 +343,14 @@
             mapInstance = L.map('map', {
                 center: [12.6, -85.5],
                 zoom: 8,
-                zoomControl: true
+                zoomControl: false
+            });
+
+            // Controles de zoom arriba a la derecha para no chocar con el botón Filtros en móvil
+            L.control.zoom({ position: 'topright' }).addTo(mapInstance);
+
+            window.addEventListener('resize', () => {
+                if (mapInstance) mapInstance.invalidateSize();
             });
 
             // Capa de teselas públicas de ArcGIS / Esri (sin API Key, funciona en file:// y web)
