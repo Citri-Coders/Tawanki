@@ -335,14 +335,13 @@
                 zoomControl: true
             });
 
-            // Capa de teselas limpias y legibles (CARTO Voyager — no bloquea file:// ni apps locales)
-            const cartoLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            // Capa de teselas públicas de ArcGIS / Esri (sin API Key, funciona en file:// y web)
+            const esriLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
                 maxZoom: 19,
-                subdomains: 'abcd',
-                attribution: '© OpenStreetMap · © CARTO · Tawanki INTUR'
+                attribution: 'Tiles © Esri · Tawanki INTUR'
             });
 
-            cartoLayer.addTo(mapInstance);
+            esriLayer.addTo(mapInstance);
             markersLayer = L.layerGroup().addTo(mapInstance);
         }
 
