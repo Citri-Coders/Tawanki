@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Madera y muebles">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#134e4a"/>
+      <stop offset="1" stop-color="#5eead4"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="480" fill="url(#g)"/>
+  <rect x="210" y="180" width="220" height="120" rx="14" fill="#d6a56f"/>
+  <rect x="230" y="200" width="180" height="80" rx="8" fill="#b97f45"/>
+  <path d="M230 300v55M410 300v55" stroke="#8a5a2b" stroke-width="16" stroke-linecap="round"/>
+  <text x="320" y="392" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">Madera fina</text>
+  <text x="320" y="426" font-family="Arial, sans-serif" font-size="20" fill="#d1fae5" text-anchor="middle">Masaya</text>
+</svg>

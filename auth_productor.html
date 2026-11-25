@@ -11,7 +11,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="assets/tailwind.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
 </head>
@@ -20,13 +22,13 @@
 
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
-
     <header class="auth-site-header">
         <div class="auth-shell auth-site-header-inner">
             <a href="index.html" aria-label="Tawanki, volver al inicio">
                 <img src="assets/img/tawanki-logo.png" width="820" height="208" alt="Tawanki" />
             </a>
-            <a class="auth-header-link" href="catalogo.html">Explorar catálogo <span class="material-symbols-outlined" aria-hidden="true">arrow_outward</span></a>
+            <a class="auth-header-link" href="catalogo.html">Explorar catálogo <span class="material-symbols-outlined"
+                    aria-hidden="true">arrow_outward</span></a>
         </div>
     </header>
 
@@ -35,7 +37,8 @@
             <div class="auth-story-content">
                 <p class="auth-story-kicker">Tawanki para productores</p>
                 <h2>Tu trabajo merece llegar más lejos.</h2>
-                <p>Abre tu catálogo a hoteles, restaurantes y otros negocios turísticos que buscan productos locales.</p>
+                <p>Abre tu catálogo a hoteles, restaurantes y otros negocios turísticos que buscan productos locales.
+                </p>
             </div>
             <div class="auth-story-photo">
                 <img src="assets/img/artesano-ceramica-720.webp" width="720" height="900"
@@ -45,7 +48,7 @@
         </aside>
 
         <section id="auth-card-wrapper" class="auth-card" aria-labelledby="auth-title">
-        <!-- Auth Card -->
+            <!-- Auth Card -->
             <!-- Header with Back Button -->
             <div class="auth-card-top">
                 <a href="index.html" class="auth-back">
@@ -63,23 +66,24 @@
 
             <!-- Tabs: Iniciar Sesión / Registro -->
             <div class="auth-tabs" role="tablist" aria-label="Acceso para productores">
-                <button type="button" onclick="switchAuthTab('login')" id="tab-login-btn"
-                    class="auth-tab" role="tab" aria-selected="true" aria-controls="form-login" tabindex="0">
+                <button type="button" onclick="switchAuthTab('login')" id="tab-login-btn" class="auth-tab" role="tab"
+                    aria-selected="true" aria-controls="form-login" tabindex="0">
                     Iniciar sesión
                 </button>
-                <button type="button" onclick="switchAuthTab('register')" id="tab-register-btn"
-                    class="auth-tab" role="tab" aria-selected="false" aria-controls="form-register" tabindex="-1">
+                <button type="button" onclick="switchAuthTab('register')" id="tab-register-btn" class="auth-tab"
+                    role="tab" aria-selected="false" aria-controls="form-register" tabindex="-1">
                     Crear cuenta
                 </button>
             </div>
 
             <!-- Form: Iniciar Sesión Productor -->
-            <form id="form-login" onsubmit="handleLogin(event)" class="tab-pane auth-login-form space-y-4" role="tabpanel" aria-labelledby="tab-login-btn">
+            <form id="form-login" onsubmit="handleLogin(event)" class="tab-pane auth-login-form space-y-4"
+                role="tabpanel" aria-labelledby="tab-login-btn">
                 <div>
                     <label for="login-email" class="block font-bold text-text-main mb-1.5">Correo electrónico</label>
                     <div class="relative auth-login-field">
-                        <span
-                            class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg" aria-hidden="true">mail</span>
+                        <span class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg"
+                            aria-hidden="true">mail</span>
                         <input type="email" id="login-email" required autocomplete="email"
                             placeholder="correo@ejemplo.com"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl pl-9 pr-3 py-2.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
@@ -90,16 +94,18 @@
                     <div class="flex justify-between items-center mb-1.5">
                         <label for="login-password" class="font-bold text-text-main">Contraseña</label>
                         <button type="button" onclick="solicitarRecuperacion()"
-                            class="auth-recovery text-primary hover:underline font-semibold">¿Olvidaste tu clave?</button>
+                            class="auth-recovery text-primary hover:underline font-semibold">¿Olvidaste tu
+                            clave?</button>
                     </div>
                     <div class="relative auth-login-field">
-                        <span
-                            class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg" aria-hidden="true">lock</span>
-                        <input type="password" id="login-password" required minlength="8" autocomplete="current-password"
-                            placeholder="••••••••••••"
+                        <span class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-lg"
+                            aria-hidden="true">lock</span>
+                        <input type="password" id="login-password" required minlength="8"
+                            autocomplete="current-password" placeholder="••••••••••••"
                             class="w-full bg-surface-bright border border-outline-variant/40 rounded-xl pl-9 pr-11 py-2.5 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
                         <button class="auth-password-toggle" type="button" aria-label="Mostrar contraseña"
-                            aria-pressed="false" aria-controls="login-password" onclick="togglePasswordVisibility(this)">
+                            aria-pressed="false" aria-controls="login-password"
+                            onclick="togglePasswordVisibility(this)">
                             <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
                         </button>
                     </div>
@@ -116,318 +122,379 @@
                     <span>Ingresar a mi Catálogo</span>
                     <span class="material-symbols-outlined text-lg" aria-hidden="true">arrow_forward</span>
                 </button>
+
+                <!-- Acceso Rápido Demo -->
+                <div class="pt-2 border-t border-outline-variant/30 text-center">
+                    <button type="button" onclick="demoLogin('productor')"
+                        class="w-full bg-emerald-50 hover:bg-emerald-100 text-primary font-bold py-2.5 rounded-xl border border-primary/20 transition-all flex items-center justify-center gap-2 text-xs">
+                        <span class="material-symbols-outlined text-base">rocket_launch</span>
+                        <span>Acceso rápido demo (Productor)</span>
+                    </button>
+                    <p class="text-[10px] text-text-muted mt-1">O usa: <b>productor.demo@tawanki.ni</b> /
+                        <b>Password123!</b></p>
+                </div>
             </form>
 
             <!-- Form: Registro de Nuevo Productor con Verificación Normativa -->
-            <form id="form-register" onsubmit="handleRegister(event)" class="tab-pane hidden auth-register-form space-y-5" role="tabpanel" aria-labelledby="tab-register-btn" novalidate>
+            <form id="form-register" onsubmit="handleRegister(event)"
+                class="tab-pane hidden auth-register-form space-y-5" role="tabpanel" aria-labelledby="tab-register-btn"
+                novalidate>
                 <ol class="auth-progress" aria-label="Progreso del registro">
                     <li data-progress-step="1" aria-current="step"><span>1</span> Tus datos</li>
                     <li data-progress-step="2"><span>2</span> Formalización</li>
                     <li data-progress-step="3"><span>3</span> Condiciones</li>
                 </ol>
-                <p id="register-step-title" class="auth-step-label" aria-live="polite" tabindex="-1">Paso 1 de 3 · Cuéntanos sobre tu negocio</p>
+                <p id="register-step-title" class="auth-step-label" aria-live="polite" tabindex="-1">Paso 1 de 3 ·
+                    Cuéntanos sobre tu negocio</p>
                 <div class="auth-register-step" data-register-step="1">
 
-                <!-- Bloque 1: Cuenta y Datos Generales -->
-                <div class="bg-surface-bright/70 rounded-xl p-3.5 border border-outline-variant/40 space-y-3">
-                    <div class="flex items-center gap-1.5 text-primary font-bold text-xs border-b border-outline-variant/30 pb-2">
-                        <span class="material-symbols-outlined text-base">person</span>
-                        <span>Datos del titular y acceso</span>
-                    </div>
+                    <!-- Bloque 1: Cuenta y Datos Generales -->
+                    <div class="bg-surface-bright/70 rounded-xl p-3.5 border border-outline-variant/40 space-y-3">
+                        <div
+                            class="flex items-center gap-1.5 text-primary font-bold text-xs border-b border-outline-variant/30 pb-2">
+                            <span class="material-symbols-outlined text-base">person</span>
+                            <span>Datos del titular y acceso</span>
+                        </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                            <label class="block font-bold text-text-main mb-1">Nombre Completo del Titular *</label>
-                            <input type="text" id="reg-name" required placeholder="Ej: María Hernández López"
-                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Nombre Completo del Titular *</label>
+                                <input type="text" id="reg-name" required placeholder="Ej: María Hernández López"
+                                    class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                            </div>
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Nombre del Taller, Finca o
+                                    Cooperativa *</label>
+                                <input type="text" id="reg-taller" required
+                                    placeholder="Ej: Taller Alfarero Hermanos López"
+                                    class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                            </div>
                         </div>
-                        <div>
-                            <label class="block font-bold text-text-main mb-1">Nombre del Taller, Finca o Cooperativa *</label>
-                            <input type="text" id="reg-taller" required placeholder="Ej: Taller Alfarero Hermanos López"
-                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                        </div>
-                    </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div>
-                            <label class="block font-bold text-text-main mb-1">Correo Electrónico *</label>
-                            <input type="email" id="reg-email" required placeholder="taller@correo.com"
-                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                        </div>
-                        <div>
-                            <label class="block font-bold text-text-main mb-1">Teléfono WhatsApp *</label>
-                            <input type="tel" id="reg-phone" required placeholder="+505 8888-9999"
-                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                        </div>
-                        <div>
-                            <label class="block font-bold text-text-main mb-1">Contraseña (min. 8) *</label>
-                            <input type="password" id="reg-password" required minlength="8" autocomplete="new-password"
-                                placeholder="••••••••"
-                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bloque 2: Territorio y Rubro de Ciudad Creativa -->
-                <div class="bg-surface-bright/70 rounded-xl p-3.5 border border-outline-variant/40 space-y-3">
-                    <div class="flex items-center gap-1.5 text-primary font-bold text-xs border-b border-outline-variant/30 pb-2">
-                        <span class="material-symbols-outlined text-base">location_on</span>
-                        <span>Ubicación y rubro</span>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div>
-                            <label class="block font-bold text-text-main mb-1">Departamento *</label>
-                            <select id="reg-depto" required
-                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
-                                <option value="">Cargando departamentos…</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block font-bold text-text-main mb-1">Municipio / Comunidad *</label>
-                            <input type="text" id="reg-municipio" required placeholder="Ej: San Juan de Oriente / Monimbó"
-                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                        </div>
-                        <div>
-                            <label class="block font-bold text-text-main mb-1">Rubro de Ciudad Creativa *</label>
-                            <select id="reg-rubro" required onchange="actualizarRequisitosPorRubro()"
-                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs font-semibold text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
-                                <option value="">Selecciona tu rubro…</option>
-                            </select>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Correo Electrónico *</label>
+                                <input type="email" id="reg-email" required placeholder="taller@correo.com"
+                                    class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                            </div>
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Teléfono WhatsApp *</label>
+                                <input type="tel" id="reg-phone" required placeholder="+505 8888-9999"
+                                    class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                            </div>
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Contraseña (min. 8) *</label>
+                                <input type="password" id="reg-password" required minlength="8"
+                                    autocomplete="new-password" placeholder="••••••••"
+                                    class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                            </div>
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block font-bold text-text-main mb-1">Descripción de tus Productos y Métodos Tradicionales</label>
-                        <textarea id="reg-desc" rows="2"
-                            placeholder="Ej: Elaboramos cerámica policromada y piezas tradicionales utilizando técnicas precolombinas transmitidas de generación en generación..."
-                            class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"></textarea>
+                    <!-- Bloque 2: Territorio y Rubro de Ciudad Creativa -->
+                    <div class="bg-surface-bright/70 rounded-xl p-3.5 border border-outline-variant/40 space-y-3">
+                        <div
+                            class="flex items-center gap-1.5 text-primary font-bold text-xs border-b border-outline-variant/30 pb-2">
+                            <span class="material-symbols-outlined text-base">location_on</span>
+                            <span>Ubicación y rubro</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Departamento *</label>
+                                <select id="reg-depto" required
+                                    class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                                    <option value="">Cargando departamentos…</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Municipio / Comunidad *</label>
+                                <input type="text" id="reg-municipio" required
+                                    placeholder="Ej: San Juan de Oriente / Monimbó"
+                                    class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                            </div>
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Rubro de Ciudad Creativa *</label>
+                                <select id="reg-rubro" required onchange="actualizarRequisitosPorRubro()"
+                                    class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs font-semibold text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                                    <option value="">Selecciona tu rubro…</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-text-main mb-1">Descripción de tus Productos y Métodos
+                                Tradicionales</label>
+                            <textarea id="reg-desc" rows="2"
+                                placeholder="Ej: Elaboramos cerámica policromada y piezas tradicionales utilizando técnicas precolombinas transmitidas de generación en generación..."
+                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"></textarea>
+                        </div>
                     </div>
-                </div>
 
                 </div>
                 <div class="auth-register-step" data-register-step="2" hidden>
-                <!-- Bloque 3: Base de Formalización Legal y Fiscal (Ley 645 MiPYME y Ley 495 Turismo) -->
-                <div class="bg-surface-bright/70 rounded-xl p-3.5 border border-outline-variant/40 space-y-3">
-                    <div class="flex items-center justify-between border-b border-outline-variant/30 pb-2">
-                        <div class="flex items-center gap-1.5 text-primary font-bold text-xs">
-                            <span class="material-symbols-outlined text-base">verified_user</span>
-                            <span>Formalización base (Leyes N.º 645 y N.º 495)</span>
+                    <!-- Bloque 3: Base de Formalización Legal y Fiscal (Ley 645 MiPYME y Ley 495 Turismo) -->
+                    <div class="bg-surface-bright/70 rounded-xl p-3.5 border border-outline-variant/40 space-y-3">
+                        <div class="flex items-center justify-between border-b border-outline-variant/30 pb-2">
+                            <div class="flex items-center gap-1.5 text-primary font-bold text-xs">
+                                <span class="material-symbols-outlined text-base">verified_user</span>
+                                <span>Formalización base (Leyes N.º 645 y N.º 495)</span>
+                            </div>
+                            <span
+                                class="text-[10px] bg-primary/10 text-primary font-semibold px-2 py-0.5 rounded-full">Requisitos
+                                Transversales</span>
                         </div>
-                        <span class="text-[10px] bg-primary/10 text-primary font-semibold px-2 py-0.5 rounded-full">Requisitos Transversales</span>
-                    </div>
-                    <p class="text-[11px] text-text-muted leading-relaxed">
-                        Exigidos por la legislación nicaragüense para emitir facturación y encadenarse comercialmente con hoteles y tour operadoras internacionales.
-                    </p>
+                        <p class="text-[11px] text-text-muted leading-relaxed">
+                            Exigidos por la legislación nicaragüense para emitir facturación y encadenarse
+                            comercialmente con hoteles y tour operadoras internacionales.
+                        </p>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                            <label class="block font-bold text-text-main mb-1">Cédula de Identidad o N.º Escritura Mercantil *</label>
-                            <input type="text" id="reg-cedula" required placeholder="001-XXXXXX-XXXXX o N.º Escritura"
-                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                        </div>
-                        <div>
-                            <label class="block font-bold text-text-main mb-1">Matrícula Municipal (Alcaldía) *</label>
-                            <input type="text" id="reg-matricula" required placeholder="N.º de Matrícula Municipal al día"
-                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                            <label class="block font-bold text-text-main mb-1">Número RUC (DGI) *</label>
-                            <input type="text" id="reg-ruc" required placeholder="Ej: J0310000000000"
-                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                        </div>
-                        <div>
-                            <label class="block font-bold text-text-main mb-1">Régimen Fiscal (DGI) *</label>
-                            <select id="reg-regimen" required
-                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
-                                <option value="simplificado">Régimen Simplificado / Cuota Fija</option>
-                                <option value="general">Régimen General</option>
-                                <option value="en_tramite">Inscripción en Trámite</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                            <label class="block font-bold text-text-main mb-1">Certificado MiPYME (MIFIC)</label>
-                            <input type="text" id="reg-mific" placeholder="N.º Certificado o dejar vacío si está en trámite"
-                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                        </div>
-                        <div>
-                            <label class="block font-bold text-text-main mb-1">Licencia de Prestador Turístico INTUR</label>
-                            <input type="text" id="reg-licencia-intur" placeholder="N.º Licencia Turística (si ya posee)"
-                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bloque 4 Dinámico: Requisitos Específicos por Rubro Normativo -->
-                <div id="dynamic-requirements-card" class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-3.5 space-y-3">
-                    <div class="flex items-center justify-between border-b border-amber-200/60 pb-2">
-                        <div class="flex items-center gap-1.5 text-amber-900 font-bold text-xs">
-                            <span id="dynamic-req-icon" class="material-symbols-outlined text-base">rule</span>
-                            <span id="dynamic-req-title">Requisitos específicos de tu rubro</span>
-                        </div>
-                        <span id="dynamic-req-badge" class="inline-flex items-center gap-1 text-[10px] bg-amber-200/70 text-amber-900 font-bold px-2.5 py-0.5 rounded-full border border-amber-300/60">
-                            <span id="dynamic-req-badge-icon" class="material-symbols-outlined text-xs">rule</span>
-                            <span id="dynamic-req-badge-text">Normativa Sectorial</span>
-                        </span>
-                    </div>
-                    <p id="dynamic-req-subtitle" class="text-[11px] text-amber-800">
-                        Selecciona un rubro arriba para desplegar los requisitos y licencias sanitarias o ambientales correspondientes.
-                    </p>
-
-                    <!-- Sección Dinámica A: Alimentos, Gastronomía, Café & Lácteos -->
-                    <div id="req-group-alimentos" class="hidden space-y-3 pt-1">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
-                                <label class="block font-bold text-text-main mb-1">Licencia Sanitaria MINSA *</label>
-                                <input type="text" id="reg-minsa" placeholder="N.º Licencia Sanitaria o constancia vigente"
-                                    class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                                <label class="block font-bold text-text-main mb-1">Cédula de Identidad o N.º Escritura
+                                    Mercantil *</label>
+                                <input type="text" id="reg-cedula" required
+                                    placeholder="001-XXXXXX-XXXXX o N.º Escritura"
+                                    class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                             </div>
                             <div>
-                                <label class="block font-bold text-text-main mb-1">Inspección de Bomberos (DGB) *</label>
-                                <input type="text" id="reg-bomberos" placeholder="Certificado de prevención de incendios y gas"
-                                    class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                                <label class="block font-bold text-text-main mb-1">Matrícula Municipal (Alcaldía)
+                                    *</label>
+                                <input type="text" id="reg-matricula" required
+                                    placeholder="N.º de Matrícula Municipal al día"
+                                    class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                             </div>
                         </div>
+
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
-                                <label class="block font-bold text-text-main mb-1">Registro Sanitario / Fitosanitario IPSA</label>
-                                <input type="text" id="reg-ipsa" placeholder="Obligatorio para café procesado, dulces o lácteos empacados"
-                                    class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                                <label class="block font-bold text-text-main mb-1">Número RUC (DGI) *</label>
+                                <input type="text" id="reg-ruc" required placeholder="Ej: J0310000000000"
+                                    class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
                             </div>
-                            <div class="flex items-center gap-2 pt-5">
-                                <input type="checkbox" id="reg-manipulacion-minsa" checked
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Régimen Fiscal (DGI) *</label>
+                                <select id="reg-regimen" required
+                                    class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                                    <option value="simplificado">Régimen Simplificado / Cuota Fija</option>
+                                    <option value="general">Régimen General</option>
+                                    <option value="en_tramite">Inscripción en Trámite</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Certificado MiPYME (MIFIC)</label>
+                                <input type="text" id="reg-mific"
+                                    placeholder="N.º Certificado o dejar vacío si está en trámite"
+                                    class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                            </div>
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Licencia de Prestador Turístico
+                                    INTUR</label>
+                                <input type="text" id="reg-licencia-intur"
+                                    placeholder="N.º Licencia Turística (si ya posee)"
+                                    class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloque 4 Dinámico: Requisitos Específicos por Rubro Normativo -->
+                    <div id="dynamic-requirements-card"
+                        class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-3.5 space-y-3">
+                        <div class="flex items-center justify-between border-b border-amber-200/60 pb-2">
+                            <div class="flex items-center gap-1.5 text-amber-900 font-bold text-xs">
+                                <span id="dynamic-req-icon" class="material-symbols-outlined text-base">rule</span>
+                                <span id="dynamic-req-title">Requisitos específicos de tu rubro</span>
+                            </div>
+                            <span id="dynamic-req-badge"
+                                class="inline-flex items-center gap-1 text-[10px] bg-amber-200/70 text-amber-900 font-bold px-2.5 py-0.5 rounded-full border border-amber-300/60">
+                                <span id="dynamic-req-badge-icon" class="material-symbols-outlined text-xs">rule</span>
+                                <span id="dynamic-req-badge-text">Normativa Sectorial</span>
+                            </span>
+                        </div>
+                        <p id="dynamic-req-subtitle" class="text-[11px] text-amber-800">
+                            Selecciona un rubro arriba para desplegar los requisitos y licencias sanitarias o
+                            ambientales correspondientes.
+                        </p>
+
+                        <!-- Sección Dinámica A: Alimentos, Gastronomía, Café & Lácteos -->
+                        <div id="req-group-alimentos" class="hidden space-y-3 pt-1">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block font-bold text-text-main mb-1">Licencia Sanitaria MINSA
+                                        *</label>
+                                    <input type="text" id="reg-minsa"
+                                        placeholder="N.º Licencia Sanitaria o constancia vigente"
+                                        class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                                </div>
+                                <div>
+                                    <label class="block font-bold text-text-main mb-1">Inspección de Bomberos (DGB)
+                                        *</label>
+                                    <input type="text" id="reg-bomberos"
+                                        placeholder="Certificado de prevención de incendios y gas"
+                                        class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block font-bold text-text-main mb-1">Registro Sanitario /
+                                        Fitosanitario IPSA</label>
+                                    <input type="text" id="reg-ipsa"
+                                        placeholder="Obligatorio para café procesado, dulces o lácteos empacados"
+                                        class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                                </div>
+                                <div class="flex items-center gap-2 pt-5">
+                                    <input type="checkbox" id="reg-manipulacion-minsa" checked
+                                        class="rounded text-primary focus:ring-primary h-4 w-4 border-amber-300" />
+                                    <label for="reg-manipulacion-minsa"
+                                        class="text-text-main text-[11px] font-semibold cursor-pointer">
+                                        Personal cuenta con carnet de manipulación de alimentos
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sección Dinámica B: Madera, Muebles & Bambú -->
+                        <div id="req-group-madera" class="hidden space-y-3 pt-1">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block font-bold text-text-main mb-1">Permiso / Constancia INAFOR
+                                        *</label>
+                                    <input type="text" id="reg-inafor"
+                                        placeholder="Acreditación de origen forestal legal de madera"
+                                        class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                                </div>
+                                <div>
+                                    <label class="block font-bold text-text-main mb-1">Procedencia de la Madera /
+                                        Bambú</label>
+                                    <input type="text" id="reg-madera-origen"
+                                        placeholder="Ej: Plantación forestal certificada / Bambuzales locales"
+                                        class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sección Dinámica C: Tabaco & Puros Artesanales -->
+                        <div id="req-group-tabaco" class="hidden space-y-3 pt-1">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block font-bold text-text-main mb-1">Permiso Fiscal de Manufactura de
+                                        Tabaco (DGI) *</label>
+                                    <input type="text" id="reg-tabaco-dgi"
+                                        placeholder="N.º Registro especial de control fiscal"
+                                        class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                                </div>
+                                <div>
+                                    <label class="block font-bold text-text-main mb-1">Certificado Fitosanitario
+                                        IPSA</label>
+                                    <input type="text" id="reg-tabaco-ipsa"
+                                        placeholder="Constancia fitosanitaria de materia prima"
+                                        class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sección Dinámica D: Artesanías, Cerámica, Cuero, Textiles, Fibras & Arte -->
+                        <div id="req-group-artesanias" class="hidden space-y-3 pt-1">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block font-bold text-text-main mb-1">Declaración de Técnicas y Origen
+                                        Tradicional *</label>
+                                    <input type="text" id="reg-origen-artesanal"
+                                        placeholder="Ej: Cerámica con barro local moldeado a torno de pie"
+                                        class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                                </div>
+                                <div>
+                                    <label class="block font-bold text-text-main mb-1">Registro de Marca Propia (RPI -
+                                        MIFIC)</label>
+                                    <input type="text" id="reg-rpi"
+                                        placeholder="N.º Expediente o marca registrada (si posee)"
+                                        class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 pt-1">
+                                <input type="checkbox" id="reg-taller-visitable" checked
                                     class="rounded text-primary focus:ring-primary h-4 w-4 border-amber-300" />
-                                <label for="reg-manipulacion-minsa" class="text-text-main text-[11px] font-semibold cursor-pointer">
-                                    Personal cuenta con carnet de manipulación de alimentos
+                                <label for="reg-taller-visitable"
+                                    class="text-text-main text-[11px] font-semibold cursor-pointer">
+                                    Mi taller o taller-cooperativa está acondicionado para recibir visitas guiadas de
+                                    turistas
                                 </label>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Sección Dinámica B: Madera, Muebles & Bambú -->
-                    <div id="req-group-madera" class="hidden space-y-3 pt-1">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div>
-                                <label class="block font-bold text-text-main mb-1">Permiso / Constancia INAFOR *</label>
-                                <input type="text" id="reg-inafor" placeholder="Acreditación de origen forestal legal de madera"
-                                    class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
-                            </div>
-                            <div>
-                                <label class="block font-bold text-text-main mb-1">Procedencia de la Madera / Bambú</label>
-                                <input type="text" id="reg-madera-origen" placeholder="Ej: Plantación forestal certificada / Bambuzales locales"
-                                    class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sección Dinámica C: Tabaco & Puros Artesanales -->
-                    <div id="req-group-tabaco" class="hidden space-y-3 pt-1">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div>
-                                <label class="block font-bold text-text-main mb-1">Permiso Fiscal de Manufactura de Tabaco (DGI) *</label>
-                                <input type="text" id="reg-tabaco-dgi" placeholder="N.º Registro especial de control fiscal"
-                                    class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
-                            </div>
-                            <div>
-                                <label class="block font-bold text-text-main mb-1">Certificado Fitosanitario IPSA</label>
-                                <input type="text" id="reg-tabaco-ipsa" placeholder="Constancia fitosanitaria de materia prima"
-                                    class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sección Dinámica D: Artesanías, Cerámica, Cuero, Textiles, Fibras & Arte -->
-                    <div id="req-group-artesanias" class="hidden space-y-3 pt-1">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div>
-                                <label class="block font-bold text-text-main mb-1">Declaración de Técnicas y Origen Tradicional *</label>
-                                <input type="text" id="reg-origen-artesanal" placeholder="Ej: Cerámica con barro local moldeado a torno de pie"
-                                    class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
-                            </div>
-                            <div>
-                                <label class="block font-bold text-text-main mb-1">Registro de Marca Propia (RPI - MIFIC)</label>
-                                <input type="text" id="reg-rpi" placeholder="N.º Expediente o marca registrada (si posee)"
-                                    class="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none" />
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2 pt-1">
-                            <input type="checkbox" id="reg-taller-visitable" checked
-                                class="rounded text-primary focus:ring-primary h-4 w-4 border-amber-300" />
-                            <label for="reg-taller-visitable" class="text-text-main text-[11px] font-semibold cursor-pointer">
-                                Mi taller o taller-cooperativa está acondicionado para recibir visitas guiadas de turistas
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
                 </div>
                 <div class="auth-register-step" data-register-step="3" hidden>
-                <!-- Bloque 5: Condiciones Comerciales para Tour Operadoras & Hoteles -->
-                <div class="bg-surface-bright/70 rounded-xl p-3.5 border border-outline-variant/40 space-y-3">
-                    <div class="flex items-center justify-between border-b border-outline-variant/30 pb-2">
-                        <div class="flex items-center gap-1.5 text-primary font-bold text-xs">
-                            <span class="material-symbols-outlined text-base">handshake</span>
-                            <span>Condiciones comerciales con hoteles y tour operadoras</span>
+                    <!-- Bloque 5: Condiciones Comerciales para Tour Operadoras & Hoteles -->
+                    <div class="bg-surface-bright/70 rounded-xl p-3.5 border border-outline-variant/40 space-y-3">
+                        <div class="flex items-center justify-between border-b border-outline-variant/30 pb-2">
+                            <div class="flex items-center gap-1.5 text-primary font-bold text-xs">
+                                <span class="material-symbols-outlined text-base">handshake</span>
+                                <span>Condiciones comerciales con hoteles y tour operadoras</span>
+                            </div>
+                            <span
+                                class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">Encadenamiento</span>
                         </div>
-                        <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">Encadenamiento</span>
+
+                        <div class="space-y-2">
+                            <label class="flex items-start gap-2 cursor-pointer">
+                                <input type="checkbox" id="reg-emite-factura" checked
+                                    class="rounded text-primary focus:ring-primary h-4 w-4 mt-0.5 border-outline-variant/50" />
+                                <span class="text-text-main text-[11px]">
+                                    <strong>Capacidad de facturación fiscal:</strong> Emito factura legal con RUC para
+                                    respaldar la contabilidad de las agencias.
+                                </span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer">
+                                <input type="checkbox" id="reg-acepta-mayorista" checked
+                                    class="rounded text-primary focus:ring-primary h-4 w-4 mt-0.5 border-outline-variant/50" />
+                                <span class="text-text-main text-[11px]">
+                                    <strong>Tarifario y margen mayorista (Net Rate):</strong> Acepto ofrecer margen
+                                    comercial preferencial a tour operadoras y hoteles.
+                                </span>
+                            </label>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Margen Comercial Ofrecido</label>
+                                <select id="reg-margen"
+                                    class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                                    <option value="15">15% de comisión / descuento mayorista</option>
+                                    <option value="10">10% de comisión / descuento mayorista</option>
+                                    <option value="20">20% de comisión / descuento mayorista</option>
+                                    <option value="0">A convenir según volumen del pedido</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block font-bold text-text-main mb-1">Términos Básicos de Entrega y
+                                    Reservas</label>
+                                <input type="text" id="reg-reservas"
+                                    placeholder="Ej: Pedidos con 5 días de anticipación, 50% anticipo"
+                                    class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="space-y-2">
-                        <label class="flex items-start gap-2 cursor-pointer">
-                            <input type="checkbox" id="reg-emite-factura" checked
-                                class="rounded text-primary focus:ring-primary h-4 w-4 mt-0.5 border-outline-variant/50" />
-                            <span class="text-text-main text-[11px]">
-                                <strong>Capacidad de facturación fiscal:</strong> Emito factura legal con RUC para respaldar la contabilidad de las agencias.
-                            </span>
-                        </label>
-                        <label class="flex items-start gap-2 cursor-pointer">
-                            <input type="checkbox" id="reg-acepta-mayorista" checked
-                                class="rounded text-primary focus:ring-primary h-4 w-4 mt-0.5 border-outline-variant/50" />
-                            <span class="text-text-main text-[11px]">
-                                <strong>Tarifario y margen mayorista (Net Rate):</strong> Acepto ofrecer margen comercial preferencial a tour operadoras y hoteles.
-                            </span>
-                        </label>
+                    <div class="auth-review-note">
+                        <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                        <span>Tu solicitud se enviará a revisión de INTUR. Si recibes un correo de confirmación, sigue
+                            el enlace para activar tu acceso.</span>
                     </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                        <div>
-                            <label class="block font-bold text-text-main mb-1">Margen Comercial Ofrecido</label>
-                            <select id="reg-margen"
-                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
-                                <option value="15">15% de comisión / descuento mayorista</option>
-                                <option value="10">10% de comisión / descuento mayorista</option>
-                                <option value="20">20% de comisión / descuento mayorista</option>
-                                <option value="0">A convenir según volumen del pedido</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block font-bold text-text-main mb-1">Términos Básicos de Entrega y Reservas</label>
-                            <input type="text" id="reg-reservas" placeholder="Ej: Pedidos con 5 días de anticipación, 50% anticipo"
-                                class="w-full bg-white border border-outline-variant/40 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="auth-review-note">
-                    <span class="material-symbols-outlined" aria-hidden="true">info</span>
-                    <span>Tu solicitud se enviará a revisión de INTUR. Si recibes un correo de confirmación, sigue el enlace para activar tu acceso.</span>
-                </div>
                 </div>
                 <div class="auth-register-actions">
-                    <button id="register-back" class="auth-step-back" type="button" onclick="changeRegisterStep(-1)" hidden>
+                    <button id="register-back" class="auth-step-back" type="button" onclick="changeRegisterStep(-1)"
+                        hidden>
                         <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span> Anterior
                     </button>
                     <button id="register-next" class="auth-step-next" type="button" onclick="changeRegisterStep(1)">
                         Continuar <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
                     </button>
                     <button id="register-submit" type="submit" class="auth-submit" hidden>
-                    <span>Enviar solicitud de registro</span>
+                        <span>Enviar solicitud de registro</span>
                         <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
                     </button>
                 </div>
@@ -439,7 +506,8 @@
 
     <!-- Supabase SDK + Config -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"
-        integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
+        integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o"
+        crossorigin="anonymous"></script>
     <script src="supabase-config.js"></script>
 
     <script>

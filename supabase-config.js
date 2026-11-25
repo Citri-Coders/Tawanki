@@ -18,6 +18,364 @@ const SUPABASE_ANON_KEY = 'sb_publishable_5PKZs7ahaASbuEpHLarhlQ_bYVLv5hY';
 const { createClient } = supabase;
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// ── 1.1 Cuentas Demo y Datos Semilla para Demostración ───────
+const DEMO_PRODUCTORES_CATALOG = [
+    {
+        id: 'prod-001',
+        profile_id: 'demo-productor-001',
+        nombre_cooperativa_o_taller: 'Taller Alfarero Hermanos López',
+        descripcion: 'Piezas de cerámica precolombina y utilitaria torneadas y pintadas a mano con engobes minerales de la zona.',
+        municipio: 'San Juan de Oriente',
+        telefono_whatsapp: '+505 8888 1001',
+        verificado_intur: true,
+        emite_factura: true,
+        acepta_tarifa_mayorista: true,
+        margen_mayorista_porcentaje: 20,
+        departamento_id: 2,
+        departamentos: { id: 2, nombre: 'Masaya', region: 'Pacífico' },
+        rubro_id: 2,
+        rubros: { id: 2, nombre: 'Artesanías & Barro', icono: 'palette' },
+        profiles: { nombre_completo: 'María Hernández López', email: 'productor.demo@tawanki.ni', avatar_url: 'assets/img/artesano-ceramica-720.webp' },
+        ruc: 'J031000000001',
+        matricula_municipal: 'MAT-MAS-2026',
+        licencia_minsa: null,
+        permiso_inafor: null
+    },
+    {
+        id: 'prod-002',
+        profile_id: 'demo-productor-002',
+        nombre_cooperativa_o_taller: 'Café de Altura Xalteva & Cacao',
+        descripcion: 'Café de especialidad en grano y molido, cosechado a más de 1,200 msnm, junto con nibs de cacao criollo fino de aroma.',
+        municipio: 'Granada',
+        telefono_whatsapp: '+505 8888 1002',
+        verificado_intur: true,
+        emite_factura: true,
+        acepta_tarifa_mayorista: true,
+        margen_mayorista_porcentaje: 15,
+        departamento_id: 1,
+        departamentos: { id: 1, nombre: 'Granada', region: 'Pacífico' },
+        rubro_id: 1,
+        rubros: { id: 1, nombre: 'Gastronomía & Café', icono: 'coffee' },
+        profiles: { nombre_completo: 'Carlos Gómez Rivas', email: 'xalteva@demo.tawanki.ni', avatar_url: '' },
+        ruc: 'J031000000002',
+        matricula_municipal: 'MAT-GRA-2026',
+        licencia_minsa: 'MINSA-GRA-042',
+        permiso_inafor: null
+    },
+    {
+        id: 'prod-003',
+        profile_id: 'demo-productor-003',
+        nombre_cooperativa_o_taller: 'Muebles y Artesanías de Bambú El Raudal',
+        descripcion: 'Muebles de terraza, lámparas y bandejas de madera fina certificada y bambú curado de alta resistencia para hoteles.',
+        municipio: 'Monimbó',
+        telefono_whatsapp: '+505 8888 1003',
+        verificado_intur: true,
+        emite_factura: true,
+        acepta_tarifa_mayorista: true,
+        margen_mayorista_porcentaje: 25,
+        departamento_id: 2,
+        departamentos: { id: 2, nombre: 'Masaya', region: 'Pacífico' },
+        rubro_id: 3,
+        rubros: { id: 3, nombre: 'Madera & Muebles', icono: 'carpenter' },
+        profiles: { nombre_completo: 'José Daniel Gaitán', email: 'bambu@demo.tawanki.ni', avatar_url: '' },
+        ruc: 'J031000000003',
+        matricula_municipal: 'MAT-MON-2026',
+        licencia_minsa: null,
+        permiso_inafor: 'INAFOR-EXP-992'
+    },
+    {
+        id: 'prod-004',
+        profile_id: 'demo-productor-004',
+        nombre_cooperativa_o_taller: 'Tejedoras de Hamacas Tradicionales Masaya',
+        descripcion: 'Hamacas matrimoniales de doble cuerpo en hilo de algodón con flecos artesanales bordados a mano.',
+        municipio: 'Masaya',
+        telefono_whatsapp: '+505 8888 1004',
+        verificado_intur: true,
+        emite_factura: false,
+        acepta_tarifa_mayorista: true,
+        margen_mayorista_porcentaje: 18,
+        departamento_id: 2,
+        departamentos: { id: 2, nombre: 'Masaya', region: 'Pacífico' },
+        rubro_id: 4,
+        rubros: { id: 4, nombre: 'Textiles & Hamacas', icono: 'chair' },
+        profiles: { nombre_completo: 'Rosa Amalia Palacios', email: 'hamacas@demo.tawanki.ni', avatar_url: '' },
+        ruc: null,
+        matricula_municipal: 'MAT-MAS-2025',
+        licencia_minsa: null,
+        permiso_inafor: null
+    },
+    {
+        id: 'prod-005',
+        profile_id: 'demo-productor-005',
+        nombre_cooperativa_o_taller: 'Huerto Agroecológico Valle del Sol',
+        descripcion: 'Canastas de frutas de temporada (pitahaya, plátano, cítricos) y hortalizas frescas cultivadas sin pesticidas.',
+        municipio: 'Rivas',
+        telefono_whatsapp: '+505 8888 1005',
+        verificado_intur: false,
+        emite_factura: true,
+        acepta_tarifa_mayorista: true,
+        margen_mayorista_porcentaje: 10,
+        departamento_id: 4,
+        departamentos: { id: 4, nombre: 'Rivas', region: 'Sur' },
+        rubro_id: 5,
+        rubros: { id: 5, nombre: 'Frutas & Hortalizas', icono: 'nutrition' },
+        profiles: { nombre_completo: 'Ernesto Morales', email: 'huertos@demo.tawanki.ni', avatar_url: '' },
+        ruc: 'J041000000005',
+        matricula_municipal: 'MAT-RIV-2026',
+        licencia_minsa: 'IPSA-FIT-104',
+        permiso_inafor: null
+    },
+    {
+        id: 'prod-006',
+        profile_id: 'demo-productor-006',
+        nombre_cooperativa_o_taller: 'Tabacos San Juan del Norte',
+        descripcion: 'Puros artesanales premium hechos a mano con hojas seleccionadas del Valle de Jalapa y Estelí.',
+        municipio: 'Estelí',
+        telefono_whatsapp: '+505 8888 1006',
+        verificado_intur: true,
+        emite_factura: true,
+        acepta_tarifa_mayorista: true,
+        margen_mayorista_porcentaje: 22,
+        departamento_id: 6,
+        departamentos: { id: 6, nombre: 'Estelí', region: 'Norte' },
+        rubro_id: 19,
+        rubros: { id: 19, nombre: 'Tabaco & Puros Artesanales', icono: 'smoking_rooms' },
+        profiles: { nombre_completo: 'Don Alberto Cerna', email: 'puros@demo.tawanki.ni', avatar_url: '' },
+        ruc: 'J061000000006',
+        matricula_municipal: 'MAT-EST-2026',
+        licencia_minsa: null,
+        permiso_inafor: null
+    }
+];
+
+const DEMO_PRODUCTOS_CATALOG = [
+    {
+        id: 'item-001',
+        productor_id: 'prod-001',
+        rubro_id: 2,
+        nombre: 'Jarrón de Cerámica Tradicional con Grabados Precolombinos',
+        descripcion: 'Jarrón modelado a torno de pie, pulido con piedra de río y cocido en horno de leña. Acabado brillante natural.',
+        precio_unitario: 850,
+        unidad_medida: 'pieza',
+        badge_distintivo: 'Tradición y Cultura',
+        imagen_url: 'assets/demo/barro.svg',
+        disponible: true,
+        rubros: { id: 2, nombre: 'Artesanías & Barro', icono: 'palette' },
+        productores: DEMO_PRODUCTORES_CATALOG[0]
+    },
+    {
+        id: 'item-002',
+        productor_id: 'prod-001',
+        rubro_id: 2,
+        nombre: 'Juego de Tazas y Cafetera Rústica de Barro',
+        descripcion: 'Set de 4 tazas y jarra esmaltada apta para bebidas calientes. Ideal para servicio de desayunos en hoteles.',
+        precio_unitario: 650,
+        unidad_medida: 'juego',
+        badge_distintivo: 'Uso Hostelería',
+        imagen_url: 'assets/demo/barro.svg',
+        disponible: true,
+        rubros: { id: 2, nombre: 'Artesanías & Barro', icono: 'palette' },
+        productores: DEMO_PRODUCTORES_CATALOG[0]
+    },
+    {
+        id: 'item-003',
+        productor_id: 'prod-002',
+        rubro_id: 1,
+        nombre: 'Café de Altura Xalteva - Tostado Medio',
+        descripcion: 'Café 100% arábica (variedades Caturra y Borbón) con notas de chocolate y caramelo. Envasado con válvula desgasificadora.',
+        precio_unitario: 280,
+        unidad_medida: 'libra',
+        badge_distintivo: 'Taza de Excelencia',
+        imagen_url: 'assets/demo/cafe.svg',
+        disponible: true,
+        rubros: { id: 1, nombre: 'Gastronomía & Café', icono: 'coffee' },
+        productores: DEMO_PRODUCTORES_CATALOG[1]
+    },
+    {
+        id: 'item-004',
+        productor_id: 'prod-002',
+        rubro_id: 1,
+        nombre: 'Nibs de Cacao Criollo Fino de Aroma',
+        descripcion: 'Cacao fermentado y tostado artesanalmente en nibs crujientes, listo para repostería, barras de bar y desayunos buffet.',
+        precio_unitario: 190,
+        unidad_medida: 'libra',
+        badge_distintivo: 'Orgánico Certificado',
+        imagen_url: 'assets/demo/cafe.svg',
+        disponible: true,
+        rubros: { id: 1, nombre: 'Gastronomía & Café', icono: 'coffee' },
+        productores: DEMO_PRODUCTORES_CATALOG[1]
+    },
+    {
+        id: 'item-005',
+        productor_id: 'prod-003',
+        rubro_id: 3,
+        nombre: 'Bandeja Rústica Tallada en Madera de Teca',
+        descripcion: 'Bandeja de servicio tratada con ceras alimentarias, resistente a manchas y humedad. Fabricada con madera sostenible.',
+        precio_unitario: 620,
+        unidad_medida: 'unidad',
+        badge_distintivo: 'Forestal Sostenible',
+        imagen_url: 'assets/demo/madera.svg',
+        disponible: true,
+        rubros: { id: 3, nombre: 'Madera & Muebles', icono: 'carpenter' },
+        productores: DEMO_PRODUCTORES_CATALOG[2]
+    },
+    {
+        id: 'item-006',
+        productor_id: 'prod-004',
+        rubro_id: 4,
+        nombre: 'Hamaca Matrimonial de Hilo Fino Masaya',
+        descripcion: 'Tejido artesanal cerrado super confortable con hermosos detalles de fleco en macramé nicaragüense.',
+        precio_unitario: 1450,
+        unidad_medida: 'unidad',
+        badge_distintivo: 'Diseño Tradicional',
+        imagen_url: 'assets/demo/textil.svg',
+        disponible: true,
+        rubros: { id: 4, nombre: 'Textiles & Hamacas', icono: 'chair' },
+        productores: DEMO_PRODUCTORES_CATALOG[3]
+    },
+    {
+        id: 'item-007',
+        productor_id: 'prod-005',
+        rubro_id: 5,
+        nombre: 'Canasta de Frutas Frescas y Tropicales de Rivas',
+        descripcion: 'Surtido directo de huerto con piñas doradas, pitahayas rojas, limones mandarinas y plátanos de primera selección.',
+        precio_unitario: 460,
+        unidad_medida: 'canasta 15kg',
+        badge_distintivo: 'Del Campo a la Mesa',
+        imagen_url: 'assets/demo/frutas.svg',
+        disponible: true,
+        rubros: { id: 5, nombre: 'Frutas & Hortalizas', icono: 'nutrition' },
+        productores: DEMO_PRODUCTORES_CATALOG[4]
+    },
+    {
+        id: 'item-008',
+        productor_id: 'prod-006',
+        rubro_id: 19,
+        nombre: 'Cofre de Puros Artesanales Robusto Estelí (Caja x 10)',
+        descripcion: 'Selección de puros capa Habano añejados 3 años en cedro real, ideales para amenidad premium en hoteles boutique.',
+        precio_unitario: 1200,
+        unidad_medida: 'caja x 10',
+        badge_distintivo: 'Calidad Exportación',
+        imagen_url: 'assets/demo/tabaco.svg',
+        disponible: true,
+        rubros: { id: 19, nombre: 'Tabaco & Puros Artesanales', icono: 'smoking_rooms' },
+        productores: DEMO_PRODUCTORES_CATALOG[5]
+    }
+];
+
+const DEMO_MATCHES_CATALOG = [
+    {
+        id: 'match-001',
+        productor_id: 'prod-001',
+        empresa_id: 'demo-empresa-001',
+        producto_id: 'item-001',
+        cantidad: 15,
+        compatibilidad: 95,
+        estado: 'Pendiente',
+        monto_estimado_cordobas: 12750,
+        descripcion_acuerdo: 'Solicitud de 15 jarrones decorativos para renovación de lobby del hotel.',
+        created_at: new Date(Date.now() - 3600000 * 4).toISOString(),
+        productores: DEMO_PRODUCTORES_CATALOG[0],
+        empresas_turisticas: { id: 'demo-empresa-001', nombre_comercial: 'Hotel Granada Suites', tipo: 'Hotel', departamentos: { nombre: 'Granada' } },
+        producto: DEMO_PRODUCTOS_CATALOG[0]
+    },
+    {
+        id: 'match-002',
+        productor_id: 'prod-001',
+        empresa_id: 'demo-empresa-002',
+        producto_id: 'item-002',
+        cantidad: 8,
+        compatibilidad: 90,
+        estado: 'Aprobado',
+        monto_estimado_cordobas: 5200,
+        descripcion_acuerdo: 'Pedido de 8 juegos de vajilla rústica para terraza restaurante.',
+        created_at: new Date(Date.now() - 3600000 * 24).toISOString(),
+        productores: DEMO_PRODUCTORES_CATALOG[0],
+        empresas_turisticas: { id: 'demo-empresa-002', nombre_comercial: 'Restaurante El Mirador de Catarina', tipo: 'Restaurante', departamentos: { nombre: 'Masaya' } },
+        producto: DEMO_PRODUCTOS_CATALOG[1]
+    },
+    {
+        id: 'match-003',
+        productor_id: 'prod-002',
+        empresa_id: 'demo-empresa-001',
+        producto_id: 'item-003',
+        cantidad: 50,
+        compatibilidad: 98,
+        estado: 'En_Negociacion',
+        monto_estimado_cordobas: 14000,
+        descripcion_acuerdo: 'Suministro mensual de café en grano para consumo de huéspedes y cafetería.',
+        created_at: new Date(Date.now() - 3600000 * 48).toISOString(),
+        productores: DEMO_PRODUCTORES_CATALOG[1],
+        empresas_turisticas: { id: 'demo-empresa-001', nombre_comercial: 'Hotel Granada Suites', tipo: 'Hotel', departamentos: { nombre: 'Granada' } },
+        producto: DEMO_PRODUCTOS_CATALOG[2]
+    }
+];
+
+const DEMO_ACCOUNTS = Object.freeze({
+    productor: {
+        email: 'productor.demo@tawanki.ni',
+        password: 'Password123!',
+        user: { id: 'demo-productor-001', email: 'productor.demo@tawanki.ni', user_metadata: { nombre_completo: 'Taller Alfarero Hermanos López', rol: 'productor' } },
+        profile: { id: 'demo-productor-001', email: 'productor.demo@tawanki.ni', nombre_completo: 'Taller Alfarero Hermanos López', rol: 'productor', telefono: '+505 8888 1001', activo: true, avatar_url: 'assets/img/artesano-ceramica-720.webp' },
+        productor: DEMO_PRODUCTORES_CATALOG[0]
+    },
+    empresa: {
+        email: 'empresa.demo@tawanki.ni',
+        password: 'Password123!',
+        user: { id: 'demo-empresa-001', email: 'empresa.demo@tawanki.ni', user_metadata: { nombre_completo: 'Hotel Granada Suites', rol: 'empresa' } },
+        profile: { id: 'demo-empresa-001', email: 'empresa.demo@tawanki.ni', nombre_completo: 'Hotel Granada Suites', rol: 'empresa', telefono: '+505 2552-2002', activo: true },
+        empresa: { id: 'demo-empresa-001', profile_id: 'demo-empresa-001', nombre_comercial: 'Hotel Granada Suites', tipo: 'Hotel', municipio: 'Granada', telefono_corporativo: '+505 2552-2002', verificado_intur: true, departamento_id: 1, requerimientos_principales: 'Artesanías, café de especialidad, hamacas y frutas frescas para huéspedes.' }
+    },
+    intur: {
+        email: 'funcionario@intur.gob.ni',
+        password: 'Password123!',
+        user: { id: 'demo-intur-001', email: 'funcionario@intur.gob.ni', user_metadata: { nombre_completo: 'Lic. Funcionario INTUR', rol: 'intur' } },
+        profile: { id: 'demo-intur-001', email: 'funcionario@intur.gob.ni', nombre_completo: 'Lic. Funcionario INTUR', rol: 'intur', telefono: '+505 2222-3003', activo: true },
+        intur: { id: 'demo-intur-001', profile_id: 'demo-intur-001', cargo: 'Especialista en Fomento Turístico y Ciudades Creativas' }
+    }
+});
+
+const DEMO_SESSION_KEY = 'tawanki:demo_active_user';
+
+function getActiveDemoSession() {
+    try {
+        const raw = sessionStorage.getItem(DEMO_SESSION_KEY);
+        return raw ? JSON.parse(raw) : null;
+    } catch {
+        return null;
+    }
+}
+
+function setActiveDemoSession(accountData) {
+    try {
+        sessionStorage.setItem(DEMO_SESSION_KEY, JSON.stringify(accountData));
+    } catch {}
+}
+
+function clearActiveDemoSession() {
+    try {
+        sessionStorage.removeItem(DEMO_SESSION_KEY);
+    } catch {}
+}
+
+async function demoLogin(rol) {
+    const demo = DEMO_ACCOUNTS[rol];
+    if (!demo) {
+        if (typeof showToast === 'function') showToast('Rol demo no válido', 'error');
+        return;
+    }
+    setActiveDemoSession(demo);
+    if (typeof showToast === 'function') showToast(`Accediendo como ${rol}...`, 'success');
+    const targets = {
+        productor: 'perfil-productor.html',
+        empresa: 'proveedores.html',
+        intur: 'dashboard-intur.html'
+    };
+    setTimeout(() => {
+        window.location.replace(targets[rol] || 'index.html');
+    }, 300);
+}
+
 // ── 2. Límites de validación compartidos ─────────────────────
 const LIMITS = Object.freeze({
     nombre: 120,
@@ -120,7 +478,18 @@ const authService = {
 
     async signIn({ email, password }) {
         try {
+            // Soporte para login instantáneo de credenciales demo
+            for (const [key, demo] of Object.entries(DEMO_ACCOUNTS)) {
+                if (demo.email.toLowerCase() === (email || '').trim().toLowerCase() && demo.password === password) {
+                    setActiveDemoSession(demo);
+                    return { data: { user: demo.user, session: { user: demo.user } }, error: null };
+                }
+            }
+
             const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+            if (!error && data?.user) {
+                clearActiveDemoSession();
+            }
             return { data, error: error || null };
         } catch (err) {
             return { data: null, error: err };
@@ -129,6 +498,7 @@ const authService = {
 
     async signOut() {
         try {
+            clearActiveDemoSession();
             const { error } = await supabaseClient.auth.signOut();
             return { error: error || null };
         } catch (err) {
@@ -143,6 +513,11 @@ const authService = {
      */
     async getCurrentUser() {
         try {
+            const demoSession = getActiveDemoSession();
+            if (demoSession?.user && demoSession?.profile) {
+                return { user: demoSession.user, profile: demoSession.profile, error: null };
+            }
+
             const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
             if (userError || !user) {
                 return { user: null, profile: null, error: userError || new Error('No hay sesión activa') };
@@ -308,8 +683,30 @@ const productosService = {
      * Catálogo público (sin datos de contacto) para visitantes anónimos.
      */
     async getCatalogoPublico(limit = 500) {
-        const { data, error } = await supabaseClient.rpc('catalogo_publico', { p_limit: limit });
-        return { data: Array.isArray(data) ? data : [], error };
+        try {
+            const { data, error } = await supabaseClient.rpc('catalogo_publico', { p_limit: limit });
+            if (!error && Array.isArray(data) && data.length > 0) {
+                return { data, error: null };
+            }
+        } catch (e) {}
+        // Fallback a catálogo demo enriquecido
+        return {
+            data: DEMO_PRODUCTOS_CATALOG.map(p => ({
+                id: p.id,
+                nombre: p.nombre,
+                descripcion: p.descripcion,
+                precio_unitario: p.precio_unitario,
+                unidad_medida: p.unidad_medida,
+                imagen_url: p.imagen_url,
+                rubro: p.rubros?.nombre,
+                departamento: p.productores?.departamentos?.nombre,
+                productor_id: p.productor_id,
+                productor_nombre: p.productores?.nombre_cooperativa_o_taller,
+                verificado: p.productores?.verificado_intur,
+                disponible: p.disponible
+            })),
+            error: null
+        };
     },
 
     async getProductos({ rubroId, departamentoId, busqueda, soloDisponibles, limit } = {}) {
@@ -331,41 +728,35 @@ const productosService = {
 
             const { data, error } = await query;
 
-            if (error) {
-                // Fallback sin joins: se aplican los mismos filtros en memoria.
-                const { data: flatData, error: flatErr } = await supabaseClient
-                    .from('productos')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-
-                if (flatErr) return { data: [], error: flatErr };
-
-                let filtered = flatData || [];
-                if (rubroId) filtered = filtered.filter((p) => p.rubro_id === rubroId);
-                if (soloDisponibles) filtered = filtered.filter((p) => p.disponible !== false);
-                if (busqueda) {
-                    const q = normalizeText(busqueda);
-                    filtered = filtered.filter((p) => normalizeText(p.nombre).includes(q));
+            if (!error && Array.isArray(data) && data.length > 0) {
+                let filtered = data;
+                if (departamentoId) {
+                    filtered = filtered.filter((p) => p.productores?.departamentos?.id === departamentoId);
                 }
-                if (limit) filtered = filtered.slice(0, limit);
-
                 return { data: filtered, error: null };
             }
+        } catch (err) {}
 
-            let filtered = data || [];
-            if (departamentoId) {
-                filtered = filtered.filter((p) => p.productores?.departamentos?.id === departamentoId);
-            }
-
-            return { data: filtered, error: null };
-        } catch (err) {
-            console.error('Excepción en getProductos:', err);
-            return { data: [], error: err };
+        // Fallback demo cuando la BD no tiene productos registrados
+        let filtered = [...DEMO_PRODUCTOS_CATALOG];
+        if (rubroId) filtered = filtered.filter(p => String(p.rubro_id) === String(rubroId));
+        if (departamentoId) filtered = filtered.filter(p => p.productores?.departamento_id === Number(departamentoId) || p.productores?.departamentos?.id === Number(departamentoId));
+        if (soloDisponibles) filtered = filtered.filter(p => p.disponible !== false);
+        if (busqueda) {
+            const q = normalizeText(busqueda);
+            filtered = filtered.filter(p => normalizeText(p.nombre).includes(q) || normalizeText(p.descripcion).includes(q));
         }
+        if (limit) filtered = filtered.slice(0, limit);
+        return { data: filtered, error: null };
     },
 
     async ensureProductorRecord(profileId, meta = {}) {
         try {
+            const demoSession = getActiveDemoSession();
+            if (demoSession?.productor) {
+                return { data: demoSession.productor, error: null };
+            }
+
             if (!profileId) {
                 const { data: { user } } = await supabaseClient.auth.getUser();
                 profileId = user?.id;
@@ -530,12 +921,18 @@ const productosService = {
     },
 
     async getProductosByProductor(productorId) {
-        const { data, error } = await supabaseClient
-            .from('productos')
-            .select('*, rubros ( id, nombre, icono )')
-            .eq('productor_id', productorId)
-            .order('created_at', { ascending: false });
-        return { data: data || [], error };
+        try {
+            const { data, error } = await supabaseClient
+                .from('productos')
+                .select('*, rubros ( id, nombre, icono )')
+                .eq('productor_id', productorId)
+                .order('created_at', { ascending: false });
+            if (!error && Array.isArray(data) && data.length > 0) {
+                return { data, error: null };
+            }
+        } catch (e) {}
+        const demoProds = DEMO_PRODUCTOS_CATALOG.filter(p => String(p.productor_id) === String(productorId));
+        return { data: demoProds, error: null };
     }
 };
 
@@ -560,32 +957,38 @@ const productoresService = {
             query = query.order('created_at', { ascending: false });
             const { data, error } = await query;
 
-            if (error) {
-                const { data: flatData, error: flatErr } = await supabaseClient
-                    .from('productores')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                return { data: flatData || [], error: flatErr };
+            if (!error && Array.isArray(data) && data.length > 0) {
+                return { data, error: null };
             }
-            return { data: data || [], error: null };
-        } catch (err) {
-            console.error('Excepción en getProductores:', err);
-            return { data: [], error: err };
-        }
+        } catch (err) {}
+
+        // Fallback a productores demo
+        let list = [...DEMO_PRODUCTORES_CATALOG];
+        if (departamentoId) list = list.filter(p => String(p.departamento_id) === String(departamentoId));
+        if (rubroId) list = list.filter(p => String(p.rubro_id) === String(rubroId));
+        if (soloVerificados) list = list.filter(p => p.verificado_intur === true);
+        return { data: list, error: null };
     },
 
     async getProductorByProfileId(profileId) {
-        const { data, error } = await supabaseClient
-            .from('productores')
-            .select(`
-                *,
-                profiles ( nombre_completo, email, avatar_url, telefono ),
-                departamentos ( id, nombre, region ),
-                rubros ( id, nombre, icono )
-            `)
-            .eq('profile_id', profileId)
-            .maybeSingle();
-        return { data, error };
+        try {
+            const { data, error } = await supabaseClient
+                .from('productores')
+                .select(`
+                    *,
+                    profiles ( nombre_completo, email, avatar_url, telefono ),
+                    departamentos ( id, nombre, region ),
+                    rubros ( id, nombre, icono )
+                `)
+                .eq('profile_id', profileId)
+                .maybeSingle();
+            if (!error && data) {
+                return { data, error: null };
+            }
+        } catch (e) {}
+
+        const match = DEMO_PRODUCTORES_CATALOG.find(p => String(p.profile_id) === String(profileId));
+        return { data: match || DEMO_PRODUCTORES_CATALOG[0], error: null };
     },
 
     async verificarProductor(productorId, verificado) {
@@ -674,6 +1077,11 @@ const empresasService = {
      */
     async ensureEmpresaRecord(profileId, meta = {}) {
         try {
+            const demoSession = getActiveDemoSession();
+            if (demoSession?.empresa) {
+                return { data: demoSession.empresa, error: null };
+            }
+
             if (!profileId) {
                 const { data: { user } } = await supabaseClient.auth.getUser();
                 if (!user) return { data: null, error: new Error('No hay sesión activa.') };
@@ -737,29 +1145,30 @@ const empresasService = {
 const matchesService = {
 
     async getMatches(filtros = {}) {
-        let query = supabaseClient
-            .from('matches')
-            .select(`
-                *,
-                productores ( id, nombre_cooperativa_o_taller, telefono_whatsapp, municipio, departamentos ( nombre ), rubros ( nombre ) ),
-                empresas_turisticas ( id, nombre_comercial, tipo, departamentos ( nombre ) )
-            `);
-
-        if (filtros.estado) query = query.eq('estado', filtros.estado);
-        if (filtros.productorId) query = query.eq('productor_id', filtros.productorId);
-        if (filtros.empresaId) query = query.eq('empresa_id', filtros.empresaId);
-
-        query = query.order('created_at', { ascending: false });
-        const { data, error } = await query;
-
-        if (error) {
-            const { data: flatData, error: flatErr } = await supabaseClient
+        try {
+            let query = supabaseClient
                 .from('matches')
-                .select('*')
-                .order('created_at', { ascending: false });
-            return { data: flatData || [], error: flatErr };
-        }
-        return { data: data || [], error: null };
+                .select(`
+                    *,
+                    productores ( id, nombre_cooperativa_o_taller, telefono_whatsapp, municipio, departamentos ( nombre ), rubros ( nombre ) ),
+                    empresas_turisticas ( id, nombre_comercial, tipo, departamentos ( nombre ) )
+                `);
+
+            if (filtros.estado) query = query.eq('estado', filtros.estado);
+            if (filtros.productorId) query = query.eq('productor_id', filtros.productorId);
+            if (filtros.empresaId) query = query.eq('empresa_id', filtros.empresaId);
+
+            query = query.order('created_at', { ascending: false });
+            const { data, error } = await query;
+            if (!error && Array.isArray(data) && data.length > 0) {
+                return { data, error: null };
+            }
+        } catch (e) {}
+
+        // Fallback a matches demo
+        let list = [...DEMO_MATCHES_CATALOG];
+        if (filtros.estado) list = list.filter(m => m.estado === filtros.estado);
+        return { data: list, error: null };
     },
 
     /**

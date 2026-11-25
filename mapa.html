@@ -234,6 +234,12 @@
                 <!-- Normative Compliance Badges -->
                 <div id="drawer-normativa" class="flex flex-wrap gap-1 mb-3"></div>
 
+                <!-- Lista rápida de productos ofertados -->
+                <div class="mb-3">
+                    <p class="text-[10px] font-bold text-text-muted uppercase tracking-wider mb-1.5">Productos en exhibición:</p>
+                    <div id="drawer-products-list" class="space-y-1.5 max-h-36 overflow-y-auto pr-1"></div>
+                </div>
+
                 <!-- Action Buttons -->
                 <div class="flex items-center gap-2 pt-1">
                     <a id="drawer-whatsapp" href="#" target="_blank"
@@ -327,7 +333,7 @@
             try {
                 const [prodRes, productsRes, deptosRes, rubrosRes] = await Promise.all([
                     productoresService.getProductores(),
-                    supabaseClient.from('productos').select('*'),
+                    productosService.getProductos({ limit: 500 }),
                     catalogoBaseService.getDepartamentos(),
                     catalogoBaseService.getRubros()
                 ]);
@@ -509,6 +515,28 @@
             if (p.matricula_municipal) normContainer.appendChild(crearBadgeNormativo('Matrícula al día', 'bg-amber-50 text-amber-800 border-amber-200'));
             if (p.licencia_minsa) normContainer.appendChild(crearBadgeNormativo(`MINSA: ${p.licencia_minsa}`, 'bg-emerald-50 text-emerald-800 border-emerald-200'));
             if (p.permiso_inafor) normContainer.appendChild(crearBadgeNormativo('INAFOR Legal', 'bg-green-50 text-green-800 border-green-200'));
+
+            // Renderizar lista de productos del productor
+            const prodListEl = document.getElementById('drawer-products-list');
+            if (prodListEl) {
+                prodListEl.replaceChildren();
+                if (productosPropios.length === 0) {
+                    prodListEl.innerHTML = '<p class="text-[11px] text-text-muted italic">Sin productos en catálogo aún.</p>';
+                } else {
+                    productosPropios.forEach(prod => {
+                        const item = document.createElement('div');
+                        item.className = 'flex items-center justify-between text-xs p-1.5 rounded-lg bg-surface-bright border border-outline-variant/20';
+                        item.innerHTML = `
+                            <div class="truncate mr-2">
+                                <span class="font-bold text-text-main block truncate">${escapeHtml(prod.nombre)}</span>
+                                <span class="text-[10px] text-text-muted">${escapeHtml(prod.unidad_medida || 'unidad')}</span>
+                            </div>
+                            <span class="font-extrabold text-primary shrink-0">C$ ${Number(prod.precio_unitario || 0).toLocaleString('es-NI')}</span>
+                        `;
+                        prodListEl.appendChild(item);
+                    });
+                }
+            }
 
             // Botón de WhatsApp
             const telLimpio = (p.telefono_whatsapp || '').replace(/[^0-9]/g, '');
