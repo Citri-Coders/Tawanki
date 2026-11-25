@@ -297,6 +297,7 @@
             'smoking_rooms': { bg: '#475569', emoji: '🚬' },
             'brush': { bg: '#be185d', emoji: '🎨' },
             'nature': { bg: '#15803d', emoji: '🌾' },
+            'nutrition': { bg: '#16a34a', emoji: '🍍' },
             'category': { bg: '#0d631b', emoji: '✨' }
         };
 
@@ -331,22 +332,25 @@
 
         async function cargarDatos() {
             try {
-                const [prodRes, productsRes, deptosRes, rubrosRes] = await Promise.all([
+                const [prodRes, productsRes, deptosRes, rubrosRes] = await Promise.allSettled([
                     productoresService.getProductores(),
                     productosService.getProductos({ limit: 500 }),
                     catalogoBaseService.getDepartamentos(),
                     catalogoBaseService.getRubros()
                 ]);
 
-                allProducers = prodRes.data || [];
-                allProducts = productsRes.data || [];
-                departamentosList = deptosRes.data || [];
-                rubrosList = rubrosRes.data || [];
+                allProducers = (prodRes.status === 'fulfilled' ? prodRes.value?.data : null) || [];
+                allProducts  = (productsRes.status === 'fulfilled' ? productsRes.value?.data : null) || [];
+                departamentosList = (deptosRes.status === 'fulfilled' ? deptosRes.value?.data : null) || [];
+                rubrosList   = (rubrosRes.status === 'fulfilled' ? rubrosRes.value?.data : null) || [];
 
                 poblarSelects();
                 aplicarFiltros();
             } catch (err) {
                 console.error("Error cargando datos del mapa:", err);
+                // Intentar renderizar con arreglos vacíos para que el mapa aparezca
+                poblarSelects();
+                aplicarFiltros();
             }
         }
 
@@ -525,13 +529,19 @@
                 } else {
                     productosPropios.forEach(prod => {
                         const item = document.createElement('div');
-                        item.className = 'flex items-center justify-between text-xs p-1.5 rounded-lg bg-surface-bright border border-outline-variant/20';
+                        item.className = 'flex items-center gap-2 text-xs p-1.5 rounded-lg bg-surface-bright border border-outline-variant/20';
+                        // Imagen del producto
+                        const imgSrc = prod.imagen_url || '';
+                        const imgHtml = imgSrc
+                            ? `<img src="${imgSrc}" alt="${escapeHtml(prod.nombre)}" class="w-10 h-10 rounded-md object-cover shrink-0 bg-surface-bright border border-outline-variant/20" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" /><span class="w-10 h-10 rounded-md shrink-0 bg-surface-bright border border-outline-variant/20 items-center justify-center text-lg hidden" style="display:none">🛒</span>`
+                            : `<span class="w-10 h-10 rounded-md shrink-0 bg-surface-bright border border-outline-variant/20 flex items-center justify-center text-lg">🛒</span>`;
                         item.innerHTML = `
-                            <div class="truncate mr-2">
+                            ${imgHtml}
+                            <div class="truncate flex-1 min-w-0">
                                 <span class="font-bold text-text-main block truncate">${escapeHtml(prod.nombre)}</span>
                                 <span class="text-[10px] text-text-muted">${escapeHtml(prod.unidad_medida || 'unidad')}</span>
                             </div>
-                            <span class="font-extrabold text-primary shrink-0">C$ ${Number(prod.precio_unitario || 0).toLocaleString('es-NI')}</span>
+                            <span class="font-extrabold text-primary shrink-0 text-[11px]">C$ ${Number(prod.precio_unitario || 0).toLocaleString('es-NI')}</span>
                         `;
                         prodListEl.appendChild(item);
                     });

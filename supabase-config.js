@@ -422,6 +422,9 @@ function safeUrl(value) {
 function safeImageUrl(value) {
     if (typeof value !== 'string') return '';
     const raw = value.trim();
+    if (!raw) return '';
+    // Permitir rutas relativas a assets locales (assets/demo/...)
+    if (/^assets\/[a-zA-Z0-9/_\-\.]+\.(svg|png|jpg|jpeg|webp|gif)$/i.test(raw)) return raw;
     if (/^data:image\/(png|jpe?g|webp|gif);base64,[a-z0-9+/=\s]+$/i.test(raw)) return raw;
     return safeUrl(raw);
 }
@@ -627,22 +630,56 @@ const profileService = {
 };
 
 // ── 6. Catálogo Base Service ─────────────────────────────────
+
+// Datos demo de rubros y departamentos para cuando Supabase retorne vacío
+const DEMO_RUBROS = [
+    { id: 1,  nombre: 'Gastronomía & Café',         icono: 'coffee' },
+    { id: 2,  nombre: 'Artesanías & Barro',          icono: 'palette' },
+    { id: 3,  nombre: 'Madera & Muebles',            icono: 'carpenter' },
+    { id: 4,  nombre: 'Textiles & Hamacas',          icono: 'chair' },
+    { id: 5,  nombre: 'Frutas & Hortalizas',         icono: 'nutrition' },
+    { id: 19, nombre: 'Tabaco & Puros Artesanales',  icono: 'smoking_rooms' }
+];
+
+const DEMO_DEPARTAMENTOS = [
+    { id: 1, nombre: 'Granada',   region: 'Pacífico' },
+    { id: 2, nombre: 'Masaya',    region: 'Pacífico' },
+    { id: 3, nombre: 'Managua',   region: 'Pacífico' },
+    { id: 4, nombre: 'Rivas',     region: 'Sur' },
+    { id: 5, nombre: 'Carazo',    region: 'Pacífico' },
+    { id: 6, nombre: 'Estelí',    region: 'Norte' },
+    { id: 7, nombre: 'Matagalpa', region: 'Norte' },
+    { id: 8, nombre: 'Jinotega',  region: 'Norte' }
+];
+
 const catalogoBaseService = {
 
     async getDepartamentos() {
-        const { data, error } = await supabaseClient
-            .from('departamentos')
-            .select('*')
-            .order('nombre');
-        return { data: data || [], error };
+        try {
+            const { data, error } = await supabaseClient
+                .from('departamentos')
+                .select('*')
+                .order('nombre');
+            if (!error && Array.isArray(data) && data.length > 0) {
+                return { data, error: null };
+            }
+        } catch (e) {}
+        // Fallback demo
+        return { data: DEMO_DEPARTAMENTOS, error: null };
     },
 
     async getRubros() {
-        const { data, error } = await supabaseClient
-            .from('rubros')
-            .select('*')
-            .order('nombre');
-        return { data: data || [], error };
+        try {
+            const { data, error } = await supabaseClient
+                .from('rubros')
+                .select('*')
+                .order('nombre');
+            if (!error && Array.isArray(data) && data.length > 0) {
+                return { data, error: null };
+            }
+        } catch (e) {}
+        // Fallback demo
+        return { data: DEMO_RUBROS, error: null };
     }
 };
 
